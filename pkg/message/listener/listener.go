@@ -1,8 +1,8 @@
 package listener
 
 import (
-	msgcli "github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/message/client"
-	msg "github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/message/message"
+	msgcli "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/message/client"
+	msg "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/message/message"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
 )
 

@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/db/ent/runtime.go
+// The schema-stitching logic is generated in github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/runtime.go
 
 const (
 	Version = "v0.9.1"                                          // Version of ent codegen.

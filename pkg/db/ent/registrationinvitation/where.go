@@ -4,7 +4,7 @@ package registrationinvitation
 
 import (
 	"entgo.io/ent/dialect/sql"
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/db/ent/predicate"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.

@@ -5,8 +5,8 @@ package api
 import (
 	"context"
 
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/message/npool"
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/version"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/message/npool"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/version"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

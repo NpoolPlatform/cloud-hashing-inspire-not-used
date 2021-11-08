@@ -3,7 +3,7 @@ package api
 import (
 	"context"
 
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/message/npool"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/message/npool"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 )
@@ -11,13 +11,13 @@ import (
 // https://github.com/grpc/grpc-go/issues/3794
 // require_unimplemented_servers=false
 type Server struct {
-	npool.UnimplementedCloudHashingStimulateServer
+	npool.UnimplementedCloudHashingInspireServer
 }
 
 func Register(server grpc.ServiceRegistrar) {
-	npool.RegisterCloudHashingStimulateServer(server, &Server{})
+	npool.RegisterCloudHashingInspireServer(server, &Server{})
 }
 
 func RegisterGateway(mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) error {
-	return npool.RegisterCloudHashingStimulateHandlerFromEndpoint(context.Background(), mux, endpoint, opts)
+	return npool.RegisterCloudHashingInspireHandlerFromEndpoint(context.Background(), mux, endpoint, opts)
 }

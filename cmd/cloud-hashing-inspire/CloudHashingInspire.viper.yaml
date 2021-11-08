@@ -1,6 +1,6 @@
 ---
 config:
-  hostname: "cloud-hashing-stimulate.npool.top"
+  hostname: "cloud-hashing-inspire.npool.top"
   http_port: 37759
   grpc_port: 37789
   healthz_port: 37799

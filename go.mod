@@ -1,4 +1,4 @@
-module github.com/NpoolPlatform/cloud-hashing-stimulate
+module github.com/NpoolPlatform/cloud-hashing-inspire
 
 go 1.16
 

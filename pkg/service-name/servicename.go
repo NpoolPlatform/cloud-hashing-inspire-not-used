@@ -1,3 +1,3 @@
 package servicename
 
-const ServiceName = "Cloud Hashing Stimulate"
+const ServiceName = "Cloud Hashing Inspire"

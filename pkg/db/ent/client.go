@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/db/ent/migrate"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/migrate"
 
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/db/ent/registrationinvitation"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"

@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/db/ent"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"
 )
 
 // The RegistrationInvitationFunc type is an adapter to allow the use of ordinary

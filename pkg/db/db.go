@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/db/ent"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"
 
 	"github.com/NpoolPlatform/go-service-framework/pkg/app"
 )

@@ -5,8 +5,8 @@ import (
 
 	"golang.org/x/xerrors"
 
-	constant "github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/message/const"
-	msg "github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/message/message"
+	constant "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/message/const"
+	msg "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/message/message"
 	msgcli "github.com/NpoolPlatform/go-service-framework/pkg/rabbitmq/client"
 
 	"github.com/streadway/amqp"

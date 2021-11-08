@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"entgo.io/ent/dialect/sql"
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/db/ent/registrationinvitation"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 )
 
 // RegistrationInvitation is the model entity for the RegistrationInvitation schema.

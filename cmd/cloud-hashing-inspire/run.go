@@ -3,12 +3,12 @@ package main
 import (
 	"time"
 
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/api"
-	db "github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/db"
-	msgcli "github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/message/client"
-	msglistener "github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/message/listener"
-	msg "github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/message/message"
-	msgsrv "github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/message/server"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/api"
+	db "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
+	msgcli "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/message/client"
+	msglistener "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/message/listener"
+	msg "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/message/message"
+	msgsrv "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/message/server"
 
 	grpc2 "github.com/NpoolPlatform/go-service-framework/pkg/grpc"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"

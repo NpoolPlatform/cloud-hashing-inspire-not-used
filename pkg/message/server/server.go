@@ -1,7 +1,7 @@
 package server
 
 import (
-	msg "github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/message/message"
+	msg "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/message/message"
 	msgsrv "github.com/NpoolPlatform/go-service-framework/pkg/rabbitmq/server"
 )
 

@@ -1,20 +1,20 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: cloud-hashing-stimulate-npool-top-ingress
+  name: cloud-hashing-inspire-npool-top-ingress
   namespace: kube-system
   annotations:
-    k8s.kuboard.cn/displayName: cloud-hashing-stimulate
-    k8s.kuboard.cn/workload: cloud-hashing-stimulate
+    k8s.kuboard.cn/displayName: cloud-hashing-inspire
+    k8s.kuboard.cn/workload: cloud-hashing-inspire
     kubernetes.io/ingress.class: "traefik-internet"
 spec:
   rules:
   - host: api.npool.top
     http:
       paths:
-      - path: /cloud-hashing-stimulate
+      - path: /cloud-hashing-inspire
         backend:
-          serviceName: cloud-hashing-stimulate
+          serviceName: cloud-hashing-inspire
           servicePort: http
 
 ---
@@ -22,18 +22,18 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: cloud-hashing-stimulate-xpool-top-ingress
+  name: cloud-hashing-inspire-xpool-top-ingress
   namespace: kube-system
   annotations:
-    k8s.kuboard.cn/displayName: cloud-hashing-stimulate
-    k8s.kuboard.cn/workload: cloud-hashing-stimulate
+    k8s.kuboard.cn/displayName: cloud-hashing-inspire
+    k8s.kuboard.cn/workload: cloud-hashing-inspire
     kubernetes.io/ingress.class: "traefik-internet"
 spec:
   rules:
   - host: api.xpool.top
     http:
       paths:
-      - path: /cloud-hashing-stimulate
+      - path: /cloud-hashing-inspire
         backend:
-          serviceName: cloud-hashing-stimulate
+          serviceName: cloud-hashing-inspire
           servicePort: http

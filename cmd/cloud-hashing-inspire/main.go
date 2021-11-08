@@ -7,7 +7,7 @@ import (
 	"github.com/NpoolPlatform/go-service-framework/pkg/app"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
 
-	"github.com/NpoolPlatform/cloud-hashing-stimulate/pkg/service-name" //nolint
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/service-name" //nolint
 
 	cli "github.com/urfave/cli/v2"
 )
