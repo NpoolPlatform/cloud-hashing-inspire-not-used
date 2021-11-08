@@ -112,6 +112,13 @@ func InvitationCodeID(v uuid.UUID) predicate.PurchaseInvitation {
 	})
 }
 
+// Fullfilled applies equality check predicate on the "fullfilled" field. It's identical to FullfilledEQ.
+func Fullfilled(v bool) predicate.PurchaseInvitation {
+	return predicate.PurchaseInvitation(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldFullfilled), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.PurchaseInvitation {
 	return predicate.PurchaseInvitation(func(s *sql.Selector) {
@@ -358,6 +365,20 @@ func InvitationCodeIDLT(v uuid.UUID) predicate.PurchaseInvitation {
 func InvitationCodeIDLTE(v uuid.UUID) predicate.PurchaseInvitation {
 	return predicate.PurchaseInvitation(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldInvitationCodeID), v))
+	})
+}
+
+// FullfilledEQ applies the EQ predicate on the "fullfilled" field.
+func FullfilledEQ(v bool) predicate.PurchaseInvitation {
+	return predicate.PurchaseInvitation(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldFullfilled), v))
+	})
+}
+
+// FullfilledNEQ applies the NEQ predicate on the "fullfilled" field.
+func FullfilledNEQ(v bool) predicate.PurchaseInvitation {
+	return predicate.PurchaseInvitation(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldFullfilled), v))
 	})
 }
 
