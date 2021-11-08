@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // NewUserRewardSettingUpdate is the builder for updating NewUserRewardSetting entities.
@@ -26,6 +27,79 @@ func (nursu *NewUserRewardSettingUpdate) Where(ps ...predicate.NewUserRewardSett
 	return nursu
 }
 
+// SetAppID sets the "app_id" field.
+func (nursu *NewUserRewardSettingUpdate) SetAppID(u uuid.UUID) *NewUserRewardSettingUpdate {
+	nursu.mutation.SetAppID(u)
+	return nursu
+}
+
+// SetRegistrationCouponID sets the "registration_coupon_id" field.
+func (nursu *NewUserRewardSettingUpdate) SetRegistrationCouponID(u uuid.UUID) *NewUserRewardSettingUpdate {
+	nursu.mutation.SetRegistrationCouponID(u)
+	return nursu
+}
+
+// SetKycCouponID sets the "kyc_coupon_id" field.
+func (nursu *NewUserRewardSettingUpdate) SetKycCouponID(u uuid.UUID) *NewUserRewardSettingUpdate {
+	nursu.mutation.SetKycCouponID(u)
+	return nursu
+}
+
+// SetCreateAt sets the "create_at" field.
+func (nursu *NewUserRewardSettingUpdate) SetCreateAt(u uint32) *NewUserRewardSettingUpdate {
+	nursu.mutation.ResetCreateAt()
+	nursu.mutation.SetCreateAt(u)
+	return nursu
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (nursu *NewUserRewardSettingUpdate) SetNillableCreateAt(u *uint32) *NewUserRewardSettingUpdate {
+	if u != nil {
+		nursu.SetCreateAt(*u)
+	}
+	return nursu
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (nursu *NewUserRewardSettingUpdate) AddCreateAt(u uint32) *NewUserRewardSettingUpdate {
+	nursu.mutation.AddCreateAt(u)
+	return nursu
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (nursu *NewUserRewardSettingUpdate) SetUpdateAt(u uint32) *NewUserRewardSettingUpdate {
+	nursu.mutation.ResetUpdateAt()
+	nursu.mutation.SetUpdateAt(u)
+	return nursu
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (nursu *NewUserRewardSettingUpdate) AddUpdateAt(u uint32) *NewUserRewardSettingUpdate {
+	nursu.mutation.AddUpdateAt(u)
+	return nursu
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (nursu *NewUserRewardSettingUpdate) SetDeleteAt(u uint32) *NewUserRewardSettingUpdate {
+	nursu.mutation.ResetDeleteAt()
+	nursu.mutation.SetDeleteAt(u)
+	return nursu
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (nursu *NewUserRewardSettingUpdate) SetNillableDeleteAt(u *uint32) *NewUserRewardSettingUpdate {
+	if u != nil {
+		nursu.SetDeleteAt(*u)
+	}
+	return nursu
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (nursu *NewUserRewardSettingUpdate) AddDeleteAt(u uint32) *NewUserRewardSettingUpdate {
+	nursu.mutation.AddDeleteAt(u)
+	return nursu
+}
+
 // Mutation returns the NewUserRewardSettingMutation object of the builder.
 func (nursu *NewUserRewardSettingUpdate) Mutation() *NewUserRewardSettingMutation {
 	return nursu.mutation
@@ -37,6 +111,7 @@ func (nursu *NewUserRewardSettingUpdate) Save(ctx context.Context) (int, error) 
 		err      error
 		affected int
 	)
+	nursu.defaults()
 	if len(nursu.hooks) == 0 {
 		affected, err = nursu.sqlSave(ctx)
 	} else {
@@ -85,13 +160,21 @@ func (nursu *NewUserRewardSettingUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (nursu *NewUserRewardSettingUpdate) defaults() {
+	if _, ok := nursu.mutation.UpdateAt(); !ok {
+		v := newuserrewardsetting.UpdateDefaultUpdateAt()
+		nursu.mutation.SetUpdateAt(v)
+	}
+}
+
 func (nursu *NewUserRewardSettingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   newuserrewardsetting.Table,
 			Columns: newuserrewardsetting.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: newuserrewardsetting.FieldID,
 			},
 		},
@@ -102,6 +185,69 @@ func (nursu *NewUserRewardSettingUpdate) sqlSave(ctx context.Context) (n int, er
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := nursu.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: newuserrewardsetting.FieldAppID,
+		})
+	}
+	if value, ok := nursu.mutation.RegistrationCouponID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: newuserrewardsetting.FieldRegistrationCouponID,
+		})
+	}
+	if value, ok := nursu.mutation.KycCouponID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: newuserrewardsetting.FieldKycCouponID,
+		})
+	}
+	if value, ok := nursu.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldCreateAt,
+		})
+	}
+	if value, ok := nursu.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldCreateAt,
+		})
+	}
+	if value, ok := nursu.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldUpdateAt,
+		})
+	}
+	if value, ok := nursu.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldUpdateAt,
+		})
+	}
+	if value, ok := nursu.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldDeleteAt,
+		})
+	}
+	if value, ok := nursu.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldDeleteAt,
+		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, nursu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -122,6 +268,79 @@ type NewUserRewardSettingUpdateOne struct {
 	mutation *NewUserRewardSettingMutation
 }
 
+// SetAppID sets the "app_id" field.
+func (nursuo *NewUserRewardSettingUpdateOne) SetAppID(u uuid.UUID) *NewUserRewardSettingUpdateOne {
+	nursuo.mutation.SetAppID(u)
+	return nursuo
+}
+
+// SetRegistrationCouponID sets the "registration_coupon_id" field.
+func (nursuo *NewUserRewardSettingUpdateOne) SetRegistrationCouponID(u uuid.UUID) *NewUserRewardSettingUpdateOne {
+	nursuo.mutation.SetRegistrationCouponID(u)
+	return nursuo
+}
+
+// SetKycCouponID sets the "kyc_coupon_id" field.
+func (nursuo *NewUserRewardSettingUpdateOne) SetKycCouponID(u uuid.UUID) *NewUserRewardSettingUpdateOne {
+	nursuo.mutation.SetKycCouponID(u)
+	return nursuo
+}
+
+// SetCreateAt sets the "create_at" field.
+func (nursuo *NewUserRewardSettingUpdateOne) SetCreateAt(u uint32) *NewUserRewardSettingUpdateOne {
+	nursuo.mutation.ResetCreateAt()
+	nursuo.mutation.SetCreateAt(u)
+	return nursuo
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (nursuo *NewUserRewardSettingUpdateOne) SetNillableCreateAt(u *uint32) *NewUserRewardSettingUpdateOne {
+	if u != nil {
+		nursuo.SetCreateAt(*u)
+	}
+	return nursuo
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (nursuo *NewUserRewardSettingUpdateOne) AddCreateAt(u uint32) *NewUserRewardSettingUpdateOne {
+	nursuo.mutation.AddCreateAt(u)
+	return nursuo
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (nursuo *NewUserRewardSettingUpdateOne) SetUpdateAt(u uint32) *NewUserRewardSettingUpdateOne {
+	nursuo.mutation.ResetUpdateAt()
+	nursuo.mutation.SetUpdateAt(u)
+	return nursuo
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (nursuo *NewUserRewardSettingUpdateOne) AddUpdateAt(u uint32) *NewUserRewardSettingUpdateOne {
+	nursuo.mutation.AddUpdateAt(u)
+	return nursuo
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (nursuo *NewUserRewardSettingUpdateOne) SetDeleteAt(u uint32) *NewUserRewardSettingUpdateOne {
+	nursuo.mutation.ResetDeleteAt()
+	nursuo.mutation.SetDeleteAt(u)
+	return nursuo
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (nursuo *NewUserRewardSettingUpdateOne) SetNillableDeleteAt(u *uint32) *NewUserRewardSettingUpdateOne {
+	if u != nil {
+		nursuo.SetDeleteAt(*u)
+	}
+	return nursuo
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (nursuo *NewUserRewardSettingUpdateOne) AddDeleteAt(u uint32) *NewUserRewardSettingUpdateOne {
+	nursuo.mutation.AddDeleteAt(u)
+	return nursuo
+}
+
 // Mutation returns the NewUserRewardSettingMutation object of the builder.
 func (nursuo *NewUserRewardSettingUpdateOne) Mutation() *NewUserRewardSettingMutation {
 	return nursuo.mutation
@@ -140,6 +359,7 @@ func (nursuo *NewUserRewardSettingUpdateOne) Save(ctx context.Context) (*NewUser
 		err  error
 		node *NewUserRewardSetting
 	)
+	nursuo.defaults()
 	if len(nursuo.hooks) == 0 {
 		node, err = nursuo.sqlSave(ctx)
 	} else {
@@ -188,13 +408,21 @@ func (nursuo *NewUserRewardSettingUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (nursuo *NewUserRewardSettingUpdateOne) defaults() {
+	if _, ok := nursuo.mutation.UpdateAt(); !ok {
+		v := newuserrewardsetting.UpdateDefaultUpdateAt()
+		nursuo.mutation.SetUpdateAt(v)
+	}
+}
+
 func (nursuo *NewUserRewardSettingUpdateOne) sqlSave(ctx context.Context) (_node *NewUserRewardSetting, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   newuserrewardsetting.Table,
 			Columns: newuserrewardsetting.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: newuserrewardsetting.FieldID,
 			},
 		},
@@ -222,6 +450,69 @@ func (nursuo *NewUserRewardSettingUpdateOne) sqlSave(ctx context.Context) (_node
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := nursuo.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: newuserrewardsetting.FieldAppID,
+		})
+	}
+	if value, ok := nursuo.mutation.RegistrationCouponID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: newuserrewardsetting.FieldRegistrationCouponID,
+		})
+	}
+	if value, ok := nursuo.mutation.KycCouponID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: newuserrewardsetting.FieldKycCouponID,
+		})
+	}
+	if value, ok := nursuo.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldCreateAt,
+		})
+	}
+	if value, ok := nursuo.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldCreateAt,
+		})
+	}
+	if value, ok := nursuo.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldUpdateAt,
+		})
+	}
+	if value, ok := nursuo.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldUpdateAt,
+		})
+	}
+	if value, ok := nursuo.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldDeleteAt,
+		})
+	}
+	if value, ok := nursuo.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: newuserrewardsetting.FieldDeleteAt,
+		})
 	}
 	_node = &NewUserRewardSetting{config: nursuo.config}
 	_spec.Assign = _node.assignValues

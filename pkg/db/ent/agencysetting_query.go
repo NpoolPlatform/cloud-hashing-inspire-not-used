@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/agencysetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // AgencySettingQuery is the builder for querying AgencySetting entities.
@@ -84,8 +85,8 @@ func (asq *AgencySettingQuery) FirstX(ctx context.Context) *AgencySetting {
 
 // FirstID returns the first AgencySetting ID from the query.
 // Returns a *NotFoundError when no AgencySetting ID was found.
-func (asq *AgencySettingQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (asq *AgencySettingQuery) FirstID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = asq.Limit(1).IDs(ctx); err != nil {
 		return
 	}
@@ -97,7 +98,7 @@ func (asq *AgencySettingQuery) FirstID(ctx context.Context) (id int, err error) 
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (asq *AgencySettingQuery) FirstIDX(ctx context.Context) int {
+func (asq *AgencySettingQuery) FirstIDX(ctx context.Context) uuid.UUID {
 	id, err := asq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -135,8 +136,8 @@ func (asq *AgencySettingQuery) OnlyX(ctx context.Context) *AgencySetting {
 // OnlyID is like Only, but returns the only AgencySetting ID in the query.
 // Returns a *NotSingularError when exactly one AgencySetting ID is not found.
 // Returns a *NotFoundError when no entities are found.
-func (asq *AgencySettingQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (asq *AgencySettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = asq.Limit(2).IDs(ctx); err != nil {
 		return
 	}
@@ -152,7 +153,7 @@ func (asq *AgencySettingQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (asq *AgencySettingQuery) OnlyIDX(ctx context.Context) int {
+func (asq *AgencySettingQuery) OnlyIDX(ctx context.Context) uuid.UUID {
 	id, err := asq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -178,8 +179,8 @@ func (asq *AgencySettingQuery) AllX(ctx context.Context) []*AgencySetting {
 }
 
 // IDs executes the query and returns a list of AgencySetting IDs.
-func (asq *AgencySettingQuery) IDs(ctx context.Context) ([]int, error) {
-	var ids []int
+func (asq *AgencySettingQuery) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	var ids []uuid.UUID
 	if err := asq.Select(agencysetting.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -187,7 +188,7 @@ func (asq *AgencySettingQuery) IDs(ctx context.Context) ([]int, error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (asq *AgencySettingQuery) IDsX(ctx context.Context) []int {
+func (asq *AgencySettingQuery) IDsX(ctx context.Context) []uuid.UUID {
 	ids, err := asq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -249,6 +250,19 @@ func (asq *AgencySettingQuery) Clone() *AgencySettingQuery {
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		AppID uuid.UUID `json:"app_id,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.AgencySetting.Query().
+//		GroupBy(agencysetting.FieldAppID).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
+//
 func (asq *AgencySettingQuery) GroupBy(field string, fields ...string) *AgencySettingGroupBy {
 	group := &AgencySettingGroupBy{config: asq.config}
 	group.fields = append([]string{field}, fields...)
@@ -263,6 +277,17 @@ func (asq *AgencySettingQuery) GroupBy(field string, fields ...string) *AgencySe
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		AppID uuid.UUID `json:"app_id,omitempty"`
+//	}
+//
+//	client.AgencySetting.Query().
+//		Select(agencysetting.FieldAppID).
+//		Scan(ctx, &v)
+//
 func (asq *AgencySettingQuery) Select(fields ...string) *AgencySettingSelect {
 	asq.fields = append(asq.fields, fields...)
 	return &AgencySettingSelect{AgencySettingQuery: asq}
@@ -329,7 +354,7 @@ func (asq *AgencySettingQuery) querySpec() *sqlgraph.QuerySpec {
 			Table:   agencysetting.Table,
 			Columns: agencysetting.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: agencysetting.FieldID,
 			},
 		},

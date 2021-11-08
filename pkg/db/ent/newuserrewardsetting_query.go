@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // NewUserRewardSettingQuery is the builder for querying NewUserRewardSetting entities.
@@ -84,8 +85,8 @@ func (nursq *NewUserRewardSettingQuery) FirstX(ctx context.Context) *NewUserRewa
 
 // FirstID returns the first NewUserRewardSetting ID from the query.
 // Returns a *NotFoundError when no NewUserRewardSetting ID was found.
-func (nursq *NewUserRewardSettingQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (nursq *NewUserRewardSettingQuery) FirstID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = nursq.Limit(1).IDs(ctx); err != nil {
 		return
 	}
@@ -97,7 +98,7 @@ func (nursq *NewUserRewardSettingQuery) FirstID(ctx context.Context) (id int, er
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (nursq *NewUserRewardSettingQuery) FirstIDX(ctx context.Context) int {
+func (nursq *NewUserRewardSettingQuery) FirstIDX(ctx context.Context) uuid.UUID {
 	id, err := nursq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -135,8 +136,8 @@ func (nursq *NewUserRewardSettingQuery) OnlyX(ctx context.Context) *NewUserRewar
 // OnlyID is like Only, but returns the only NewUserRewardSetting ID in the query.
 // Returns a *NotSingularError when exactly one NewUserRewardSetting ID is not found.
 // Returns a *NotFoundError when no entities are found.
-func (nursq *NewUserRewardSettingQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (nursq *NewUserRewardSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = nursq.Limit(2).IDs(ctx); err != nil {
 		return
 	}
@@ -152,7 +153,7 @@ func (nursq *NewUserRewardSettingQuery) OnlyID(ctx context.Context) (id int, err
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (nursq *NewUserRewardSettingQuery) OnlyIDX(ctx context.Context) int {
+func (nursq *NewUserRewardSettingQuery) OnlyIDX(ctx context.Context) uuid.UUID {
 	id, err := nursq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -178,8 +179,8 @@ func (nursq *NewUserRewardSettingQuery) AllX(ctx context.Context) []*NewUserRewa
 }
 
 // IDs executes the query and returns a list of NewUserRewardSetting IDs.
-func (nursq *NewUserRewardSettingQuery) IDs(ctx context.Context) ([]int, error) {
-	var ids []int
+func (nursq *NewUserRewardSettingQuery) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	var ids []uuid.UUID
 	if err := nursq.Select(newuserrewardsetting.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -187,7 +188,7 @@ func (nursq *NewUserRewardSettingQuery) IDs(ctx context.Context) ([]int, error) 
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (nursq *NewUserRewardSettingQuery) IDsX(ctx context.Context) []int {
+func (nursq *NewUserRewardSettingQuery) IDsX(ctx context.Context) []uuid.UUID {
 	ids, err := nursq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -249,6 +250,19 @@ func (nursq *NewUserRewardSettingQuery) Clone() *NewUserRewardSettingQuery {
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		AppID uuid.UUID `json:"app_id,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.NewUserRewardSetting.Query().
+//		GroupBy(newuserrewardsetting.FieldAppID).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
+//
 func (nursq *NewUserRewardSettingQuery) GroupBy(field string, fields ...string) *NewUserRewardSettingGroupBy {
 	group := &NewUserRewardSettingGroupBy{config: nursq.config}
 	group.fields = append([]string{field}, fields...)
@@ -263,6 +277,17 @@ func (nursq *NewUserRewardSettingQuery) GroupBy(field string, fields ...string) 
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		AppID uuid.UUID `json:"app_id,omitempty"`
+//	}
+//
+//	client.NewUserRewardSetting.Query().
+//		Select(newuserrewardsetting.FieldAppID).
+//		Scan(ctx, &v)
+//
 func (nursq *NewUserRewardSettingQuery) Select(fields ...string) *NewUserRewardSettingSelect {
 	nursq.fields = append(nursq.fields, fields...)
 	return &NewUserRewardSettingSelect{NewUserRewardSettingQuery: nursq}
@@ -329,7 +354,7 @@ func (nursq *NewUserRewardSettingQuery) querySpec() *sqlgraph.QuerySpec {
 			Table:   newuserrewardsetting.Table,
 			Columns: newuserrewardsetting.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: newuserrewardsetting.FieldID,
 			},
 		},

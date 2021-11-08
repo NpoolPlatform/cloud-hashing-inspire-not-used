@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
+	"github.com/google/uuid"
 )
 
 // PurchaseInvitationUpdate is the builder for updating PurchaseInvitation entities.
@@ -26,6 +27,79 @@ func (piu *PurchaseInvitationUpdate) Where(ps ...predicate.PurchaseInvitation) *
 	return piu
 }
 
+// SetAppID sets the "app_id" field.
+func (piu *PurchaseInvitationUpdate) SetAppID(u uuid.UUID) *PurchaseInvitationUpdate {
+	piu.mutation.SetAppID(u)
+	return piu
+}
+
+// SetOrderID sets the "order_id" field.
+func (piu *PurchaseInvitationUpdate) SetOrderID(u uuid.UUID) *PurchaseInvitationUpdate {
+	piu.mutation.SetOrderID(u)
+	return piu
+}
+
+// SetInvitationCodeID sets the "invitation_code_id" field.
+func (piu *PurchaseInvitationUpdate) SetInvitationCodeID(u uuid.UUID) *PurchaseInvitationUpdate {
+	piu.mutation.SetInvitationCodeID(u)
+	return piu
+}
+
+// SetCreateAt sets the "create_at" field.
+func (piu *PurchaseInvitationUpdate) SetCreateAt(u uint32) *PurchaseInvitationUpdate {
+	piu.mutation.ResetCreateAt()
+	piu.mutation.SetCreateAt(u)
+	return piu
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (piu *PurchaseInvitationUpdate) SetNillableCreateAt(u *uint32) *PurchaseInvitationUpdate {
+	if u != nil {
+		piu.SetCreateAt(*u)
+	}
+	return piu
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (piu *PurchaseInvitationUpdate) AddCreateAt(u uint32) *PurchaseInvitationUpdate {
+	piu.mutation.AddCreateAt(u)
+	return piu
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (piu *PurchaseInvitationUpdate) SetUpdateAt(u uint32) *PurchaseInvitationUpdate {
+	piu.mutation.ResetUpdateAt()
+	piu.mutation.SetUpdateAt(u)
+	return piu
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (piu *PurchaseInvitationUpdate) AddUpdateAt(u uint32) *PurchaseInvitationUpdate {
+	piu.mutation.AddUpdateAt(u)
+	return piu
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (piu *PurchaseInvitationUpdate) SetDeleteAt(u uint32) *PurchaseInvitationUpdate {
+	piu.mutation.ResetDeleteAt()
+	piu.mutation.SetDeleteAt(u)
+	return piu
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (piu *PurchaseInvitationUpdate) SetNillableDeleteAt(u *uint32) *PurchaseInvitationUpdate {
+	if u != nil {
+		piu.SetDeleteAt(*u)
+	}
+	return piu
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (piu *PurchaseInvitationUpdate) AddDeleteAt(u uint32) *PurchaseInvitationUpdate {
+	piu.mutation.AddDeleteAt(u)
+	return piu
+}
+
 // Mutation returns the PurchaseInvitationMutation object of the builder.
 func (piu *PurchaseInvitationUpdate) Mutation() *PurchaseInvitationMutation {
 	return piu.mutation
@@ -37,6 +111,7 @@ func (piu *PurchaseInvitationUpdate) Save(ctx context.Context) (int, error) {
 		err      error
 		affected int
 	)
+	piu.defaults()
 	if len(piu.hooks) == 0 {
 		affected, err = piu.sqlSave(ctx)
 	} else {
@@ -85,13 +160,21 @@ func (piu *PurchaseInvitationUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (piu *PurchaseInvitationUpdate) defaults() {
+	if _, ok := piu.mutation.UpdateAt(); !ok {
+		v := purchaseinvitation.UpdateDefaultUpdateAt()
+		piu.mutation.SetUpdateAt(v)
+	}
+}
+
 func (piu *PurchaseInvitationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   purchaseinvitation.Table,
 			Columns: purchaseinvitation.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: purchaseinvitation.FieldID,
 			},
 		},
@@ -102,6 +185,69 @@ func (piu *PurchaseInvitationUpdate) sqlSave(ctx context.Context) (n int, err er
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := piu.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: purchaseinvitation.FieldAppID,
+		})
+	}
+	if value, ok := piu.mutation.OrderID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: purchaseinvitation.FieldOrderID,
+		})
+	}
+	if value, ok := piu.mutation.InvitationCodeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: purchaseinvitation.FieldInvitationCodeID,
+		})
+	}
+	if value, ok := piu.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldCreateAt,
+		})
+	}
+	if value, ok := piu.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldCreateAt,
+		})
+	}
+	if value, ok := piu.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldUpdateAt,
+		})
+	}
+	if value, ok := piu.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldUpdateAt,
+		})
+	}
+	if value, ok := piu.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldDeleteAt,
+		})
+	}
+	if value, ok := piu.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldDeleteAt,
+		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, piu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -122,6 +268,79 @@ type PurchaseInvitationUpdateOne struct {
 	mutation *PurchaseInvitationMutation
 }
 
+// SetAppID sets the "app_id" field.
+func (piuo *PurchaseInvitationUpdateOne) SetAppID(u uuid.UUID) *PurchaseInvitationUpdateOne {
+	piuo.mutation.SetAppID(u)
+	return piuo
+}
+
+// SetOrderID sets the "order_id" field.
+func (piuo *PurchaseInvitationUpdateOne) SetOrderID(u uuid.UUID) *PurchaseInvitationUpdateOne {
+	piuo.mutation.SetOrderID(u)
+	return piuo
+}
+
+// SetInvitationCodeID sets the "invitation_code_id" field.
+func (piuo *PurchaseInvitationUpdateOne) SetInvitationCodeID(u uuid.UUID) *PurchaseInvitationUpdateOne {
+	piuo.mutation.SetInvitationCodeID(u)
+	return piuo
+}
+
+// SetCreateAt sets the "create_at" field.
+func (piuo *PurchaseInvitationUpdateOne) SetCreateAt(u uint32) *PurchaseInvitationUpdateOne {
+	piuo.mutation.ResetCreateAt()
+	piuo.mutation.SetCreateAt(u)
+	return piuo
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (piuo *PurchaseInvitationUpdateOne) SetNillableCreateAt(u *uint32) *PurchaseInvitationUpdateOne {
+	if u != nil {
+		piuo.SetCreateAt(*u)
+	}
+	return piuo
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (piuo *PurchaseInvitationUpdateOne) AddCreateAt(u uint32) *PurchaseInvitationUpdateOne {
+	piuo.mutation.AddCreateAt(u)
+	return piuo
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (piuo *PurchaseInvitationUpdateOne) SetUpdateAt(u uint32) *PurchaseInvitationUpdateOne {
+	piuo.mutation.ResetUpdateAt()
+	piuo.mutation.SetUpdateAt(u)
+	return piuo
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (piuo *PurchaseInvitationUpdateOne) AddUpdateAt(u uint32) *PurchaseInvitationUpdateOne {
+	piuo.mutation.AddUpdateAt(u)
+	return piuo
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (piuo *PurchaseInvitationUpdateOne) SetDeleteAt(u uint32) *PurchaseInvitationUpdateOne {
+	piuo.mutation.ResetDeleteAt()
+	piuo.mutation.SetDeleteAt(u)
+	return piuo
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (piuo *PurchaseInvitationUpdateOne) SetNillableDeleteAt(u *uint32) *PurchaseInvitationUpdateOne {
+	if u != nil {
+		piuo.SetDeleteAt(*u)
+	}
+	return piuo
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (piuo *PurchaseInvitationUpdateOne) AddDeleteAt(u uint32) *PurchaseInvitationUpdateOne {
+	piuo.mutation.AddDeleteAt(u)
+	return piuo
+}
+
 // Mutation returns the PurchaseInvitationMutation object of the builder.
 func (piuo *PurchaseInvitationUpdateOne) Mutation() *PurchaseInvitationMutation {
 	return piuo.mutation
@@ -140,6 +359,7 @@ func (piuo *PurchaseInvitationUpdateOne) Save(ctx context.Context) (*PurchaseInv
 		err  error
 		node *PurchaseInvitation
 	)
+	piuo.defaults()
 	if len(piuo.hooks) == 0 {
 		node, err = piuo.sqlSave(ctx)
 	} else {
@@ -188,13 +408,21 @@ func (piuo *PurchaseInvitationUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (piuo *PurchaseInvitationUpdateOne) defaults() {
+	if _, ok := piuo.mutation.UpdateAt(); !ok {
+		v := purchaseinvitation.UpdateDefaultUpdateAt()
+		piuo.mutation.SetUpdateAt(v)
+	}
+}
+
 func (piuo *PurchaseInvitationUpdateOne) sqlSave(ctx context.Context) (_node *PurchaseInvitation, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   purchaseinvitation.Table,
 			Columns: purchaseinvitation.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: purchaseinvitation.FieldID,
 			},
 		},
@@ -222,6 +450,69 @@ func (piuo *PurchaseInvitationUpdateOne) sqlSave(ctx context.Context) (_node *Pu
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := piuo.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: purchaseinvitation.FieldAppID,
+		})
+	}
+	if value, ok := piuo.mutation.OrderID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: purchaseinvitation.FieldOrderID,
+		})
+	}
+	if value, ok := piuo.mutation.InvitationCodeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: purchaseinvitation.FieldInvitationCodeID,
+		})
+	}
+	if value, ok := piuo.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldCreateAt,
+		})
+	}
+	if value, ok := piuo.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldCreateAt,
+		})
+	}
+	if value, ok := piuo.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldUpdateAt,
+		})
+	}
+	if value, ok := piuo.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldUpdateAt,
+		})
+	}
+	if value, ok := piuo.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldDeleteAt,
+		})
+	}
+	if value, ok := piuo.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldDeleteAt,
+		})
 	}
 	_node = &PurchaseInvitation{config: piuo.config}
 	_spec.Assign = _node.assignValues

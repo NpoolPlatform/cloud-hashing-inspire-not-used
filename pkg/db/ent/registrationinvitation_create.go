@@ -23,24 +23,6 @@ type RegistrationInvitationCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetInviterID sets the "inviter_id" field.
-func (ric *RegistrationInvitationCreate) SetInviterID(u uuid.UUID) *RegistrationInvitationCreate {
-	ric.mutation.SetInviterID(u)
-	return ric
-}
-
-// SetInviteeID sets the "invitee_id" field.
-func (ric *RegistrationInvitationCreate) SetInviteeID(u uuid.UUID) *RegistrationInvitationCreate {
-	ric.mutation.SetInviteeID(u)
-	return ric
-}
-
-// SetAppID sets the "app_id" field.
-func (ric *RegistrationInvitationCreate) SetAppID(u uuid.UUID) *RegistrationInvitationCreate {
-	ric.mutation.SetAppID(u)
-	return ric
-}
-
 // SetCreateAt sets the "create_at" field.
 func (ric *RegistrationInvitationCreate) SetCreateAt(u uint32) *RegistrationInvitationCreate {
 	ric.mutation.SetCreateAt(u)
@@ -80,6 +62,24 @@ func (ric *RegistrationInvitationCreate) SetNillableDeleteAt(u *uint32) *Registr
 	if u != nil {
 		ric.SetDeleteAt(*u)
 	}
+	return ric
+}
+
+// SetInviterID sets the "inviter_id" field.
+func (ric *RegistrationInvitationCreate) SetInviterID(u uuid.UUID) *RegistrationInvitationCreate {
+	ric.mutation.SetInviterID(u)
+	return ric
+}
+
+// SetInviteeID sets the "invitee_id" field.
+func (ric *RegistrationInvitationCreate) SetInviteeID(u uuid.UUID) *RegistrationInvitationCreate {
+	ric.mutation.SetInviteeID(u)
+	return ric
+}
+
+// SetAppID sets the "app_id" field.
+func (ric *RegistrationInvitationCreate) SetAppID(u uuid.UUID) *RegistrationInvitationCreate {
+	ric.mutation.SetAppID(u)
 	return ric
 }
 
@@ -180,15 +180,6 @@ func (ric *RegistrationInvitationCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ric *RegistrationInvitationCreate) check() error {
-	if _, ok := ric.mutation.InviterID(); !ok {
-		return &ValidationError{Name: "inviter_id", err: errors.New(`ent: missing required field "inviter_id"`)}
-	}
-	if _, ok := ric.mutation.InviteeID(); !ok {
-		return &ValidationError{Name: "invitee_id", err: errors.New(`ent: missing required field "invitee_id"`)}
-	}
-	if _, ok := ric.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
-	}
 	if _, ok := ric.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
 	}
@@ -197,6 +188,15 @@ func (ric *RegistrationInvitationCreate) check() error {
 	}
 	if _, ok := ric.mutation.DeleteAt(); !ok {
 		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+	}
+	if _, ok := ric.mutation.InviterID(); !ok {
+		return &ValidationError{Name: "inviter_id", err: errors.New(`ent: missing required field "inviter_id"`)}
+	}
+	if _, ok := ric.mutation.InviteeID(); !ok {
+		return &ValidationError{Name: "invitee_id", err: errors.New(`ent: missing required field "invitee_id"`)}
+	}
+	if _, ok := ric.mutation.AppID(); !ok {
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
 	}
 	return nil
 }
@@ -231,30 +231,6 @@ func (ric *RegistrationInvitationCreate) createSpec() (*RegistrationInvitation, 
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ric.mutation.InviterID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: registrationinvitation.FieldInviterID,
-		})
-		_node.InviterID = value
-	}
-	if value, ok := ric.mutation.InviteeID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: registrationinvitation.FieldInviteeID,
-		})
-		_node.InviteeID = value
-	}
-	if value, ok := ric.mutation.AppID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: registrationinvitation.FieldAppID,
-		})
-		_node.AppID = value
-	}
 	if value, ok := ric.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -279,6 +255,30 @@ func (ric *RegistrationInvitationCreate) createSpec() (*RegistrationInvitation, 
 		})
 		_node.DeleteAt = value
 	}
+	if value, ok := ric.mutation.InviterID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: registrationinvitation.FieldInviterID,
+		})
+		_node.InviterID = value
+	}
+	if value, ok := ric.mutation.InviteeID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: registrationinvitation.FieldInviteeID,
+		})
+		_node.InviteeID = value
+	}
+	if value, ok := ric.mutation.AppID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: registrationinvitation.FieldAppID,
+		})
+		_node.AppID = value
+	}
 	return _node, _spec
 }
 
@@ -286,7 +286,7 @@ func (ric *RegistrationInvitationCreate) createSpec() (*RegistrationInvitation, 
 // of the `INSERT` statement. For example:
 //
 //	client.RegistrationInvitation.Create().
-//		SetInviterID(v).
+//		SetCreateAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -295,7 +295,7 @@ func (ric *RegistrationInvitationCreate) createSpec() (*RegistrationInvitation, 
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.RegistrationInvitationUpsert) {
-//			SetInviterID(v+v).
+//			SetCreateAt(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -333,42 +333,6 @@ type (
 	}
 )
 
-// SetInviterID sets the "inviter_id" field.
-func (u *RegistrationInvitationUpsert) SetInviterID(v uuid.UUID) *RegistrationInvitationUpsert {
-	u.Set(registrationinvitation.FieldInviterID, v)
-	return u
-}
-
-// UpdateInviterID sets the "inviter_id" field to the value that was provided on create.
-func (u *RegistrationInvitationUpsert) UpdateInviterID() *RegistrationInvitationUpsert {
-	u.SetExcluded(registrationinvitation.FieldInviterID)
-	return u
-}
-
-// SetInviteeID sets the "invitee_id" field.
-func (u *RegistrationInvitationUpsert) SetInviteeID(v uuid.UUID) *RegistrationInvitationUpsert {
-	u.Set(registrationinvitation.FieldInviteeID, v)
-	return u
-}
-
-// UpdateInviteeID sets the "invitee_id" field to the value that was provided on create.
-func (u *RegistrationInvitationUpsert) UpdateInviteeID() *RegistrationInvitationUpsert {
-	u.SetExcluded(registrationinvitation.FieldInviteeID)
-	return u
-}
-
-// SetAppID sets the "app_id" field.
-func (u *RegistrationInvitationUpsert) SetAppID(v uuid.UUID) *RegistrationInvitationUpsert {
-	u.Set(registrationinvitation.FieldAppID, v)
-	return u
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *RegistrationInvitationUpsert) UpdateAppID() *RegistrationInvitationUpsert {
-	u.SetExcluded(registrationinvitation.FieldAppID)
-	return u
-}
-
 // SetCreateAt sets the "create_at" field.
 func (u *RegistrationInvitationUpsert) SetCreateAt(v uint32) *RegistrationInvitationUpsert {
 	u.Set(registrationinvitation.FieldCreateAt, v)
@@ -402,6 +366,42 @@ func (u *RegistrationInvitationUpsert) SetDeleteAt(v uint32) *RegistrationInvita
 // UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
 func (u *RegistrationInvitationUpsert) UpdateDeleteAt() *RegistrationInvitationUpsert {
 	u.SetExcluded(registrationinvitation.FieldDeleteAt)
+	return u
+}
+
+// SetInviterID sets the "inviter_id" field.
+func (u *RegistrationInvitationUpsert) SetInviterID(v uuid.UUID) *RegistrationInvitationUpsert {
+	u.Set(registrationinvitation.FieldInviterID, v)
+	return u
+}
+
+// UpdateInviterID sets the "inviter_id" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsert) UpdateInviterID() *RegistrationInvitationUpsert {
+	u.SetExcluded(registrationinvitation.FieldInviterID)
+	return u
+}
+
+// SetInviteeID sets the "invitee_id" field.
+func (u *RegistrationInvitationUpsert) SetInviteeID(v uuid.UUID) *RegistrationInvitationUpsert {
+	u.Set(registrationinvitation.FieldInviteeID, v)
+	return u
+}
+
+// UpdateInviteeID sets the "invitee_id" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsert) UpdateInviteeID() *RegistrationInvitationUpsert {
+	u.SetExcluded(registrationinvitation.FieldInviteeID)
+	return u
+}
+
+// SetAppID sets the "app_id" field.
+func (u *RegistrationInvitationUpsert) SetAppID(v uuid.UUID) *RegistrationInvitationUpsert {
+	u.Set(registrationinvitation.FieldAppID, v)
+	return u
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsert) UpdateAppID() *RegistrationInvitationUpsert {
+	u.SetExcluded(registrationinvitation.FieldAppID)
 	return u
 }
 
@@ -455,48 +455,6 @@ func (u *RegistrationInvitationUpsertOne) Update(set func(*RegistrationInvitatio
 	return u
 }
 
-// SetInviterID sets the "inviter_id" field.
-func (u *RegistrationInvitationUpsertOne) SetInviterID(v uuid.UUID) *RegistrationInvitationUpsertOne {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.SetInviterID(v)
-	})
-}
-
-// UpdateInviterID sets the "inviter_id" field to the value that was provided on create.
-func (u *RegistrationInvitationUpsertOne) UpdateInviterID() *RegistrationInvitationUpsertOne {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.UpdateInviterID()
-	})
-}
-
-// SetInviteeID sets the "invitee_id" field.
-func (u *RegistrationInvitationUpsertOne) SetInviteeID(v uuid.UUID) *RegistrationInvitationUpsertOne {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.SetInviteeID(v)
-	})
-}
-
-// UpdateInviteeID sets the "invitee_id" field to the value that was provided on create.
-func (u *RegistrationInvitationUpsertOne) UpdateInviteeID() *RegistrationInvitationUpsertOne {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.UpdateInviteeID()
-	})
-}
-
-// SetAppID sets the "app_id" field.
-func (u *RegistrationInvitationUpsertOne) SetAppID(v uuid.UUID) *RegistrationInvitationUpsertOne {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.SetAppID(v)
-	})
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *RegistrationInvitationUpsertOne) UpdateAppID() *RegistrationInvitationUpsertOne {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.UpdateAppID()
-	})
-}
-
 // SetCreateAt sets the "create_at" field.
 func (u *RegistrationInvitationUpsertOne) SetCreateAt(v uint32) *RegistrationInvitationUpsertOne {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
@@ -536,6 +494,48 @@ func (u *RegistrationInvitationUpsertOne) SetDeleteAt(v uint32) *RegistrationInv
 func (u *RegistrationInvitationUpsertOne) UpdateDeleteAt() *RegistrationInvitationUpsertOne {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
 		s.UpdateDeleteAt()
+	})
+}
+
+// SetInviterID sets the "inviter_id" field.
+func (u *RegistrationInvitationUpsertOne) SetInviterID(v uuid.UUID) *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.SetInviterID(v)
+	})
+}
+
+// UpdateInviterID sets the "inviter_id" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsertOne) UpdateInviterID() *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.UpdateInviterID()
+	})
+}
+
+// SetInviteeID sets the "invitee_id" field.
+func (u *RegistrationInvitationUpsertOne) SetInviteeID(v uuid.UUID) *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.SetInviteeID(v)
+	})
+}
+
+// UpdateInviteeID sets the "invitee_id" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsertOne) UpdateInviteeID() *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.UpdateInviteeID()
+	})
+}
+
+// SetAppID sets the "app_id" field.
+func (u *RegistrationInvitationUpsertOne) SetAppID(v uuid.UUID) *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsertOne) UpdateAppID() *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.UpdateAppID()
 	})
 }
 
@@ -671,7 +671,7 @@ func (ricb *RegistrationInvitationCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.RegistrationInvitationUpsert) {
-//			SetInviterID(v+v).
+//			SetCreateAt(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -755,48 +755,6 @@ func (u *RegistrationInvitationUpsertBulk) Update(set func(*RegistrationInvitati
 	return u
 }
 
-// SetInviterID sets the "inviter_id" field.
-func (u *RegistrationInvitationUpsertBulk) SetInviterID(v uuid.UUID) *RegistrationInvitationUpsertBulk {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.SetInviterID(v)
-	})
-}
-
-// UpdateInviterID sets the "inviter_id" field to the value that was provided on create.
-func (u *RegistrationInvitationUpsertBulk) UpdateInviterID() *RegistrationInvitationUpsertBulk {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.UpdateInviterID()
-	})
-}
-
-// SetInviteeID sets the "invitee_id" field.
-func (u *RegistrationInvitationUpsertBulk) SetInviteeID(v uuid.UUID) *RegistrationInvitationUpsertBulk {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.SetInviteeID(v)
-	})
-}
-
-// UpdateInviteeID sets the "invitee_id" field to the value that was provided on create.
-func (u *RegistrationInvitationUpsertBulk) UpdateInviteeID() *RegistrationInvitationUpsertBulk {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.UpdateInviteeID()
-	})
-}
-
-// SetAppID sets the "app_id" field.
-func (u *RegistrationInvitationUpsertBulk) SetAppID(v uuid.UUID) *RegistrationInvitationUpsertBulk {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.SetAppID(v)
-	})
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *RegistrationInvitationUpsertBulk) UpdateAppID() *RegistrationInvitationUpsertBulk {
-	return u.Update(func(s *RegistrationInvitationUpsert) {
-		s.UpdateAppID()
-	})
-}
-
 // SetCreateAt sets the "create_at" field.
 func (u *RegistrationInvitationUpsertBulk) SetCreateAt(v uint32) *RegistrationInvitationUpsertBulk {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
@@ -836,6 +794,48 @@ func (u *RegistrationInvitationUpsertBulk) SetDeleteAt(v uint32) *RegistrationIn
 func (u *RegistrationInvitationUpsertBulk) UpdateDeleteAt() *RegistrationInvitationUpsertBulk {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
 		s.UpdateDeleteAt()
+	})
+}
+
+// SetInviterID sets the "inviter_id" field.
+func (u *RegistrationInvitationUpsertBulk) SetInviterID(v uuid.UUID) *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.SetInviterID(v)
+	})
+}
+
+// UpdateInviterID sets the "inviter_id" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsertBulk) UpdateInviterID() *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.UpdateInviterID()
+	})
+}
+
+// SetInviteeID sets the "invitee_id" field.
+func (u *RegistrationInvitationUpsertBulk) SetInviteeID(v uuid.UUID) *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.SetInviteeID(v)
+	})
+}
+
+// UpdateInviteeID sets the "invitee_id" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsertBulk) UpdateInviteeID() *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.UpdateInviteeID()
+	})
+}
+
+// SetAppID sets the "app_id" field.
+func (u *RegistrationInvitationUpsertBulk) SetAppID(v uuid.UUID) *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsertBulk) UpdateAppID() *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.UpdateAppID()
 	})
 }
 

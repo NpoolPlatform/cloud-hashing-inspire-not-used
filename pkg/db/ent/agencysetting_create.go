@@ -7,10 +7,12 @@ import (
 	"errors"
 	"fmt"
 
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/agencysetting"
+	"github.com/google/uuid"
 )
 
 // AgencySettingCreate is the builder for creating a AgencySetting entity.
@@ -19,6 +21,96 @@ type AgencySettingCreate struct {
 	mutation *AgencySettingMutation
 	hooks    []Hook
 	conflict []sql.ConflictOption
+}
+
+// SetAppID sets the "app_id" field.
+func (asc *AgencySettingCreate) SetAppID(u uuid.UUID) *AgencySettingCreate {
+	asc.mutation.SetAppID(u)
+	return asc
+}
+
+// SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
+func (asc *AgencySettingCreate) SetRegistrationRewardThreshold(i int) *AgencySettingCreate {
+	asc.mutation.SetRegistrationRewardThreshold(i)
+	return asc
+}
+
+// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
+func (asc *AgencySettingCreate) SetRegistrationRewardAmount(i int) *AgencySettingCreate {
+	asc.mutation.SetRegistrationRewardAmount(i)
+	return asc
+}
+
+// SetKycRewardThreshold sets the "kyc_reward_threshold" field.
+func (asc *AgencySettingCreate) SetKycRewardThreshold(i int) *AgencySettingCreate {
+	asc.mutation.SetKycRewardThreshold(i)
+	return asc
+}
+
+// SetKycRewardAmount sets the "kyc_reward_amount" field.
+func (asc *AgencySettingCreate) SetKycRewardAmount(i int) *AgencySettingCreate {
+	asc.mutation.SetKycRewardAmount(i)
+	return asc
+}
+
+// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
+func (asc *AgencySettingCreate) SetPurchaseRewardPercent(i int) *AgencySettingCreate {
+	asc.mutation.SetPurchaseRewardPercent(i)
+	return asc
+}
+
+// SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
+func (asc *AgencySettingCreate) SetPurchaseRewardChainLevels(i int) *AgencySettingCreate {
+	asc.mutation.SetPurchaseRewardChainLevels(i)
+	return asc
+}
+
+// SetCreateAt sets the "create_at" field.
+func (asc *AgencySettingCreate) SetCreateAt(u uint32) *AgencySettingCreate {
+	asc.mutation.SetCreateAt(u)
+	return asc
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (asc *AgencySettingCreate) SetNillableCreateAt(u *uint32) *AgencySettingCreate {
+	if u != nil {
+		asc.SetCreateAt(*u)
+	}
+	return asc
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (asc *AgencySettingCreate) SetUpdateAt(u uint32) *AgencySettingCreate {
+	asc.mutation.SetUpdateAt(u)
+	return asc
+}
+
+// SetNillableUpdateAt sets the "update_at" field if the given value is not nil.
+func (asc *AgencySettingCreate) SetNillableUpdateAt(u *uint32) *AgencySettingCreate {
+	if u != nil {
+		asc.SetUpdateAt(*u)
+	}
+	return asc
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (asc *AgencySettingCreate) SetDeleteAt(u uint32) *AgencySettingCreate {
+	asc.mutation.SetDeleteAt(u)
+	return asc
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (asc *AgencySettingCreate) SetNillableDeleteAt(u *uint32) *AgencySettingCreate {
+	if u != nil {
+		asc.SetDeleteAt(*u)
+	}
+	return asc
+}
+
+// SetID sets the "id" field.
+func (asc *AgencySettingCreate) SetID(u uuid.UUID) *AgencySettingCreate {
+	asc.mutation.SetID(u)
+	return asc
 }
 
 // Mutation returns the AgencySettingMutation object of the builder.
@@ -32,6 +124,7 @@ func (asc *AgencySettingCreate) Save(ctx context.Context) (*AgencySetting, error
 		err  error
 		node *AgencySetting
 	)
+	asc.defaults()
 	if len(asc.hooks) == 0 {
 		if err = asc.check(); err != nil {
 			return nil, err
@@ -89,8 +182,58 @@ func (asc *AgencySettingCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (asc *AgencySettingCreate) defaults() {
+	if _, ok := asc.mutation.CreateAt(); !ok {
+		v := agencysetting.DefaultCreateAt()
+		asc.mutation.SetCreateAt(v)
+	}
+	if _, ok := asc.mutation.UpdateAt(); !ok {
+		v := agencysetting.DefaultUpdateAt()
+		asc.mutation.SetUpdateAt(v)
+	}
+	if _, ok := asc.mutation.DeleteAt(); !ok {
+		v := agencysetting.DefaultDeleteAt()
+		asc.mutation.SetDeleteAt(v)
+	}
+	if _, ok := asc.mutation.ID(); !ok {
+		v := agencysetting.DefaultID()
+		asc.mutation.SetID(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (asc *AgencySettingCreate) check() error {
+	if _, ok := asc.mutation.AppID(); !ok {
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+	}
+	if _, ok := asc.mutation.RegistrationRewardThreshold(); !ok {
+		return &ValidationError{Name: "registration_reward_threshold", err: errors.New(`ent: missing required field "registration_reward_threshold"`)}
+	}
+	if _, ok := asc.mutation.RegistrationRewardAmount(); !ok {
+		return &ValidationError{Name: "registration_reward_amount", err: errors.New(`ent: missing required field "registration_reward_amount"`)}
+	}
+	if _, ok := asc.mutation.KycRewardThreshold(); !ok {
+		return &ValidationError{Name: "kyc_reward_threshold", err: errors.New(`ent: missing required field "kyc_reward_threshold"`)}
+	}
+	if _, ok := asc.mutation.KycRewardAmount(); !ok {
+		return &ValidationError{Name: "kyc_reward_amount", err: errors.New(`ent: missing required field "kyc_reward_amount"`)}
+	}
+	if _, ok := asc.mutation.PurchaseRewardPercent(); !ok {
+		return &ValidationError{Name: "purchase_reward_percent", err: errors.New(`ent: missing required field "purchase_reward_percent"`)}
+	}
+	if _, ok := asc.mutation.PurchaseRewardChainLevels(); !ok {
+		return &ValidationError{Name: "purchase_reward_chain_levels", err: errors.New(`ent: missing required field "purchase_reward_chain_levels"`)}
+	}
+	if _, ok := asc.mutation.CreateAt(); !ok {
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+	}
+	if _, ok := asc.mutation.UpdateAt(); !ok {
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+	}
+	if _, ok := asc.mutation.DeleteAt(); !ok {
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+	}
 	return nil
 }
 
@@ -102,8 +245,9 @@ func (asc *AgencySettingCreate) sqlSave(ctx context.Context) (*AgencySetting, er
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != nil {
+		_node.ID = _spec.ID.Value.(uuid.UUID)
+	}
 	return _node, nil
 }
 
@@ -113,12 +257,96 @@ func (asc *AgencySettingCreate) createSpec() (*AgencySetting, *sqlgraph.CreateSp
 		_spec = &sqlgraph.CreateSpec{
 			Table: agencysetting.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: agencysetting.FieldID,
 			},
 		}
 	)
 	_spec.OnConflict = asc.conflict
+	if id, ok := asc.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
+	if value, ok := asc.mutation.AppID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: agencysetting.FieldAppID,
+		})
+		_node.AppID = value
+	}
+	if value, ok := asc.mutation.RegistrationRewardThreshold(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: agencysetting.FieldRegistrationRewardThreshold,
+		})
+		_node.RegistrationRewardThreshold = value
+	}
+	if value, ok := asc.mutation.RegistrationRewardAmount(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: agencysetting.FieldRegistrationRewardAmount,
+		})
+		_node.RegistrationRewardAmount = value
+	}
+	if value, ok := asc.mutation.KycRewardThreshold(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: agencysetting.FieldKycRewardThreshold,
+		})
+		_node.KycRewardThreshold = value
+	}
+	if value, ok := asc.mutation.KycRewardAmount(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: agencysetting.FieldKycRewardAmount,
+		})
+		_node.KycRewardAmount = value
+	}
+	if value, ok := asc.mutation.PurchaseRewardPercent(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: agencysetting.FieldPurchaseRewardPercent,
+		})
+		_node.PurchaseRewardPercent = value
+	}
+	if value, ok := asc.mutation.PurchaseRewardChainLevels(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: agencysetting.FieldPurchaseRewardChainLevels,
+		})
+		_node.PurchaseRewardChainLevels = value
+	}
+	if value, ok := asc.mutation.CreateAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: agencysetting.FieldCreateAt,
+		})
+		_node.CreateAt = value
+	}
+	if value, ok := asc.mutation.UpdateAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: agencysetting.FieldUpdateAt,
+		})
+		_node.UpdateAt = value
+	}
+	if value, ok := asc.mutation.DeleteAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: agencysetting.FieldDeleteAt,
+		})
+		_node.DeleteAt = value
+	}
 	return _node, _spec
 }
 
@@ -126,11 +354,17 @@ func (asc *AgencySettingCreate) createSpec() (*AgencySetting, *sqlgraph.CreateSp
 // of the `INSERT` statement. For example:
 //
 //	client.AgencySetting.Create().
+//		SetAppID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.AgencySettingUpsert) {
+//			SetAppID(v+v).
+//		}).
 //		Exec(ctx)
 //
 func (asc *AgencySettingCreate) OnConflict(opts ...sql.ConflictOption) *AgencySettingUpsertOne {
@@ -167,17 +401,145 @@ type (
 	}
 )
 
-// UpdateNewValues updates the fields using the new values that were set on create.
+// SetAppID sets the "app_id" field.
+func (u *AgencySettingUpsert) SetAppID(v uuid.UUID) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldAppID, v)
+	return u
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateAppID() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldAppID)
+	return u
+}
+
+// SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
+func (u *AgencySettingUpsert) SetRegistrationRewardThreshold(v int) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldRegistrationRewardThreshold, v)
+	return u
+}
+
+// UpdateRegistrationRewardThreshold sets the "registration_reward_threshold" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateRegistrationRewardThreshold() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldRegistrationRewardThreshold)
+	return u
+}
+
+// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
+func (u *AgencySettingUpsert) SetRegistrationRewardAmount(v int) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldRegistrationRewardAmount, v)
+	return u
+}
+
+// UpdateRegistrationRewardAmount sets the "registration_reward_amount" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateRegistrationRewardAmount() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldRegistrationRewardAmount)
+	return u
+}
+
+// SetKycRewardThreshold sets the "kyc_reward_threshold" field.
+func (u *AgencySettingUpsert) SetKycRewardThreshold(v int) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldKycRewardThreshold, v)
+	return u
+}
+
+// UpdateKycRewardThreshold sets the "kyc_reward_threshold" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateKycRewardThreshold() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldKycRewardThreshold)
+	return u
+}
+
+// SetKycRewardAmount sets the "kyc_reward_amount" field.
+func (u *AgencySettingUpsert) SetKycRewardAmount(v int) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldKycRewardAmount, v)
+	return u
+}
+
+// UpdateKycRewardAmount sets the "kyc_reward_amount" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateKycRewardAmount() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldKycRewardAmount)
+	return u
+}
+
+// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
+func (u *AgencySettingUpsert) SetPurchaseRewardPercent(v int) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldPurchaseRewardPercent, v)
+	return u
+}
+
+// UpdatePurchaseRewardPercent sets the "purchase_reward_percent" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdatePurchaseRewardPercent() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldPurchaseRewardPercent)
+	return u
+}
+
+// SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
+func (u *AgencySettingUpsert) SetPurchaseRewardChainLevels(v int) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldPurchaseRewardChainLevels, v)
+	return u
+}
+
+// UpdatePurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdatePurchaseRewardChainLevels() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldPurchaseRewardChainLevels)
+	return u
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *AgencySettingUpsert) SetCreateAt(v uint32) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldCreateAt, v)
+	return u
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateCreateAt() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldCreateAt)
+	return u
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *AgencySettingUpsert) SetUpdateAt(v uint32) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldUpdateAt, v)
+	return u
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateUpdateAt() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldUpdateAt)
+	return u
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *AgencySettingUpsert) SetDeleteAt(v uint32) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateDeleteAt() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldDeleteAt)
+	return u
+}
+
+// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.AgencySetting.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(agencysetting.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 //
 func (u *AgencySettingUpsertOne) UpdateNewValues() *AgencySettingUpsertOne {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(agencysetting.FieldID)
+		}
+	}))
 	return u
 }
 
@@ -209,6 +571,146 @@ func (u *AgencySettingUpsertOne) Update(set func(*AgencySettingUpsert)) *AgencyS
 	return u
 }
 
+// SetAppID sets the "app_id" field.
+func (u *AgencySettingUpsertOne) SetAppID(v uuid.UUID) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateAppID() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateAppID()
+	})
+}
+
+// SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
+func (u *AgencySettingUpsertOne) SetRegistrationRewardThreshold(v int) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetRegistrationRewardThreshold(v)
+	})
+}
+
+// UpdateRegistrationRewardThreshold sets the "registration_reward_threshold" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateRegistrationRewardThreshold() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateRegistrationRewardThreshold()
+	})
+}
+
+// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
+func (u *AgencySettingUpsertOne) SetRegistrationRewardAmount(v int) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetRegistrationRewardAmount(v)
+	})
+}
+
+// UpdateRegistrationRewardAmount sets the "registration_reward_amount" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateRegistrationRewardAmount() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateRegistrationRewardAmount()
+	})
+}
+
+// SetKycRewardThreshold sets the "kyc_reward_threshold" field.
+func (u *AgencySettingUpsertOne) SetKycRewardThreshold(v int) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetKycRewardThreshold(v)
+	})
+}
+
+// UpdateKycRewardThreshold sets the "kyc_reward_threshold" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateKycRewardThreshold() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateKycRewardThreshold()
+	})
+}
+
+// SetKycRewardAmount sets the "kyc_reward_amount" field.
+func (u *AgencySettingUpsertOne) SetKycRewardAmount(v int) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetKycRewardAmount(v)
+	})
+}
+
+// UpdateKycRewardAmount sets the "kyc_reward_amount" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateKycRewardAmount() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateKycRewardAmount()
+	})
+}
+
+// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
+func (u *AgencySettingUpsertOne) SetPurchaseRewardPercent(v int) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetPurchaseRewardPercent(v)
+	})
+}
+
+// UpdatePurchaseRewardPercent sets the "purchase_reward_percent" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdatePurchaseRewardPercent() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdatePurchaseRewardPercent()
+	})
+}
+
+// SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
+func (u *AgencySettingUpsertOne) SetPurchaseRewardChainLevels(v int) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetPurchaseRewardChainLevels(v)
+	})
+}
+
+// UpdatePurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdatePurchaseRewardChainLevels() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdatePurchaseRewardChainLevels()
+	})
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *AgencySettingUpsertOne) SetCreateAt(v uint32) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetCreateAt(v)
+	})
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateCreateAt() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateCreateAt()
+	})
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *AgencySettingUpsertOne) SetUpdateAt(v uint32) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetUpdateAt(v)
+	})
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateUpdateAt() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateUpdateAt()
+	})
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *AgencySettingUpsertOne) SetDeleteAt(v uint32) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetDeleteAt(v)
+	})
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateDeleteAt() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateDeleteAt()
+	})
+}
+
 // Exec executes the query.
 func (u *AgencySettingUpsertOne) Exec(ctx context.Context) error {
 	if len(u.create.conflict) == 0 {
@@ -225,7 +727,12 @@ func (u *AgencySettingUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *AgencySettingUpsertOne) ID(ctx context.Context) (id int, err error) {
+func (u *AgencySettingUpsertOne) ID(ctx context.Context) (id uuid.UUID, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: AgencySettingUpsertOne.ID is not supported by MySQL driver. Use AgencySettingUpsertOne.Exec instead")
+	}
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -234,7 +741,7 @@ func (u *AgencySettingUpsertOne) ID(ctx context.Context) (id int, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *AgencySettingUpsertOne) IDX(ctx context.Context) int {
+func (u *AgencySettingUpsertOne) IDX(ctx context.Context) uuid.UUID {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -257,6 +764,7 @@ func (ascb *AgencySettingCreateBulk) Save(ctx context.Context) ([]*AgencySetting
 	for i := range ascb.builders {
 		func(i int, root context.Context) {
 			builder := ascb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*AgencySettingMutation)
 				if !ok {
@@ -285,10 +793,6 @@ func (ascb *AgencySettingCreateBulk) Save(ctx context.Context) ([]*AgencySetting
 				}
 				mutation.id = &nodes[i].ID
 				mutation.done = true
-				if specs[i].ID.Value != nil {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
-				}
 				return nodes[i], nil
 			})
 			for i := len(builder.hooks) - 1; i >= 0; i-- {
@@ -336,6 +840,11 @@ func (ascb *AgencySettingCreateBulk) ExecX(ctx context.Context) {
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.AgencySettingUpsert) {
+//			SetAppID(v+v).
+//		}).
 //		Exec(ctx)
 //
 func (ascb *AgencySettingCreateBulk) OnConflict(opts ...sql.ConflictOption) *AgencySettingUpsertBulk {
@@ -371,11 +880,22 @@ type AgencySettingUpsertBulk struct {
 //	client.AgencySetting.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(agencysetting.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 //
 func (u *AgencySettingUpsertBulk) UpdateNewValues() *AgencySettingUpsertBulk {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(agencysetting.FieldID)
+				return
+			}
+		}
+	}))
 	return u
 }
 
@@ -405,6 +925,146 @@ func (u *AgencySettingUpsertBulk) Update(set func(*AgencySettingUpsert)) *Agency
 		set(&AgencySettingUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetAppID sets the "app_id" field.
+func (u *AgencySettingUpsertBulk) SetAppID(v uuid.UUID) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateAppID() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateAppID()
+	})
+}
+
+// SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
+func (u *AgencySettingUpsertBulk) SetRegistrationRewardThreshold(v int) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetRegistrationRewardThreshold(v)
+	})
+}
+
+// UpdateRegistrationRewardThreshold sets the "registration_reward_threshold" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateRegistrationRewardThreshold() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateRegistrationRewardThreshold()
+	})
+}
+
+// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
+func (u *AgencySettingUpsertBulk) SetRegistrationRewardAmount(v int) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetRegistrationRewardAmount(v)
+	})
+}
+
+// UpdateRegistrationRewardAmount sets the "registration_reward_amount" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateRegistrationRewardAmount() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateRegistrationRewardAmount()
+	})
+}
+
+// SetKycRewardThreshold sets the "kyc_reward_threshold" field.
+func (u *AgencySettingUpsertBulk) SetKycRewardThreshold(v int) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetKycRewardThreshold(v)
+	})
+}
+
+// UpdateKycRewardThreshold sets the "kyc_reward_threshold" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateKycRewardThreshold() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateKycRewardThreshold()
+	})
+}
+
+// SetKycRewardAmount sets the "kyc_reward_amount" field.
+func (u *AgencySettingUpsertBulk) SetKycRewardAmount(v int) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetKycRewardAmount(v)
+	})
+}
+
+// UpdateKycRewardAmount sets the "kyc_reward_amount" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateKycRewardAmount() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateKycRewardAmount()
+	})
+}
+
+// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
+func (u *AgencySettingUpsertBulk) SetPurchaseRewardPercent(v int) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetPurchaseRewardPercent(v)
+	})
+}
+
+// UpdatePurchaseRewardPercent sets the "purchase_reward_percent" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdatePurchaseRewardPercent() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdatePurchaseRewardPercent()
+	})
+}
+
+// SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
+func (u *AgencySettingUpsertBulk) SetPurchaseRewardChainLevels(v int) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetPurchaseRewardChainLevels(v)
+	})
+}
+
+// UpdatePurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdatePurchaseRewardChainLevels() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdatePurchaseRewardChainLevels()
+	})
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *AgencySettingUpsertBulk) SetCreateAt(v uint32) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetCreateAt(v)
+	})
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateCreateAt() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateCreateAt()
+	})
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *AgencySettingUpsertBulk) SetUpdateAt(v uint32) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetUpdateAt(v)
+	})
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateUpdateAt() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateUpdateAt()
+	})
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *AgencySettingUpsertBulk) SetDeleteAt(v uint32) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetDeleteAt(v)
+	})
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateDeleteAt() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateDeleteAt()
+	})
 }
 
 // Exec executes the query.

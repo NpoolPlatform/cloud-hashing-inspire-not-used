@@ -254,12 +254,12 @@ func (riq *RegistrationInvitationQuery) Clone() *RegistrationInvitationQuery {
 // Example:
 //
 //	var v []struct {
-//		InviterID uuid.UUID `json:"inviter_id,omitempty"`
+//		CreateAt uint32 `json:"create_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.RegistrationInvitation.Query().
-//		GroupBy(registrationinvitation.FieldInviterID).
+//		GroupBy(registrationinvitation.FieldCreateAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (riq *RegistrationInvitationQuery) GroupBy(field string, fields ...string) 
 // Example:
 //
 //	var v []struct {
-//		InviterID uuid.UUID `json:"inviter_id,omitempty"`
+//		CreateAt uint32 `json:"create_at,omitempty"`
 //	}
 //
 //	client.RegistrationInvitation.Query().
-//		Select(registrationinvitation.FieldInviterID).
+//		Select(registrationinvitation.FieldCreateAt).
 //		Scan(ctx, &v)
 //
 func (riq *RegistrationInvitationQuery) Select(fields ...string) *RegistrationInvitationSelect {

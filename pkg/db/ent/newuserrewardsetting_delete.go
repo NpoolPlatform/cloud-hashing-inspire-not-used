@@ -72,7 +72,7 @@ func (nursd *NewUserRewardSettingDelete) sqlExec(ctx context.Context) (int, erro
 		Node: &sqlgraph.NodeSpec{
 			Table: newuserrewardsetting.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: newuserrewardsetting.FieldID,
 			},
 		},

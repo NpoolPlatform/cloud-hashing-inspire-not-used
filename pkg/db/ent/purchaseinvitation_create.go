@@ -7,10 +7,12 @@ import (
 	"errors"
 	"fmt"
 
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
+	"github.com/google/uuid"
 )
 
 // PurchaseInvitationCreate is the builder for creating a PurchaseInvitation entity.
@@ -19,6 +21,72 @@ type PurchaseInvitationCreate struct {
 	mutation *PurchaseInvitationMutation
 	hooks    []Hook
 	conflict []sql.ConflictOption
+}
+
+// SetAppID sets the "app_id" field.
+func (pic *PurchaseInvitationCreate) SetAppID(u uuid.UUID) *PurchaseInvitationCreate {
+	pic.mutation.SetAppID(u)
+	return pic
+}
+
+// SetOrderID sets the "order_id" field.
+func (pic *PurchaseInvitationCreate) SetOrderID(u uuid.UUID) *PurchaseInvitationCreate {
+	pic.mutation.SetOrderID(u)
+	return pic
+}
+
+// SetInvitationCodeID sets the "invitation_code_id" field.
+func (pic *PurchaseInvitationCreate) SetInvitationCodeID(u uuid.UUID) *PurchaseInvitationCreate {
+	pic.mutation.SetInvitationCodeID(u)
+	return pic
+}
+
+// SetCreateAt sets the "create_at" field.
+func (pic *PurchaseInvitationCreate) SetCreateAt(u uint32) *PurchaseInvitationCreate {
+	pic.mutation.SetCreateAt(u)
+	return pic
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (pic *PurchaseInvitationCreate) SetNillableCreateAt(u *uint32) *PurchaseInvitationCreate {
+	if u != nil {
+		pic.SetCreateAt(*u)
+	}
+	return pic
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (pic *PurchaseInvitationCreate) SetUpdateAt(u uint32) *PurchaseInvitationCreate {
+	pic.mutation.SetUpdateAt(u)
+	return pic
+}
+
+// SetNillableUpdateAt sets the "update_at" field if the given value is not nil.
+func (pic *PurchaseInvitationCreate) SetNillableUpdateAt(u *uint32) *PurchaseInvitationCreate {
+	if u != nil {
+		pic.SetUpdateAt(*u)
+	}
+	return pic
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (pic *PurchaseInvitationCreate) SetDeleteAt(u uint32) *PurchaseInvitationCreate {
+	pic.mutation.SetDeleteAt(u)
+	return pic
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (pic *PurchaseInvitationCreate) SetNillableDeleteAt(u *uint32) *PurchaseInvitationCreate {
+	if u != nil {
+		pic.SetDeleteAt(*u)
+	}
+	return pic
+}
+
+// SetID sets the "id" field.
+func (pic *PurchaseInvitationCreate) SetID(u uuid.UUID) *PurchaseInvitationCreate {
+	pic.mutation.SetID(u)
+	return pic
 }
 
 // Mutation returns the PurchaseInvitationMutation object of the builder.
@@ -32,6 +100,7 @@ func (pic *PurchaseInvitationCreate) Save(ctx context.Context) (*PurchaseInvitat
 		err  error
 		node *PurchaseInvitation
 	)
+	pic.defaults()
 	if len(pic.hooks) == 0 {
 		if err = pic.check(); err != nil {
 			return nil, err
@@ -89,8 +158,46 @@ func (pic *PurchaseInvitationCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (pic *PurchaseInvitationCreate) defaults() {
+	if _, ok := pic.mutation.CreateAt(); !ok {
+		v := purchaseinvitation.DefaultCreateAt()
+		pic.mutation.SetCreateAt(v)
+	}
+	if _, ok := pic.mutation.UpdateAt(); !ok {
+		v := purchaseinvitation.DefaultUpdateAt()
+		pic.mutation.SetUpdateAt(v)
+	}
+	if _, ok := pic.mutation.DeleteAt(); !ok {
+		v := purchaseinvitation.DefaultDeleteAt()
+		pic.mutation.SetDeleteAt(v)
+	}
+	if _, ok := pic.mutation.ID(); !ok {
+		v := purchaseinvitation.DefaultID()
+		pic.mutation.SetID(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (pic *PurchaseInvitationCreate) check() error {
+	if _, ok := pic.mutation.AppID(); !ok {
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+	}
+	if _, ok := pic.mutation.OrderID(); !ok {
+		return &ValidationError{Name: "order_id", err: errors.New(`ent: missing required field "order_id"`)}
+	}
+	if _, ok := pic.mutation.InvitationCodeID(); !ok {
+		return &ValidationError{Name: "invitation_code_id", err: errors.New(`ent: missing required field "invitation_code_id"`)}
+	}
+	if _, ok := pic.mutation.CreateAt(); !ok {
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+	}
+	if _, ok := pic.mutation.UpdateAt(); !ok {
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+	}
+	if _, ok := pic.mutation.DeleteAt(); !ok {
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+	}
 	return nil
 }
 
@@ -102,8 +209,9 @@ func (pic *PurchaseInvitationCreate) sqlSave(ctx context.Context) (*PurchaseInvi
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != nil {
+		_node.ID = _spec.ID.Value.(uuid.UUID)
+	}
 	return _node, nil
 }
 
@@ -113,12 +221,64 @@ func (pic *PurchaseInvitationCreate) createSpec() (*PurchaseInvitation, *sqlgrap
 		_spec = &sqlgraph.CreateSpec{
 			Table: purchaseinvitation.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: purchaseinvitation.FieldID,
 			},
 		}
 	)
 	_spec.OnConflict = pic.conflict
+	if id, ok := pic.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
+	if value, ok := pic.mutation.AppID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: purchaseinvitation.FieldAppID,
+		})
+		_node.AppID = value
+	}
+	if value, ok := pic.mutation.OrderID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: purchaseinvitation.FieldOrderID,
+		})
+		_node.OrderID = value
+	}
+	if value, ok := pic.mutation.InvitationCodeID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: purchaseinvitation.FieldInvitationCodeID,
+		})
+		_node.InvitationCodeID = value
+	}
+	if value, ok := pic.mutation.CreateAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldCreateAt,
+		})
+		_node.CreateAt = value
+	}
+	if value, ok := pic.mutation.UpdateAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldUpdateAt,
+		})
+		_node.UpdateAt = value
+	}
+	if value, ok := pic.mutation.DeleteAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: purchaseinvitation.FieldDeleteAt,
+		})
+		_node.DeleteAt = value
+	}
 	return _node, _spec
 }
 
@@ -126,11 +286,17 @@ func (pic *PurchaseInvitationCreate) createSpec() (*PurchaseInvitation, *sqlgrap
 // of the `INSERT` statement. For example:
 //
 //	client.PurchaseInvitation.Create().
+//		SetAppID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.PurchaseInvitationUpsert) {
+//			SetAppID(v+v).
+//		}).
 //		Exec(ctx)
 //
 func (pic *PurchaseInvitationCreate) OnConflict(opts ...sql.ConflictOption) *PurchaseInvitationUpsertOne {
@@ -167,17 +333,97 @@ type (
 	}
 )
 
-// UpdateNewValues updates the fields using the new values that were set on create.
+// SetAppID sets the "app_id" field.
+func (u *PurchaseInvitationUpsert) SetAppID(v uuid.UUID) *PurchaseInvitationUpsert {
+	u.Set(purchaseinvitation.FieldAppID, v)
+	return u
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsert) UpdateAppID() *PurchaseInvitationUpsert {
+	u.SetExcluded(purchaseinvitation.FieldAppID)
+	return u
+}
+
+// SetOrderID sets the "order_id" field.
+func (u *PurchaseInvitationUpsert) SetOrderID(v uuid.UUID) *PurchaseInvitationUpsert {
+	u.Set(purchaseinvitation.FieldOrderID, v)
+	return u
+}
+
+// UpdateOrderID sets the "order_id" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsert) UpdateOrderID() *PurchaseInvitationUpsert {
+	u.SetExcluded(purchaseinvitation.FieldOrderID)
+	return u
+}
+
+// SetInvitationCodeID sets the "invitation_code_id" field.
+func (u *PurchaseInvitationUpsert) SetInvitationCodeID(v uuid.UUID) *PurchaseInvitationUpsert {
+	u.Set(purchaseinvitation.FieldInvitationCodeID, v)
+	return u
+}
+
+// UpdateInvitationCodeID sets the "invitation_code_id" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsert) UpdateInvitationCodeID() *PurchaseInvitationUpsert {
+	u.SetExcluded(purchaseinvitation.FieldInvitationCodeID)
+	return u
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *PurchaseInvitationUpsert) SetCreateAt(v uint32) *PurchaseInvitationUpsert {
+	u.Set(purchaseinvitation.FieldCreateAt, v)
+	return u
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsert) UpdateCreateAt() *PurchaseInvitationUpsert {
+	u.SetExcluded(purchaseinvitation.FieldCreateAt)
+	return u
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *PurchaseInvitationUpsert) SetUpdateAt(v uint32) *PurchaseInvitationUpsert {
+	u.Set(purchaseinvitation.FieldUpdateAt, v)
+	return u
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsert) UpdateUpdateAt() *PurchaseInvitationUpsert {
+	u.SetExcluded(purchaseinvitation.FieldUpdateAt)
+	return u
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *PurchaseInvitationUpsert) SetDeleteAt(v uint32) *PurchaseInvitationUpsert {
+	u.Set(purchaseinvitation.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsert) UpdateDeleteAt() *PurchaseInvitationUpsert {
+	u.SetExcluded(purchaseinvitation.FieldDeleteAt)
+	return u
+}
+
+// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.PurchaseInvitation.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(purchaseinvitation.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 //
 func (u *PurchaseInvitationUpsertOne) UpdateNewValues() *PurchaseInvitationUpsertOne {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(purchaseinvitation.FieldID)
+		}
+	}))
 	return u
 }
 
@@ -209,6 +455,90 @@ func (u *PurchaseInvitationUpsertOne) Update(set func(*PurchaseInvitationUpsert)
 	return u
 }
 
+// SetAppID sets the "app_id" field.
+func (u *PurchaseInvitationUpsertOne) SetAppID(v uuid.UUID) *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertOne) UpdateAppID() *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateAppID()
+	})
+}
+
+// SetOrderID sets the "order_id" field.
+func (u *PurchaseInvitationUpsertOne) SetOrderID(v uuid.UUID) *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetOrderID(v)
+	})
+}
+
+// UpdateOrderID sets the "order_id" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertOne) UpdateOrderID() *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateOrderID()
+	})
+}
+
+// SetInvitationCodeID sets the "invitation_code_id" field.
+func (u *PurchaseInvitationUpsertOne) SetInvitationCodeID(v uuid.UUID) *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetInvitationCodeID(v)
+	})
+}
+
+// UpdateInvitationCodeID sets the "invitation_code_id" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertOne) UpdateInvitationCodeID() *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateInvitationCodeID()
+	})
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *PurchaseInvitationUpsertOne) SetCreateAt(v uint32) *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetCreateAt(v)
+	})
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertOne) UpdateCreateAt() *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateCreateAt()
+	})
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *PurchaseInvitationUpsertOne) SetUpdateAt(v uint32) *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetUpdateAt(v)
+	})
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertOne) UpdateUpdateAt() *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateUpdateAt()
+	})
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *PurchaseInvitationUpsertOne) SetDeleteAt(v uint32) *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetDeleteAt(v)
+	})
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertOne) UpdateDeleteAt() *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateDeleteAt()
+	})
+}
+
 // Exec executes the query.
 func (u *PurchaseInvitationUpsertOne) Exec(ctx context.Context) error {
 	if len(u.create.conflict) == 0 {
@@ -225,7 +555,12 @@ func (u *PurchaseInvitationUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *PurchaseInvitationUpsertOne) ID(ctx context.Context) (id int, err error) {
+func (u *PurchaseInvitationUpsertOne) ID(ctx context.Context) (id uuid.UUID, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: PurchaseInvitationUpsertOne.ID is not supported by MySQL driver. Use PurchaseInvitationUpsertOne.Exec instead")
+	}
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -234,7 +569,7 @@ func (u *PurchaseInvitationUpsertOne) ID(ctx context.Context) (id int, err error
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *PurchaseInvitationUpsertOne) IDX(ctx context.Context) int {
+func (u *PurchaseInvitationUpsertOne) IDX(ctx context.Context) uuid.UUID {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -257,6 +592,7 @@ func (picb *PurchaseInvitationCreateBulk) Save(ctx context.Context) ([]*Purchase
 	for i := range picb.builders {
 		func(i int, root context.Context) {
 			builder := picb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PurchaseInvitationMutation)
 				if !ok {
@@ -285,10 +621,6 @@ func (picb *PurchaseInvitationCreateBulk) Save(ctx context.Context) ([]*Purchase
 				}
 				mutation.id = &nodes[i].ID
 				mutation.done = true
-				if specs[i].ID.Value != nil {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
-				}
 				return nodes[i], nil
 			})
 			for i := len(builder.hooks) - 1; i >= 0; i-- {
@@ -336,6 +668,11 @@ func (picb *PurchaseInvitationCreateBulk) ExecX(ctx context.Context) {
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.PurchaseInvitationUpsert) {
+//			SetAppID(v+v).
+//		}).
 //		Exec(ctx)
 //
 func (picb *PurchaseInvitationCreateBulk) OnConflict(opts ...sql.ConflictOption) *PurchaseInvitationUpsertBulk {
@@ -371,11 +708,22 @@ type PurchaseInvitationUpsertBulk struct {
 //	client.PurchaseInvitation.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(purchaseinvitation.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 //
 func (u *PurchaseInvitationUpsertBulk) UpdateNewValues() *PurchaseInvitationUpsertBulk {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(purchaseinvitation.FieldID)
+				return
+			}
+		}
+	}))
 	return u
 }
 
@@ -405,6 +753,90 @@ func (u *PurchaseInvitationUpsertBulk) Update(set func(*PurchaseInvitationUpsert
 		set(&PurchaseInvitationUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetAppID sets the "app_id" field.
+func (u *PurchaseInvitationUpsertBulk) SetAppID(v uuid.UUID) *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertBulk) UpdateAppID() *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateAppID()
+	})
+}
+
+// SetOrderID sets the "order_id" field.
+func (u *PurchaseInvitationUpsertBulk) SetOrderID(v uuid.UUID) *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetOrderID(v)
+	})
+}
+
+// UpdateOrderID sets the "order_id" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertBulk) UpdateOrderID() *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateOrderID()
+	})
+}
+
+// SetInvitationCodeID sets the "invitation_code_id" field.
+func (u *PurchaseInvitationUpsertBulk) SetInvitationCodeID(v uuid.UUID) *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetInvitationCodeID(v)
+	})
+}
+
+// UpdateInvitationCodeID sets the "invitation_code_id" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertBulk) UpdateInvitationCodeID() *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateInvitationCodeID()
+	})
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *PurchaseInvitationUpsertBulk) SetCreateAt(v uint32) *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetCreateAt(v)
+	})
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertBulk) UpdateCreateAt() *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateCreateAt()
+	})
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *PurchaseInvitationUpsertBulk) SetUpdateAt(v uint32) *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetUpdateAt(v)
+	})
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertBulk) UpdateUpdateAt() *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateUpdateAt()
+	})
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *PurchaseInvitationUpsertBulk) SetDeleteAt(v uint32) *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.SetDeleteAt(v)
+	})
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *PurchaseInvitationUpsertBulk) UpdateDeleteAt() *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.UpdateDeleteAt()
+	})
 }
 
 // Exec executes the query.

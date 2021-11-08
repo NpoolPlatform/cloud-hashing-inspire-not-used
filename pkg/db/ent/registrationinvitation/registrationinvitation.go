@@ -11,18 +11,18 @@ const (
 	Label = "registration_invitation"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldInviterID holds the string denoting the inviter_id field in the database.
-	FieldInviterID = "inviter_id"
-	// FieldInviteeID holds the string denoting the invitee_id field in the database.
-	FieldInviteeID = "invitee_id"
-	// FieldAppID holds the string denoting the app_id field in the database.
-	FieldAppID = "app_id"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
 	FieldUpdateAt = "update_at"
 	// FieldDeleteAt holds the string denoting the delete_at field in the database.
 	FieldDeleteAt = "delete_at"
+	// FieldInviterID holds the string denoting the inviter_id field in the database.
+	FieldInviterID = "inviter_id"
+	// FieldInviteeID holds the string denoting the invitee_id field in the database.
+	FieldInviteeID = "invitee_id"
+	// FieldAppID holds the string denoting the app_id field in the database.
+	FieldAppID = "app_id"
 	// Table holds the table name of the registrationinvitation in the database.
 	Table = "registration_invitations"
 )
@@ -30,12 +30,12 @@ const (
 // Columns holds all SQL columns for registrationinvitation fields.
 var Columns = []string{
 	FieldID,
-	FieldInviterID,
-	FieldInviteeID,
-	FieldAppID,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,
+	FieldInviterID,
+	FieldInviteeID,
+	FieldAppID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

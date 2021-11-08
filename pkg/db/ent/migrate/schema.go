@@ -10,7 +10,17 @@ import (
 var (
 	// AgencySettingsColumns holds the columns for the "agency_settings" table.
 	AgencySettingsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID, Unique: true},
+		{Name: "registration_reward_threshold", Type: field.TypeInt},
+		{Name: "registration_reward_amount", Type: field.TypeInt},
+		{Name: "kyc_reward_threshold", Type: field.TypeInt},
+		{Name: "kyc_reward_amount", Type: field.TypeInt},
+		{Name: "purchase_reward_percent", Type: field.TypeInt},
+		{Name: "purchase_reward_chain_levels", Type: field.TypeInt},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
 	}
 	// AgencySettingsTable holds the schema information for the "agency_settings" table.
 	AgencySettingsTable = &schema.Table{
@@ -75,7 +85,13 @@ var (
 	}
 	// NewUserRewardSettingsColumns holds the columns for the "new_user_reward_settings" table.
 	NewUserRewardSettingsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID, Unique: true},
+		{Name: "registration_coupon_id", Type: field.TypeUUID, Unique: true},
+		{Name: "kyc_coupon_id", Type: field.TypeUUID, Unique: true},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
 	}
 	// NewUserRewardSettingsTable holds the schema information for the "new_user_reward_settings" table.
 	NewUserRewardSettingsTable = &schema.Table{
@@ -85,7 +101,13 @@ var (
 	}
 	// PurchaseInvitationsColumns holds the columns for the "purchase_invitations" table.
 	PurchaseInvitationsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "order_id", Type: field.TypeUUID},
+		{Name: "invitation_code_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
 	}
 	// PurchaseInvitationsTable holds the schema information for the "purchase_invitations" table.
 	PurchaseInvitationsTable = &schema.Table{
@@ -96,12 +118,12 @@ var (
 	// RegistrationInvitationsColumns holds the columns for the "registration_invitations" table.
 	RegistrationInvitationsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "inviter_id", Type: field.TypeUUID},
-		{Name: "invitee_id", Type: field.TypeUUID},
-		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
+		{Name: "inviter_id", Type: field.TypeUUID},
+		{Name: "invitee_id", Type: field.TypeUUID},
+		{Name: "app_id", Type: field.TypeUUID},
 	}
 	// RegistrationInvitationsTable holds the schema information for the "registration_invitations" table.
 	RegistrationInvitationsTable = &schema.Table{

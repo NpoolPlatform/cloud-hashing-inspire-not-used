@@ -7,10 +7,13 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/agencysetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
 	"github.com/google/uuid"
@@ -40,13 +43,32 @@ const (
 // AgencySettingMutation represents an operation that mutates the AgencySetting nodes in the graph.
 type AgencySettingMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *int
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*AgencySetting, error)
-	predicates    []predicate.AgencySetting
+	op                               Op
+	typ                              string
+	id                               *uuid.UUID
+	app_id                           *uuid.UUID
+	registration_reward_threshold    *int
+	addregistration_reward_threshold *int
+	registration_reward_amount       *int
+	addregistration_reward_amount    *int
+	kyc_reward_threshold             *int
+	addkyc_reward_threshold          *int
+	kyc_reward_amount                *int
+	addkyc_reward_amount             *int
+	purchase_reward_percent          *int
+	addpurchase_reward_percent       *int
+	purchase_reward_chain_levels     *int
+	addpurchase_reward_chain_levels  *int
+	create_at                        *uint32
+	addcreate_at                     *uint32
+	update_at                        *uint32
+	addupdate_at                     *uint32
+	delete_at                        *uint32
+	adddelete_at                     *uint32
+	clearedFields                    map[string]struct{}
+	done                             bool
+	oldValue                         func(context.Context) (*AgencySetting, error)
+	predicates                       []predicate.AgencySetting
 }
 
 var _ ent.Mutation = (*AgencySettingMutation)(nil)
@@ -69,7 +91,7 @@ func newAgencySettingMutation(c config, op Op, opts ...agencysettingOption) *Age
 }
 
 // withAgencySettingID sets the ID field of the mutation.
-func withAgencySettingID(id int) agencysettingOption {
+func withAgencySettingID(id uuid.UUID) agencysettingOption {
 	return func(m *AgencySettingMutation) {
 		var (
 			err   error
@@ -119,13 +141,559 @@ func (m AgencySettingMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of AgencySetting entities.
+func (m *AgencySettingMutation) SetID(id uuid.UUID) {
+	m.id = &id
+}
+
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *AgencySettingMutation) ID() (id int, exists bool) {
+func (m *AgencySettingMutation) ID() (id uuid.UUID, exists bool) {
 	if m.id == nil {
 		return
 	}
 	return *m.id, true
+}
+
+// SetAppID sets the "app_id" field.
+func (m *AgencySettingMutation) SetAppID(u uuid.UUID) {
+	m.app_id = &u
+}
+
+// AppID returns the value of the "app_id" field in the mutation.
+func (m *AgencySettingMutation) AppID() (r uuid.UUID, exists bool) {
+	v := m.app_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAppID returns the old "app_id" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
+	}
+	return oldValue.AppID, nil
+}
+
+// ResetAppID resets all changes to the "app_id" field.
+func (m *AgencySettingMutation) ResetAppID() {
+	m.app_id = nil
+}
+
+// SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
+func (m *AgencySettingMutation) SetRegistrationRewardThreshold(i int) {
+	m.registration_reward_threshold = &i
+	m.addregistration_reward_threshold = nil
+}
+
+// RegistrationRewardThreshold returns the value of the "registration_reward_threshold" field in the mutation.
+func (m *AgencySettingMutation) RegistrationRewardThreshold() (r int, exists bool) {
+	v := m.registration_reward_threshold
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRegistrationRewardThreshold returns the old "registration_reward_threshold" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldRegistrationRewardThreshold(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldRegistrationRewardThreshold is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldRegistrationRewardThreshold requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRegistrationRewardThreshold: %w", err)
+	}
+	return oldValue.RegistrationRewardThreshold, nil
+}
+
+// AddRegistrationRewardThreshold adds i to the "registration_reward_threshold" field.
+func (m *AgencySettingMutation) AddRegistrationRewardThreshold(i int) {
+	if m.addregistration_reward_threshold != nil {
+		*m.addregistration_reward_threshold += i
+	} else {
+		m.addregistration_reward_threshold = &i
+	}
+}
+
+// AddedRegistrationRewardThreshold returns the value that was added to the "registration_reward_threshold" field in this mutation.
+func (m *AgencySettingMutation) AddedRegistrationRewardThreshold() (r int, exists bool) {
+	v := m.addregistration_reward_threshold
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetRegistrationRewardThreshold resets all changes to the "registration_reward_threshold" field.
+func (m *AgencySettingMutation) ResetRegistrationRewardThreshold() {
+	m.registration_reward_threshold = nil
+	m.addregistration_reward_threshold = nil
+}
+
+// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
+func (m *AgencySettingMutation) SetRegistrationRewardAmount(i int) {
+	m.registration_reward_amount = &i
+	m.addregistration_reward_amount = nil
+}
+
+// RegistrationRewardAmount returns the value of the "registration_reward_amount" field in the mutation.
+func (m *AgencySettingMutation) RegistrationRewardAmount() (r int, exists bool) {
+	v := m.registration_reward_amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRegistrationRewardAmount returns the old "registration_reward_amount" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldRegistrationRewardAmount(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldRegistrationRewardAmount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldRegistrationRewardAmount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRegistrationRewardAmount: %w", err)
+	}
+	return oldValue.RegistrationRewardAmount, nil
+}
+
+// AddRegistrationRewardAmount adds i to the "registration_reward_amount" field.
+func (m *AgencySettingMutation) AddRegistrationRewardAmount(i int) {
+	if m.addregistration_reward_amount != nil {
+		*m.addregistration_reward_amount += i
+	} else {
+		m.addregistration_reward_amount = &i
+	}
+}
+
+// AddedRegistrationRewardAmount returns the value that was added to the "registration_reward_amount" field in this mutation.
+func (m *AgencySettingMutation) AddedRegistrationRewardAmount() (r int, exists bool) {
+	v := m.addregistration_reward_amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetRegistrationRewardAmount resets all changes to the "registration_reward_amount" field.
+func (m *AgencySettingMutation) ResetRegistrationRewardAmount() {
+	m.registration_reward_amount = nil
+	m.addregistration_reward_amount = nil
+}
+
+// SetKycRewardThreshold sets the "kyc_reward_threshold" field.
+func (m *AgencySettingMutation) SetKycRewardThreshold(i int) {
+	m.kyc_reward_threshold = &i
+	m.addkyc_reward_threshold = nil
+}
+
+// KycRewardThreshold returns the value of the "kyc_reward_threshold" field in the mutation.
+func (m *AgencySettingMutation) KycRewardThreshold() (r int, exists bool) {
+	v := m.kyc_reward_threshold
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldKycRewardThreshold returns the old "kyc_reward_threshold" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldKycRewardThreshold(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldKycRewardThreshold is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldKycRewardThreshold requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldKycRewardThreshold: %w", err)
+	}
+	return oldValue.KycRewardThreshold, nil
+}
+
+// AddKycRewardThreshold adds i to the "kyc_reward_threshold" field.
+func (m *AgencySettingMutation) AddKycRewardThreshold(i int) {
+	if m.addkyc_reward_threshold != nil {
+		*m.addkyc_reward_threshold += i
+	} else {
+		m.addkyc_reward_threshold = &i
+	}
+}
+
+// AddedKycRewardThreshold returns the value that was added to the "kyc_reward_threshold" field in this mutation.
+func (m *AgencySettingMutation) AddedKycRewardThreshold() (r int, exists bool) {
+	v := m.addkyc_reward_threshold
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetKycRewardThreshold resets all changes to the "kyc_reward_threshold" field.
+func (m *AgencySettingMutation) ResetKycRewardThreshold() {
+	m.kyc_reward_threshold = nil
+	m.addkyc_reward_threshold = nil
+}
+
+// SetKycRewardAmount sets the "kyc_reward_amount" field.
+func (m *AgencySettingMutation) SetKycRewardAmount(i int) {
+	m.kyc_reward_amount = &i
+	m.addkyc_reward_amount = nil
+}
+
+// KycRewardAmount returns the value of the "kyc_reward_amount" field in the mutation.
+func (m *AgencySettingMutation) KycRewardAmount() (r int, exists bool) {
+	v := m.kyc_reward_amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldKycRewardAmount returns the old "kyc_reward_amount" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldKycRewardAmount(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldKycRewardAmount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldKycRewardAmount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldKycRewardAmount: %w", err)
+	}
+	return oldValue.KycRewardAmount, nil
+}
+
+// AddKycRewardAmount adds i to the "kyc_reward_amount" field.
+func (m *AgencySettingMutation) AddKycRewardAmount(i int) {
+	if m.addkyc_reward_amount != nil {
+		*m.addkyc_reward_amount += i
+	} else {
+		m.addkyc_reward_amount = &i
+	}
+}
+
+// AddedKycRewardAmount returns the value that was added to the "kyc_reward_amount" field in this mutation.
+func (m *AgencySettingMutation) AddedKycRewardAmount() (r int, exists bool) {
+	v := m.addkyc_reward_amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetKycRewardAmount resets all changes to the "kyc_reward_amount" field.
+func (m *AgencySettingMutation) ResetKycRewardAmount() {
+	m.kyc_reward_amount = nil
+	m.addkyc_reward_amount = nil
+}
+
+// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
+func (m *AgencySettingMutation) SetPurchaseRewardPercent(i int) {
+	m.purchase_reward_percent = &i
+	m.addpurchase_reward_percent = nil
+}
+
+// PurchaseRewardPercent returns the value of the "purchase_reward_percent" field in the mutation.
+func (m *AgencySettingMutation) PurchaseRewardPercent() (r int, exists bool) {
+	v := m.purchase_reward_percent
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPurchaseRewardPercent returns the old "purchase_reward_percent" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldPurchaseRewardPercent(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldPurchaseRewardPercent is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldPurchaseRewardPercent requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPurchaseRewardPercent: %w", err)
+	}
+	return oldValue.PurchaseRewardPercent, nil
+}
+
+// AddPurchaseRewardPercent adds i to the "purchase_reward_percent" field.
+func (m *AgencySettingMutation) AddPurchaseRewardPercent(i int) {
+	if m.addpurchase_reward_percent != nil {
+		*m.addpurchase_reward_percent += i
+	} else {
+		m.addpurchase_reward_percent = &i
+	}
+}
+
+// AddedPurchaseRewardPercent returns the value that was added to the "purchase_reward_percent" field in this mutation.
+func (m *AgencySettingMutation) AddedPurchaseRewardPercent() (r int, exists bool) {
+	v := m.addpurchase_reward_percent
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPurchaseRewardPercent resets all changes to the "purchase_reward_percent" field.
+func (m *AgencySettingMutation) ResetPurchaseRewardPercent() {
+	m.purchase_reward_percent = nil
+	m.addpurchase_reward_percent = nil
+}
+
+// SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
+func (m *AgencySettingMutation) SetPurchaseRewardChainLevels(i int) {
+	m.purchase_reward_chain_levels = &i
+	m.addpurchase_reward_chain_levels = nil
+}
+
+// PurchaseRewardChainLevels returns the value of the "purchase_reward_chain_levels" field in the mutation.
+func (m *AgencySettingMutation) PurchaseRewardChainLevels() (r int, exists bool) {
+	v := m.purchase_reward_chain_levels
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPurchaseRewardChainLevels returns the old "purchase_reward_chain_levels" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldPurchaseRewardChainLevels(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldPurchaseRewardChainLevels is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldPurchaseRewardChainLevels requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPurchaseRewardChainLevels: %w", err)
+	}
+	return oldValue.PurchaseRewardChainLevels, nil
+}
+
+// AddPurchaseRewardChainLevels adds i to the "purchase_reward_chain_levels" field.
+func (m *AgencySettingMutation) AddPurchaseRewardChainLevels(i int) {
+	if m.addpurchase_reward_chain_levels != nil {
+		*m.addpurchase_reward_chain_levels += i
+	} else {
+		m.addpurchase_reward_chain_levels = &i
+	}
+}
+
+// AddedPurchaseRewardChainLevels returns the value that was added to the "purchase_reward_chain_levels" field in this mutation.
+func (m *AgencySettingMutation) AddedPurchaseRewardChainLevels() (r int, exists bool) {
+	v := m.addpurchase_reward_chain_levels
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPurchaseRewardChainLevels resets all changes to the "purchase_reward_chain_levels" field.
+func (m *AgencySettingMutation) ResetPurchaseRewardChainLevels() {
+	m.purchase_reward_chain_levels = nil
+	m.addpurchase_reward_chain_levels = nil
+}
+
+// SetCreateAt sets the "create_at" field.
+func (m *AgencySettingMutation) SetCreateAt(u uint32) {
+	m.create_at = &u
+	m.addcreate_at = nil
+}
+
+// CreateAt returns the value of the "create_at" field in the mutation.
+func (m *AgencySettingMutation) CreateAt() (r uint32, exists bool) {
+	v := m.create_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateAt returns the old "create_at" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateAt: %w", err)
+	}
+	return oldValue.CreateAt, nil
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (m *AgencySettingMutation) AddCreateAt(u uint32) {
+	if m.addcreate_at != nil {
+		*m.addcreate_at += u
+	} else {
+		m.addcreate_at = &u
+	}
+}
+
+// AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
+func (m *AgencySettingMutation) AddedCreateAt() (r uint32, exists bool) {
+	v := m.addcreate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCreateAt resets all changes to the "create_at" field.
+func (m *AgencySettingMutation) ResetCreateAt() {
+	m.create_at = nil
+	m.addcreate_at = nil
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (m *AgencySettingMutation) SetUpdateAt(u uint32) {
+	m.update_at = &u
+	m.addupdate_at = nil
+}
+
+// UpdateAt returns the value of the "update_at" field in the mutation.
+func (m *AgencySettingMutation) UpdateAt() (r uint32, exists bool) {
+	v := m.update_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateAt returns the old "update_at" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateAt: %w", err)
+	}
+	return oldValue.UpdateAt, nil
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (m *AgencySettingMutation) AddUpdateAt(u uint32) {
+	if m.addupdate_at != nil {
+		*m.addupdate_at += u
+	} else {
+		m.addupdate_at = &u
+	}
+}
+
+// AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
+func (m *AgencySettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+	v := m.addupdate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetUpdateAt resets all changes to the "update_at" field.
+func (m *AgencySettingMutation) ResetUpdateAt() {
+	m.update_at = nil
+	m.addupdate_at = nil
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (m *AgencySettingMutation) SetDeleteAt(u uint32) {
+	m.delete_at = &u
+	m.adddelete_at = nil
+}
+
+// DeleteAt returns the value of the "delete_at" field in the mutation.
+func (m *AgencySettingMutation) DeleteAt() (r uint32, exists bool) {
+	v := m.delete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteAt returns the old "delete_at" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteAt: %w", err)
+	}
+	return oldValue.DeleteAt, nil
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (m *AgencySettingMutation) AddDeleteAt(u uint32) {
+	if m.adddelete_at != nil {
+		*m.adddelete_at += u
+	} else {
+		m.adddelete_at = &u
+	}
+}
+
+// AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
+func (m *AgencySettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+	v := m.adddelete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetDeleteAt resets all changes to the "delete_at" field.
+func (m *AgencySettingMutation) ResetDeleteAt() {
+	m.delete_at = nil
+	m.adddelete_at = nil
 }
 
 // Where appends a list predicates to the AgencySettingMutation builder.
@@ -147,7 +715,37 @@ func (m *AgencySettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AgencySettingMutation) Fields() []string {
-	fields := make([]string, 0, 0)
+	fields := make([]string, 0, 10)
+	if m.app_id != nil {
+		fields = append(fields, agencysetting.FieldAppID)
+	}
+	if m.registration_reward_threshold != nil {
+		fields = append(fields, agencysetting.FieldRegistrationRewardThreshold)
+	}
+	if m.registration_reward_amount != nil {
+		fields = append(fields, agencysetting.FieldRegistrationRewardAmount)
+	}
+	if m.kyc_reward_threshold != nil {
+		fields = append(fields, agencysetting.FieldKycRewardThreshold)
+	}
+	if m.kyc_reward_amount != nil {
+		fields = append(fields, agencysetting.FieldKycRewardAmount)
+	}
+	if m.purchase_reward_percent != nil {
+		fields = append(fields, agencysetting.FieldPurchaseRewardPercent)
+	}
+	if m.purchase_reward_chain_levels != nil {
+		fields = append(fields, agencysetting.FieldPurchaseRewardChainLevels)
+	}
+	if m.create_at != nil {
+		fields = append(fields, agencysetting.FieldCreateAt)
+	}
+	if m.update_at != nil {
+		fields = append(fields, agencysetting.FieldUpdateAt)
+	}
+	if m.delete_at != nil {
+		fields = append(fields, agencysetting.FieldDeleteAt)
+	}
 	return fields
 }
 
@@ -155,6 +753,28 @@ func (m *AgencySettingMutation) Fields() []string {
 // return value indicates that this field was not set, or was not defined in the
 // schema.
 func (m *AgencySettingMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case agencysetting.FieldAppID:
+		return m.AppID()
+	case agencysetting.FieldRegistrationRewardThreshold:
+		return m.RegistrationRewardThreshold()
+	case agencysetting.FieldRegistrationRewardAmount:
+		return m.RegistrationRewardAmount()
+	case agencysetting.FieldKycRewardThreshold:
+		return m.KycRewardThreshold()
+	case agencysetting.FieldKycRewardAmount:
+		return m.KycRewardAmount()
+	case agencysetting.FieldPurchaseRewardPercent:
+		return m.PurchaseRewardPercent()
+	case agencysetting.FieldPurchaseRewardChainLevels:
+		return m.PurchaseRewardChainLevels()
+	case agencysetting.FieldCreateAt:
+		return m.CreateAt()
+	case agencysetting.FieldUpdateAt:
+		return m.UpdateAt()
+	case agencysetting.FieldDeleteAt:
+		return m.DeleteAt()
+	}
 	return nil, false
 }
 
@@ -162,6 +782,28 @@ func (m *AgencySettingMutation) Field(name string) (ent.Value, bool) {
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
 func (m *AgencySettingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case agencysetting.FieldAppID:
+		return m.OldAppID(ctx)
+	case agencysetting.FieldRegistrationRewardThreshold:
+		return m.OldRegistrationRewardThreshold(ctx)
+	case agencysetting.FieldRegistrationRewardAmount:
+		return m.OldRegistrationRewardAmount(ctx)
+	case agencysetting.FieldKycRewardThreshold:
+		return m.OldKycRewardThreshold(ctx)
+	case agencysetting.FieldKycRewardAmount:
+		return m.OldKycRewardAmount(ctx)
+	case agencysetting.FieldPurchaseRewardPercent:
+		return m.OldPurchaseRewardPercent(ctx)
+	case agencysetting.FieldPurchaseRewardChainLevels:
+		return m.OldPurchaseRewardChainLevels(ctx)
+	case agencysetting.FieldCreateAt:
+		return m.OldCreateAt(ctx)
+	case agencysetting.FieldUpdateAt:
+		return m.OldUpdateAt(ctx)
+	case agencysetting.FieldDeleteAt:
+		return m.OldDeleteAt(ctx)
+	}
 	return nil, fmt.Errorf("unknown AgencySetting field %s", name)
 }
 
@@ -170,6 +812,76 @@ func (m *AgencySettingMutation) OldField(ctx context.Context, name string) (ent.
 // type.
 func (m *AgencySettingMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case agencysetting.FieldAppID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAppID(v)
+		return nil
+	case agencysetting.FieldRegistrationRewardThreshold:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRegistrationRewardThreshold(v)
+		return nil
+	case agencysetting.FieldRegistrationRewardAmount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRegistrationRewardAmount(v)
+		return nil
+	case agencysetting.FieldKycRewardThreshold:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetKycRewardThreshold(v)
+		return nil
+	case agencysetting.FieldKycRewardAmount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetKycRewardAmount(v)
+		return nil
+	case agencysetting.FieldPurchaseRewardPercent:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPurchaseRewardPercent(v)
+		return nil
+	case agencysetting.FieldPurchaseRewardChainLevels:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPurchaseRewardChainLevels(v)
+		return nil
+	case agencysetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateAt(v)
+		return nil
+	case agencysetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateAt(v)
+		return nil
+	case agencysetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown AgencySetting field %s", name)
 }
@@ -177,13 +889,61 @@ func (m *AgencySettingMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *AgencySettingMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addregistration_reward_threshold != nil {
+		fields = append(fields, agencysetting.FieldRegistrationRewardThreshold)
+	}
+	if m.addregistration_reward_amount != nil {
+		fields = append(fields, agencysetting.FieldRegistrationRewardAmount)
+	}
+	if m.addkyc_reward_threshold != nil {
+		fields = append(fields, agencysetting.FieldKycRewardThreshold)
+	}
+	if m.addkyc_reward_amount != nil {
+		fields = append(fields, agencysetting.FieldKycRewardAmount)
+	}
+	if m.addpurchase_reward_percent != nil {
+		fields = append(fields, agencysetting.FieldPurchaseRewardPercent)
+	}
+	if m.addpurchase_reward_chain_levels != nil {
+		fields = append(fields, agencysetting.FieldPurchaseRewardChainLevels)
+	}
+	if m.addcreate_at != nil {
+		fields = append(fields, agencysetting.FieldCreateAt)
+	}
+	if m.addupdate_at != nil {
+		fields = append(fields, agencysetting.FieldUpdateAt)
+	}
+	if m.adddelete_at != nil {
+		fields = append(fields, agencysetting.FieldDeleteAt)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *AgencySettingMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case agencysetting.FieldRegistrationRewardThreshold:
+		return m.AddedRegistrationRewardThreshold()
+	case agencysetting.FieldRegistrationRewardAmount:
+		return m.AddedRegistrationRewardAmount()
+	case agencysetting.FieldKycRewardThreshold:
+		return m.AddedKycRewardThreshold()
+	case agencysetting.FieldKycRewardAmount:
+		return m.AddedKycRewardAmount()
+	case agencysetting.FieldPurchaseRewardPercent:
+		return m.AddedPurchaseRewardPercent()
+	case agencysetting.FieldPurchaseRewardChainLevels:
+		return m.AddedPurchaseRewardChainLevels()
+	case agencysetting.FieldCreateAt:
+		return m.AddedCreateAt()
+	case agencysetting.FieldUpdateAt:
+		return m.AddedUpdateAt()
+	case agencysetting.FieldDeleteAt:
+		return m.AddedDeleteAt()
+	}
 	return nil, false
 }
 
@@ -191,6 +951,71 @@ func (m *AgencySettingMutation) AddedField(name string) (ent.Value, bool) {
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
 func (m *AgencySettingMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case agencysetting.FieldRegistrationRewardThreshold:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddRegistrationRewardThreshold(v)
+		return nil
+	case agencysetting.FieldRegistrationRewardAmount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddRegistrationRewardAmount(v)
+		return nil
+	case agencysetting.FieldKycRewardThreshold:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddKycRewardThreshold(v)
+		return nil
+	case agencysetting.FieldKycRewardAmount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddKycRewardAmount(v)
+		return nil
+	case agencysetting.FieldPurchaseRewardPercent:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPurchaseRewardPercent(v)
+		return nil
+	case agencysetting.FieldPurchaseRewardChainLevels:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPurchaseRewardChainLevels(v)
+		return nil
+	case agencysetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreateAt(v)
+		return nil
+	case agencysetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdateAt(v)
+		return nil
+	case agencysetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDeleteAt(v)
+		return nil
+	}
 	return fmt.Errorf("unknown AgencySetting numeric field %s", name)
 }
 
@@ -216,6 +1041,38 @@ func (m *AgencySettingMutation) ClearField(name string) error {
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
 func (m *AgencySettingMutation) ResetField(name string) error {
+	switch name {
+	case agencysetting.FieldAppID:
+		m.ResetAppID()
+		return nil
+	case agencysetting.FieldRegistrationRewardThreshold:
+		m.ResetRegistrationRewardThreshold()
+		return nil
+	case agencysetting.FieldRegistrationRewardAmount:
+		m.ResetRegistrationRewardAmount()
+		return nil
+	case agencysetting.FieldKycRewardThreshold:
+		m.ResetKycRewardThreshold()
+		return nil
+	case agencysetting.FieldKycRewardAmount:
+		m.ResetKycRewardAmount()
+		return nil
+	case agencysetting.FieldPurchaseRewardPercent:
+		m.ResetPurchaseRewardPercent()
+		return nil
+	case agencysetting.FieldPurchaseRewardChainLevels:
+		m.ResetPurchaseRewardChainLevels()
+		return nil
+	case agencysetting.FieldCreateAt:
+		m.ResetCreateAt()
+		return nil
+	case agencysetting.FieldUpdateAt:
+		m.ResetUpdateAt()
+		return nil
+	case agencysetting.FieldDeleteAt:
+		m.ResetDeleteAt()
+		return nil
+	}
 	return fmt.Errorf("unknown AgencySetting field %s", name)
 }
 
@@ -2889,13 +3746,22 @@ func (m *CouponPoolMutation) ResetEdge(name string) error {
 // NewUserRewardSettingMutation represents an operation that mutates the NewUserRewardSetting nodes in the graph.
 type NewUserRewardSettingMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *int
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*NewUserRewardSetting, error)
-	predicates    []predicate.NewUserRewardSetting
+	op                     Op
+	typ                    string
+	id                     *uuid.UUID
+	app_id                 *uuid.UUID
+	registration_coupon_id *uuid.UUID
+	kyc_coupon_id          *uuid.UUID
+	create_at              *uint32
+	addcreate_at           *uint32
+	update_at              *uint32
+	addupdate_at           *uint32
+	delete_at              *uint32
+	adddelete_at           *uint32
+	clearedFields          map[string]struct{}
+	done                   bool
+	oldValue               func(context.Context) (*NewUserRewardSetting, error)
+	predicates             []predicate.NewUserRewardSetting
 }
 
 var _ ent.Mutation = (*NewUserRewardSettingMutation)(nil)
@@ -2918,7 +3784,7 @@ func newNewUserRewardSettingMutation(c config, op Op, opts ...newuserrewardsetti
 }
 
 // withNewUserRewardSettingID sets the ID field of the mutation.
-func withNewUserRewardSettingID(id int) newuserrewardsettingOption {
+func withNewUserRewardSettingID(id uuid.UUID) newuserrewardsettingOption {
 	return func(m *NewUserRewardSettingMutation) {
 		var (
 			err   error
@@ -2968,13 +3834,295 @@ func (m NewUserRewardSettingMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of NewUserRewardSetting entities.
+func (m *NewUserRewardSettingMutation) SetID(id uuid.UUID) {
+	m.id = &id
+}
+
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *NewUserRewardSettingMutation) ID() (id int, exists bool) {
+func (m *NewUserRewardSettingMutation) ID() (id uuid.UUID, exists bool) {
 	if m.id == nil {
 		return
 	}
 	return *m.id, true
+}
+
+// SetAppID sets the "app_id" field.
+func (m *NewUserRewardSettingMutation) SetAppID(u uuid.UUID) {
+	m.app_id = &u
+}
+
+// AppID returns the value of the "app_id" field in the mutation.
+func (m *NewUserRewardSettingMutation) AppID() (r uuid.UUID, exists bool) {
+	v := m.app_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAppID returns the old "app_id" field's value of the NewUserRewardSetting entity.
+// If the NewUserRewardSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *NewUserRewardSettingMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
+	}
+	return oldValue.AppID, nil
+}
+
+// ResetAppID resets all changes to the "app_id" field.
+func (m *NewUserRewardSettingMutation) ResetAppID() {
+	m.app_id = nil
+}
+
+// SetRegistrationCouponID sets the "registration_coupon_id" field.
+func (m *NewUserRewardSettingMutation) SetRegistrationCouponID(u uuid.UUID) {
+	m.registration_coupon_id = &u
+}
+
+// RegistrationCouponID returns the value of the "registration_coupon_id" field in the mutation.
+func (m *NewUserRewardSettingMutation) RegistrationCouponID() (r uuid.UUID, exists bool) {
+	v := m.registration_coupon_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRegistrationCouponID returns the old "registration_coupon_id" field's value of the NewUserRewardSetting entity.
+// If the NewUserRewardSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *NewUserRewardSettingMutation) OldRegistrationCouponID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldRegistrationCouponID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldRegistrationCouponID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRegistrationCouponID: %w", err)
+	}
+	return oldValue.RegistrationCouponID, nil
+}
+
+// ResetRegistrationCouponID resets all changes to the "registration_coupon_id" field.
+func (m *NewUserRewardSettingMutation) ResetRegistrationCouponID() {
+	m.registration_coupon_id = nil
+}
+
+// SetKycCouponID sets the "kyc_coupon_id" field.
+func (m *NewUserRewardSettingMutation) SetKycCouponID(u uuid.UUID) {
+	m.kyc_coupon_id = &u
+}
+
+// KycCouponID returns the value of the "kyc_coupon_id" field in the mutation.
+func (m *NewUserRewardSettingMutation) KycCouponID() (r uuid.UUID, exists bool) {
+	v := m.kyc_coupon_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldKycCouponID returns the old "kyc_coupon_id" field's value of the NewUserRewardSetting entity.
+// If the NewUserRewardSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *NewUserRewardSettingMutation) OldKycCouponID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldKycCouponID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldKycCouponID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldKycCouponID: %w", err)
+	}
+	return oldValue.KycCouponID, nil
+}
+
+// ResetKycCouponID resets all changes to the "kyc_coupon_id" field.
+func (m *NewUserRewardSettingMutation) ResetKycCouponID() {
+	m.kyc_coupon_id = nil
+}
+
+// SetCreateAt sets the "create_at" field.
+func (m *NewUserRewardSettingMutation) SetCreateAt(u uint32) {
+	m.create_at = &u
+	m.addcreate_at = nil
+}
+
+// CreateAt returns the value of the "create_at" field in the mutation.
+func (m *NewUserRewardSettingMutation) CreateAt() (r uint32, exists bool) {
+	v := m.create_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateAt returns the old "create_at" field's value of the NewUserRewardSetting entity.
+// If the NewUserRewardSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *NewUserRewardSettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateAt: %w", err)
+	}
+	return oldValue.CreateAt, nil
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (m *NewUserRewardSettingMutation) AddCreateAt(u uint32) {
+	if m.addcreate_at != nil {
+		*m.addcreate_at += u
+	} else {
+		m.addcreate_at = &u
+	}
+}
+
+// AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
+func (m *NewUserRewardSettingMutation) AddedCreateAt() (r uint32, exists bool) {
+	v := m.addcreate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCreateAt resets all changes to the "create_at" field.
+func (m *NewUserRewardSettingMutation) ResetCreateAt() {
+	m.create_at = nil
+	m.addcreate_at = nil
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (m *NewUserRewardSettingMutation) SetUpdateAt(u uint32) {
+	m.update_at = &u
+	m.addupdate_at = nil
+}
+
+// UpdateAt returns the value of the "update_at" field in the mutation.
+func (m *NewUserRewardSettingMutation) UpdateAt() (r uint32, exists bool) {
+	v := m.update_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateAt returns the old "update_at" field's value of the NewUserRewardSetting entity.
+// If the NewUserRewardSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *NewUserRewardSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateAt: %w", err)
+	}
+	return oldValue.UpdateAt, nil
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (m *NewUserRewardSettingMutation) AddUpdateAt(u uint32) {
+	if m.addupdate_at != nil {
+		*m.addupdate_at += u
+	} else {
+		m.addupdate_at = &u
+	}
+}
+
+// AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
+func (m *NewUserRewardSettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+	v := m.addupdate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetUpdateAt resets all changes to the "update_at" field.
+func (m *NewUserRewardSettingMutation) ResetUpdateAt() {
+	m.update_at = nil
+	m.addupdate_at = nil
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (m *NewUserRewardSettingMutation) SetDeleteAt(u uint32) {
+	m.delete_at = &u
+	m.adddelete_at = nil
+}
+
+// DeleteAt returns the value of the "delete_at" field in the mutation.
+func (m *NewUserRewardSettingMutation) DeleteAt() (r uint32, exists bool) {
+	v := m.delete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteAt returns the old "delete_at" field's value of the NewUserRewardSetting entity.
+// If the NewUserRewardSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *NewUserRewardSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteAt: %w", err)
+	}
+	return oldValue.DeleteAt, nil
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (m *NewUserRewardSettingMutation) AddDeleteAt(u uint32) {
+	if m.adddelete_at != nil {
+		*m.adddelete_at += u
+	} else {
+		m.adddelete_at = &u
+	}
+}
+
+// AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
+func (m *NewUserRewardSettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+	v := m.adddelete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetDeleteAt resets all changes to the "delete_at" field.
+func (m *NewUserRewardSettingMutation) ResetDeleteAt() {
+	m.delete_at = nil
+	m.adddelete_at = nil
 }
 
 // Where appends a list predicates to the NewUserRewardSettingMutation builder.
@@ -2996,7 +4144,25 @@ func (m *NewUserRewardSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *NewUserRewardSettingMutation) Fields() []string {
-	fields := make([]string, 0, 0)
+	fields := make([]string, 0, 6)
+	if m.app_id != nil {
+		fields = append(fields, newuserrewardsetting.FieldAppID)
+	}
+	if m.registration_coupon_id != nil {
+		fields = append(fields, newuserrewardsetting.FieldRegistrationCouponID)
+	}
+	if m.kyc_coupon_id != nil {
+		fields = append(fields, newuserrewardsetting.FieldKycCouponID)
+	}
+	if m.create_at != nil {
+		fields = append(fields, newuserrewardsetting.FieldCreateAt)
+	}
+	if m.update_at != nil {
+		fields = append(fields, newuserrewardsetting.FieldUpdateAt)
+	}
+	if m.delete_at != nil {
+		fields = append(fields, newuserrewardsetting.FieldDeleteAt)
+	}
 	return fields
 }
 
@@ -3004,6 +4170,20 @@ func (m *NewUserRewardSettingMutation) Fields() []string {
 // return value indicates that this field was not set, or was not defined in the
 // schema.
 func (m *NewUserRewardSettingMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case newuserrewardsetting.FieldAppID:
+		return m.AppID()
+	case newuserrewardsetting.FieldRegistrationCouponID:
+		return m.RegistrationCouponID()
+	case newuserrewardsetting.FieldKycCouponID:
+		return m.KycCouponID()
+	case newuserrewardsetting.FieldCreateAt:
+		return m.CreateAt()
+	case newuserrewardsetting.FieldUpdateAt:
+		return m.UpdateAt()
+	case newuserrewardsetting.FieldDeleteAt:
+		return m.DeleteAt()
+	}
 	return nil, false
 }
 
@@ -3011,6 +4191,20 @@ func (m *NewUserRewardSettingMutation) Field(name string) (ent.Value, bool) {
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
 func (m *NewUserRewardSettingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case newuserrewardsetting.FieldAppID:
+		return m.OldAppID(ctx)
+	case newuserrewardsetting.FieldRegistrationCouponID:
+		return m.OldRegistrationCouponID(ctx)
+	case newuserrewardsetting.FieldKycCouponID:
+		return m.OldKycCouponID(ctx)
+	case newuserrewardsetting.FieldCreateAt:
+		return m.OldCreateAt(ctx)
+	case newuserrewardsetting.FieldUpdateAt:
+		return m.OldUpdateAt(ctx)
+	case newuserrewardsetting.FieldDeleteAt:
+		return m.OldDeleteAt(ctx)
+	}
 	return nil, fmt.Errorf("unknown NewUserRewardSetting field %s", name)
 }
 
@@ -3019,6 +4213,48 @@ func (m *NewUserRewardSettingMutation) OldField(ctx context.Context, name string
 // type.
 func (m *NewUserRewardSettingMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case newuserrewardsetting.FieldAppID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAppID(v)
+		return nil
+	case newuserrewardsetting.FieldRegistrationCouponID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRegistrationCouponID(v)
+		return nil
+	case newuserrewardsetting.FieldKycCouponID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetKycCouponID(v)
+		return nil
+	case newuserrewardsetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateAt(v)
+		return nil
+	case newuserrewardsetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateAt(v)
+		return nil
+	case newuserrewardsetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown NewUserRewardSetting field %s", name)
 }
@@ -3026,13 +4262,31 @@ func (m *NewUserRewardSettingMutation) SetField(name string, value ent.Value) er
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *NewUserRewardSettingMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addcreate_at != nil {
+		fields = append(fields, newuserrewardsetting.FieldCreateAt)
+	}
+	if m.addupdate_at != nil {
+		fields = append(fields, newuserrewardsetting.FieldUpdateAt)
+	}
+	if m.adddelete_at != nil {
+		fields = append(fields, newuserrewardsetting.FieldDeleteAt)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *NewUserRewardSettingMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case newuserrewardsetting.FieldCreateAt:
+		return m.AddedCreateAt()
+	case newuserrewardsetting.FieldUpdateAt:
+		return m.AddedUpdateAt()
+	case newuserrewardsetting.FieldDeleteAt:
+		return m.AddedDeleteAt()
+	}
 	return nil, false
 }
 
@@ -3040,6 +4294,29 @@ func (m *NewUserRewardSettingMutation) AddedField(name string) (ent.Value, bool)
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
 func (m *NewUserRewardSettingMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case newuserrewardsetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreateAt(v)
+		return nil
+	case newuserrewardsetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdateAt(v)
+		return nil
+	case newuserrewardsetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDeleteAt(v)
+		return nil
+	}
 	return fmt.Errorf("unknown NewUserRewardSetting numeric field %s", name)
 }
 
@@ -3065,6 +4342,26 @@ func (m *NewUserRewardSettingMutation) ClearField(name string) error {
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
 func (m *NewUserRewardSettingMutation) ResetField(name string) error {
+	switch name {
+	case newuserrewardsetting.FieldAppID:
+		m.ResetAppID()
+		return nil
+	case newuserrewardsetting.FieldRegistrationCouponID:
+		m.ResetRegistrationCouponID()
+		return nil
+	case newuserrewardsetting.FieldKycCouponID:
+		m.ResetKycCouponID()
+		return nil
+	case newuserrewardsetting.FieldCreateAt:
+		m.ResetCreateAt()
+		return nil
+	case newuserrewardsetting.FieldUpdateAt:
+		m.ResetUpdateAt()
+		return nil
+	case newuserrewardsetting.FieldDeleteAt:
+		m.ResetDeleteAt()
+		return nil
+	}
 	return fmt.Errorf("unknown NewUserRewardSetting field %s", name)
 }
 
@@ -3119,13 +4416,22 @@ func (m *NewUserRewardSettingMutation) ResetEdge(name string) error {
 // PurchaseInvitationMutation represents an operation that mutates the PurchaseInvitation nodes in the graph.
 type PurchaseInvitationMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *int
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*PurchaseInvitation, error)
-	predicates    []predicate.PurchaseInvitation
+	op                 Op
+	typ                string
+	id                 *uuid.UUID
+	app_id             *uuid.UUID
+	order_id           *uuid.UUID
+	invitation_code_id *uuid.UUID
+	create_at          *uint32
+	addcreate_at       *uint32
+	update_at          *uint32
+	addupdate_at       *uint32
+	delete_at          *uint32
+	adddelete_at       *uint32
+	clearedFields      map[string]struct{}
+	done               bool
+	oldValue           func(context.Context) (*PurchaseInvitation, error)
+	predicates         []predicate.PurchaseInvitation
 }
 
 var _ ent.Mutation = (*PurchaseInvitationMutation)(nil)
@@ -3148,7 +4454,7 @@ func newPurchaseInvitationMutation(c config, op Op, opts ...purchaseinvitationOp
 }
 
 // withPurchaseInvitationID sets the ID field of the mutation.
-func withPurchaseInvitationID(id int) purchaseinvitationOption {
+func withPurchaseInvitationID(id uuid.UUID) purchaseinvitationOption {
 	return func(m *PurchaseInvitationMutation) {
 		var (
 			err   error
@@ -3198,13 +4504,295 @@ func (m PurchaseInvitationMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of PurchaseInvitation entities.
+func (m *PurchaseInvitationMutation) SetID(id uuid.UUID) {
+	m.id = &id
+}
+
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *PurchaseInvitationMutation) ID() (id int, exists bool) {
+func (m *PurchaseInvitationMutation) ID() (id uuid.UUID, exists bool) {
 	if m.id == nil {
 		return
 	}
 	return *m.id, true
+}
+
+// SetAppID sets the "app_id" field.
+func (m *PurchaseInvitationMutation) SetAppID(u uuid.UUID) {
+	m.app_id = &u
+}
+
+// AppID returns the value of the "app_id" field in the mutation.
+func (m *PurchaseInvitationMutation) AppID() (r uuid.UUID, exists bool) {
+	v := m.app_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAppID returns the old "app_id" field's value of the PurchaseInvitation entity.
+// If the PurchaseInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PurchaseInvitationMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
+	}
+	return oldValue.AppID, nil
+}
+
+// ResetAppID resets all changes to the "app_id" field.
+func (m *PurchaseInvitationMutation) ResetAppID() {
+	m.app_id = nil
+}
+
+// SetOrderID sets the "order_id" field.
+func (m *PurchaseInvitationMutation) SetOrderID(u uuid.UUID) {
+	m.order_id = &u
+}
+
+// OrderID returns the value of the "order_id" field in the mutation.
+func (m *PurchaseInvitationMutation) OrderID() (r uuid.UUID, exists bool) {
+	v := m.order_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOrderID returns the old "order_id" field's value of the PurchaseInvitation entity.
+// If the PurchaseInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PurchaseInvitationMutation) OldOrderID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldOrderID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldOrderID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOrderID: %w", err)
+	}
+	return oldValue.OrderID, nil
+}
+
+// ResetOrderID resets all changes to the "order_id" field.
+func (m *PurchaseInvitationMutation) ResetOrderID() {
+	m.order_id = nil
+}
+
+// SetInvitationCodeID sets the "invitation_code_id" field.
+func (m *PurchaseInvitationMutation) SetInvitationCodeID(u uuid.UUID) {
+	m.invitation_code_id = &u
+}
+
+// InvitationCodeID returns the value of the "invitation_code_id" field in the mutation.
+func (m *PurchaseInvitationMutation) InvitationCodeID() (r uuid.UUID, exists bool) {
+	v := m.invitation_code_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInvitationCodeID returns the old "invitation_code_id" field's value of the PurchaseInvitation entity.
+// If the PurchaseInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PurchaseInvitationMutation) OldInvitationCodeID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldInvitationCodeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldInvitationCodeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInvitationCodeID: %w", err)
+	}
+	return oldValue.InvitationCodeID, nil
+}
+
+// ResetInvitationCodeID resets all changes to the "invitation_code_id" field.
+func (m *PurchaseInvitationMutation) ResetInvitationCodeID() {
+	m.invitation_code_id = nil
+}
+
+// SetCreateAt sets the "create_at" field.
+func (m *PurchaseInvitationMutation) SetCreateAt(u uint32) {
+	m.create_at = &u
+	m.addcreate_at = nil
+}
+
+// CreateAt returns the value of the "create_at" field in the mutation.
+func (m *PurchaseInvitationMutation) CreateAt() (r uint32, exists bool) {
+	v := m.create_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateAt returns the old "create_at" field's value of the PurchaseInvitation entity.
+// If the PurchaseInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PurchaseInvitationMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateAt: %w", err)
+	}
+	return oldValue.CreateAt, nil
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (m *PurchaseInvitationMutation) AddCreateAt(u uint32) {
+	if m.addcreate_at != nil {
+		*m.addcreate_at += u
+	} else {
+		m.addcreate_at = &u
+	}
+}
+
+// AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
+func (m *PurchaseInvitationMutation) AddedCreateAt() (r uint32, exists bool) {
+	v := m.addcreate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCreateAt resets all changes to the "create_at" field.
+func (m *PurchaseInvitationMutation) ResetCreateAt() {
+	m.create_at = nil
+	m.addcreate_at = nil
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (m *PurchaseInvitationMutation) SetUpdateAt(u uint32) {
+	m.update_at = &u
+	m.addupdate_at = nil
+}
+
+// UpdateAt returns the value of the "update_at" field in the mutation.
+func (m *PurchaseInvitationMutation) UpdateAt() (r uint32, exists bool) {
+	v := m.update_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateAt returns the old "update_at" field's value of the PurchaseInvitation entity.
+// If the PurchaseInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PurchaseInvitationMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateAt: %w", err)
+	}
+	return oldValue.UpdateAt, nil
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (m *PurchaseInvitationMutation) AddUpdateAt(u uint32) {
+	if m.addupdate_at != nil {
+		*m.addupdate_at += u
+	} else {
+		m.addupdate_at = &u
+	}
+}
+
+// AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
+func (m *PurchaseInvitationMutation) AddedUpdateAt() (r uint32, exists bool) {
+	v := m.addupdate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetUpdateAt resets all changes to the "update_at" field.
+func (m *PurchaseInvitationMutation) ResetUpdateAt() {
+	m.update_at = nil
+	m.addupdate_at = nil
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (m *PurchaseInvitationMutation) SetDeleteAt(u uint32) {
+	m.delete_at = &u
+	m.adddelete_at = nil
+}
+
+// DeleteAt returns the value of the "delete_at" field in the mutation.
+func (m *PurchaseInvitationMutation) DeleteAt() (r uint32, exists bool) {
+	v := m.delete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteAt returns the old "delete_at" field's value of the PurchaseInvitation entity.
+// If the PurchaseInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PurchaseInvitationMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteAt: %w", err)
+	}
+	return oldValue.DeleteAt, nil
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (m *PurchaseInvitationMutation) AddDeleteAt(u uint32) {
+	if m.adddelete_at != nil {
+		*m.adddelete_at += u
+	} else {
+		m.adddelete_at = &u
+	}
+}
+
+// AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
+func (m *PurchaseInvitationMutation) AddedDeleteAt() (r uint32, exists bool) {
+	v := m.adddelete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetDeleteAt resets all changes to the "delete_at" field.
+func (m *PurchaseInvitationMutation) ResetDeleteAt() {
+	m.delete_at = nil
+	m.adddelete_at = nil
 }
 
 // Where appends a list predicates to the PurchaseInvitationMutation builder.
@@ -3226,7 +4814,25 @@ func (m *PurchaseInvitationMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *PurchaseInvitationMutation) Fields() []string {
-	fields := make([]string, 0, 0)
+	fields := make([]string, 0, 6)
+	if m.app_id != nil {
+		fields = append(fields, purchaseinvitation.FieldAppID)
+	}
+	if m.order_id != nil {
+		fields = append(fields, purchaseinvitation.FieldOrderID)
+	}
+	if m.invitation_code_id != nil {
+		fields = append(fields, purchaseinvitation.FieldInvitationCodeID)
+	}
+	if m.create_at != nil {
+		fields = append(fields, purchaseinvitation.FieldCreateAt)
+	}
+	if m.update_at != nil {
+		fields = append(fields, purchaseinvitation.FieldUpdateAt)
+	}
+	if m.delete_at != nil {
+		fields = append(fields, purchaseinvitation.FieldDeleteAt)
+	}
 	return fields
 }
 
@@ -3234,6 +4840,20 @@ func (m *PurchaseInvitationMutation) Fields() []string {
 // return value indicates that this field was not set, or was not defined in the
 // schema.
 func (m *PurchaseInvitationMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case purchaseinvitation.FieldAppID:
+		return m.AppID()
+	case purchaseinvitation.FieldOrderID:
+		return m.OrderID()
+	case purchaseinvitation.FieldInvitationCodeID:
+		return m.InvitationCodeID()
+	case purchaseinvitation.FieldCreateAt:
+		return m.CreateAt()
+	case purchaseinvitation.FieldUpdateAt:
+		return m.UpdateAt()
+	case purchaseinvitation.FieldDeleteAt:
+		return m.DeleteAt()
+	}
 	return nil, false
 }
 
@@ -3241,6 +4861,20 @@ func (m *PurchaseInvitationMutation) Field(name string) (ent.Value, bool) {
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
 func (m *PurchaseInvitationMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case purchaseinvitation.FieldAppID:
+		return m.OldAppID(ctx)
+	case purchaseinvitation.FieldOrderID:
+		return m.OldOrderID(ctx)
+	case purchaseinvitation.FieldInvitationCodeID:
+		return m.OldInvitationCodeID(ctx)
+	case purchaseinvitation.FieldCreateAt:
+		return m.OldCreateAt(ctx)
+	case purchaseinvitation.FieldUpdateAt:
+		return m.OldUpdateAt(ctx)
+	case purchaseinvitation.FieldDeleteAt:
+		return m.OldDeleteAt(ctx)
+	}
 	return nil, fmt.Errorf("unknown PurchaseInvitation field %s", name)
 }
 
@@ -3249,6 +4883,48 @@ func (m *PurchaseInvitationMutation) OldField(ctx context.Context, name string) 
 // type.
 func (m *PurchaseInvitationMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case purchaseinvitation.FieldAppID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAppID(v)
+		return nil
+	case purchaseinvitation.FieldOrderID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOrderID(v)
+		return nil
+	case purchaseinvitation.FieldInvitationCodeID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInvitationCodeID(v)
+		return nil
+	case purchaseinvitation.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateAt(v)
+		return nil
+	case purchaseinvitation.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateAt(v)
+		return nil
+	case purchaseinvitation.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown PurchaseInvitation field %s", name)
 }
@@ -3256,13 +4932,31 @@ func (m *PurchaseInvitationMutation) SetField(name string, value ent.Value) erro
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *PurchaseInvitationMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addcreate_at != nil {
+		fields = append(fields, purchaseinvitation.FieldCreateAt)
+	}
+	if m.addupdate_at != nil {
+		fields = append(fields, purchaseinvitation.FieldUpdateAt)
+	}
+	if m.adddelete_at != nil {
+		fields = append(fields, purchaseinvitation.FieldDeleteAt)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *PurchaseInvitationMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case purchaseinvitation.FieldCreateAt:
+		return m.AddedCreateAt()
+	case purchaseinvitation.FieldUpdateAt:
+		return m.AddedUpdateAt()
+	case purchaseinvitation.FieldDeleteAt:
+		return m.AddedDeleteAt()
+	}
 	return nil, false
 }
 
@@ -3270,6 +4964,29 @@ func (m *PurchaseInvitationMutation) AddedField(name string) (ent.Value, bool) {
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
 func (m *PurchaseInvitationMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case purchaseinvitation.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreateAt(v)
+		return nil
+	case purchaseinvitation.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdateAt(v)
+		return nil
+	case purchaseinvitation.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDeleteAt(v)
+		return nil
+	}
 	return fmt.Errorf("unknown PurchaseInvitation numeric field %s", name)
 }
 
@@ -3295,6 +5012,26 @@ func (m *PurchaseInvitationMutation) ClearField(name string) error {
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
 func (m *PurchaseInvitationMutation) ResetField(name string) error {
+	switch name {
+	case purchaseinvitation.FieldAppID:
+		m.ResetAppID()
+		return nil
+	case purchaseinvitation.FieldOrderID:
+		m.ResetOrderID()
+		return nil
+	case purchaseinvitation.FieldInvitationCodeID:
+		m.ResetInvitationCodeID()
+		return nil
+	case purchaseinvitation.FieldCreateAt:
+		m.ResetCreateAt()
+		return nil
+	case purchaseinvitation.FieldUpdateAt:
+		m.ResetUpdateAt()
+		return nil
+	case purchaseinvitation.FieldDeleteAt:
+		m.ResetDeleteAt()
+		return nil
+	}
 	return fmt.Errorf("unknown PurchaseInvitation field %s", name)
 }
 
@@ -3352,15 +5089,15 @@ type RegistrationInvitationMutation struct {
 	op            Op
 	typ           string
 	id            *uuid.UUID
-	inviter_id    *uuid.UUID
-	invitee_id    *uuid.UUID
-	app_id        *uuid.UUID
 	create_at     *uint32
 	addcreate_at  *uint32
 	update_at     *uint32
 	addupdate_at  *uint32
 	delete_at     *uint32
 	adddelete_at  *uint32
+	inviter_id    *uuid.UUID
+	invitee_id    *uuid.UUID
+	app_id        *uuid.UUID
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*RegistrationInvitation, error)
@@ -3450,114 +5187,6 @@ func (m *RegistrationInvitationMutation) ID() (id uuid.UUID, exists bool) {
 		return
 	}
 	return *m.id, true
-}
-
-// SetInviterID sets the "inviter_id" field.
-func (m *RegistrationInvitationMutation) SetInviterID(u uuid.UUID) {
-	m.inviter_id = &u
-}
-
-// InviterID returns the value of the "inviter_id" field in the mutation.
-func (m *RegistrationInvitationMutation) InviterID() (r uuid.UUID, exists bool) {
-	v := m.inviter_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldInviterID returns the old "inviter_id" field's value of the RegistrationInvitation entity.
-// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RegistrationInvitationMutation) OldInviterID(ctx context.Context) (v uuid.UUID, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldInviterID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldInviterID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldInviterID: %w", err)
-	}
-	return oldValue.InviterID, nil
-}
-
-// ResetInviterID resets all changes to the "inviter_id" field.
-func (m *RegistrationInvitationMutation) ResetInviterID() {
-	m.inviter_id = nil
-}
-
-// SetInviteeID sets the "invitee_id" field.
-func (m *RegistrationInvitationMutation) SetInviteeID(u uuid.UUID) {
-	m.invitee_id = &u
-}
-
-// InviteeID returns the value of the "invitee_id" field in the mutation.
-func (m *RegistrationInvitationMutation) InviteeID() (r uuid.UUID, exists bool) {
-	v := m.invitee_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldInviteeID returns the old "invitee_id" field's value of the RegistrationInvitation entity.
-// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RegistrationInvitationMutation) OldInviteeID(ctx context.Context) (v uuid.UUID, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldInviteeID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldInviteeID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldInviteeID: %w", err)
-	}
-	return oldValue.InviteeID, nil
-}
-
-// ResetInviteeID resets all changes to the "invitee_id" field.
-func (m *RegistrationInvitationMutation) ResetInviteeID() {
-	m.invitee_id = nil
-}
-
-// SetAppID sets the "app_id" field.
-func (m *RegistrationInvitationMutation) SetAppID(u uuid.UUID) {
-	m.app_id = &u
-}
-
-// AppID returns the value of the "app_id" field in the mutation.
-func (m *RegistrationInvitationMutation) AppID() (r uuid.UUID, exists bool) {
-	v := m.app_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldAppID returns the old "app_id" field's value of the RegistrationInvitation entity.
-// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RegistrationInvitationMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
-	}
-	return oldValue.AppID, nil
-}
-
-// ResetAppID resets all changes to the "app_id" field.
-func (m *RegistrationInvitationMutation) ResetAppID() {
-	m.app_id = nil
 }
 
 // SetCreateAt sets the "create_at" field.
@@ -3728,6 +5357,114 @@ func (m *RegistrationInvitationMutation) ResetDeleteAt() {
 	m.adddelete_at = nil
 }
 
+// SetInviterID sets the "inviter_id" field.
+func (m *RegistrationInvitationMutation) SetInviterID(u uuid.UUID) {
+	m.inviter_id = &u
+}
+
+// InviterID returns the value of the "inviter_id" field in the mutation.
+func (m *RegistrationInvitationMutation) InviterID() (r uuid.UUID, exists bool) {
+	v := m.inviter_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInviterID returns the old "inviter_id" field's value of the RegistrationInvitation entity.
+// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RegistrationInvitationMutation) OldInviterID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldInviterID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldInviterID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInviterID: %w", err)
+	}
+	return oldValue.InviterID, nil
+}
+
+// ResetInviterID resets all changes to the "inviter_id" field.
+func (m *RegistrationInvitationMutation) ResetInviterID() {
+	m.inviter_id = nil
+}
+
+// SetInviteeID sets the "invitee_id" field.
+func (m *RegistrationInvitationMutation) SetInviteeID(u uuid.UUID) {
+	m.invitee_id = &u
+}
+
+// InviteeID returns the value of the "invitee_id" field in the mutation.
+func (m *RegistrationInvitationMutation) InviteeID() (r uuid.UUID, exists bool) {
+	v := m.invitee_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInviteeID returns the old "invitee_id" field's value of the RegistrationInvitation entity.
+// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RegistrationInvitationMutation) OldInviteeID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldInviteeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldInviteeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInviteeID: %w", err)
+	}
+	return oldValue.InviteeID, nil
+}
+
+// ResetInviteeID resets all changes to the "invitee_id" field.
+func (m *RegistrationInvitationMutation) ResetInviteeID() {
+	m.invitee_id = nil
+}
+
+// SetAppID sets the "app_id" field.
+func (m *RegistrationInvitationMutation) SetAppID(u uuid.UUID) {
+	m.app_id = &u
+}
+
+// AppID returns the value of the "app_id" field in the mutation.
+func (m *RegistrationInvitationMutation) AppID() (r uuid.UUID, exists bool) {
+	v := m.app_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAppID returns the old "app_id" field's value of the RegistrationInvitation entity.
+// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RegistrationInvitationMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
+	}
+	return oldValue.AppID, nil
+}
+
+// ResetAppID resets all changes to the "app_id" field.
+func (m *RegistrationInvitationMutation) ResetAppID() {
+	m.app_id = nil
+}
+
 // Where appends a list predicates to the RegistrationInvitationMutation builder.
 func (m *RegistrationInvitationMutation) Where(ps ...predicate.RegistrationInvitation) {
 	m.predicates = append(m.predicates, ps...)
@@ -3748,15 +5485,6 @@ func (m *RegistrationInvitationMutation) Type() string {
 // AddedFields().
 func (m *RegistrationInvitationMutation) Fields() []string {
 	fields := make([]string, 0, 6)
-	if m.inviter_id != nil {
-		fields = append(fields, registrationinvitation.FieldInviterID)
-	}
-	if m.invitee_id != nil {
-		fields = append(fields, registrationinvitation.FieldInviteeID)
-	}
-	if m.app_id != nil {
-		fields = append(fields, registrationinvitation.FieldAppID)
-	}
 	if m.create_at != nil {
 		fields = append(fields, registrationinvitation.FieldCreateAt)
 	}
@@ -3766,6 +5494,15 @@ func (m *RegistrationInvitationMutation) Fields() []string {
 	if m.delete_at != nil {
 		fields = append(fields, registrationinvitation.FieldDeleteAt)
 	}
+	if m.inviter_id != nil {
+		fields = append(fields, registrationinvitation.FieldInviterID)
+	}
+	if m.invitee_id != nil {
+		fields = append(fields, registrationinvitation.FieldInviteeID)
+	}
+	if m.app_id != nil {
+		fields = append(fields, registrationinvitation.FieldAppID)
+	}
 	return fields
 }
 
@@ -3774,18 +5511,18 @@ func (m *RegistrationInvitationMutation) Fields() []string {
 // schema.
 func (m *RegistrationInvitationMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case registrationinvitation.FieldInviterID:
-		return m.InviterID()
-	case registrationinvitation.FieldInviteeID:
-		return m.InviteeID()
-	case registrationinvitation.FieldAppID:
-		return m.AppID()
 	case registrationinvitation.FieldCreateAt:
 		return m.CreateAt()
 	case registrationinvitation.FieldUpdateAt:
 		return m.UpdateAt()
 	case registrationinvitation.FieldDeleteAt:
 		return m.DeleteAt()
+	case registrationinvitation.FieldInviterID:
+		return m.InviterID()
+	case registrationinvitation.FieldInviteeID:
+		return m.InviteeID()
+	case registrationinvitation.FieldAppID:
+		return m.AppID()
 	}
 	return nil, false
 }
@@ -3795,18 +5532,18 @@ func (m *RegistrationInvitationMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *RegistrationInvitationMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case registrationinvitation.FieldInviterID:
-		return m.OldInviterID(ctx)
-	case registrationinvitation.FieldInviteeID:
-		return m.OldInviteeID(ctx)
-	case registrationinvitation.FieldAppID:
-		return m.OldAppID(ctx)
 	case registrationinvitation.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case registrationinvitation.FieldUpdateAt:
 		return m.OldUpdateAt(ctx)
 	case registrationinvitation.FieldDeleteAt:
 		return m.OldDeleteAt(ctx)
+	case registrationinvitation.FieldInviterID:
+		return m.OldInviterID(ctx)
+	case registrationinvitation.FieldInviteeID:
+		return m.OldInviteeID(ctx)
+	case registrationinvitation.FieldAppID:
+		return m.OldAppID(ctx)
 	}
 	return nil, fmt.Errorf("unknown RegistrationInvitation field %s", name)
 }
@@ -3816,27 +5553,6 @@ func (m *RegistrationInvitationMutation) OldField(ctx context.Context, name stri
 // type.
 func (m *RegistrationInvitationMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case registrationinvitation.FieldInviterID:
-		v, ok := value.(uuid.UUID)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetInviterID(v)
-		return nil
-	case registrationinvitation.FieldInviteeID:
-		v, ok := value.(uuid.UUID)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetInviteeID(v)
-		return nil
-	case registrationinvitation.FieldAppID:
-		v, ok := value.(uuid.UUID)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetAppID(v)
-		return nil
 	case registrationinvitation.FieldCreateAt:
 		v, ok := value.(uint32)
 		if !ok {
@@ -3857,6 +5573,27 @@ func (m *RegistrationInvitationMutation) SetField(name string, value ent.Value) 
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDeleteAt(v)
+		return nil
+	case registrationinvitation.FieldInviterID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInviterID(v)
+		return nil
+	case registrationinvitation.FieldInviteeID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInviteeID(v)
+		return nil
+	case registrationinvitation.FieldAppID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAppID(v)
 		return nil
 	}
 	return fmt.Errorf("unknown RegistrationInvitation field %s", name)
@@ -3946,15 +5683,6 @@ func (m *RegistrationInvitationMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *RegistrationInvitationMutation) ResetField(name string) error {
 	switch name {
-	case registrationinvitation.FieldInviterID:
-		m.ResetInviterID()
-		return nil
-	case registrationinvitation.FieldInviteeID:
-		m.ResetInviteeID()
-		return nil
-	case registrationinvitation.FieldAppID:
-		m.ResetAppID()
-		return nil
 	case registrationinvitation.FieldCreateAt:
 		m.ResetCreateAt()
 		return nil
@@ -3963,6 +5691,15 @@ func (m *RegistrationInvitationMutation) ResetField(name string) error {
 		return nil
 	case registrationinvitation.FieldDeleteAt:
 		m.ResetDeleteAt()
+		return nil
+	case registrationinvitation.FieldInviterID:
+		m.ResetInviterID()
+		return nil
+	case registrationinvitation.FieldInviteeID:
+		m.ResetInviteeID()
+		return nil
+	case registrationinvitation.FieldAppID:
+		m.ResetAppID()
 		return nil
 	}
 	return fmt.Errorf("unknown RegistrationInvitation field %s", name)
