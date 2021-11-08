@@ -8,13 +8,26 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
+	"github.com/google/uuid"
 )
 
 // AppCouponSetting is the model entity for the AppCouponSetting schema.
 type AppCouponSetting struct {
-	config
+	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uuid.UUID `json:"id,omitempty"`
+	// AppID holds the value of the "app_id" field.
+	AppID uuid.UUID `json:"app_id,omitempty"`
+	// DominationLimit holds the value of the "domination_limit" field.
+	DominationLimit int `json:"domination_limit,omitempty"`
+	// TotalLimit holds the value of the "total_limit" field.
+	TotalLimit int `json:"total_limit,omitempty"`
+	// CreateAt holds the value of the "create_at" field.
+	CreateAt uint32 `json:"create_at,omitempty"`
+	// UpdateAt holds the value of the "update_at" field.
+	UpdateAt uint32 `json:"update_at,omitempty"`
+	// DeleteAt holds the value of the "delete_at" field.
+	DeleteAt uint32 `json:"delete_at,omitempty"`
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -22,8 +35,10 @@ func (*AppCouponSetting) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case appcouponsetting.FieldID:
+		case appcouponsetting.FieldDominationLimit, appcouponsetting.FieldTotalLimit, appcouponsetting.FieldCreateAt, appcouponsetting.FieldUpdateAt, appcouponsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
+		case appcouponsetting.FieldID, appcouponsetting.FieldAppID:
+			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type AppCouponSetting", columns[i])
 		}
@@ -40,11 +55,47 @@ func (acs *AppCouponSetting) assignValues(columns []string, values []interface{}
 	for i := range columns {
 		switch columns[i] {
 		case appcouponsetting.FieldID:
-			value, ok := values[i].(*sql.NullInt64)
-			if !ok {
-				return fmt.Errorf("unexpected type %T for field id", value)
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field id", values[i])
+			} else if value != nil {
+				acs.ID = *value
 			}
-			acs.ID = int(value.Int64)
+		case appcouponsetting.FieldAppID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field app_id", values[i])
+			} else if value != nil {
+				acs.AppID = *value
+			}
+		case appcouponsetting.FieldDominationLimit:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field domination_limit", values[i])
+			} else if value.Valid {
+				acs.DominationLimit = int(value.Int64)
+			}
+		case appcouponsetting.FieldTotalLimit:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field total_limit", values[i])
+			} else if value.Valid {
+				acs.TotalLimit = int(value.Int64)
+			}
+		case appcouponsetting.FieldCreateAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field create_at", values[i])
+			} else if value.Valid {
+				acs.CreateAt = uint32(value.Int64)
+			}
+		case appcouponsetting.FieldUpdateAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field update_at", values[i])
+			} else if value.Valid {
+				acs.UpdateAt = uint32(value.Int64)
+			}
+		case appcouponsetting.FieldDeleteAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field delete_at", values[i])
+			} else if value.Valid {
+				acs.DeleteAt = uint32(value.Int64)
+			}
 		}
 	}
 	return nil
@@ -73,6 +124,18 @@ func (acs *AppCouponSetting) String() string {
 	var builder strings.Builder
 	builder.WriteString("AppCouponSetting(")
 	builder.WriteString(fmt.Sprintf("id=%v", acs.ID))
+	builder.WriteString(", app_id=")
+	builder.WriteString(fmt.Sprintf("%v", acs.AppID))
+	builder.WriteString(", domination_limit=")
+	builder.WriteString(fmt.Sprintf("%v", acs.DominationLimit))
+	builder.WriteString(", total_limit=")
+	builder.WriteString(fmt.Sprintf("%v", acs.TotalLimit))
+	builder.WriteString(", create_at=")
+	builder.WriteString(fmt.Sprintf("%v", acs.CreateAt))
+	builder.WriteString(", update_at=")
+	builder.WriteString(fmt.Sprintf("%v", acs.UpdateAt))
+	builder.WriteString(", delete_at=")
+	builder.WriteString(fmt.Sprintf("%v", acs.DeleteAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

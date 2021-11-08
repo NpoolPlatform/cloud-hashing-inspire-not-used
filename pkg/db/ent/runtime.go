@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/schema"
@@ -14,6 +15,26 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	appcouponsettingFields := schema.AppCouponSetting{}.Fields()
+	_ = appcouponsettingFields
+	// appcouponsettingDescCreateAt is the schema descriptor for create_at field.
+	appcouponsettingDescCreateAt := appcouponsettingFields[4].Descriptor()
+	// appcouponsetting.DefaultCreateAt holds the default value on creation for the create_at field.
+	appcouponsetting.DefaultCreateAt = appcouponsettingDescCreateAt.Default.(func() uint32)
+	// appcouponsettingDescUpdateAt is the schema descriptor for update_at field.
+	appcouponsettingDescUpdateAt := appcouponsettingFields[5].Descriptor()
+	// appcouponsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
+	appcouponsetting.DefaultUpdateAt = appcouponsettingDescUpdateAt.Default.(func() uint32)
+	// appcouponsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	appcouponsetting.UpdateDefaultUpdateAt = appcouponsettingDescUpdateAt.UpdateDefault.(func() uint32)
+	// appcouponsettingDescDeleteAt is the schema descriptor for delete_at field.
+	appcouponsettingDescDeleteAt := appcouponsettingFields[6].Descriptor()
+	// appcouponsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	appcouponsetting.DefaultDeleteAt = appcouponsettingDescDeleteAt.Default.(func() uint32)
+	// appcouponsettingDescID is the schema descriptor for id field.
+	appcouponsettingDescID := appcouponsettingFields[0].Descriptor()
+	// appcouponsetting.DefaultID holds the default value on creation for the id field.
+	appcouponsetting.DefaultID = appcouponsettingDescID.Default.(func() uuid.UUID)
 	couponallocatedFields := schema.CouponAllocated{}.Fields()
 	_ = couponallocatedFields
 	// couponallocatedDescUsed is the schema descriptor for used field.

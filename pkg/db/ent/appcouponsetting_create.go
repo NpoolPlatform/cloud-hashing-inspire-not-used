@@ -7,10 +7,12 @@ import (
 	"errors"
 	"fmt"
 
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
+	"github.com/google/uuid"
 )
 
 // AppCouponSettingCreate is the builder for creating a AppCouponSetting entity.
@@ -19,6 +21,72 @@ type AppCouponSettingCreate struct {
 	mutation *AppCouponSettingMutation
 	hooks    []Hook
 	conflict []sql.ConflictOption
+}
+
+// SetAppID sets the "app_id" field.
+func (acsc *AppCouponSettingCreate) SetAppID(u uuid.UUID) *AppCouponSettingCreate {
+	acsc.mutation.SetAppID(u)
+	return acsc
+}
+
+// SetDominationLimit sets the "domination_limit" field.
+func (acsc *AppCouponSettingCreate) SetDominationLimit(i int) *AppCouponSettingCreate {
+	acsc.mutation.SetDominationLimit(i)
+	return acsc
+}
+
+// SetTotalLimit sets the "total_limit" field.
+func (acsc *AppCouponSettingCreate) SetTotalLimit(i int) *AppCouponSettingCreate {
+	acsc.mutation.SetTotalLimit(i)
+	return acsc
+}
+
+// SetCreateAt sets the "create_at" field.
+func (acsc *AppCouponSettingCreate) SetCreateAt(u uint32) *AppCouponSettingCreate {
+	acsc.mutation.SetCreateAt(u)
+	return acsc
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (acsc *AppCouponSettingCreate) SetNillableCreateAt(u *uint32) *AppCouponSettingCreate {
+	if u != nil {
+		acsc.SetCreateAt(*u)
+	}
+	return acsc
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (acsc *AppCouponSettingCreate) SetUpdateAt(u uint32) *AppCouponSettingCreate {
+	acsc.mutation.SetUpdateAt(u)
+	return acsc
+}
+
+// SetNillableUpdateAt sets the "update_at" field if the given value is not nil.
+func (acsc *AppCouponSettingCreate) SetNillableUpdateAt(u *uint32) *AppCouponSettingCreate {
+	if u != nil {
+		acsc.SetUpdateAt(*u)
+	}
+	return acsc
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (acsc *AppCouponSettingCreate) SetDeleteAt(u uint32) *AppCouponSettingCreate {
+	acsc.mutation.SetDeleteAt(u)
+	return acsc
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (acsc *AppCouponSettingCreate) SetNillableDeleteAt(u *uint32) *AppCouponSettingCreate {
+	if u != nil {
+		acsc.SetDeleteAt(*u)
+	}
+	return acsc
+}
+
+// SetID sets the "id" field.
+func (acsc *AppCouponSettingCreate) SetID(u uuid.UUID) *AppCouponSettingCreate {
+	acsc.mutation.SetID(u)
+	return acsc
 }
 
 // Mutation returns the AppCouponSettingMutation object of the builder.
@@ -32,6 +100,7 @@ func (acsc *AppCouponSettingCreate) Save(ctx context.Context) (*AppCouponSetting
 		err  error
 		node *AppCouponSetting
 	)
+	acsc.defaults()
 	if len(acsc.hooks) == 0 {
 		if err = acsc.check(); err != nil {
 			return nil, err
@@ -89,8 +158,46 @@ func (acsc *AppCouponSettingCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (acsc *AppCouponSettingCreate) defaults() {
+	if _, ok := acsc.mutation.CreateAt(); !ok {
+		v := appcouponsetting.DefaultCreateAt()
+		acsc.mutation.SetCreateAt(v)
+	}
+	if _, ok := acsc.mutation.UpdateAt(); !ok {
+		v := appcouponsetting.DefaultUpdateAt()
+		acsc.mutation.SetUpdateAt(v)
+	}
+	if _, ok := acsc.mutation.DeleteAt(); !ok {
+		v := appcouponsetting.DefaultDeleteAt()
+		acsc.mutation.SetDeleteAt(v)
+	}
+	if _, ok := acsc.mutation.ID(); !ok {
+		v := appcouponsetting.DefaultID()
+		acsc.mutation.SetID(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (acsc *AppCouponSettingCreate) check() error {
+	if _, ok := acsc.mutation.AppID(); !ok {
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+	}
+	if _, ok := acsc.mutation.DominationLimit(); !ok {
+		return &ValidationError{Name: "domination_limit", err: errors.New(`ent: missing required field "domination_limit"`)}
+	}
+	if _, ok := acsc.mutation.TotalLimit(); !ok {
+		return &ValidationError{Name: "total_limit", err: errors.New(`ent: missing required field "total_limit"`)}
+	}
+	if _, ok := acsc.mutation.CreateAt(); !ok {
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+	}
+	if _, ok := acsc.mutation.UpdateAt(); !ok {
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+	}
+	if _, ok := acsc.mutation.DeleteAt(); !ok {
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+	}
 	return nil
 }
 
@@ -102,8 +209,9 @@ func (acsc *AppCouponSettingCreate) sqlSave(ctx context.Context) (*AppCouponSett
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != nil {
+		_node.ID = _spec.ID.Value.(uuid.UUID)
+	}
 	return _node, nil
 }
 
@@ -113,12 +221,64 @@ func (acsc *AppCouponSettingCreate) createSpec() (*AppCouponSetting, *sqlgraph.C
 		_spec = &sqlgraph.CreateSpec{
 			Table: appcouponsetting.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: appcouponsetting.FieldID,
 			},
 		}
 	)
 	_spec.OnConflict = acsc.conflict
+	if id, ok := acsc.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
+	if value, ok := acsc.mutation.AppID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: appcouponsetting.FieldAppID,
+		})
+		_node.AppID = value
+	}
+	if value, ok := acsc.mutation.DominationLimit(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appcouponsetting.FieldDominationLimit,
+		})
+		_node.DominationLimit = value
+	}
+	if value, ok := acsc.mutation.TotalLimit(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appcouponsetting.FieldTotalLimit,
+		})
+		_node.TotalLimit = value
+	}
+	if value, ok := acsc.mutation.CreateAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldCreateAt,
+		})
+		_node.CreateAt = value
+	}
+	if value, ok := acsc.mutation.UpdateAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldUpdateAt,
+		})
+		_node.UpdateAt = value
+	}
+	if value, ok := acsc.mutation.DeleteAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldDeleteAt,
+		})
+		_node.DeleteAt = value
+	}
 	return _node, _spec
 }
 
@@ -126,11 +286,17 @@ func (acsc *AppCouponSettingCreate) createSpec() (*AppCouponSetting, *sqlgraph.C
 // of the `INSERT` statement. For example:
 //
 //	client.AppCouponSetting.Create().
+//		SetAppID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.AppCouponSettingUpsert) {
+//			SetAppID(v+v).
+//		}).
 //		Exec(ctx)
 //
 func (acsc *AppCouponSettingCreate) OnConflict(opts ...sql.ConflictOption) *AppCouponSettingUpsertOne {
@@ -167,17 +333,97 @@ type (
 	}
 )
 
-// UpdateNewValues updates the fields using the new values that were set on create.
+// SetAppID sets the "app_id" field.
+func (u *AppCouponSettingUpsert) SetAppID(v uuid.UUID) *AppCouponSettingUpsert {
+	u.Set(appcouponsetting.FieldAppID, v)
+	return u
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *AppCouponSettingUpsert) UpdateAppID() *AppCouponSettingUpsert {
+	u.SetExcluded(appcouponsetting.FieldAppID)
+	return u
+}
+
+// SetDominationLimit sets the "domination_limit" field.
+func (u *AppCouponSettingUpsert) SetDominationLimit(v int) *AppCouponSettingUpsert {
+	u.Set(appcouponsetting.FieldDominationLimit, v)
+	return u
+}
+
+// UpdateDominationLimit sets the "domination_limit" field to the value that was provided on create.
+func (u *AppCouponSettingUpsert) UpdateDominationLimit() *AppCouponSettingUpsert {
+	u.SetExcluded(appcouponsetting.FieldDominationLimit)
+	return u
+}
+
+// SetTotalLimit sets the "total_limit" field.
+func (u *AppCouponSettingUpsert) SetTotalLimit(v int) *AppCouponSettingUpsert {
+	u.Set(appcouponsetting.FieldTotalLimit, v)
+	return u
+}
+
+// UpdateTotalLimit sets the "total_limit" field to the value that was provided on create.
+func (u *AppCouponSettingUpsert) UpdateTotalLimit() *AppCouponSettingUpsert {
+	u.SetExcluded(appcouponsetting.FieldTotalLimit)
+	return u
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *AppCouponSettingUpsert) SetCreateAt(v uint32) *AppCouponSettingUpsert {
+	u.Set(appcouponsetting.FieldCreateAt, v)
+	return u
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *AppCouponSettingUpsert) UpdateCreateAt() *AppCouponSettingUpsert {
+	u.SetExcluded(appcouponsetting.FieldCreateAt)
+	return u
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *AppCouponSettingUpsert) SetUpdateAt(v uint32) *AppCouponSettingUpsert {
+	u.Set(appcouponsetting.FieldUpdateAt, v)
+	return u
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *AppCouponSettingUpsert) UpdateUpdateAt() *AppCouponSettingUpsert {
+	u.SetExcluded(appcouponsetting.FieldUpdateAt)
+	return u
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *AppCouponSettingUpsert) SetDeleteAt(v uint32) *AppCouponSettingUpsert {
+	u.Set(appcouponsetting.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *AppCouponSettingUpsert) UpdateDeleteAt() *AppCouponSettingUpsert {
+	u.SetExcluded(appcouponsetting.FieldDeleteAt)
+	return u
+}
+
+// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.AppCouponSetting.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(appcouponsetting.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 //
 func (u *AppCouponSettingUpsertOne) UpdateNewValues() *AppCouponSettingUpsertOne {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(appcouponsetting.FieldID)
+		}
+	}))
 	return u
 }
 
@@ -209,6 +455,90 @@ func (u *AppCouponSettingUpsertOne) Update(set func(*AppCouponSettingUpsert)) *A
 	return u
 }
 
+// SetAppID sets the "app_id" field.
+func (u *AppCouponSettingUpsertOne) SetAppID(v uuid.UUID) *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertOne) UpdateAppID() *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateAppID()
+	})
+}
+
+// SetDominationLimit sets the "domination_limit" field.
+func (u *AppCouponSettingUpsertOne) SetDominationLimit(v int) *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetDominationLimit(v)
+	})
+}
+
+// UpdateDominationLimit sets the "domination_limit" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertOne) UpdateDominationLimit() *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateDominationLimit()
+	})
+}
+
+// SetTotalLimit sets the "total_limit" field.
+func (u *AppCouponSettingUpsertOne) SetTotalLimit(v int) *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetTotalLimit(v)
+	})
+}
+
+// UpdateTotalLimit sets the "total_limit" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertOne) UpdateTotalLimit() *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateTotalLimit()
+	})
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *AppCouponSettingUpsertOne) SetCreateAt(v uint32) *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetCreateAt(v)
+	})
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertOne) UpdateCreateAt() *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateCreateAt()
+	})
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *AppCouponSettingUpsertOne) SetUpdateAt(v uint32) *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetUpdateAt(v)
+	})
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertOne) UpdateUpdateAt() *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateUpdateAt()
+	})
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *AppCouponSettingUpsertOne) SetDeleteAt(v uint32) *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetDeleteAt(v)
+	})
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertOne) UpdateDeleteAt() *AppCouponSettingUpsertOne {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateDeleteAt()
+	})
+}
+
 // Exec executes the query.
 func (u *AppCouponSettingUpsertOne) Exec(ctx context.Context) error {
 	if len(u.create.conflict) == 0 {
@@ -225,7 +555,12 @@ func (u *AppCouponSettingUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *AppCouponSettingUpsertOne) ID(ctx context.Context) (id int, err error) {
+func (u *AppCouponSettingUpsertOne) ID(ctx context.Context) (id uuid.UUID, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: AppCouponSettingUpsertOne.ID is not supported by MySQL driver. Use AppCouponSettingUpsertOne.Exec instead")
+	}
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -234,7 +569,7 @@ func (u *AppCouponSettingUpsertOne) ID(ctx context.Context) (id int, err error) 
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *AppCouponSettingUpsertOne) IDX(ctx context.Context) int {
+func (u *AppCouponSettingUpsertOne) IDX(ctx context.Context) uuid.UUID {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -257,6 +592,7 @@ func (acscb *AppCouponSettingCreateBulk) Save(ctx context.Context) ([]*AppCoupon
 	for i := range acscb.builders {
 		func(i int, root context.Context) {
 			builder := acscb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*AppCouponSettingMutation)
 				if !ok {
@@ -285,10 +621,6 @@ func (acscb *AppCouponSettingCreateBulk) Save(ctx context.Context) ([]*AppCoupon
 				}
 				mutation.id = &nodes[i].ID
 				mutation.done = true
-				if specs[i].ID.Value != nil {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
-				}
 				return nodes[i], nil
 			})
 			for i := len(builder.hooks) - 1; i >= 0; i-- {
@@ -336,6 +668,11 @@ func (acscb *AppCouponSettingCreateBulk) ExecX(ctx context.Context) {
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.AppCouponSettingUpsert) {
+//			SetAppID(v+v).
+//		}).
 //		Exec(ctx)
 //
 func (acscb *AppCouponSettingCreateBulk) OnConflict(opts ...sql.ConflictOption) *AppCouponSettingUpsertBulk {
@@ -371,11 +708,22 @@ type AppCouponSettingUpsertBulk struct {
 //	client.AppCouponSetting.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(appcouponsetting.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 //
 func (u *AppCouponSettingUpsertBulk) UpdateNewValues() *AppCouponSettingUpsertBulk {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(appcouponsetting.FieldID)
+				return
+			}
+		}
+	}))
 	return u
 }
 
@@ -405,6 +753,90 @@ func (u *AppCouponSettingUpsertBulk) Update(set func(*AppCouponSettingUpsert)) *
 		set(&AppCouponSettingUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetAppID sets the "app_id" field.
+func (u *AppCouponSettingUpsertBulk) SetAppID(v uuid.UUID) *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertBulk) UpdateAppID() *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateAppID()
+	})
+}
+
+// SetDominationLimit sets the "domination_limit" field.
+func (u *AppCouponSettingUpsertBulk) SetDominationLimit(v int) *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetDominationLimit(v)
+	})
+}
+
+// UpdateDominationLimit sets the "domination_limit" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertBulk) UpdateDominationLimit() *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateDominationLimit()
+	})
+}
+
+// SetTotalLimit sets the "total_limit" field.
+func (u *AppCouponSettingUpsertBulk) SetTotalLimit(v int) *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetTotalLimit(v)
+	})
+}
+
+// UpdateTotalLimit sets the "total_limit" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertBulk) UpdateTotalLimit() *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateTotalLimit()
+	})
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *AppCouponSettingUpsertBulk) SetCreateAt(v uint32) *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetCreateAt(v)
+	})
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertBulk) UpdateCreateAt() *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateCreateAt()
+	})
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *AppCouponSettingUpsertBulk) SetUpdateAt(v uint32) *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetUpdateAt(v)
+	})
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertBulk) UpdateUpdateAt() *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateUpdateAt()
+	})
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *AppCouponSettingUpsertBulk) SetDeleteAt(v uint32) *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.SetDeleteAt(v)
+	})
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *AppCouponSettingUpsertBulk) UpdateDeleteAt() *AppCouponSettingUpsertBulk {
+	return u.Update(func(s *AppCouponSettingUpsert) {
+		s.UpdateDeleteAt()
+	})
 }
 
 // Exec executes the query.

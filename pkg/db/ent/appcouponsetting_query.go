@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // AppCouponSettingQuery is the builder for querying AppCouponSetting entities.
@@ -84,8 +85,8 @@ func (acsq *AppCouponSettingQuery) FirstX(ctx context.Context) *AppCouponSetting
 
 // FirstID returns the first AppCouponSetting ID from the query.
 // Returns a *NotFoundError when no AppCouponSetting ID was found.
-func (acsq *AppCouponSettingQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (acsq *AppCouponSettingQuery) FirstID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = acsq.Limit(1).IDs(ctx); err != nil {
 		return
 	}
@@ -97,7 +98,7 @@ func (acsq *AppCouponSettingQuery) FirstID(ctx context.Context) (id int, err err
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (acsq *AppCouponSettingQuery) FirstIDX(ctx context.Context) int {
+func (acsq *AppCouponSettingQuery) FirstIDX(ctx context.Context) uuid.UUID {
 	id, err := acsq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -135,8 +136,8 @@ func (acsq *AppCouponSettingQuery) OnlyX(ctx context.Context) *AppCouponSetting 
 // OnlyID is like Only, but returns the only AppCouponSetting ID in the query.
 // Returns a *NotSingularError when exactly one AppCouponSetting ID is not found.
 // Returns a *NotFoundError when no entities are found.
-func (acsq *AppCouponSettingQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (acsq *AppCouponSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = acsq.Limit(2).IDs(ctx); err != nil {
 		return
 	}
@@ -152,7 +153,7 @@ func (acsq *AppCouponSettingQuery) OnlyID(ctx context.Context) (id int, err erro
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (acsq *AppCouponSettingQuery) OnlyIDX(ctx context.Context) int {
+func (acsq *AppCouponSettingQuery) OnlyIDX(ctx context.Context) uuid.UUID {
 	id, err := acsq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -178,8 +179,8 @@ func (acsq *AppCouponSettingQuery) AllX(ctx context.Context) []*AppCouponSetting
 }
 
 // IDs executes the query and returns a list of AppCouponSetting IDs.
-func (acsq *AppCouponSettingQuery) IDs(ctx context.Context) ([]int, error) {
-	var ids []int
+func (acsq *AppCouponSettingQuery) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	var ids []uuid.UUID
 	if err := acsq.Select(appcouponsetting.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -187,7 +188,7 @@ func (acsq *AppCouponSettingQuery) IDs(ctx context.Context) ([]int, error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (acsq *AppCouponSettingQuery) IDsX(ctx context.Context) []int {
+func (acsq *AppCouponSettingQuery) IDsX(ctx context.Context) []uuid.UUID {
 	ids, err := acsq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -249,6 +250,19 @@ func (acsq *AppCouponSettingQuery) Clone() *AppCouponSettingQuery {
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		AppID uuid.UUID `json:"app_id,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.AppCouponSetting.Query().
+//		GroupBy(appcouponsetting.FieldAppID).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
+//
 func (acsq *AppCouponSettingQuery) GroupBy(field string, fields ...string) *AppCouponSettingGroupBy {
 	group := &AppCouponSettingGroupBy{config: acsq.config}
 	group.fields = append([]string{field}, fields...)
@@ -263,6 +277,17 @@ func (acsq *AppCouponSettingQuery) GroupBy(field string, fields ...string) *AppC
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		AppID uuid.UUID `json:"app_id,omitempty"`
+//	}
+//
+//	client.AppCouponSetting.Query().
+//		Select(appcouponsetting.FieldAppID).
+//		Scan(ctx, &v)
+//
 func (acsq *AppCouponSettingQuery) Select(fields ...string) *AppCouponSettingSelect {
 	acsq.fields = append(acsq.fields, fields...)
 	return &AppCouponSettingSelect{AppCouponSettingQuery: acsq}
@@ -329,7 +354,7 @@ func (acsq *AppCouponSettingQuery) querySpec() *sqlgraph.QuerySpec {
 			Table:   appcouponsetting.Table,
 			Columns: appcouponsetting.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: appcouponsetting.FieldID,
 			},
 		},

@@ -301,7 +301,7 @@ func (c *AppCouponSettingClient) UpdateOne(acs *AppCouponSetting) *AppCouponSett
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *AppCouponSettingClient) UpdateOneID(id int) *AppCouponSettingUpdateOne {
+func (c *AppCouponSettingClient) UpdateOneID(id uuid.UUID) *AppCouponSettingUpdateOne {
 	mutation := newAppCouponSettingMutation(c.config, OpUpdateOne, withAppCouponSettingID(id))
 	return &AppCouponSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -318,7 +318,7 @@ func (c *AppCouponSettingClient) DeleteOne(acs *AppCouponSetting) *AppCouponSett
 }
 
 // DeleteOneID returns a delete builder for the given id.
-func (c *AppCouponSettingClient) DeleteOneID(id int) *AppCouponSettingDeleteOne {
+func (c *AppCouponSettingClient) DeleteOneID(id uuid.UUID) *AppCouponSettingDeleteOne {
 	builder := c.Delete().Where(appcouponsetting.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -333,12 +333,12 @@ func (c *AppCouponSettingClient) Query() *AppCouponSettingQuery {
 }
 
 // Get returns a AppCouponSetting entity by its id.
-func (c *AppCouponSettingClient) Get(ctx context.Context, id int) (*AppCouponSetting, error) {
+func (c *AppCouponSettingClient) Get(ctx context.Context, id uuid.UUID) (*AppCouponSetting, error) {
 	return c.Query().Where(appcouponsetting.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *AppCouponSettingClient) GetX(ctx context.Context, id int) *AppCouponSetting {
+func (c *AppCouponSettingClient) GetX(ctx context.Context, id uuid.UUID) *AppCouponSetting {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)

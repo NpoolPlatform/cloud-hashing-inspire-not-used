@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
@@ -268,13 +269,24 @@ func (m *AgencySettingMutation) ResetEdge(name string) error {
 // AppCouponSettingMutation represents an operation that mutates the AppCouponSetting nodes in the graph.
 type AppCouponSettingMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *int
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*AppCouponSetting, error)
-	predicates    []predicate.AppCouponSetting
+	op                  Op
+	typ                 string
+	id                  *uuid.UUID
+	app_id              *uuid.UUID
+	domination_limit    *int
+	adddomination_limit *int
+	total_limit         *int
+	addtotal_limit      *int
+	create_at           *uint32
+	addcreate_at        *uint32
+	update_at           *uint32
+	addupdate_at        *uint32
+	delete_at           *uint32
+	adddelete_at        *uint32
+	clearedFields       map[string]struct{}
+	done                bool
+	oldValue            func(context.Context) (*AppCouponSetting, error)
+	predicates          []predicate.AppCouponSetting
 }
 
 var _ ent.Mutation = (*AppCouponSettingMutation)(nil)
@@ -297,7 +309,7 @@ func newAppCouponSettingMutation(c config, op Op, opts ...appcouponsettingOption
 }
 
 // withAppCouponSettingID sets the ID field of the mutation.
-func withAppCouponSettingID(id int) appcouponsettingOption {
+func withAppCouponSettingID(id uuid.UUID) appcouponsettingOption {
 	return func(m *AppCouponSettingMutation) {
 		var (
 			err   error
@@ -347,13 +359,335 @@ func (m AppCouponSettingMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of AppCouponSetting entities.
+func (m *AppCouponSettingMutation) SetID(id uuid.UUID) {
+	m.id = &id
+}
+
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *AppCouponSettingMutation) ID() (id int, exists bool) {
+func (m *AppCouponSettingMutation) ID() (id uuid.UUID, exists bool) {
 	if m.id == nil {
 		return
 	}
 	return *m.id, true
+}
+
+// SetAppID sets the "app_id" field.
+func (m *AppCouponSettingMutation) SetAppID(u uuid.UUID) {
+	m.app_id = &u
+}
+
+// AppID returns the value of the "app_id" field in the mutation.
+func (m *AppCouponSettingMutation) AppID() (r uuid.UUID, exists bool) {
+	v := m.app_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAppID returns the old "app_id" field's value of the AppCouponSetting entity.
+// If the AppCouponSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppCouponSettingMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
+	}
+	return oldValue.AppID, nil
+}
+
+// ResetAppID resets all changes to the "app_id" field.
+func (m *AppCouponSettingMutation) ResetAppID() {
+	m.app_id = nil
+}
+
+// SetDominationLimit sets the "domination_limit" field.
+func (m *AppCouponSettingMutation) SetDominationLimit(i int) {
+	m.domination_limit = &i
+	m.adddomination_limit = nil
+}
+
+// DominationLimit returns the value of the "domination_limit" field in the mutation.
+func (m *AppCouponSettingMutation) DominationLimit() (r int, exists bool) {
+	v := m.domination_limit
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDominationLimit returns the old "domination_limit" field's value of the AppCouponSetting entity.
+// If the AppCouponSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppCouponSettingMutation) OldDominationLimit(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDominationLimit is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDominationLimit requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDominationLimit: %w", err)
+	}
+	return oldValue.DominationLimit, nil
+}
+
+// AddDominationLimit adds i to the "domination_limit" field.
+func (m *AppCouponSettingMutation) AddDominationLimit(i int) {
+	if m.adddomination_limit != nil {
+		*m.adddomination_limit += i
+	} else {
+		m.adddomination_limit = &i
+	}
+}
+
+// AddedDominationLimit returns the value that was added to the "domination_limit" field in this mutation.
+func (m *AppCouponSettingMutation) AddedDominationLimit() (r int, exists bool) {
+	v := m.adddomination_limit
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetDominationLimit resets all changes to the "domination_limit" field.
+func (m *AppCouponSettingMutation) ResetDominationLimit() {
+	m.domination_limit = nil
+	m.adddomination_limit = nil
+}
+
+// SetTotalLimit sets the "total_limit" field.
+func (m *AppCouponSettingMutation) SetTotalLimit(i int) {
+	m.total_limit = &i
+	m.addtotal_limit = nil
+}
+
+// TotalLimit returns the value of the "total_limit" field in the mutation.
+func (m *AppCouponSettingMutation) TotalLimit() (r int, exists bool) {
+	v := m.total_limit
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTotalLimit returns the old "total_limit" field's value of the AppCouponSetting entity.
+// If the AppCouponSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppCouponSettingMutation) OldTotalLimit(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldTotalLimit is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldTotalLimit requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTotalLimit: %w", err)
+	}
+	return oldValue.TotalLimit, nil
+}
+
+// AddTotalLimit adds i to the "total_limit" field.
+func (m *AppCouponSettingMutation) AddTotalLimit(i int) {
+	if m.addtotal_limit != nil {
+		*m.addtotal_limit += i
+	} else {
+		m.addtotal_limit = &i
+	}
+}
+
+// AddedTotalLimit returns the value that was added to the "total_limit" field in this mutation.
+func (m *AppCouponSettingMutation) AddedTotalLimit() (r int, exists bool) {
+	v := m.addtotal_limit
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetTotalLimit resets all changes to the "total_limit" field.
+func (m *AppCouponSettingMutation) ResetTotalLimit() {
+	m.total_limit = nil
+	m.addtotal_limit = nil
+}
+
+// SetCreateAt sets the "create_at" field.
+func (m *AppCouponSettingMutation) SetCreateAt(u uint32) {
+	m.create_at = &u
+	m.addcreate_at = nil
+}
+
+// CreateAt returns the value of the "create_at" field in the mutation.
+func (m *AppCouponSettingMutation) CreateAt() (r uint32, exists bool) {
+	v := m.create_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateAt returns the old "create_at" field's value of the AppCouponSetting entity.
+// If the AppCouponSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppCouponSettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateAt: %w", err)
+	}
+	return oldValue.CreateAt, nil
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (m *AppCouponSettingMutation) AddCreateAt(u uint32) {
+	if m.addcreate_at != nil {
+		*m.addcreate_at += u
+	} else {
+		m.addcreate_at = &u
+	}
+}
+
+// AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
+func (m *AppCouponSettingMutation) AddedCreateAt() (r uint32, exists bool) {
+	v := m.addcreate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCreateAt resets all changes to the "create_at" field.
+func (m *AppCouponSettingMutation) ResetCreateAt() {
+	m.create_at = nil
+	m.addcreate_at = nil
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (m *AppCouponSettingMutation) SetUpdateAt(u uint32) {
+	m.update_at = &u
+	m.addupdate_at = nil
+}
+
+// UpdateAt returns the value of the "update_at" field in the mutation.
+func (m *AppCouponSettingMutation) UpdateAt() (r uint32, exists bool) {
+	v := m.update_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateAt returns the old "update_at" field's value of the AppCouponSetting entity.
+// If the AppCouponSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppCouponSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateAt: %w", err)
+	}
+	return oldValue.UpdateAt, nil
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (m *AppCouponSettingMutation) AddUpdateAt(u uint32) {
+	if m.addupdate_at != nil {
+		*m.addupdate_at += u
+	} else {
+		m.addupdate_at = &u
+	}
+}
+
+// AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
+func (m *AppCouponSettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+	v := m.addupdate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetUpdateAt resets all changes to the "update_at" field.
+func (m *AppCouponSettingMutation) ResetUpdateAt() {
+	m.update_at = nil
+	m.addupdate_at = nil
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (m *AppCouponSettingMutation) SetDeleteAt(u uint32) {
+	m.delete_at = &u
+	m.adddelete_at = nil
+}
+
+// DeleteAt returns the value of the "delete_at" field in the mutation.
+func (m *AppCouponSettingMutation) DeleteAt() (r uint32, exists bool) {
+	v := m.delete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteAt returns the old "delete_at" field's value of the AppCouponSetting entity.
+// If the AppCouponSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppCouponSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteAt: %w", err)
+	}
+	return oldValue.DeleteAt, nil
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (m *AppCouponSettingMutation) AddDeleteAt(u uint32) {
+	if m.adddelete_at != nil {
+		*m.adddelete_at += u
+	} else {
+		m.adddelete_at = &u
+	}
+}
+
+// AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
+func (m *AppCouponSettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+	v := m.adddelete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetDeleteAt resets all changes to the "delete_at" field.
+func (m *AppCouponSettingMutation) ResetDeleteAt() {
+	m.delete_at = nil
+	m.adddelete_at = nil
 }
 
 // Where appends a list predicates to the AppCouponSettingMutation builder.
@@ -375,7 +709,25 @@ func (m *AppCouponSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AppCouponSettingMutation) Fields() []string {
-	fields := make([]string, 0, 0)
+	fields := make([]string, 0, 6)
+	if m.app_id != nil {
+		fields = append(fields, appcouponsetting.FieldAppID)
+	}
+	if m.domination_limit != nil {
+		fields = append(fields, appcouponsetting.FieldDominationLimit)
+	}
+	if m.total_limit != nil {
+		fields = append(fields, appcouponsetting.FieldTotalLimit)
+	}
+	if m.create_at != nil {
+		fields = append(fields, appcouponsetting.FieldCreateAt)
+	}
+	if m.update_at != nil {
+		fields = append(fields, appcouponsetting.FieldUpdateAt)
+	}
+	if m.delete_at != nil {
+		fields = append(fields, appcouponsetting.FieldDeleteAt)
+	}
 	return fields
 }
 
@@ -383,6 +735,20 @@ func (m *AppCouponSettingMutation) Fields() []string {
 // return value indicates that this field was not set, or was not defined in the
 // schema.
 func (m *AppCouponSettingMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case appcouponsetting.FieldAppID:
+		return m.AppID()
+	case appcouponsetting.FieldDominationLimit:
+		return m.DominationLimit()
+	case appcouponsetting.FieldTotalLimit:
+		return m.TotalLimit()
+	case appcouponsetting.FieldCreateAt:
+		return m.CreateAt()
+	case appcouponsetting.FieldUpdateAt:
+		return m.UpdateAt()
+	case appcouponsetting.FieldDeleteAt:
+		return m.DeleteAt()
+	}
 	return nil, false
 }
 
@@ -390,6 +756,20 @@ func (m *AppCouponSettingMutation) Field(name string) (ent.Value, bool) {
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
 func (m *AppCouponSettingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case appcouponsetting.FieldAppID:
+		return m.OldAppID(ctx)
+	case appcouponsetting.FieldDominationLimit:
+		return m.OldDominationLimit(ctx)
+	case appcouponsetting.FieldTotalLimit:
+		return m.OldTotalLimit(ctx)
+	case appcouponsetting.FieldCreateAt:
+		return m.OldCreateAt(ctx)
+	case appcouponsetting.FieldUpdateAt:
+		return m.OldUpdateAt(ctx)
+	case appcouponsetting.FieldDeleteAt:
+		return m.OldDeleteAt(ctx)
+	}
 	return nil, fmt.Errorf("unknown AppCouponSetting field %s", name)
 }
 
@@ -398,6 +778,48 @@ func (m *AppCouponSettingMutation) OldField(ctx context.Context, name string) (e
 // type.
 func (m *AppCouponSettingMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case appcouponsetting.FieldAppID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAppID(v)
+		return nil
+	case appcouponsetting.FieldDominationLimit:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDominationLimit(v)
+		return nil
+	case appcouponsetting.FieldTotalLimit:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTotalLimit(v)
+		return nil
+	case appcouponsetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateAt(v)
+		return nil
+	case appcouponsetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateAt(v)
+		return nil
+	case appcouponsetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown AppCouponSetting field %s", name)
 }
@@ -405,13 +827,41 @@ func (m *AppCouponSettingMutation) SetField(name string, value ent.Value) error 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *AppCouponSettingMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.adddomination_limit != nil {
+		fields = append(fields, appcouponsetting.FieldDominationLimit)
+	}
+	if m.addtotal_limit != nil {
+		fields = append(fields, appcouponsetting.FieldTotalLimit)
+	}
+	if m.addcreate_at != nil {
+		fields = append(fields, appcouponsetting.FieldCreateAt)
+	}
+	if m.addupdate_at != nil {
+		fields = append(fields, appcouponsetting.FieldUpdateAt)
+	}
+	if m.adddelete_at != nil {
+		fields = append(fields, appcouponsetting.FieldDeleteAt)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *AppCouponSettingMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case appcouponsetting.FieldDominationLimit:
+		return m.AddedDominationLimit()
+	case appcouponsetting.FieldTotalLimit:
+		return m.AddedTotalLimit()
+	case appcouponsetting.FieldCreateAt:
+		return m.AddedCreateAt()
+	case appcouponsetting.FieldUpdateAt:
+		return m.AddedUpdateAt()
+	case appcouponsetting.FieldDeleteAt:
+		return m.AddedDeleteAt()
+	}
 	return nil, false
 }
 
@@ -419,6 +869,43 @@ func (m *AppCouponSettingMutation) AddedField(name string) (ent.Value, bool) {
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
 func (m *AppCouponSettingMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case appcouponsetting.FieldDominationLimit:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDominationLimit(v)
+		return nil
+	case appcouponsetting.FieldTotalLimit:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddTotalLimit(v)
+		return nil
+	case appcouponsetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreateAt(v)
+		return nil
+	case appcouponsetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdateAt(v)
+		return nil
+	case appcouponsetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDeleteAt(v)
+		return nil
+	}
 	return fmt.Errorf("unknown AppCouponSetting numeric field %s", name)
 }
 
@@ -444,6 +931,26 @@ func (m *AppCouponSettingMutation) ClearField(name string) error {
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
 func (m *AppCouponSettingMutation) ResetField(name string) error {
+	switch name {
+	case appcouponsetting.FieldAppID:
+		m.ResetAppID()
+		return nil
+	case appcouponsetting.FieldDominationLimit:
+		m.ResetDominationLimit()
+		return nil
+	case appcouponsetting.FieldTotalLimit:
+		m.ResetTotalLimit()
+		return nil
+	case appcouponsetting.FieldCreateAt:
+		m.ResetCreateAt()
+		return nil
+	case appcouponsetting.FieldUpdateAt:
+		m.ResetUpdateAt()
+		return nil
+	case appcouponsetting.FieldDeleteAt:
+		m.ResetDeleteAt()
+		return nil
+	}
 	return fmt.Errorf("unknown AppCouponSetting field %s", name)
 }
 

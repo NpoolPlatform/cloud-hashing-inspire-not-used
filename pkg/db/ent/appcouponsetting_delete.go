@@ -72,7 +72,7 @@ func (acsd *AppCouponSettingDelete) sqlExec(ctx context.Context) (int, error) {
 		Node: &sqlgraph.NodeSpec{
 			Table: appcouponsetting.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: appcouponsetting.FieldID,
 			},
 		},

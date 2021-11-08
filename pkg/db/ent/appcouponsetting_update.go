@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // AppCouponSettingUpdate is the builder for updating AppCouponSetting entities.
@@ -26,6 +27,93 @@ func (acsu *AppCouponSettingUpdate) Where(ps ...predicate.AppCouponSetting) *App
 	return acsu
 }
 
+// SetAppID sets the "app_id" field.
+func (acsu *AppCouponSettingUpdate) SetAppID(u uuid.UUID) *AppCouponSettingUpdate {
+	acsu.mutation.SetAppID(u)
+	return acsu
+}
+
+// SetDominationLimit sets the "domination_limit" field.
+func (acsu *AppCouponSettingUpdate) SetDominationLimit(i int) *AppCouponSettingUpdate {
+	acsu.mutation.ResetDominationLimit()
+	acsu.mutation.SetDominationLimit(i)
+	return acsu
+}
+
+// AddDominationLimit adds i to the "domination_limit" field.
+func (acsu *AppCouponSettingUpdate) AddDominationLimit(i int) *AppCouponSettingUpdate {
+	acsu.mutation.AddDominationLimit(i)
+	return acsu
+}
+
+// SetTotalLimit sets the "total_limit" field.
+func (acsu *AppCouponSettingUpdate) SetTotalLimit(i int) *AppCouponSettingUpdate {
+	acsu.mutation.ResetTotalLimit()
+	acsu.mutation.SetTotalLimit(i)
+	return acsu
+}
+
+// AddTotalLimit adds i to the "total_limit" field.
+func (acsu *AppCouponSettingUpdate) AddTotalLimit(i int) *AppCouponSettingUpdate {
+	acsu.mutation.AddTotalLimit(i)
+	return acsu
+}
+
+// SetCreateAt sets the "create_at" field.
+func (acsu *AppCouponSettingUpdate) SetCreateAt(u uint32) *AppCouponSettingUpdate {
+	acsu.mutation.ResetCreateAt()
+	acsu.mutation.SetCreateAt(u)
+	return acsu
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (acsu *AppCouponSettingUpdate) SetNillableCreateAt(u *uint32) *AppCouponSettingUpdate {
+	if u != nil {
+		acsu.SetCreateAt(*u)
+	}
+	return acsu
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (acsu *AppCouponSettingUpdate) AddCreateAt(u uint32) *AppCouponSettingUpdate {
+	acsu.mutation.AddCreateAt(u)
+	return acsu
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (acsu *AppCouponSettingUpdate) SetUpdateAt(u uint32) *AppCouponSettingUpdate {
+	acsu.mutation.ResetUpdateAt()
+	acsu.mutation.SetUpdateAt(u)
+	return acsu
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (acsu *AppCouponSettingUpdate) AddUpdateAt(u uint32) *AppCouponSettingUpdate {
+	acsu.mutation.AddUpdateAt(u)
+	return acsu
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (acsu *AppCouponSettingUpdate) SetDeleteAt(u uint32) *AppCouponSettingUpdate {
+	acsu.mutation.ResetDeleteAt()
+	acsu.mutation.SetDeleteAt(u)
+	return acsu
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (acsu *AppCouponSettingUpdate) SetNillableDeleteAt(u *uint32) *AppCouponSettingUpdate {
+	if u != nil {
+		acsu.SetDeleteAt(*u)
+	}
+	return acsu
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (acsu *AppCouponSettingUpdate) AddDeleteAt(u uint32) *AppCouponSettingUpdate {
+	acsu.mutation.AddDeleteAt(u)
+	return acsu
+}
+
 // Mutation returns the AppCouponSettingMutation object of the builder.
 func (acsu *AppCouponSettingUpdate) Mutation() *AppCouponSettingMutation {
 	return acsu.mutation
@@ -37,6 +125,7 @@ func (acsu *AppCouponSettingUpdate) Save(ctx context.Context) (int, error) {
 		err      error
 		affected int
 	)
+	acsu.defaults()
 	if len(acsu.hooks) == 0 {
 		affected, err = acsu.sqlSave(ctx)
 	} else {
@@ -85,13 +174,21 @@ func (acsu *AppCouponSettingUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (acsu *AppCouponSettingUpdate) defaults() {
+	if _, ok := acsu.mutation.UpdateAt(); !ok {
+		v := appcouponsetting.UpdateDefaultUpdateAt()
+		acsu.mutation.SetUpdateAt(v)
+	}
+}
+
 func (acsu *AppCouponSettingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   appcouponsetting.Table,
 			Columns: appcouponsetting.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: appcouponsetting.FieldID,
 			},
 		},
@@ -102,6 +199,83 @@ func (acsu *AppCouponSettingUpdate) sqlSave(ctx context.Context) (n int, err err
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := acsu.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: appcouponsetting.FieldAppID,
+		})
+	}
+	if value, ok := acsu.mutation.DominationLimit(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appcouponsetting.FieldDominationLimit,
+		})
+	}
+	if value, ok := acsu.mutation.AddedDominationLimit(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appcouponsetting.FieldDominationLimit,
+		})
+	}
+	if value, ok := acsu.mutation.TotalLimit(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appcouponsetting.FieldTotalLimit,
+		})
+	}
+	if value, ok := acsu.mutation.AddedTotalLimit(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appcouponsetting.FieldTotalLimit,
+		})
+	}
+	if value, ok := acsu.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldCreateAt,
+		})
+	}
+	if value, ok := acsu.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldCreateAt,
+		})
+	}
+	if value, ok := acsu.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldUpdateAt,
+		})
+	}
+	if value, ok := acsu.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldUpdateAt,
+		})
+	}
+	if value, ok := acsu.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldDeleteAt,
+		})
+	}
+	if value, ok := acsu.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldDeleteAt,
+		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, acsu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -122,6 +296,93 @@ type AppCouponSettingUpdateOne struct {
 	mutation *AppCouponSettingMutation
 }
 
+// SetAppID sets the "app_id" field.
+func (acsuo *AppCouponSettingUpdateOne) SetAppID(u uuid.UUID) *AppCouponSettingUpdateOne {
+	acsuo.mutation.SetAppID(u)
+	return acsuo
+}
+
+// SetDominationLimit sets the "domination_limit" field.
+func (acsuo *AppCouponSettingUpdateOne) SetDominationLimit(i int) *AppCouponSettingUpdateOne {
+	acsuo.mutation.ResetDominationLimit()
+	acsuo.mutation.SetDominationLimit(i)
+	return acsuo
+}
+
+// AddDominationLimit adds i to the "domination_limit" field.
+func (acsuo *AppCouponSettingUpdateOne) AddDominationLimit(i int) *AppCouponSettingUpdateOne {
+	acsuo.mutation.AddDominationLimit(i)
+	return acsuo
+}
+
+// SetTotalLimit sets the "total_limit" field.
+func (acsuo *AppCouponSettingUpdateOne) SetTotalLimit(i int) *AppCouponSettingUpdateOne {
+	acsuo.mutation.ResetTotalLimit()
+	acsuo.mutation.SetTotalLimit(i)
+	return acsuo
+}
+
+// AddTotalLimit adds i to the "total_limit" field.
+func (acsuo *AppCouponSettingUpdateOne) AddTotalLimit(i int) *AppCouponSettingUpdateOne {
+	acsuo.mutation.AddTotalLimit(i)
+	return acsuo
+}
+
+// SetCreateAt sets the "create_at" field.
+func (acsuo *AppCouponSettingUpdateOne) SetCreateAt(u uint32) *AppCouponSettingUpdateOne {
+	acsuo.mutation.ResetCreateAt()
+	acsuo.mutation.SetCreateAt(u)
+	return acsuo
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (acsuo *AppCouponSettingUpdateOne) SetNillableCreateAt(u *uint32) *AppCouponSettingUpdateOne {
+	if u != nil {
+		acsuo.SetCreateAt(*u)
+	}
+	return acsuo
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (acsuo *AppCouponSettingUpdateOne) AddCreateAt(u uint32) *AppCouponSettingUpdateOne {
+	acsuo.mutation.AddCreateAt(u)
+	return acsuo
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (acsuo *AppCouponSettingUpdateOne) SetUpdateAt(u uint32) *AppCouponSettingUpdateOne {
+	acsuo.mutation.ResetUpdateAt()
+	acsuo.mutation.SetUpdateAt(u)
+	return acsuo
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (acsuo *AppCouponSettingUpdateOne) AddUpdateAt(u uint32) *AppCouponSettingUpdateOne {
+	acsuo.mutation.AddUpdateAt(u)
+	return acsuo
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (acsuo *AppCouponSettingUpdateOne) SetDeleteAt(u uint32) *AppCouponSettingUpdateOne {
+	acsuo.mutation.ResetDeleteAt()
+	acsuo.mutation.SetDeleteAt(u)
+	return acsuo
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (acsuo *AppCouponSettingUpdateOne) SetNillableDeleteAt(u *uint32) *AppCouponSettingUpdateOne {
+	if u != nil {
+		acsuo.SetDeleteAt(*u)
+	}
+	return acsuo
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (acsuo *AppCouponSettingUpdateOne) AddDeleteAt(u uint32) *AppCouponSettingUpdateOne {
+	acsuo.mutation.AddDeleteAt(u)
+	return acsuo
+}
+
 // Mutation returns the AppCouponSettingMutation object of the builder.
 func (acsuo *AppCouponSettingUpdateOne) Mutation() *AppCouponSettingMutation {
 	return acsuo.mutation
@@ -140,6 +401,7 @@ func (acsuo *AppCouponSettingUpdateOne) Save(ctx context.Context) (*AppCouponSet
 		err  error
 		node *AppCouponSetting
 	)
+	acsuo.defaults()
 	if len(acsuo.hooks) == 0 {
 		node, err = acsuo.sqlSave(ctx)
 	} else {
@@ -188,13 +450,21 @@ func (acsuo *AppCouponSettingUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (acsuo *AppCouponSettingUpdateOne) defaults() {
+	if _, ok := acsuo.mutation.UpdateAt(); !ok {
+		v := appcouponsetting.UpdateDefaultUpdateAt()
+		acsuo.mutation.SetUpdateAt(v)
+	}
+}
+
 func (acsuo *AppCouponSettingUpdateOne) sqlSave(ctx context.Context) (_node *AppCouponSetting, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   appcouponsetting.Table,
 			Columns: appcouponsetting.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: appcouponsetting.FieldID,
 			},
 		},
@@ -222,6 +492,83 @@ func (acsuo *AppCouponSettingUpdateOne) sqlSave(ctx context.Context) (_node *App
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := acsuo.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: appcouponsetting.FieldAppID,
+		})
+	}
+	if value, ok := acsuo.mutation.DominationLimit(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appcouponsetting.FieldDominationLimit,
+		})
+	}
+	if value, ok := acsuo.mutation.AddedDominationLimit(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appcouponsetting.FieldDominationLimit,
+		})
+	}
+	if value, ok := acsuo.mutation.TotalLimit(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appcouponsetting.FieldTotalLimit,
+		})
+	}
+	if value, ok := acsuo.mutation.AddedTotalLimit(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appcouponsetting.FieldTotalLimit,
+		})
+	}
+	if value, ok := acsuo.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldCreateAt,
+		})
+	}
+	if value, ok := acsuo.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldCreateAt,
+		})
+	}
+	if value, ok := acsuo.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldUpdateAt,
+		})
+	}
+	if value, ok := acsuo.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldUpdateAt,
+		})
+	}
+	if value, ok := acsuo.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldDeleteAt,
+		})
+	}
+	if value, ok := acsuo.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appcouponsetting.FieldDeleteAt,
+		})
 	}
 	_node = &AppCouponSetting{config: acsuo.config}
 	_spec.Assign = _node.assignValues

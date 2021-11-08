@@ -1,6 +1,13 @@
 package schema
 
-import "entgo.io/ent"
+import (
+	"time"
+
+	"entgo.io/ent"
+	"entgo.io/ent/schema/field"
+
+	"github.com/google/uuid"
+)
 
 // AppCouponSetting holds the schema definition for the AppCouponSetting entity.
 type AppCouponSetting struct {
@@ -9,7 +16,30 @@ type AppCouponSetting struct {
 
 // Fields of the AppCouponSetting.
 func (AppCouponSetting) Fields() []ent.Field {
-	return nil
+	return []ent.Field{
+		field.UUID("id", uuid.UUID{}).
+			Default(uuid.New).
+			Unique(),
+		field.UUID("app_id", uuid.UUID{}).
+			Unique(),
+		field.Int("domination_limit"),
+		field.Int("total_limit"),
+		field.Uint32("create_at").
+			DefaultFunc(func() uint32 {
+				return uint32(time.Now().Unix())
+			}),
+		field.Uint32("update_at").
+			DefaultFunc(func() uint32 {
+				return uint32(time.Now().Unix())
+			}).
+			UpdateDefault(func() uint32 {
+				return uint32(time.Now().Unix())
+			}),
+		field.Uint32("delete_at").
+			DefaultFunc(func() uint32 {
+				return 0
+			}),
+	}
 }
 
 // Edges of the AppCouponSetting.
