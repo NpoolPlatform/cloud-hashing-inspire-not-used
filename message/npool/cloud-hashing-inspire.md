@@ -3,23 +3,23 @@
 
 ## Table of Contents
 
-- [npool/cloud-hashing-stimulate.proto](#npool/cloud-hashing-stimulate.proto)
-    - [VersionResponse](#cloud.hashing.stimulate.v1.VersionResponse)
+- [npool/cloud-hashing-inspire.proto](#npool/cloud-hashing-inspire.proto)
+    - [VersionResponse](#cloud.hashing.inspire.v1.VersionResponse)
   
-    - [CloudHashingStimulate](#cloud.hashing.stimulate.v1.CloudHashingStimulate)
+    - [CloudHashingInspire](#cloud.hashing.inspire.v1.CloudHashingInspire)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="npool/cloud-hashing-stimulate.proto"></a>
+<a name="npool/cloud-hashing-inspire.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## npool/cloud-hashing-stimulate.proto
+## npool/cloud-hashing-inspire.proto
 
 
 
-<a name="cloud.hashing.stimulate.v1.VersionResponse"></a>
+<a name="cloud.hashing.inspire.v1.VersionResponse"></a>
 
 ### VersionResponse
 request body and response
@@ -40,14 +40,14 @@ request body and response
  
 
 
-<a name="cloud.hashing.stimulate.v1.CloudHashingStimulate"></a>
+<a name="cloud.hashing.inspire.v1.CloudHashingInspire"></a>
 
-### CloudHashingStimulate
+### CloudHashingInspire
 Service Name
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Version | [.google.protobuf.Empty](#google.protobuf.Empty) | [VersionResponse](#cloud.hashing.stimulate.v1.VersionResponse) | Method Version |
+| Version | [.google.protobuf.Empty](#google.protobuf.Empty) | [VersionResponse](#cloud.hashing.inspire.v1.VersionResponse) | Method Version |
 
  
 
