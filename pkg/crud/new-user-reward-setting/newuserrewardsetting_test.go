@@ -52,4 +52,12 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, resp1.Info.ID, resp.Info.ID)
 		assertNewUserRewardSetting(t, resp1.Info, &setting)
 	}
+
+	resp2, err := GetByApp(context.Background(), &npool.GetNewUserRewardSettingByAppRequest{
+		AppID: resp.Info.AppID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp2.Info.ID, resp.Info.ID)
+		assertNewUserRewardSetting(t, resp2.Info, &setting)
+	}
 }

@@ -85,7 +85,30 @@ func Get(ctx context.Context, in *npool.GetNewUserRewardSettingRequest) (*npool.
 }
 
 func GetByApp(ctx context.Context, in *npool.GetNewUserRewardSettingByAppRequest) (*npool.GetNewUserRewardSettingByAppResponse, error) {
-	return nil, nil
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	infos, err := db.Client().
+		NewUserRewardSetting.
+		Query().
+		Where(
+			newuserrewardsetting.And(
+				newuserrewardsetting.AppID(appID),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query new user reward setting: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty new user reward setting")
+	}
+
+	return &npool.GetNewUserRewardSettingByAppResponse{
+		Info: dbRowToNewUserRewardSetting(infos[0]),
+	}, nil
 }
 
 func Update(ctx context.Context, in *npool.UpdateNewUserRewardSettingRequest) (*npool.UpdateNewUserRewardSettingResponse, error) {
