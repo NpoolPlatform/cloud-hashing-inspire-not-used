@@ -135,6 +135,12 @@ service CloudHashingInspire {
             body: "*"
         };
     }
+    rpc GetUserInvitationCodeByCode(GetUserInvitationCodeByCodeRequest) returns (GetUserInvitationCodeByCodeResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/user/invitation/code/by/code"
+            body: "*"
+        };
+    }
 
     rpc CreateCouponAllocated(CreateCouponAllocatedRequest) returns (CreateCouponAllocatedResponse) {
         option (google.api.http) = {
@@ -400,7 +406,7 @@ message CreateUserInvitationCodeResponse {
 }
 
 message GetUserInvitationCodeRequest {
-    UserInvitationCode Info = 3200;
+    string ID = 3200;
 }
 
 message GetUserInvitationCodeResponse {
@@ -408,11 +414,20 @@ message GetUserInvitationCodeResponse {
 }
 
 message GetUserInvitationCodeByAppUserRequest {
-    UserInvitationCode Info = 3400;
+    string AppID = 3400;
+    string UserID = 3401;
 }
 
 message GetUserInvitationCodeByAppUserResponse {
     UserInvitationCode Info = 3500;
+}
+
+message GetUserInvitationCodeByCodeRequest {
+    string Code = 3510;
+}
+
+message GetUserInvitationCodeByCodeResponse {
+    UserInvitationCode Info = 3520;
 }
 
 message CouponAllocated {

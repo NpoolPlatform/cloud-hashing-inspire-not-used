@@ -2068,7 +2068,7 @@ type GetUserInvitationCodeRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Info *UserInvitationCode `protobuf:"bytes,3200,opt,name=Info,proto3" json:"Info,omitempty"`
+	ID string `protobuf:"bytes,3200,opt,name=ID,proto3" json:"ID,omitempty"`
 }
 
 func (x *GetUserInvitationCodeRequest) Reset() {
@@ -2103,11 +2103,11 @@ func (*GetUserInvitationCodeRequest) Descriptor() ([]byte, []int) {
 	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{40}
 }
 
-func (x *GetUserInvitationCodeRequest) GetInfo() *UserInvitationCode {
+func (x *GetUserInvitationCodeRequest) GetID() string {
 	if x != nil {
-		return x.Info
+		return x.ID
 	}
-	return nil
+	return ""
 }
 
 type GetUserInvitationCodeResponse struct {
@@ -2162,7 +2162,8 @@ type GetUserInvitationCodeByAppUserRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Info *UserInvitationCode `protobuf:"bytes,3400,opt,name=Info,proto3" json:"Info,omitempty"`
+	AppID  string `protobuf:"bytes,3400,opt,name=AppID,proto3" json:"AppID,omitempty"`
+	UserID string `protobuf:"bytes,3401,opt,name=UserID,proto3" json:"UserID,omitempty"`
 }
 
 func (x *GetUserInvitationCodeByAppUserRequest) Reset() {
@@ -2197,11 +2198,18 @@ func (*GetUserInvitationCodeByAppUserRequest) Descriptor() ([]byte, []int) {
 	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{42}
 }
 
-func (x *GetUserInvitationCodeByAppUserRequest) GetInfo() *UserInvitationCode {
+func (x *GetUserInvitationCodeByAppUserRequest) GetAppID() string {
 	if x != nil {
-		return x.Info
+		return x.AppID
 	}
-	return nil
+	return ""
+}
+
+func (x *GetUserInvitationCodeByAppUserRequest) GetUserID() string {
+	if x != nil {
+		return x.UserID
+	}
+	return ""
 }
 
 type GetUserInvitationCodeByAppUserResponse struct {
@@ -2251,6 +2259,100 @@ func (x *GetUserInvitationCodeByAppUserResponse) GetInfo() *UserInvitationCode {
 	return nil
 }
 
+type GetUserInvitationCodeByCodeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code string `protobuf:"bytes,3510,opt,name=Code,proto3" json:"Code,omitempty"`
+}
+
+func (x *GetUserInvitationCodeByCodeRequest) Reset() {
+	*x = GetUserInvitationCodeByCodeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[44]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUserInvitationCodeByCodeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserInvitationCodeByCodeRequest) ProtoMessage() {}
+
+func (x *GetUserInvitationCodeByCodeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[44]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserInvitationCodeByCodeRequest.ProtoReflect.Descriptor instead.
+func (*GetUserInvitationCodeByCodeRequest) Descriptor() ([]byte, []int) {
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *GetUserInvitationCodeByCodeRequest) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type GetUserInvitationCodeByCodeResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Info *UserInvitationCode `protobuf:"bytes,3520,opt,name=Info,proto3" json:"Info,omitempty"`
+}
+
+func (x *GetUserInvitationCodeByCodeResponse) Reset() {
+	*x = GetUserInvitationCodeByCodeResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[45]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUserInvitationCodeByCodeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserInvitationCodeByCodeResponse) ProtoMessage() {}
+
+func (x *GetUserInvitationCodeByCodeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[45]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserInvitationCodeByCodeResponse.ProtoReflect.Descriptor instead.
+func (*GetUserInvitationCodeByCodeResponse) Descriptor() ([]byte, []int) {
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{45}
+}
+
+func (x *GetUserInvitationCodeByCodeResponse) GetInfo() *UserInvitationCode {
+	if x != nil {
+		return x.Info
+	}
+	return nil
+}
+
 type CouponAllocated struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2266,7 +2368,7 @@ type CouponAllocated struct {
 func (x *CouponAllocated) Reset() {
 	*x = CouponAllocated{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[44]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[46]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2279,7 +2381,7 @@ func (x *CouponAllocated) String() string {
 func (*CouponAllocated) ProtoMessage() {}
 
 func (x *CouponAllocated) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[44]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[46]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2292,7 +2394,7 @@ func (x *CouponAllocated) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CouponAllocated.ProtoReflect.Descriptor instead.
 func (*CouponAllocated) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{44}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *CouponAllocated) GetID() string {
@@ -2341,7 +2443,7 @@ type CreateCouponAllocatedRequest struct {
 func (x *CreateCouponAllocatedRequest) Reset() {
 	*x = CreateCouponAllocatedRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[45]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[47]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2354,7 +2456,7 @@ func (x *CreateCouponAllocatedRequest) String() string {
 func (*CreateCouponAllocatedRequest) ProtoMessage() {}
 
 func (x *CreateCouponAllocatedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[45]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[47]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2367,7 +2469,7 @@ func (x *CreateCouponAllocatedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCouponAllocatedRequest.ProtoReflect.Descriptor instead.
 func (*CreateCouponAllocatedRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{45}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *CreateCouponAllocatedRequest) GetInfo() *CouponAllocated {
@@ -2388,7 +2490,7 @@ type CreateCouponAllocatedResponse struct {
 func (x *CreateCouponAllocatedResponse) Reset() {
 	*x = CreateCouponAllocatedResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[46]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[48]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2401,7 +2503,7 @@ func (x *CreateCouponAllocatedResponse) String() string {
 func (*CreateCouponAllocatedResponse) ProtoMessage() {}
 
 func (x *CreateCouponAllocatedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[46]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[48]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2414,7 +2516,7 @@ func (x *CreateCouponAllocatedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCouponAllocatedResponse.ProtoReflect.Descriptor instead.
 func (*CreateCouponAllocatedResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{46}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *CreateCouponAllocatedResponse) GetInfo() *CouponAllocated {
@@ -2435,7 +2537,7 @@ type GetCouponAllocatedRequest struct {
 func (x *GetCouponAllocatedRequest) Reset() {
 	*x = GetCouponAllocatedRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[47]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[49]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2448,7 +2550,7 @@ func (x *GetCouponAllocatedRequest) String() string {
 func (*GetCouponAllocatedRequest) ProtoMessage() {}
 
 func (x *GetCouponAllocatedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[47]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[49]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2461,7 +2563,7 @@ func (x *GetCouponAllocatedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCouponAllocatedRequest.ProtoReflect.Descriptor instead.
 func (*GetCouponAllocatedRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{47}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *GetCouponAllocatedRequest) GetID() string {
@@ -2482,7 +2584,7 @@ type GetCouponAllocatedResponse struct {
 func (x *GetCouponAllocatedResponse) Reset() {
 	*x = GetCouponAllocatedResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[48]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[50]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2495,7 +2597,7 @@ func (x *GetCouponAllocatedResponse) String() string {
 func (*GetCouponAllocatedResponse) ProtoMessage() {}
 
 func (x *GetCouponAllocatedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[48]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[50]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2508,7 +2610,7 @@ func (x *GetCouponAllocatedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCouponAllocatedResponse.ProtoReflect.Descriptor instead.
 func (*GetCouponAllocatedResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{48}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *GetCouponAllocatedResponse) GetInfo() *CouponAllocated {
@@ -2529,7 +2631,7 @@ type GetCouponsAllocatedByAppRequest struct {
 func (x *GetCouponsAllocatedByAppRequest) Reset() {
 	*x = GetCouponsAllocatedByAppRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[49]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[51]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2542,7 +2644,7 @@ func (x *GetCouponsAllocatedByAppRequest) String() string {
 func (*GetCouponsAllocatedByAppRequest) ProtoMessage() {}
 
 func (x *GetCouponsAllocatedByAppRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[49]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[51]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2555,7 +2657,7 @@ func (x *GetCouponsAllocatedByAppRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCouponsAllocatedByAppRequest.ProtoReflect.Descriptor instead.
 func (*GetCouponsAllocatedByAppRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{49}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *GetCouponsAllocatedByAppRequest) GetAppID() string {
@@ -2576,7 +2678,7 @@ type GetCouponsAllocatedByAppResponse struct {
 func (x *GetCouponsAllocatedByAppResponse) Reset() {
 	*x = GetCouponsAllocatedByAppResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[50]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[52]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2589,7 +2691,7 @@ func (x *GetCouponsAllocatedByAppResponse) String() string {
 func (*GetCouponsAllocatedByAppResponse) ProtoMessage() {}
 
 func (x *GetCouponsAllocatedByAppResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[50]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[52]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2602,7 +2704,7 @@ func (x *GetCouponsAllocatedByAppResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCouponsAllocatedByAppResponse.ProtoReflect.Descriptor instead.
 func (*GetCouponsAllocatedByAppResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{50}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{52}
 }
 
 func (x *GetCouponsAllocatedByAppResponse) GetInfos() []*CouponAllocated {
@@ -2624,7 +2726,7 @@ type GetCouponsAllocatedByAppUserRequest struct {
 func (x *GetCouponsAllocatedByAppUserRequest) Reset() {
 	*x = GetCouponsAllocatedByAppUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[51]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[53]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2637,7 +2739,7 @@ func (x *GetCouponsAllocatedByAppUserRequest) String() string {
 func (*GetCouponsAllocatedByAppUserRequest) ProtoMessage() {}
 
 func (x *GetCouponsAllocatedByAppUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[51]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[53]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2650,7 +2752,7 @@ func (x *GetCouponsAllocatedByAppUserRequest) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use GetCouponsAllocatedByAppUserRequest.ProtoReflect.Descriptor instead.
 func (*GetCouponsAllocatedByAppUserRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{51}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{53}
 }
 
 func (x *GetCouponsAllocatedByAppUserRequest) GetAppID() string {
@@ -2678,7 +2780,7 @@ type GetCouponsAllocatedByAppUserResponse struct {
 func (x *GetCouponsAllocatedByAppUserResponse) Reset() {
 	*x = GetCouponsAllocatedByAppUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[52]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[54]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2691,7 +2793,7 @@ func (x *GetCouponsAllocatedByAppUserResponse) String() string {
 func (*GetCouponsAllocatedByAppUserResponse) ProtoMessage() {}
 
 func (x *GetCouponsAllocatedByAppUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[52]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[54]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2704,7 +2806,7 @@ func (x *GetCouponsAllocatedByAppUserResponse) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use GetCouponsAllocatedByAppUserResponse.ProtoReflect.Descriptor instead.
 func (*GetCouponsAllocatedByAppUserResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{52}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{54}
 }
 
 func (x *GetCouponsAllocatedByAppUserResponse) GetInfos() []*CouponAllocated {
@@ -2725,7 +2827,7 @@ type UpdateCouponAllocatedRequest struct {
 func (x *UpdateCouponAllocatedRequest) Reset() {
 	*x = UpdateCouponAllocatedRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[53]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[55]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2738,7 +2840,7 @@ func (x *UpdateCouponAllocatedRequest) String() string {
 func (*UpdateCouponAllocatedRequest) ProtoMessage() {}
 
 func (x *UpdateCouponAllocatedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[53]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[55]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2751,7 +2853,7 @@ func (x *UpdateCouponAllocatedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCouponAllocatedRequest.ProtoReflect.Descriptor instead.
 func (*UpdateCouponAllocatedRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{53}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{55}
 }
 
 func (x *UpdateCouponAllocatedRequest) GetInfo() *CouponAllocated {
@@ -2772,7 +2874,7 @@ type UpdateCouponAllocatedResponse struct {
 func (x *UpdateCouponAllocatedResponse) Reset() {
 	*x = UpdateCouponAllocatedResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[54]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[56]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2785,7 +2887,7 @@ func (x *UpdateCouponAllocatedResponse) String() string {
 func (*UpdateCouponAllocatedResponse) ProtoMessage() {}
 
 func (x *UpdateCouponAllocatedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[54]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[56]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2798,7 +2900,7 @@ func (x *UpdateCouponAllocatedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCouponAllocatedResponse.ProtoReflect.Descriptor instead.
 func (*UpdateCouponAllocatedResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{54}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{56}
 }
 
 func (x *UpdateCouponAllocatedResponse) GetInfo() *CouponAllocated {
@@ -2827,7 +2929,7 @@ type CouponPool struct {
 func (x *CouponPool) Reset() {
 	*x = CouponPool{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[55]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[57]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2840,7 +2942,7 @@ func (x *CouponPool) String() string {
 func (*CouponPool) ProtoMessage() {}
 
 func (x *CouponPool) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[55]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[57]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2853,7 +2955,7 @@ func (x *CouponPool) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CouponPool.ProtoReflect.Descriptor instead.
 func (*CouponPool) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{55}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *CouponPool) GetID() string {
@@ -2930,7 +3032,7 @@ type CreateCouponPoolRequest struct {
 func (x *CreateCouponPoolRequest) Reset() {
 	*x = CreateCouponPoolRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[56]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[58]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2943,7 +3045,7 @@ func (x *CreateCouponPoolRequest) String() string {
 func (*CreateCouponPoolRequest) ProtoMessage() {}
 
 func (x *CreateCouponPoolRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[56]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[58]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2956,7 +3058,7 @@ func (x *CreateCouponPoolRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCouponPoolRequest.ProtoReflect.Descriptor instead.
 func (*CreateCouponPoolRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{56}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{58}
 }
 
 func (x *CreateCouponPoolRequest) GetInfo() *CouponPool {
@@ -2977,7 +3079,7 @@ type CreateCouponPoolResponse struct {
 func (x *CreateCouponPoolResponse) Reset() {
 	*x = CreateCouponPoolResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[57]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[59]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2990,7 +3092,7 @@ func (x *CreateCouponPoolResponse) String() string {
 func (*CreateCouponPoolResponse) ProtoMessage() {}
 
 func (x *CreateCouponPoolResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[57]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[59]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3003,7 +3105,7 @@ func (x *CreateCouponPoolResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCouponPoolResponse.ProtoReflect.Descriptor instead.
 func (*CreateCouponPoolResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{57}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *CreateCouponPoolResponse) GetInfo() *CouponPool {
@@ -3024,7 +3126,7 @@ type GetCouponPoolRequest struct {
 func (x *GetCouponPoolRequest) Reset() {
 	*x = GetCouponPoolRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[58]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[60]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3037,7 +3139,7 @@ func (x *GetCouponPoolRequest) String() string {
 func (*GetCouponPoolRequest) ProtoMessage() {}
 
 func (x *GetCouponPoolRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[58]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[60]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3050,7 +3152,7 @@ func (x *GetCouponPoolRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCouponPoolRequest.ProtoReflect.Descriptor instead.
 func (*GetCouponPoolRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{58}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{60}
 }
 
 func (x *GetCouponPoolRequest) GetID() string {
@@ -3071,7 +3173,7 @@ type GetCouponPoolResponse struct {
 func (x *GetCouponPoolResponse) Reset() {
 	*x = GetCouponPoolResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[59]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[61]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3084,7 +3186,7 @@ func (x *GetCouponPoolResponse) String() string {
 func (*GetCouponPoolResponse) ProtoMessage() {}
 
 func (x *GetCouponPoolResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[59]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[61]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3097,7 +3199,7 @@ func (x *GetCouponPoolResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCouponPoolResponse.ProtoReflect.Descriptor instead.
 func (*GetCouponPoolResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{59}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *GetCouponPoolResponse) GetInfo() *CouponPool {
@@ -3118,7 +3220,7 @@ type GetCouponPoolsByAppRequest struct {
 func (x *GetCouponPoolsByAppRequest) Reset() {
 	*x = GetCouponPoolsByAppRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[60]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[62]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3131,7 +3233,7 @@ func (x *GetCouponPoolsByAppRequest) String() string {
 func (*GetCouponPoolsByAppRequest) ProtoMessage() {}
 
 func (x *GetCouponPoolsByAppRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[60]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[62]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3144,7 +3246,7 @@ func (x *GetCouponPoolsByAppRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCouponPoolsByAppRequest.ProtoReflect.Descriptor instead.
 func (*GetCouponPoolsByAppRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{60}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{62}
 }
 
 func (x *GetCouponPoolsByAppRequest) GetAppID() string {
@@ -3165,7 +3267,7 @@ type GetCouponPoolsByAppResponse struct {
 func (x *GetCouponPoolsByAppResponse) Reset() {
 	*x = GetCouponPoolsByAppResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[61]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[63]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3178,7 +3280,7 @@ func (x *GetCouponPoolsByAppResponse) String() string {
 func (*GetCouponPoolsByAppResponse) ProtoMessage() {}
 
 func (x *GetCouponPoolsByAppResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[61]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[63]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3191,7 +3293,7 @@ func (x *GetCouponPoolsByAppResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCouponPoolsByAppResponse.ProtoReflect.Descriptor instead.
 func (*GetCouponPoolsByAppResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{61}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *GetCouponPoolsByAppResponse) GetInfos() []*CouponPool {
@@ -3213,7 +3315,7 @@ type GetCouponPoolsByAppReleaserRequest struct {
 func (x *GetCouponPoolsByAppReleaserRequest) Reset() {
 	*x = GetCouponPoolsByAppReleaserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[62]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[64]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3226,7 +3328,7 @@ func (x *GetCouponPoolsByAppReleaserRequest) String() string {
 func (*GetCouponPoolsByAppReleaserRequest) ProtoMessage() {}
 
 func (x *GetCouponPoolsByAppReleaserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[62]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[64]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3239,7 +3341,7 @@ func (x *GetCouponPoolsByAppReleaserRequest) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use GetCouponPoolsByAppReleaserRequest.ProtoReflect.Descriptor instead.
 func (*GetCouponPoolsByAppReleaserRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{62}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{64}
 }
 
 func (x *GetCouponPoolsByAppReleaserRequest) GetAppID() string {
@@ -3267,7 +3369,7 @@ type GetCouponPoolsByAppReleaserResponse struct {
 func (x *GetCouponPoolsByAppReleaserResponse) Reset() {
 	*x = GetCouponPoolsByAppReleaserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[63]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[65]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3280,7 +3382,7 @@ func (x *GetCouponPoolsByAppReleaserResponse) String() string {
 func (*GetCouponPoolsByAppReleaserResponse) ProtoMessage() {}
 
 func (x *GetCouponPoolsByAppReleaserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[63]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[65]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3293,7 +3395,7 @@ func (x *GetCouponPoolsByAppReleaserResponse) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use GetCouponPoolsByAppReleaserResponse.ProtoReflect.Descriptor instead.
 func (*GetCouponPoolsByAppReleaserResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{63}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *GetCouponPoolsByAppReleaserResponse) GetInfos() []*CouponPool {
@@ -3317,7 +3419,7 @@ type AppCouponSetting struct {
 func (x *AppCouponSetting) Reset() {
 	*x = AppCouponSetting{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[64]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[66]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3330,7 +3432,7 @@ func (x *AppCouponSetting) String() string {
 func (*AppCouponSetting) ProtoMessage() {}
 
 func (x *AppCouponSetting) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[64]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[66]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3343,7 +3445,7 @@ func (x *AppCouponSetting) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AppCouponSetting.ProtoReflect.Descriptor instead.
 func (*AppCouponSetting) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{64}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{66}
 }
 
 func (x *AppCouponSetting) GetID() string {
@@ -3385,7 +3487,7 @@ type CreateAppCouponSettingRequest struct {
 func (x *CreateAppCouponSettingRequest) Reset() {
 	*x = CreateAppCouponSettingRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[65]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[67]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3398,7 +3500,7 @@ func (x *CreateAppCouponSettingRequest) String() string {
 func (*CreateAppCouponSettingRequest) ProtoMessage() {}
 
 func (x *CreateAppCouponSettingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[65]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[67]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3411,7 +3513,7 @@ func (x *CreateAppCouponSettingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAppCouponSettingRequest.ProtoReflect.Descriptor instead.
 func (*CreateAppCouponSettingRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{65}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *CreateAppCouponSettingRequest) GetInfo() *AppCouponSetting {
@@ -3432,7 +3534,7 @@ type CreateAppCouponSettingResponse struct {
 func (x *CreateAppCouponSettingResponse) Reset() {
 	*x = CreateAppCouponSettingResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[66]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[68]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3445,7 +3547,7 @@ func (x *CreateAppCouponSettingResponse) String() string {
 func (*CreateAppCouponSettingResponse) ProtoMessage() {}
 
 func (x *CreateAppCouponSettingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[66]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[68]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3458,7 +3560,7 @@ func (x *CreateAppCouponSettingResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAppCouponSettingResponse.ProtoReflect.Descriptor instead.
 func (*CreateAppCouponSettingResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{66}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{68}
 }
 
 func (x *CreateAppCouponSettingResponse) GetInfo() *AppCouponSetting {
@@ -3479,7 +3581,7 @@ type GetAppCouponSettingRequest struct {
 func (x *GetAppCouponSettingRequest) Reset() {
 	*x = GetAppCouponSettingRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[67]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[69]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3492,7 +3594,7 @@ func (x *GetAppCouponSettingRequest) String() string {
 func (*GetAppCouponSettingRequest) ProtoMessage() {}
 
 func (x *GetAppCouponSettingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[67]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[69]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3505,7 +3607,7 @@ func (x *GetAppCouponSettingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAppCouponSettingRequest.ProtoReflect.Descriptor instead.
 func (*GetAppCouponSettingRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{67}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{69}
 }
 
 func (x *GetAppCouponSettingRequest) GetID() string {
@@ -3526,7 +3628,7 @@ type GetAppCouponSettingResponse struct {
 func (x *GetAppCouponSettingResponse) Reset() {
 	*x = GetAppCouponSettingResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[68]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[70]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3539,7 +3641,7 @@ func (x *GetAppCouponSettingResponse) String() string {
 func (*GetAppCouponSettingResponse) ProtoMessage() {}
 
 func (x *GetAppCouponSettingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[68]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[70]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3552,7 +3654,7 @@ func (x *GetAppCouponSettingResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAppCouponSettingResponse.ProtoReflect.Descriptor instead.
 func (*GetAppCouponSettingResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{68}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{70}
 }
 
 func (x *GetAppCouponSettingResponse) GetInfo() *AppCouponSetting {
@@ -3573,7 +3675,7 @@ type GetAppCouponSettingByAppRequest struct {
 func (x *GetAppCouponSettingByAppRequest) Reset() {
 	*x = GetAppCouponSettingByAppRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[69]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[71]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3586,7 +3688,7 @@ func (x *GetAppCouponSettingByAppRequest) String() string {
 func (*GetAppCouponSettingByAppRequest) ProtoMessage() {}
 
 func (x *GetAppCouponSettingByAppRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[69]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[71]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3599,7 +3701,7 @@ func (x *GetAppCouponSettingByAppRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAppCouponSettingByAppRequest.ProtoReflect.Descriptor instead.
 func (*GetAppCouponSettingByAppRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{69}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{71}
 }
 
 func (x *GetAppCouponSettingByAppRequest) GetAppID() string {
@@ -3620,7 +3722,7 @@ type GetAppCouponSettingByAppResponse struct {
 func (x *GetAppCouponSettingByAppResponse) Reset() {
 	*x = GetAppCouponSettingByAppResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[70]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[72]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3633,7 +3735,7 @@ func (x *GetAppCouponSettingByAppResponse) String() string {
 func (*GetAppCouponSettingByAppResponse) ProtoMessage() {}
 
 func (x *GetAppCouponSettingByAppResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[70]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[72]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3646,7 +3748,7 @@ func (x *GetAppCouponSettingByAppResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAppCouponSettingByAppResponse.ProtoReflect.Descriptor instead.
 func (*GetAppCouponSettingByAppResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{70}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{72}
 }
 
 func (x *GetAppCouponSettingByAppResponse) GetInfo() *AppCouponSetting {
@@ -3667,7 +3769,7 @@ type UpdateAppCouponSettingRequest struct {
 func (x *UpdateAppCouponSettingRequest) Reset() {
 	*x = UpdateAppCouponSettingRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[71]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[73]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3680,7 +3782,7 @@ func (x *UpdateAppCouponSettingRequest) String() string {
 func (*UpdateAppCouponSettingRequest) ProtoMessage() {}
 
 func (x *UpdateAppCouponSettingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[71]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[73]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3693,7 +3795,7 @@ func (x *UpdateAppCouponSettingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAppCouponSettingRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAppCouponSettingRequest) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{71}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{73}
 }
 
 func (x *UpdateAppCouponSettingRequest) GetInfo() *AppCouponSetting {
@@ -3714,7 +3816,7 @@ type UpdateAppCouponSettingResponse struct {
 func (x *UpdateAppCouponSettingResponse) Reset() {
 	*x = UpdateAppCouponSettingResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[72]
+		mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[74]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3727,7 +3829,7 @@ func (x *UpdateAppCouponSettingResponse) String() string {
 func (*UpdateAppCouponSettingResponse) ProtoMessage() {}
 
 func (x *UpdateAppCouponSettingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[72]
+	mi := &file_npool_cloud_hashing_inspire_proto_msgTypes[74]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3740,7 +3842,7 @@ func (x *UpdateAppCouponSettingResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAppCouponSettingResponse.ProtoReflect.Descriptor instead.
 func (*UpdateAppCouponSettingResponse) Descriptor() ([]byte, []int) {
-	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{72}
+	return file_npool_cloud_hashing_inspire_proto_rawDescGZIP(), []int{74}
 }
 
 func (x *UpdateAppCouponSettingResponse) GetInfo() *AppCouponSetting {
@@ -4024,29 +4126,35 @@ var file_npool_cloud_hashing_inspire_proto_rawDesc = []byte{
 	0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e,
 	0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76,
 	0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x04, 0x49, 0x6e, 0x66,
-	0x6f, 0x22, 0x61, 0x0a, 0x1c, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69,
+	0x6f, 0x22, 0x2f, 0x0a, 0x1c, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69,
 	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x41, 0x0a, 0x04, 0x49, 0x6e, 0x66, 0x6f, 0x18, 0x80, 0x19, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x2c, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67,
-	0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x73, 0x65, 0x72,
-	0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x04,
-	0x49, 0x6e, 0x66, 0x6f, 0x22, 0x62, 0x0a, 0x1d, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49,
-	0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x41, 0x0a, 0x04, 0x49, 0x6e, 0x66, 0x6f, 0x18, 0xe4, 0x19,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73,
-	0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e,
-	0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f,
-	0x64, 0x65, 0x52, 0x04, 0x49, 0x6e, 0x66, 0x6f, 0x22, 0x6a, 0x0a, 0x25, 0x47, 0x65, 0x74, 0x55,
-	0x73, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64,
-	0x65, 0x42, 0x79, 0x41, 0x70, 0x70, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x41, 0x0a, 0x04, 0x49, 0x6e, 0x66, 0x6f, 0x18, 0xc8, 0x1a, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x2c, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67,
-	0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x73, 0x65, 0x72,
-	0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x04,
-	0x49, 0x6e, 0x66, 0x6f, 0x22, 0x6b, 0x0a, 0x26, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49,
-	0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x42, 0x79, 0x41,
-	0x70, 0x70, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x41,
-	0x0a, 0x04, 0x49, 0x6e, 0x66, 0x6f, 0x18, 0xac, 0x1b, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e,
+	0x74, 0x12, 0x0f, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x80, 0x19, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
+	0x49, 0x44, 0x22, 0x62, 0x0a, 0x1d, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76,
+	0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x41, 0x0a, 0x04, 0x49, 0x6e, 0x66, 0x6f, 0x18, 0xe4, 0x19, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69,
+	0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x73,
+	0x65, 0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65,
+	0x52, 0x04, 0x49, 0x6e, 0x66, 0x6f, 0x22, 0x57, 0x0a, 0x25, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65,
+	0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x42,
+	0x79, 0x41, 0x70, 0x70, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x15, 0x0a, 0x05, 0x41, 0x70, 0x70, 0x49, 0x44, 0x18, 0xc8, 0x1a, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x05, 0x41, 0x70, 0x70, 0x49, 0x44, 0x12, 0x17, 0x0a, 0x06, 0x55, 0x73, 0x65, 0x72, 0x49, 0x44,
+	0x18, 0xc9, 0x1a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x55, 0x73, 0x65, 0x72, 0x49, 0x44, 0x22,
+	0x6b, 0x0a, 0x26, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x42, 0x79, 0x41, 0x70, 0x70, 0x55, 0x73, 0x65,
+	0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x41, 0x0a, 0x04, 0x49, 0x6e, 0x66,
+	0x6f, 0x18, 0xac, 0x1b, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64,
+	0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65,
+	0x2e, 0x76, 0x31, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x04, 0x49, 0x6e, 0x66, 0x6f, 0x22, 0x39, 0x0a, 0x22,
+	0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x43, 0x6f, 0x64, 0x65, 0x42, 0x79, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x13, 0x0a, 0x04, 0x43, 0x6f, 0x64, 0x65, 0x18, 0xb6, 0x1b, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x43, 0x6f, 0x64, 0x65, 0x22, 0x68, 0x0a, 0x23, 0x47, 0x65, 0x74, 0x55, 0x73,
+	0x65, 0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65,
+	0x42, 0x79, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x41,
+	0x0a, 0x04, 0x49, 0x6e, 0x66, 0x6f, 0x18, 0xc0, 0x1b, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e,
 	0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e,
 	0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76,
 	0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x04, 0x49, 0x6e, 0x66,
@@ -4222,7 +4330,7 @@ var file_npool_cloud_hashing_inspire_proto_rawDesc = []byte{
 	0x2a, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e,
 	0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x70, 0x70, 0x43, 0x6f,
 	0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x04, 0x49, 0x6e, 0x66,
-	0x6f, 0x32, 0xc2, 0x30, 0x0a, 0x13, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x48, 0x61, 0x73, 0x68, 0x69,
+	0x6f, 0x32, 0x90, 0x32, 0x0a, 0x13, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x48, 0x61, 0x73, 0x68, 0x69,
 	0x6e, 0x67, 0x49, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x12, 0x61, 0x0a, 0x07, 0x56, 0x65, 0x72,
 	0x73, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x29, 0x2e, 0x63,
@@ -4463,158 +4571,171 @@ var file_npool_cloud_hashing_inspire_proto_rawDesc = []byte{
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x33, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2d, 0x22, 0x28,
 	0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x2f, 0x69, 0x6e, 0x76,
 	0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x6f, 0x64, 0x65, 0x2f, 0x62, 0x79, 0x2f,
-	0x61, 0x70, 0x70, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x3a, 0x01, 0x2a, 0x12, 0xb0, 0x01, 0x0a, 0x15,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f,
-	0x63, 0x61, 0x74, 0x65, 0x64, 0x12, 0x36, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61,
-	0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31,
-	0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c,
-	0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37, 0x2e,
-	0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e,
-	0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43,
-	0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x22, 0x1b,
-	0x2f, 0x76, 0x31, 0x2f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f,
-	0x6e, 0x2f, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x3a, 0x01, 0x2a, 0x12, 0xa4,
-	0x01, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f,
-	0x63, 0x61, 0x74, 0x65, 0x64, 0x12, 0x33, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61,
-	0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31,
-	0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61,
-	0x74, 0x65, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x34, 0x2e, 0x63, 0x6c, 0x6f,
-	0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69,
-	0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41,
-	0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x23, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1d, 0x22, 0x18, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65,
-	0x74, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74,
-	0x65, 0x64, 0x3a, 0x01, 0x2a, 0x12, 0xbe, 0x01, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75,
-	0x70, 0x6f, 0x6e, 0x73, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x41,
-	0x70, 0x70, 0x12, 0x39, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69,
-	0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65,
-	0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x73, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65,
-	0x64, 0x42, 0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x3a, 0x2e,
-	0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e,
-	0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70,
-	0x6f, 0x6e, 0x73, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x41, 0x70,
-	0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2b, 0x82, 0xd3, 0xe4, 0x93, 0x02,
-	0x25, 0x22, 0x20, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f,
-	0x6e, 0x73, 0x2f, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x62, 0x79, 0x2f,
-	0x61, 0x70, 0x70, 0x3a, 0x01, 0x2a, 0x12, 0xcf, 0x01, 0x0a, 0x1c, 0x47, 0x65, 0x74, 0x43, 0x6f,
-	0x75, 0x70, 0x6f, 0x6e, 0x73, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x42, 0x79,
-	0x41, 0x70, 0x70, 0x55, 0x73, 0x65, 0x72, 0x12, 0x3d, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e,
-	0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e,
-	0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x73, 0x41, 0x6c, 0x6c,
-	0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x41, 0x70, 0x70, 0x55, 0x73, 0x65, 0x72, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x3e, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68,
-	0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76,
-	0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x73, 0x41, 0x6c, 0x6c, 0x6f,
-	0x63, 0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x41, 0x70, 0x70, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x22, 0x25,
-	0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x73, 0x2f,
-	0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x62, 0x79, 0x2f, 0x61, 0x70, 0x70,
-	0x2f, 0x75, 0x73, 0x65, 0x72, 0x3a, 0x01, 0x2a, 0x12, 0xb0, 0x01, 0x0a, 0x15, 0x55, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74,
-	0x65, 0x64, 0x12, 0x36, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69,
-	0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61,
-	0x74, 0x65, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37, 0x2e, 0x63, 0x6c, 0x6f,
-	0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69,
-	0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70,
-	0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x22, 0x1b, 0x2f, 0x76, 0x31,
-	0x2f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x61,
-	0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x3a, 0x01, 0x2a, 0x12, 0x9c, 0x01, 0x0a, 0x10,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c,
-	0x12, 0x31, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67,
-	0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x32, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68,
+	0x61, 0x70, 0x70, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x3a, 0x01, 0x2a, 0x12, 0xcb, 0x01, 0x0a, 0x1b,
+	0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x43, 0x6f, 0x64, 0x65, 0x42, 0x79, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x3c, 0x2e, 0x63, 0x6c,
+	0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70,
+	0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e,
+	0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x42, 0x79, 0x43, 0x6f,
+	0x64, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x3d, 0x2e, 0x63, 0x6c, 0x6f, 0x75,
+	0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72,
+	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x76, 0x69,
+	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x42, 0x79, 0x43, 0x6f, 0x64, 0x65,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x29,
+	0x22, 0x24, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x2f, 0x69,
+	0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x6f, 0x64, 0x65, 0x2f, 0x62,
+	0x79, 0x2f, 0x63, 0x6f, 0x64, 0x65, 0x3a, 0x01, 0x2a, 0x12, 0xb0, 0x01, 0x0a, 0x15, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61,
+	0x74, 0x65, 0x64, 0x12, 0x36, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68,
 	0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43,
-	0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1b, 0x22,
-	0x16, 0x2f, 0x76, 0x31, 0x2f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x2f, 0x63, 0x6f, 0x75, 0x70,
-	0x6f, 0x6e, 0x2f, 0x70, 0x6f, 0x6f, 0x6c, 0x3a, 0x01, 0x2a, 0x12, 0x90, 0x01, 0x0a, 0x0d, 0x47,
-	0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x12, 0x2e, 0x2e, 0x63,
-	0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73,
-	0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f,
-	0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2f, 0x2e, 0x63,
-	0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73,
-	0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f,
-	0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x18, 0x22, 0x13, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x63,
-	0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x70, 0x6f, 0x6f, 0x6c, 0x3a, 0x01, 0x2a, 0x12, 0xaa, 0x01,
-	0x0a, 0x13, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x73,
-	0x42, 0x79, 0x41, 0x70, 0x70, 0x12, 0x34, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61,
-	0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31,
-	0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x73, 0x42,
-	0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x35, 0x2e, 0x63, 0x6c,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63,
+	0x61, 0x74, 0x65, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37, 0x2e, 0x63, 0x6c,
+	0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70,
+	0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75,
+	0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x22, 0x1b, 0x2f, 0x76,
+	0x31, 0x2f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f,
+	0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x3a, 0x01, 0x2a, 0x12, 0xa4, 0x01, 0x0a,
+	0x12, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61,
+	0x74, 0x65, 0x64, 0x12, 0x33, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68,
+	0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47,
+	0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65,
+	0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x34, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64,
+	0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65,
+	0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c,
+	0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x23,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1d, 0x22, 0x18, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f,
+	0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64,
+	0x3a, 0x01, 0x2a, 0x12, 0xbe, 0x01, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f,
+	0x6e, 0x73, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x41, 0x70, 0x70,
+	0x12, 0x39, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67,
+	0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43,
+	0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x73, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x42,
+	0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x3a, 0x2e, 0x63, 0x6c,
 	0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70,
 	0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e,
-	0x50, 0x6f, 0x6f, 0x6c, 0x73, 0x42, 0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x22, 0x1b, 0x2f, 0x76, 0x31, 0x2f,
-	0x67, 0x65, 0x74, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x70, 0x6f, 0x6f, 0x6c, 0x73,
-	0x2f, 0x62, 0x79, 0x2f, 0x61, 0x70, 0x70, 0x3a, 0x01, 0x2a, 0x12, 0xcb, 0x01, 0x0a, 0x1b, 0x47,
-	0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x73, 0x42, 0x79, 0x41,
-	0x70, 0x70, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x72, 0x12, 0x3c, 0x2e, 0x63, 0x6c, 0x6f,
+	0x73, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x41, 0x70, 0x70, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x25, 0x22,
+	0x20, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x73,
+	0x2f, 0x61, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x62, 0x79, 0x2f, 0x61, 0x70,
+	0x70, 0x3a, 0x01, 0x2a, 0x12, 0xcf, 0x01, 0x0a, 0x1c, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70,
+	0x6f, 0x6e, 0x73, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x41, 0x70,
+	0x70, 0x55, 0x73, 0x65, 0x72, 0x12, 0x3d, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61,
+	0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31,
+	0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x73, 0x41, 0x6c, 0x6c, 0x6f, 0x63,
+	0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x41, 0x70, 0x70, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x3e, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73,
+	0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e,
+	0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x73, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61,
+	0x74, 0x65, 0x64, 0x42, 0x79, 0x41, 0x70, 0x70, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x22, 0x25, 0x2f, 0x76,
+	0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x6c,
+	0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x62, 0x79, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x75,
+	0x73, 0x65, 0x72, 0x3a, 0x01, 0x2a, 0x12, 0xb0, 0x01, 0x0a, 0x15, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64,
+	0x12, 0x36, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67,
+	0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65,
+	0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64,
+	0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65,
+	0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e,
+	0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x22, 0x1b, 0x2f, 0x76, 0x31, 0x2f, 0x75,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x61, 0x6c, 0x6c,
+	0x6f, 0x63, 0x61, 0x74, 0x65, 0x64, 0x3a, 0x01, 0x2a, 0x12, 0x9c, 0x01, 0x0a, 0x10, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x12, 0x31,
+	0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69,
+	0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x32, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e,
+	0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1b, 0x22, 0x16, 0x2f,
+	0x76, 0x31, 0x2f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e,
+	0x2f, 0x70, 0x6f, 0x6f, 0x6c, 0x3a, 0x01, 0x2a, 0x12, 0x90, 0x01, 0x0a, 0x0d, 0x47, 0x65, 0x74,
+	0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x12, 0x2e, 0x2e, 0x63, 0x6c, 0x6f,
 	0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69,
 	0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50,
-	0x6f, 0x6f, 0x6c, 0x73, 0x42, 0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65,
-	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x3d, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64,
+	0x6f, 0x6f, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2f, 0x2e, 0x63, 0x6c, 0x6f,
+	0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69,
+	0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50,
+	0x6f, 0x6f, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x18, 0x22, 0x13, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x63, 0x6f, 0x75,
+	0x70, 0x6f, 0x6e, 0x2f, 0x70, 0x6f, 0x6f, 0x6c, 0x3a, 0x01, 0x2a, 0x12, 0xaa, 0x01, 0x0a, 0x13,
+	0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x73, 0x42, 0x79,
+	0x41, 0x70, 0x70, 0x12, 0x34, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68,
+	0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47,
+	0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x73, 0x42, 0x79, 0x41,
+	0x70, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x35, 0x2e, 0x63, 0x6c, 0x6f, 0x75,
+	0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72,
+	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f,
+	0x6f, 0x6c, 0x73, 0x42, 0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x22, 0x1b, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65,
+	0x74, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x70, 0x6f, 0x6f, 0x6c, 0x73, 0x2f, 0x62,
+	0x79, 0x2f, 0x61, 0x70, 0x70, 0x3a, 0x01, 0x2a, 0x12, 0xcb, 0x01, 0x0a, 0x1b, 0x47, 0x65, 0x74,
+	0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x73, 0x42, 0x79, 0x41, 0x70, 0x70,
+	0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x72, 0x12, 0x3c, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64,
 	0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65,
 	0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f,
 	0x6c, 0x73, 0x42, 0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x72, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x29, 0x22,
-	0x24, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f,
-	0x70, 0x6f, 0x6f, 0x6c, 0x73, 0x2f, 0x62, 0x79, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x72, 0x65, 0x6c,
-	0x65, 0x61, 0x73, 0x65, 0x72, 0x3a, 0x01, 0x2a, 0x12, 0xb5, 0x01, 0x0a, 0x16, 0x43, 0x72, 0x65,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x3d, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68,
+	0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76,
+	0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x50, 0x6f, 0x6f, 0x6c, 0x73,
+	0x42, 0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x29, 0x22, 0x24, 0x2f,
+	0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x70, 0x6f,
+	0x6f, 0x6c, 0x73, 0x2f, 0x62, 0x79, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x72, 0x65, 0x6c, 0x65, 0x61,
+	0x73, 0x65, 0x72, 0x3a, 0x01, 0x2a, 0x12, 0xb5, 0x01, 0x0a, 0x16, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e,
+	0x67, 0x12, 0x37, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e,
+	0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65,
 	0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74,
-	0x69, 0x6e, 0x67, 0x12, 0x37, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68,
-	0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43,
-	0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65,
-	0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x38, 0x2e, 0x63,
+	0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x38, 0x2e, 0x63, 0x6c, 0x6f,
+	0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69,
+	0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x43,
+	0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x22, 0x1d, 0x2f, 0x76,
+	0x31, 0x2f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x63, 0x6f, 0x75,
+	0x70, 0x6f, 0x6e, 0x2f, 0x73, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x3a, 0x01, 0x2a, 0x12, 0xa9,
+	0x01, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53,
+	0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x12, 0x34, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68,
+	0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76,
+	0x31, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65,
+	0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x35, 0x2e, 0x63,
 	0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73,
-	0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x70,
-	0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x22, 0x1d,
-	0x2f, 0x76, 0x31, 0x2f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x63,
-	0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x73, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x3a, 0x01, 0x2a,
-	0x12, 0xa9, 0x01, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f,
-	0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x12, 0x34, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64,
-	0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65,
-	0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e,
-	0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x35,
-	0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69,
-	0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x70, 0x70,
-	0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x25, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1f, 0x22, 0x1a, 0x2f,
-	0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f,
-	0x6e, 0x2f, 0x73, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x3a, 0x01, 0x2a, 0x12, 0xbf, 0x01, 0x0a,
-	0x18, 0x47, 0x65, 0x74, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74,
-	0x74, 0x69, 0x6e, 0x67, 0x42, 0x79, 0x41, 0x70, 0x70, 0x12, 0x39, 0x2e, 0x63, 0x6c, 0x6f, 0x75,
-	0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72,
-	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f,
-	0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x42, 0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x3a, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73,
-	0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e,
-	0x47, 0x65, 0x74, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74,
-	0x69, 0x6e, 0x67, 0x42, 0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x2c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x22, 0x21, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65,
-	0x74, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x73, 0x65, 0x74,
-	0x74, 0x69, 0x6e, 0x67, 0x2f, 0x62, 0x79, 0x2f, 0x61, 0x70, 0x70, 0x3a, 0x01, 0x2a, 0x12, 0xb5,
-	0x01, 0x0a, 0x16, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70,
-	0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x12, 0x37, 0x2e, 0x63, 0x6c, 0x6f, 0x75,
-	0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72,
-	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x43, 0x6f,
-	0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x38, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69,
-	0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74,
-	0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x22, 0x22, 0x1d, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
-	0x2f, 0x61, 0x70, 0x70, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x73, 0x65, 0x74, 0x74,
-	0x69, 0x6e, 0x67, 0x3a, 0x01, 0x2a, 0x42, 0x3e, 0x5a, 0x3c, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x4e, 0x70, 0x6f, 0x6f, 0x6c, 0x50, 0x6c, 0x61, 0x74, 0x66, 0x6f,
-	0x72, 0x6d, 0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2d, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67,
-	0x2d, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x2f, 0x6e, 0x70, 0x6f, 0x6f, 0x6c, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x70, 0x70, 0x43, 0x6f,
+	0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x25, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1f, 0x22, 0x1a, 0x2f, 0x76, 0x31,
+	0x2f, 0x67, 0x65, 0x74, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f,
+	0x73, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x3a, 0x01, 0x2a, 0x12, 0xbf, 0x01, 0x0a, 0x18, 0x47,
+	0x65, 0x74, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69,
+	0x6e, 0x67, 0x42, 0x79, 0x41, 0x70, 0x70, 0x12, 0x39, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e,
+	0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53,
+	0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x42, 0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x3a, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69,
+	0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65,
+	0x74, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e,
+	0x67, 0x42, 0x79, 0x41, 0x70, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2c,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26, 0x22, 0x21, 0x2f, 0x76, 0x31, 0x2f, 0x67, 0x65, 0x74, 0x2f,
+	0x61, 0x70, 0x70, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x73, 0x65, 0x74, 0x74, 0x69,
+	0x6e, 0x67, 0x2f, 0x62, 0x79, 0x2f, 0x61, 0x70, 0x70, 0x3a, 0x01, 0x2a, 0x12, 0xb5, 0x01, 0x0a,
+	0x16, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e,
+	0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x12, 0x37, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e,
+	0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70,
+	0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x38, 0x2e, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2e, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67,
+	0x2e, 0x69, 0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x74, 0x69,
+	0x6e, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x22, 0x22, 0x1d, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2f, 0x61,
+	0x70, 0x70, 0x2f, 0x63, 0x6f, 0x75, 0x70, 0x6f, 0x6e, 0x2f, 0x73, 0x65, 0x74, 0x74, 0x69, 0x6e,
+	0x67, 0x3a, 0x01, 0x2a, 0x42, 0x3e, 0x5a, 0x3c, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
+	0x6f, 0x6d, 0x2f, 0x4e, 0x70, 0x6f, 0x6f, 0x6c, 0x50, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d,
+	0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x2d, 0x68, 0x61, 0x73, 0x68, 0x69, 0x6e, 0x67, 0x2d, 0x69,
+	0x6e, 0x73, 0x70, 0x69, 0x72, 0x65, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2f, 0x6e,
+	0x70, 0x6f, 0x6f, 0x6c, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -4629,7 +4750,7 @@ func file_npool_cloud_hashing_inspire_proto_rawDescGZIP() []byte {
 	return file_npool_cloud_hashing_inspire_proto_rawDescData
 }
 
-var file_npool_cloud_hashing_inspire_proto_msgTypes = make([]protoimpl.MessageInfo, 73)
+var file_npool_cloud_hashing_inspire_proto_msgTypes = make([]protoimpl.MessageInfo, 75)
 var file_npool_cloud_hashing_inspire_proto_goTypes = []interface{}{
 	(*VersionResponse)(nil),                                // 0: cloud.hashing.inspire.v1.VersionResponse
 	(*NewUserRewardSetting)(nil),                           // 1: cloud.hashing.inspire.v1.NewUserRewardSetting
@@ -4675,36 +4796,38 @@ var file_npool_cloud_hashing_inspire_proto_goTypes = []interface{}{
 	(*GetUserInvitationCodeResponse)(nil),                  // 41: cloud.hashing.inspire.v1.GetUserInvitationCodeResponse
 	(*GetUserInvitationCodeByAppUserRequest)(nil),          // 42: cloud.hashing.inspire.v1.GetUserInvitationCodeByAppUserRequest
 	(*GetUserInvitationCodeByAppUserResponse)(nil),         // 43: cloud.hashing.inspire.v1.GetUserInvitationCodeByAppUserResponse
-	(*CouponAllocated)(nil),                                // 44: cloud.hashing.inspire.v1.CouponAllocated
-	(*CreateCouponAllocatedRequest)(nil),                   // 45: cloud.hashing.inspire.v1.CreateCouponAllocatedRequest
-	(*CreateCouponAllocatedResponse)(nil),                  // 46: cloud.hashing.inspire.v1.CreateCouponAllocatedResponse
-	(*GetCouponAllocatedRequest)(nil),                      // 47: cloud.hashing.inspire.v1.GetCouponAllocatedRequest
-	(*GetCouponAllocatedResponse)(nil),                     // 48: cloud.hashing.inspire.v1.GetCouponAllocatedResponse
-	(*GetCouponsAllocatedByAppRequest)(nil),                // 49: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppRequest
-	(*GetCouponsAllocatedByAppResponse)(nil),               // 50: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppResponse
-	(*GetCouponsAllocatedByAppUserRequest)(nil),            // 51: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserRequest
-	(*GetCouponsAllocatedByAppUserResponse)(nil),           // 52: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserResponse
-	(*UpdateCouponAllocatedRequest)(nil),                   // 53: cloud.hashing.inspire.v1.UpdateCouponAllocatedRequest
-	(*UpdateCouponAllocatedResponse)(nil),                  // 54: cloud.hashing.inspire.v1.UpdateCouponAllocatedResponse
-	(*CouponPool)(nil),                                     // 55: cloud.hashing.inspire.v1.CouponPool
-	(*CreateCouponPoolRequest)(nil),                        // 56: cloud.hashing.inspire.v1.CreateCouponPoolRequest
-	(*CreateCouponPoolResponse)(nil),                       // 57: cloud.hashing.inspire.v1.CreateCouponPoolResponse
-	(*GetCouponPoolRequest)(nil),                           // 58: cloud.hashing.inspire.v1.GetCouponPoolRequest
-	(*GetCouponPoolResponse)(nil),                          // 59: cloud.hashing.inspire.v1.GetCouponPoolResponse
-	(*GetCouponPoolsByAppRequest)(nil),                     // 60: cloud.hashing.inspire.v1.GetCouponPoolsByAppRequest
-	(*GetCouponPoolsByAppResponse)(nil),                    // 61: cloud.hashing.inspire.v1.GetCouponPoolsByAppResponse
-	(*GetCouponPoolsByAppReleaserRequest)(nil),             // 62: cloud.hashing.inspire.v1.GetCouponPoolsByAppReleaserRequest
-	(*GetCouponPoolsByAppReleaserResponse)(nil),            // 63: cloud.hashing.inspire.v1.GetCouponPoolsByAppReleaserResponse
-	(*AppCouponSetting)(nil),                               // 64: cloud.hashing.inspire.v1.AppCouponSetting
-	(*CreateAppCouponSettingRequest)(nil),                  // 65: cloud.hashing.inspire.v1.CreateAppCouponSettingRequest
-	(*CreateAppCouponSettingResponse)(nil),                 // 66: cloud.hashing.inspire.v1.CreateAppCouponSettingResponse
-	(*GetAppCouponSettingRequest)(nil),                     // 67: cloud.hashing.inspire.v1.GetAppCouponSettingRequest
-	(*GetAppCouponSettingResponse)(nil),                    // 68: cloud.hashing.inspire.v1.GetAppCouponSettingResponse
-	(*GetAppCouponSettingByAppRequest)(nil),                // 69: cloud.hashing.inspire.v1.GetAppCouponSettingByAppRequest
-	(*GetAppCouponSettingByAppResponse)(nil),               // 70: cloud.hashing.inspire.v1.GetAppCouponSettingByAppResponse
-	(*UpdateAppCouponSettingRequest)(nil),                  // 71: cloud.hashing.inspire.v1.UpdateAppCouponSettingRequest
-	(*UpdateAppCouponSettingResponse)(nil),                 // 72: cloud.hashing.inspire.v1.UpdateAppCouponSettingResponse
-	(*emptypb.Empty)(nil),                                  // 73: google.protobuf.Empty
+	(*GetUserInvitationCodeByCodeRequest)(nil),             // 44: cloud.hashing.inspire.v1.GetUserInvitationCodeByCodeRequest
+	(*GetUserInvitationCodeByCodeResponse)(nil),            // 45: cloud.hashing.inspire.v1.GetUserInvitationCodeByCodeResponse
+	(*CouponAllocated)(nil),                                // 46: cloud.hashing.inspire.v1.CouponAllocated
+	(*CreateCouponAllocatedRequest)(nil),                   // 47: cloud.hashing.inspire.v1.CreateCouponAllocatedRequest
+	(*CreateCouponAllocatedResponse)(nil),                  // 48: cloud.hashing.inspire.v1.CreateCouponAllocatedResponse
+	(*GetCouponAllocatedRequest)(nil),                      // 49: cloud.hashing.inspire.v1.GetCouponAllocatedRequest
+	(*GetCouponAllocatedResponse)(nil),                     // 50: cloud.hashing.inspire.v1.GetCouponAllocatedResponse
+	(*GetCouponsAllocatedByAppRequest)(nil),                // 51: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppRequest
+	(*GetCouponsAllocatedByAppResponse)(nil),               // 52: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppResponse
+	(*GetCouponsAllocatedByAppUserRequest)(nil),            // 53: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserRequest
+	(*GetCouponsAllocatedByAppUserResponse)(nil),           // 54: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserResponse
+	(*UpdateCouponAllocatedRequest)(nil),                   // 55: cloud.hashing.inspire.v1.UpdateCouponAllocatedRequest
+	(*UpdateCouponAllocatedResponse)(nil),                  // 56: cloud.hashing.inspire.v1.UpdateCouponAllocatedResponse
+	(*CouponPool)(nil),                                     // 57: cloud.hashing.inspire.v1.CouponPool
+	(*CreateCouponPoolRequest)(nil),                        // 58: cloud.hashing.inspire.v1.CreateCouponPoolRequest
+	(*CreateCouponPoolResponse)(nil),                       // 59: cloud.hashing.inspire.v1.CreateCouponPoolResponse
+	(*GetCouponPoolRequest)(nil),                           // 60: cloud.hashing.inspire.v1.GetCouponPoolRequest
+	(*GetCouponPoolResponse)(nil),                          // 61: cloud.hashing.inspire.v1.GetCouponPoolResponse
+	(*GetCouponPoolsByAppRequest)(nil),                     // 62: cloud.hashing.inspire.v1.GetCouponPoolsByAppRequest
+	(*GetCouponPoolsByAppResponse)(nil),                    // 63: cloud.hashing.inspire.v1.GetCouponPoolsByAppResponse
+	(*GetCouponPoolsByAppReleaserRequest)(nil),             // 64: cloud.hashing.inspire.v1.GetCouponPoolsByAppReleaserRequest
+	(*GetCouponPoolsByAppReleaserResponse)(nil),            // 65: cloud.hashing.inspire.v1.GetCouponPoolsByAppReleaserResponse
+	(*AppCouponSetting)(nil),                               // 66: cloud.hashing.inspire.v1.AppCouponSetting
+	(*CreateAppCouponSettingRequest)(nil),                  // 67: cloud.hashing.inspire.v1.CreateAppCouponSettingRequest
+	(*CreateAppCouponSettingResponse)(nil),                 // 68: cloud.hashing.inspire.v1.CreateAppCouponSettingResponse
+	(*GetAppCouponSettingRequest)(nil),                     // 69: cloud.hashing.inspire.v1.GetAppCouponSettingRequest
+	(*GetAppCouponSettingResponse)(nil),                    // 70: cloud.hashing.inspire.v1.GetAppCouponSettingResponse
+	(*GetAppCouponSettingByAppRequest)(nil),                // 71: cloud.hashing.inspire.v1.GetAppCouponSettingByAppRequest
+	(*GetAppCouponSettingByAppResponse)(nil),               // 72: cloud.hashing.inspire.v1.GetAppCouponSettingByAppResponse
+	(*UpdateAppCouponSettingRequest)(nil),                  // 73: cloud.hashing.inspire.v1.UpdateAppCouponSettingRequest
+	(*UpdateAppCouponSettingResponse)(nil),                 // 74: cloud.hashing.inspire.v1.UpdateAppCouponSettingResponse
+	(*emptypb.Empty)(nil),                                  // 75: google.protobuf.Empty
 }
 var file_npool_cloud_hashing_inspire_proto_depIdxs = []int32{
 	1,  // 0: cloud.hashing.inspire.v1.CreateNewUserRewardSettingRequest.Info:type_name -> cloud.hashing.inspire.v1.NewUserRewardSetting
@@ -4734,61 +4857,61 @@ var file_npool_cloud_hashing_inspire_proto_depIdxs = []int32{
 	28, // 24: cloud.hashing.inspire.v1.GetRegistrationInvitationsByAppInviterResponse.Info:type_name -> cloud.hashing.inspire.v1.RegistrationInvitation
 	37, // 25: cloud.hashing.inspire.v1.CreateUserInvitationCodeRequest.Info:type_name -> cloud.hashing.inspire.v1.UserInvitationCode
 	37, // 26: cloud.hashing.inspire.v1.CreateUserInvitationCodeResponse.Info:type_name -> cloud.hashing.inspire.v1.UserInvitationCode
-	37, // 27: cloud.hashing.inspire.v1.GetUserInvitationCodeRequest.Info:type_name -> cloud.hashing.inspire.v1.UserInvitationCode
-	37, // 28: cloud.hashing.inspire.v1.GetUserInvitationCodeResponse.Info:type_name -> cloud.hashing.inspire.v1.UserInvitationCode
-	37, // 29: cloud.hashing.inspire.v1.GetUserInvitationCodeByAppUserRequest.Info:type_name -> cloud.hashing.inspire.v1.UserInvitationCode
-	37, // 30: cloud.hashing.inspire.v1.GetUserInvitationCodeByAppUserResponse.Info:type_name -> cloud.hashing.inspire.v1.UserInvitationCode
-	44, // 31: cloud.hashing.inspire.v1.CreateCouponAllocatedRequest.Info:type_name -> cloud.hashing.inspire.v1.CouponAllocated
-	44, // 32: cloud.hashing.inspire.v1.CreateCouponAllocatedResponse.Info:type_name -> cloud.hashing.inspire.v1.CouponAllocated
-	44, // 33: cloud.hashing.inspire.v1.GetCouponAllocatedResponse.Info:type_name -> cloud.hashing.inspire.v1.CouponAllocated
-	44, // 34: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppResponse.Infos:type_name -> cloud.hashing.inspire.v1.CouponAllocated
-	44, // 35: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserResponse.Infos:type_name -> cloud.hashing.inspire.v1.CouponAllocated
-	44, // 36: cloud.hashing.inspire.v1.UpdateCouponAllocatedRequest.Info:type_name -> cloud.hashing.inspire.v1.CouponAllocated
-	44, // 37: cloud.hashing.inspire.v1.UpdateCouponAllocatedResponse.Info:type_name -> cloud.hashing.inspire.v1.CouponAllocated
-	55, // 38: cloud.hashing.inspire.v1.CreateCouponPoolRequest.Info:type_name -> cloud.hashing.inspire.v1.CouponPool
-	55, // 39: cloud.hashing.inspire.v1.CreateCouponPoolResponse.Info:type_name -> cloud.hashing.inspire.v1.CouponPool
-	55, // 40: cloud.hashing.inspire.v1.GetCouponPoolResponse.Info:type_name -> cloud.hashing.inspire.v1.CouponPool
-	55, // 41: cloud.hashing.inspire.v1.GetCouponPoolsByAppResponse.Infos:type_name -> cloud.hashing.inspire.v1.CouponPool
-	55, // 42: cloud.hashing.inspire.v1.GetCouponPoolsByAppReleaserResponse.Infos:type_name -> cloud.hashing.inspire.v1.CouponPool
-	64, // 43: cloud.hashing.inspire.v1.CreateAppCouponSettingRequest.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
-	64, // 44: cloud.hashing.inspire.v1.CreateAppCouponSettingResponse.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
-	64, // 45: cloud.hashing.inspire.v1.GetAppCouponSettingResponse.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
-	64, // 46: cloud.hashing.inspire.v1.GetAppCouponSettingByAppResponse.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
-	64, // 47: cloud.hashing.inspire.v1.UpdateAppCouponSettingRequest.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
-	64, // 48: cloud.hashing.inspire.v1.UpdateAppCouponSettingResponse.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
-	73, // 49: cloud.hashing.inspire.v1.CloudHashingInspire.Version:input_type -> google.protobuf.Empty
-	2,  // 50: cloud.hashing.inspire.v1.CloudHashingInspire.CreateNewUserRewardSetting:input_type -> cloud.hashing.inspire.v1.CreateNewUserRewardSettingRequest
-	4,  // 51: cloud.hashing.inspire.v1.CloudHashingInspire.GetNewUserRewardSetting:input_type -> cloud.hashing.inspire.v1.GetNewUserRewardSettingRequest
-	6,  // 52: cloud.hashing.inspire.v1.CloudHashingInspire.GetNewUserRewardSettingByApp:input_type -> cloud.hashing.inspire.v1.GetNewUserRewardSettingByAppRequest
-	8,  // 53: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateNewUserRewardSetting:input_type -> cloud.hashing.inspire.v1.UpdateNewUserRewardSettingRequest
-	11, // 54: cloud.hashing.inspire.v1.CloudHashingInspire.CreateAgencySetting:input_type -> cloud.hashing.inspire.v1.CreateAgencySettingRequest
-	13, // 55: cloud.hashing.inspire.v1.CloudHashingInspire.GetAgencySetting:input_type -> cloud.hashing.inspire.v1.GetAgencySettingRequest
-	15, // 56: cloud.hashing.inspire.v1.CloudHashingInspire.GetAgencySettingByApp:input_type -> cloud.hashing.inspire.v1.GetAgencySettingByAppRequest
-	17, // 57: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateAgencySetting:input_type -> cloud.hashing.inspire.v1.UpdateAgencySettingRequest
-	20, // 58: cloud.hashing.inspire.v1.CloudHashingInspire.CreatePurchaseInvitation:input_type -> cloud.hashing.inspire.v1.CreatePurchaseInvitationRequest
-	22, // 59: cloud.hashing.inspire.v1.CloudHashingInspire.GetPurchaseInvitation:input_type -> cloud.hashing.inspire.v1.GetPurchaseInvitationRequest
-	24, // 60: cloud.hashing.inspire.v1.CloudHashingInspire.GetPurchaseInvitationsByApp:input_type -> cloud.hashing.inspire.v1.GetPurchaseInvitationsByAppRequest
-	26, // 61: cloud.hashing.inspire.v1.CloudHashingInspire.GetPurchaseInvitationByAppOrder:input_type -> cloud.hashing.inspire.v1.GetPurchaseInvitationByAppOrderRequest
-	29, // 62: cloud.hashing.inspire.v1.CloudHashingInspire.CreateRegistrationInvitation:input_type -> cloud.hashing.inspire.v1.CreateRegistrationInvitationRequest
-	31, // 63: cloud.hashing.inspire.v1.CloudHashingInspire.GetRegistrationInvitation:input_type -> cloud.hashing.inspire.v1.GetRegistrationInvitationRequest
-	33, // 64: cloud.hashing.inspire.v1.CloudHashingInspire.GetRegistrationInvitationsByApp:input_type -> cloud.hashing.inspire.v1.GetRegistrationInvitationsByAppRequest
-	35, // 65: cloud.hashing.inspire.v1.CloudHashingInspire.GetRegistrationInvitationsByAppInviter:input_type -> cloud.hashing.inspire.v1.GetRegistrationInvitationsByAppInviterRequest
-	38, // 66: cloud.hashing.inspire.v1.CloudHashingInspire.CreateUserInvitationCode:input_type -> cloud.hashing.inspire.v1.CreateUserInvitationCodeRequest
-	40, // 67: cloud.hashing.inspire.v1.CloudHashingInspire.GetUserInvitationCode:input_type -> cloud.hashing.inspire.v1.GetUserInvitationCodeRequest
-	42, // 68: cloud.hashing.inspire.v1.CloudHashingInspire.GetUserInvitationCodeByAppUser:input_type -> cloud.hashing.inspire.v1.GetUserInvitationCodeByAppUserRequest
-	45, // 69: cloud.hashing.inspire.v1.CloudHashingInspire.CreateCouponAllocated:input_type -> cloud.hashing.inspire.v1.CreateCouponAllocatedRequest
-	47, // 70: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponAllocated:input_type -> cloud.hashing.inspire.v1.GetCouponAllocatedRequest
-	49, // 71: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponsAllocatedByApp:input_type -> cloud.hashing.inspire.v1.GetCouponsAllocatedByAppRequest
-	51, // 72: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponsAllocatedByAppUser:input_type -> cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserRequest
-	53, // 73: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateCouponAllocated:input_type -> cloud.hashing.inspire.v1.UpdateCouponAllocatedRequest
-	56, // 74: cloud.hashing.inspire.v1.CloudHashingInspire.CreateCouponPool:input_type -> cloud.hashing.inspire.v1.CreateCouponPoolRequest
-	58, // 75: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPool:input_type -> cloud.hashing.inspire.v1.GetCouponPoolRequest
-	60, // 76: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPoolsByApp:input_type -> cloud.hashing.inspire.v1.GetCouponPoolsByAppRequest
-	62, // 77: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPoolsByAppReleaser:input_type -> cloud.hashing.inspire.v1.GetCouponPoolsByAppReleaserRequest
-	65, // 78: cloud.hashing.inspire.v1.CloudHashingInspire.CreateAppCouponSetting:input_type -> cloud.hashing.inspire.v1.CreateAppCouponSettingRequest
-	67, // 79: cloud.hashing.inspire.v1.CloudHashingInspire.GetAppCouponSetting:input_type -> cloud.hashing.inspire.v1.GetAppCouponSettingRequest
-	69, // 80: cloud.hashing.inspire.v1.CloudHashingInspire.GetAppCouponSettingByApp:input_type -> cloud.hashing.inspire.v1.GetAppCouponSettingByAppRequest
-	71, // 81: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateAppCouponSetting:input_type -> cloud.hashing.inspire.v1.UpdateAppCouponSettingRequest
+	37, // 27: cloud.hashing.inspire.v1.GetUserInvitationCodeResponse.Info:type_name -> cloud.hashing.inspire.v1.UserInvitationCode
+	37, // 28: cloud.hashing.inspire.v1.GetUserInvitationCodeByAppUserResponse.Info:type_name -> cloud.hashing.inspire.v1.UserInvitationCode
+	37, // 29: cloud.hashing.inspire.v1.GetUserInvitationCodeByCodeResponse.Info:type_name -> cloud.hashing.inspire.v1.UserInvitationCode
+	46, // 30: cloud.hashing.inspire.v1.CreateCouponAllocatedRequest.Info:type_name -> cloud.hashing.inspire.v1.CouponAllocated
+	46, // 31: cloud.hashing.inspire.v1.CreateCouponAllocatedResponse.Info:type_name -> cloud.hashing.inspire.v1.CouponAllocated
+	46, // 32: cloud.hashing.inspire.v1.GetCouponAllocatedResponse.Info:type_name -> cloud.hashing.inspire.v1.CouponAllocated
+	46, // 33: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppResponse.Infos:type_name -> cloud.hashing.inspire.v1.CouponAllocated
+	46, // 34: cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserResponse.Infos:type_name -> cloud.hashing.inspire.v1.CouponAllocated
+	46, // 35: cloud.hashing.inspire.v1.UpdateCouponAllocatedRequest.Info:type_name -> cloud.hashing.inspire.v1.CouponAllocated
+	46, // 36: cloud.hashing.inspire.v1.UpdateCouponAllocatedResponse.Info:type_name -> cloud.hashing.inspire.v1.CouponAllocated
+	57, // 37: cloud.hashing.inspire.v1.CreateCouponPoolRequest.Info:type_name -> cloud.hashing.inspire.v1.CouponPool
+	57, // 38: cloud.hashing.inspire.v1.CreateCouponPoolResponse.Info:type_name -> cloud.hashing.inspire.v1.CouponPool
+	57, // 39: cloud.hashing.inspire.v1.GetCouponPoolResponse.Info:type_name -> cloud.hashing.inspire.v1.CouponPool
+	57, // 40: cloud.hashing.inspire.v1.GetCouponPoolsByAppResponse.Infos:type_name -> cloud.hashing.inspire.v1.CouponPool
+	57, // 41: cloud.hashing.inspire.v1.GetCouponPoolsByAppReleaserResponse.Infos:type_name -> cloud.hashing.inspire.v1.CouponPool
+	66, // 42: cloud.hashing.inspire.v1.CreateAppCouponSettingRequest.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
+	66, // 43: cloud.hashing.inspire.v1.CreateAppCouponSettingResponse.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
+	66, // 44: cloud.hashing.inspire.v1.GetAppCouponSettingResponse.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
+	66, // 45: cloud.hashing.inspire.v1.GetAppCouponSettingByAppResponse.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
+	66, // 46: cloud.hashing.inspire.v1.UpdateAppCouponSettingRequest.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
+	66, // 47: cloud.hashing.inspire.v1.UpdateAppCouponSettingResponse.Info:type_name -> cloud.hashing.inspire.v1.AppCouponSetting
+	75, // 48: cloud.hashing.inspire.v1.CloudHashingInspire.Version:input_type -> google.protobuf.Empty
+	2,  // 49: cloud.hashing.inspire.v1.CloudHashingInspire.CreateNewUserRewardSetting:input_type -> cloud.hashing.inspire.v1.CreateNewUserRewardSettingRequest
+	4,  // 50: cloud.hashing.inspire.v1.CloudHashingInspire.GetNewUserRewardSetting:input_type -> cloud.hashing.inspire.v1.GetNewUserRewardSettingRequest
+	6,  // 51: cloud.hashing.inspire.v1.CloudHashingInspire.GetNewUserRewardSettingByApp:input_type -> cloud.hashing.inspire.v1.GetNewUserRewardSettingByAppRequest
+	8,  // 52: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateNewUserRewardSetting:input_type -> cloud.hashing.inspire.v1.UpdateNewUserRewardSettingRequest
+	11, // 53: cloud.hashing.inspire.v1.CloudHashingInspire.CreateAgencySetting:input_type -> cloud.hashing.inspire.v1.CreateAgencySettingRequest
+	13, // 54: cloud.hashing.inspire.v1.CloudHashingInspire.GetAgencySetting:input_type -> cloud.hashing.inspire.v1.GetAgencySettingRequest
+	15, // 55: cloud.hashing.inspire.v1.CloudHashingInspire.GetAgencySettingByApp:input_type -> cloud.hashing.inspire.v1.GetAgencySettingByAppRequest
+	17, // 56: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateAgencySetting:input_type -> cloud.hashing.inspire.v1.UpdateAgencySettingRequest
+	20, // 57: cloud.hashing.inspire.v1.CloudHashingInspire.CreatePurchaseInvitation:input_type -> cloud.hashing.inspire.v1.CreatePurchaseInvitationRequest
+	22, // 58: cloud.hashing.inspire.v1.CloudHashingInspire.GetPurchaseInvitation:input_type -> cloud.hashing.inspire.v1.GetPurchaseInvitationRequest
+	24, // 59: cloud.hashing.inspire.v1.CloudHashingInspire.GetPurchaseInvitationsByApp:input_type -> cloud.hashing.inspire.v1.GetPurchaseInvitationsByAppRequest
+	26, // 60: cloud.hashing.inspire.v1.CloudHashingInspire.GetPurchaseInvitationByAppOrder:input_type -> cloud.hashing.inspire.v1.GetPurchaseInvitationByAppOrderRequest
+	29, // 61: cloud.hashing.inspire.v1.CloudHashingInspire.CreateRegistrationInvitation:input_type -> cloud.hashing.inspire.v1.CreateRegistrationInvitationRequest
+	31, // 62: cloud.hashing.inspire.v1.CloudHashingInspire.GetRegistrationInvitation:input_type -> cloud.hashing.inspire.v1.GetRegistrationInvitationRequest
+	33, // 63: cloud.hashing.inspire.v1.CloudHashingInspire.GetRegistrationInvitationsByApp:input_type -> cloud.hashing.inspire.v1.GetRegistrationInvitationsByAppRequest
+	35, // 64: cloud.hashing.inspire.v1.CloudHashingInspire.GetRegistrationInvitationsByAppInviter:input_type -> cloud.hashing.inspire.v1.GetRegistrationInvitationsByAppInviterRequest
+	38, // 65: cloud.hashing.inspire.v1.CloudHashingInspire.CreateUserInvitationCode:input_type -> cloud.hashing.inspire.v1.CreateUserInvitationCodeRequest
+	40, // 66: cloud.hashing.inspire.v1.CloudHashingInspire.GetUserInvitationCode:input_type -> cloud.hashing.inspire.v1.GetUserInvitationCodeRequest
+	42, // 67: cloud.hashing.inspire.v1.CloudHashingInspire.GetUserInvitationCodeByAppUser:input_type -> cloud.hashing.inspire.v1.GetUserInvitationCodeByAppUserRequest
+	44, // 68: cloud.hashing.inspire.v1.CloudHashingInspire.GetUserInvitationCodeByCode:input_type -> cloud.hashing.inspire.v1.GetUserInvitationCodeByCodeRequest
+	47, // 69: cloud.hashing.inspire.v1.CloudHashingInspire.CreateCouponAllocated:input_type -> cloud.hashing.inspire.v1.CreateCouponAllocatedRequest
+	49, // 70: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponAllocated:input_type -> cloud.hashing.inspire.v1.GetCouponAllocatedRequest
+	51, // 71: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponsAllocatedByApp:input_type -> cloud.hashing.inspire.v1.GetCouponsAllocatedByAppRequest
+	53, // 72: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponsAllocatedByAppUser:input_type -> cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserRequest
+	55, // 73: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateCouponAllocated:input_type -> cloud.hashing.inspire.v1.UpdateCouponAllocatedRequest
+	58, // 74: cloud.hashing.inspire.v1.CloudHashingInspire.CreateCouponPool:input_type -> cloud.hashing.inspire.v1.CreateCouponPoolRequest
+	60, // 75: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPool:input_type -> cloud.hashing.inspire.v1.GetCouponPoolRequest
+	62, // 76: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPoolsByApp:input_type -> cloud.hashing.inspire.v1.GetCouponPoolsByAppRequest
+	64, // 77: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPoolsByAppReleaser:input_type -> cloud.hashing.inspire.v1.GetCouponPoolsByAppReleaserRequest
+	67, // 78: cloud.hashing.inspire.v1.CloudHashingInspire.CreateAppCouponSetting:input_type -> cloud.hashing.inspire.v1.CreateAppCouponSettingRequest
+	69, // 79: cloud.hashing.inspire.v1.CloudHashingInspire.GetAppCouponSetting:input_type -> cloud.hashing.inspire.v1.GetAppCouponSettingRequest
+	71, // 80: cloud.hashing.inspire.v1.CloudHashingInspire.GetAppCouponSettingByApp:input_type -> cloud.hashing.inspire.v1.GetAppCouponSettingByAppRequest
+	73, // 81: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateAppCouponSetting:input_type -> cloud.hashing.inspire.v1.UpdateAppCouponSettingRequest
 	0,  // 82: cloud.hashing.inspire.v1.CloudHashingInspire.Version:output_type -> cloud.hashing.inspire.v1.VersionResponse
 	3,  // 83: cloud.hashing.inspire.v1.CloudHashingInspire.CreateNewUserRewardSetting:output_type -> cloud.hashing.inspire.v1.CreateNewUserRewardSettingResponse
 	5,  // 84: cloud.hashing.inspire.v1.CloudHashingInspire.GetNewUserRewardSetting:output_type -> cloud.hashing.inspire.v1.GetNewUserRewardSettingResponse
@@ -4809,24 +4932,25 @@ var file_npool_cloud_hashing_inspire_proto_depIdxs = []int32{
 	39, // 99: cloud.hashing.inspire.v1.CloudHashingInspire.CreateUserInvitationCode:output_type -> cloud.hashing.inspire.v1.CreateUserInvitationCodeResponse
 	41, // 100: cloud.hashing.inspire.v1.CloudHashingInspire.GetUserInvitationCode:output_type -> cloud.hashing.inspire.v1.GetUserInvitationCodeResponse
 	43, // 101: cloud.hashing.inspire.v1.CloudHashingInspire.GetUserInvitationCodeByAppUser:output_type -> cloud.hashing.inspire.v1.GetUserInvitationCodeByAppUserResponse
-	46, // 102: cloud.hashing.inspire.v1.CloudHashingInspire.CreateCouponAllocated:output_type -> cloud.hashing.inspire.v1.CreateCouponAllocatedResponse
-	48, // 103: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponAllocated:output_type -> cloud.hashing.inspire.v1.GetCouponAllocatedResponse
-	50, // 104: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponsAllocatedByApp:output_type -> cloud.hashing.inspire.v1.GetCouponsAllocatedByAppResponse
-	52, // 105: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponsAllocatedByAppUser:output_type -> cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserResponse
-	54, // 106: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateCouponAllocated:output_type -> cloud.hashing.inspire.v1.UpdateCouponAllocatedResponse
-	57, // 107: cloud.hashing.inspire.v1.CloudHashingInspire.CreateCouponPool:output_type -> cloud.hashing.inspire.v1.CreateCouponPoolResponse
-	59, // 108: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPool:output_type -> cloud.hashing.inspire.v1.GetCouponPoolResponse
-	61, // 109: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPoolsByApp:output_type -> cloud.hashing.inspire.v1.GetCouponPoolsByAppResponse
-	63, // 110: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPoolsByAppReleaser:output_type -> cloud.hashing.inspire.v1.GetCouponPoolsByAppReleaserResponse
-	66, // 111: cloud.hashing.inspire.v1.CloudHashingInspire.CreateAppCouponSetting:output_type -> cloud.hashing.inspire.v1.CreateAppCouponSettingResponse
-	68, // 112: cloud.hashing.inspire.v1.CloudHashingInspire.GetAppCouponSetting:output_type -> cloud.hashing.inspire.v1.GetAppCouponSettingResponse
-	70, // 113: cloud.hashing.inspire.v1.CloudHashingInspire.GetAppCouponSettingByApp:output_type -> cloud.hashing.inspire.v1.GetAppCouponSettingByAppResponse
-	72, // 114: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateAppCouponSetting:output_type -> cloud.hashing.inspire.v1.UpdateAppCouponSettingResponse
-	82, // [82:115] is the sub-list for method output_type
-	49, // [49:82] is the sub-list for method input_type
-	49, // [49:49] is the sub-list for extension type_name
-	49, // [49:49] is the sub-list for extension extendee
-	0,  // [0:49] is the sub-list for field type_name
+	45, // 102: cloud.hashing.inspire.v1.CloudHashingInspire.GetUserInvitationCodeByCode:output_type -> cloud.hashing.inspire.v1.GetUserInvitationCodeByCodeResponse
+	48, // 103: cloud.hashing.inspire.v1.CloudHashingInspire.CreateCouponAllocated:output_type -> cloud.hashing.inspire.v1.CreateCouponAllocatedResponse
+	50, // 104: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponAllocated:output_type -> cloud.hashing.inspire.v1.GetCouponAllocatedResponse
+	52, // 105: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponsAllocatedByApp:output_type -> cloud.hashing.inspire.v1.GetCouponsAllocatedByAppResponse
+	54, // 106: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponsAllocatedByAppUser:output_type -> cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserResponse
+	56, // 107: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateCouponAllocated:output_type -> cloud.hashing.inspire.v1.UpdateCouponAllocatedResponse
+	59, // 108: cloud.hashing.inspire.v1.CloudHashingInspire.CreateCouponPool:output_type -> cloud.hashing.inspire.v1.CreateCouponPoolResponse
+	61, // 109: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPool:output_type -> cloud.hashing.inspire.v1.GetCouponPoolResponse
+	63, // 110: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPoolsByApp:output_type -> cloud.hashing.inspire.v1.GetCouponPoolsByAppResponse
+	65, // 111: cloud.hashing.inspire.v1.CloudHashingInspire.GetCouponPoolsByAppReleaser:output_type -> cloud.hashing.inspire.v1.GetCouponPoolsByAppReleaserResponse
+	68, // 112: cloud.hashing.inspire.v1.CloudHashingInspire.CreateAppCouponSetting:output_type -> cloud.hashing.inspire.v1.CreateAppCouponSettingResponse
+	70, // 113: cloud.hashing.inspire.v1.CloudHashingInspire.GetAppCouponSetting:output_type -> cloud.hashing.inspire.v1.GetAppCouponSettingResponse
+	72, // 114: cloud.hashing.inspire.v1.CloudHashingInspire.GetAppCouponSettingByApp:output_type -> cloud.hashing.inspire.v1.GetAppCouponSettingByAppResponse
+	74, // 115: cloud.hashing.inspire.v1.CloudHashingInspire.UpdateAppCouponSetting:output_type -> cloud.hashing.inspire.v1.UpdateAppCouponSettingResponse
+	82, // [82:116] is the sub-list for method output_type
+	48, // [48:82] is the sub-list for method input_type
+	48, // [48:48] is the sub-list for extension type_name
+	48, // [48:48] is the sub-list for extension extendee
+	0,  // [0:48] is the sub-list for field type_name
 }
 
 func init() { file_npool_cloud_hashing_inspire_proto_init() }
@@ -5364,7 +5488,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[44].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CouponAllocated); i {
+			switch v := v.(*GetUserInvitationCodeByCodeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5376,7 +5500,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[45].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateCouponAllocatedRequest); i {
+			switch v := v.(*GetUserInvitationCodeByCodeResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5388,7 +5512,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[46].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateCouponAllocatedResponse); i {
+			switch v := v.(*CouponAllocated); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5400,7 +5524,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[47].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponAllocatedRequest); i {
+			switch v := v.(*CreateCouponAllocatedRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5412,7 +5536,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[48].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponAllocatedResponse); i {
+			switch v := v.(*CreateCouponAllocatedResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5424,7 +5548,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[49].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponsAllocatedByAppRequest); i {
+			switch v := v.(*GetCouponAllocatedRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5436,7 +5560,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[50].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponsAllocatedByAppResponse); i {
+			switch v := v.(*GetCouponAllocatedResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5448,7 +5572,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[51].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponsAllocatedByAppUserRequest); i {
+			switch v := v.(*GetCouponsAllocatedByAppRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5460,7 +5584,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[52].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponsAllocatedByAppUserResponse); i {
+			switch v := v.(*GetCouponsAllocatedByAppResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5472,7 +5596,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[53].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateCouponAllocatedRequest); i {
+			switch v := v.(*GetCouponsAllocatedByAppUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5484,7 +5608,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[54].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateCouponAllocatedResponse); i {
+			switch v := v.(*GetCouponsAllocatedByAppUserResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5496,7 +5620,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[55].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CouponPool); i {
+			switch v := v.(*UpdateCouponAllocatedRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5508,7 +5632,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[56].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateCouponPoolRequest); i {
+			switch v := v.(*UpdateCouponAllocatedResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5520,7 +5644,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[57].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateCouponPoolResponse); i {
+			switch v := v.(*CouponPool); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5532,7 +5656,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[58].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponPoolRequest); i {
+			switch v := v.(*CreateCouponPoolRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5544,7 +5668,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[59].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponPoolResponse); i {
+			switch v := v.(*CreateCouponPoolResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5556,7 +5680,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[60].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponPoolsByAppRequest); i {
+			switch v := v.(*GetCouponPoolRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5568,7 +5692,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[61].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponPoolsByAppResponse); i {
+			switch v := v.(*GetCouponPoolResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5580,7 +5704,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[62].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponPoolsByAppReleaserRequest); i {
+			switch v := v.(*GetCouponPoolsByAppRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5592,7 +5716,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[63].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCouponPoolsByAppReleaserResponse); i {
+			switch v := v.(*GetCouponPoolsByAppResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5604,7 +5728,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[64].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AppCouponSetting); i {
+			switch v := v.(*GetCouponPoolsByAppReleaserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5616,7 +5740,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[65].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateAppCouponSettingRequest); i {
+			switch v := v.(*GetCouponPoolsByAppReleaserResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5628,7 +5752,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[66].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateAppCouponSettingResponse); i {
+			switch v := v.(*AppCouponSetting); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5640,7 +5764,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[67].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetAppCouponSettingRequest); i {
+			switch v := v.(*CreateAppCouponSettingRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5652,7 +5776,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[68].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetAppCouponSettingResponse); i {
+			switch v := v.(*CreateAppCouponSettingResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5664,7 +5788,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[69].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetAppCouponSettingByAppRequest); i {
+			switch v := v.(*GetAppCouponSettingRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5676,7 +5800,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[70].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetAppCouponSettingByAppResponse); i {
+			switch v := v.(*GetAppCouponSettingResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5688,7 +5812,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[71].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateAppCouponSettingRequest); i {
+			switch v := v.(*GetAppCouponSettingByAppRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5700,6 +5824,30 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			}
 		}
 		file_npool_cloud_hashing_inspire_proto_msgTypes[72].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetAppCouponSettingByAppResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_npool_cloud_hashing_inspire_proto_msgTypes[73].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateAppCouponSettingRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_npool_cloud_hashing_inspire_proto_msgTypes[74].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateAppCouponSettingResponse); i {
 			case 0:
 				return &v.state
@@ -5718,7 +5866,7 @@ func file_npool_cloud_hashing_inspire_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_npool_cloud_hashing_inspire_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   73,
+			NumMessages:   75,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

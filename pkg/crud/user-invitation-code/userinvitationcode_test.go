@@ -47,4 +47,12 @@ func TestCRUD(t *testing.T) {
 		assert.NotEqual(t, resp.Info.ID, uuid.UUID{}.String())
 		assertUserInvitationCode(t, resp.Info, &userInvitationCode)
 	}
+
+	resp1, err := Get(context.Background(), &npool.GetUserInvitationCodeRequest{
+		ID: resp.Info.ID,
+	})
+	if assert.Nil(t, err) {
+		assert.NotEqual(t, resp1.Info.ID, uuid.UUID{}.String())
+		assertUserInvitationCode(t, resp1.Info, &userInvitationCode)
+	}
 }

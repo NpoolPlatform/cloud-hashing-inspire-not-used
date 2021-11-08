@@ -108,9 +108,36 @@ func Create(ctx context.Context, in *npool.CreateUserInvitationCodeRequest) (*np
 }
 
 func Get(ctx context.Context, in *npool.GetUserInvitationCodeRequest) (*npool.GetUserInvitationCodeResponse, error) {
-	return nil, nil
+	id, err := uuid.Parse(in.GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	infos, err := db.Client().
+		UserInvitationCode.
+		Query().
+		Where(
+			userinvitationcode.And(
+				userinvitationcode.ID(id),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query user invitation code: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty user invitation code")
+	}
+
+	return &npool.GetUserInvitationCodeResponse{
+		Info: dbRowToUserInvitationCode(infos[0]),
+	}, nil
 }
 
 func GetByAppUser(ctx context.Context, in *npool.GetUserInvitationCodeByAppUserRequest) (*npool.GetUserInvitationCodeByAppUserResponse, error) {
+	return nil, nil
+}
+
+func GetByCode(ctx context.Context, in *npool.GetUserInvitationCodeByCodeRequest) (*npool.GetUserInvitationCodeByCodeResponse, error) {
 	return nil, nil
 }
