@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
+	"github.com/google/uuid"
 )
 
 // UserInvitationCodeQuery is the builder for querying UserInvitationCode entities.
@@ -84,8 +85,8 @@ func (uicq *UserInvitationCodeQuery) FirstX(ctx context.Context) *UserInvitation
 
 // FirstID returns the first UserInvitationCode ID from the query.
 // Returns a *NotFoundError when no UserInvitationCode ID was found.
-func (uicq *UserInvitationCodeQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (uicq *UserInvitationCodeQuery) FirstID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = uicq.Limit(1).IDs(ctx); err != nil {
 		return
 	}
@@ -97,7 +98,7 @@ func (uicq *UserInvitationCodeQuery) FirstID(ctx context.Context) (id int, err e
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (uicq *UserInvitationCodeQuery) FirstIDX(ctx context.Context) int {
+func (uicq *UserInvitationCodeQuery) FirstIDX(ctx context.Context) uuid.UUID {
 	id, err := uicq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -135,8 +136,8 @@ func (uicq *UserInvitationCodeQuery) OnlyX(ctx context.Context) *UserInvitationC
 // OnlyID is like Only, but returns the only UserInvitationCode ID in the query.
 // Returns a *NotSingularError when exactly one UserInvitationCode ID is not found.
 // Returns a *NotFoundError when no entities are found.
-func (uicq *UserInvitationCodeQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (uicq *UserInvitationCodeQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = uicq.Limit(2).IDs(ctx); err != nil {
 		return
 	}
@@ -152,7 +153,7 @@ func (uicq *UserInvitationCodeQuery) OnlyID(ctx context.Context) (id int, err er
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (uicq *UserInvitationCodeQuery) OnlyIDX(ctx context.Context) int {
+func (uicq *UserInvitationCodeQuery) OnlyIDX(ctx context.Context) uuid.UUID {
 	id, err := uicq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -178,8 +179,8 @@ func (uicq *UserInvitationCodeQuery) AllX(ctx context.Context) []*UserInvitation
 }
 
 // IDs executes the query and returns a list of UserInvitationCode IDs.
-func (uicq *UserInvitationCodeQuery) IDs(ctx context.Context) ([]int, error) {
-	var ids []int
+func (uicq *UserInvitationCodeQuery) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	var ids []uuid.UUID
 	if err := uicq.Select(userinvitationcode.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -187,7 +188,7 @@ func (uicq *UserInvitationCodeQuery) IDs(ctx context.Context) ([]int, error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (uicq *UserInvitationCodeQuery) IDsX(ctx context.Context) []int {
+func (uicq *UserInvitationCodeQuery) IDsX(ctx context.Context) []uuid.UUID {
 	ids, err := uicq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -249,6 +250,19 @@ func (uicq *UserInvitationCodeQuery) Clone() *UserInvitationCodeQuery {
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		UserID uuid.UUID `json:"user_id,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.UserInvitationCode.Query().
+//		GroupBy(userinvitationcode.FieldUserID).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
+//
 func (uicq *UserInvitationCodeQuery) GroupBy(field string, fields ...string) *UserInvitationCodeGroupBy {
 	group := &UserInvitationCodeGroupBy{config: uicq.config}
 	group.fields = append([]string{field}, fields...)
@@ -263,6 +277,17 @@ func (uicq *UserInvitationCodeQuery) GroupBy(field string, fields ...string) *Us
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		UserID uuid.UUID `json:"user_id,omitempty"`
+//	}
+//
+//	client.UserInvitationCode.Query().
+//		Select(userinvitationcode.FieldUserID).
+//		Scan(ctx, &v)
+//
 func (uicq *UserInvitationCodeQuery) Select(fields ...string) *UserInvitationCodeSelect {
 	uicq.fields = append(uicq.fields, fields...)
 	return &UserInvitationCodeSelect{UserInvitationCodeQuery: uicq}
@@ -329,7 +354,7 @@ func (uicq *UserInvitationCodeQuery) querySpec() *sqlgraph.QuerySpec {
 			Table:   userinvitationcode.Table,
 			Columns: userinvitationcode.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: userinvitationcode.FieldID,
 			},
 		},

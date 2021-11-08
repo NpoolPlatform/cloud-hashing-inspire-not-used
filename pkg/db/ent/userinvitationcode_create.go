@@ -7,10 +7,12 @@ import (
 	"errors"
 	"fmt"
 
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
+	"github.com/google/uuid"
 )
 
 // UserInvitationCodeCreate is the builder for creating a UserInvitationCode entity.
@@ -19,6 +21,72 @@ type UserInvitationCodeCreate struct {
 	mutation *UserInvitationCodeMutation
 	hooks    []Hook
 	conflict []sql.ConflictOption
+}
+
+// SetUserID sets the "user_id" field.
+func (uicc *UserInvitationCodeCreate) SetUserID(u uuid.UUID) *UserInvitationCodeCreate {
+	uicc.mutation.SetUserID(u)
+	return uicc
+}
+
+// SetAppID sets the "app_id" field.
+func (uicc *UserInvitationCodeCreate) SetAppID(u uuid.UUID) *UserInvitationCodeCreate {
+	uicc.mutation.SetAppID(u)
+	return uicc
+}
+
+// SetInvitationCode sets the "invitation_code" field.
+func (uicc *UserInvitationCodeCreate) SetInvitationCode(s string) *UserInvitationCodeCreate {
+	uicc.mutation.SetInvitationCode(s)
+	return uicc
+}
+
+// SetCreateAt sets the "create_at" field.
+func (uicc *UserInvitationCodeCreate) SetCreateAt(u uint32) *UserInvitationCodeCreate {
+	uicc.mutation.SetCreateAt(u)
+	return uicc
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (uicc *UserInvitationCodeCreate) SetNillableCreateAt(u *uint32) *UserInvitationCodeCreate {
+	if u != nil {
+		uicc.SetCreateAt(*u)
+	}
+	return uicc
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (uicc *UserInvitationCodeCreate) SetUpdateAt(u uint32) *UserInvitationCodeCreate {
+	uicc.mutation.SetUpdateAt(u)
+	return uicc
+}
+
+// SetNillableUpdateAt sets the "update_at" field if the given value is not nil.
+func (uicc *UserInvitationCodeCreate) SetNillableUpdateAt(u *uint32) *UserInvitationCodeCreate {
+	if u != nil {
+		uicc.SetUpdateAt(*u)
+	}
+	return uicc
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (uicc *UserInvitationCodeCreate) SetDeleteAt(u uint32) *UserInvitationCodeCreate {
+	uicc.mutation.SetDeleteAt(u)
+	return uicc
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (uicc *UserInvitationCodeCreate) SetNillableDeleteAt(u *uint32) *UserInvitationCodeCreate {
+	if u != nil {
+		uicc.SetDeleteAt(*u)
+	}
+	return uicc
+}
+
+// SetID sets the "id" field.
+func (uicc *UserInvitationCodeCreate) SetID(u uuid.UUID) *UserInvitationCodeCreate {
+	uicc.mutation.SetID(u)
+	return uicc
 }
 
 // Mutation returns the UserInvitationCodeMutation object of the builder.
@@ -32,6 +100,7 @@ func (uicc *UserInvitationCodeCreate) Save(ctx context.Context) (*UserInvitation
 		err  error
 		node *UserInvitationCode
 	)
+	uicc.defaults()
 	if len(uicc.hooks) == 0 {
 		if err = uicc.check(); err != nil {
 			return nil, err
@@ -89,8 +158,46 @@ func (uicc *UserInvitationCodeCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (uicc *UserInvitationCodeCreate) defaults() {
+	if _, ok := uicc.mutation.CreateAt(); !ok {
+		v := userinvitationcode.DefaultCreateAt()
+		uicc.mutation.SetCreateAt(v)
+	}
+	if _, ok := uicc.mutation.UpdateAt(); !ok {
+		v := userinvitationcode.DefaultUpdateAt()
+		uicc.mutation.SetUpdateAt(v)
+	}
+	if _, ok := uicc.mutation.DeleteAt(); !ok {
+		v := userinvitationcode.DefaultDeleteAt()
+		uicc.mutation.SetDeleteAt(v)
+	}
+	if _, ok := uicc.mutation.ID(); !ok {
+		v := userinvitationcode.DefaultID()
+		uicc.mutation.SetID(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (uicc *UserInvitationCodeCreate) check() error {
+	if _, ok := uicc.mutation.UserID(); !ok {
+		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "user_id"`)}
+	}
+	if _, ok := uicc.mutation.AppID(); !ok {
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+	}
+	if _, ok := uicc.mutation.InvitationCode(); !ok {
+		return &ValidationError{Name: "invitation_code", err: errors.New(`ent: missing required field "invitation_code"`)}
+	}
+	if _, ok := uicc.mutation.CreateAt(); !ok {
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+	}
+	if _, ok := uicc.mutation.UpdateAt(); !ok {
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+	}
+	if _, ok := uicc.mutation.DeleteAt(); !ok {
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+	}
 	return nil
 }
 
@@ -102,8 +209,9 @@ func (uicc *UserInvitationCodeCreate) sqlSave(ctx context.Context) (*UserInvitat
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != nil {
+		_node.ID = _spec.ID.Value.(uuid.UUID)
+	}
 	return _node, nil
 }
 
@@ -113,12 +221,64 @@ func (uicc *UserInvitationCodeCreate) createSpec() (*UserInvitationCode, *sqlgra
 		_spec = &sqlgraph.CreateSpec{
 			Table: userinvitationcode.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: userinvitationcode.FieldID,
 			},
 		}
 	)
 	_spec.OnConflict = uicc.conflict
+	if id, ok := uicc.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
+	if value, ok := uicc.mutation.UserID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userinvitationcode.FieldUserID,
+		})
+		_node.UserID = value
+	}
+	if value, ok := uicc.mutation.AppID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userinvitationcode.FieldAppID,
+		})
+		_node.AppID = value
+	}
+	if value, ok := uicc.mutation.InvitationCode(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userinvitationcode.FieldInvitationCode,
+		})
+		_node.InvitationCode = value
+	}
+	if value, ok := uicc.mutation.CreateAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldCreateAt,
+		})
+		_node.CreateAt = value
+	}
+	if value, ok := uicc.mutation.UpdateAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldUpdateAt,
+		})
+		_node.UpdateAt = value
+	}
+	if value, ok := uicc.mutation.DeleteAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldDeleteAt,
+		})
+		_node.DeleteAt = value
+	}
 	return _node, _spec
 }
 
@@ -126,11 +286,17 @@ func (uicc *UserInvitationCodeCreate) createSpec() (*UserInvitationCode, *sqlgra
 // of the `INSERT` statement. For example:
 //
 //	client.UserInvitationCode.Create().
+//		SetUserID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.UserInvitationCodeUpsert) {
+//			SetUserID(v+v).
+//		}).
 //		Exec(ctx)
 //
 func (uicc *UserInvitationCodeCreate) OnConflict(opts ...sql.ConflictOption) *UserInvitationCodeUpsertOne {
@@ -167,17 +333,97 @@ type (
 	}
 )
 
-// UpdateNewValues updates the fields using the new values that were set on create.
+// SetUserID sets the "user_id" field.
+func (u *UserInvitationCodeUpsert) SetUserID(v uuid.UUID) *UserInvitationCodeUpsert {
+	u.Set(userinvitationcode.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsert) UpdateUserID() *UserInvitationCodeUpsert {
+	u.SetExcluded(userinvitationcode.FieldUserID)
+	return u
+}
+
+// SetAppID sets the "app_id" field.
+func (u *UserInvitationCodeUpsert) SetAppID(v uuid.UUID) *UserInvitationCodeUpsert {
+	u.Set(userinvitationcode.FieldAppID, v)
+	return u
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsert) UpdateAppID() *UserInvitationCodeUpsert {
+	u.SetExcluded(userinvitationcode.FieldAppID)
+	return u
+}
+
+// SetInvitationCode sets the "invitation_code" field.
+func (u *UserInvitationCodeUpsert) SetInvitationCode(v string) *UserInvitationCodeUpsert {
+	u.Set(userinvitationcode.FieldInvitationCode, v)
+	return u
+}
+
+// UpdateInvitationCode sets the "invitation_code" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsert) UpdateInvitationCode() *UserInvitationCodeUpsert {
+	u.SetExcluded(userinvitationcode.FieldInvitationCode)
+	return u
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *UserInvitationCodeUpsert) SetCreateAt(v uint32) *UserInvitationCodeUpsert {
+	u.Set(userinvitationcode.FieldCreateAt, v)
+	return u
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsert) UpdateCreateAt() *UserInvitationCodeUpsert {
+	u.SetExcluded(userinvitationcode.FieldCreateAt)
+	return u
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *UserInvitationCodeUpsert) SetUpdateAt(v uint32) *UserInvitationCodeUpsert {
+	u.Set(userinvitationcode.FieldUpdateAt, v)
+	return u
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsert) UpdateUpdateAt() *UserInvitationCodeUpsert {
+	u.SetExcluded(userinvitationcode.FieldUpdateAt)
+	return u
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *UserInvitationCodeUpsert) SetDeleteAt(v uint32) *UserInvitationCodeUpsert {
+	u.Set(userinvitationcode.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsert) UpdateDeleteAt() *UserInvitationCodeUpsert {
+	u.SetExcluded(userinvitationcode.FieldDeleteAt)
+	return u
+}
+
+// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.UserInvitationCode.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(userinvitationcode.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 //
 func (u *UserInvitationCodeUpsertOne) UpdateNewValues() *UserInvitationCodeUpsertOne {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(userinvitationcode.FieldID)
+		}
+	}))
 	return u
 }
 
@@ -209,6 +455,90 @@ func (u *UserInvitationCodeUpsertOne) Update(set func(*UserInvitationCodeUpsert)
 	return u
 }
 
+// SetUserID sets the "user_id" field.
+func (u *UserInvitationCodeUpsertOne) SetUserID(v uuid.UUID) *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertOne) UpdateUserID() *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// SetAppID sets the "app_id" field.
+func (u *UserInvitationCodeUpsertOne) SetAppID(v uuid.UUID) *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertOne) UpdateAppID() *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateAppID()
+	})
+}
+
+// SetInvitationCode sets the "invitation_code" field.
+func (u *UserInvitationCodeUpsertOne) SetInvitationCode(v string) *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetInvitationCode(v)
+	})
+}
+
+// UpdateInvitationCode sets the "invitation_code" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertOne) UpdateInvitationCode() *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateInvitationCode()
+	})
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *UserInvitationCodeUpsertOne) SetCreateAt(v uint32) *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetCreateAt(v)
+	})
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertOne) UpdateCreateAt() *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateCreateAt()
+	})
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *UserInvitationCodeUpsertOne) SetUpdateAt(v uint32) *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetUpdateAt(v)
+	})
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertOne) UpdateUpdateAt() *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateUpdateAt()
+	})
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *UserInvitationCodeUpsertOne) SetDeleteAt(v uint32) *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetDeleteAt(v)
+	})
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertOne) UpdateDeleteAt() *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateDeleteAt()
+	})
+}
+
 // Exec executes the query.
 func (u *UserInvitationCodeUpsertOne) Exec(ctx context.Context) error {
 	if len(u.create.conflict) == 0 {
@@ -225,7 +555,12 @@ func (u *UserInvitationCodeUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *UserInvitationCodeUpsertOne) ID(ctx context.Context) (id int, err error) {
+func (u *UserInvitationCodeUpsertOne) ID(ctx context.Context) (id uuid.UUID, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: UserInvitationCodeUpsertOne.ID is not supported by MySQL driver. Use UserInvitationCodeUpsertOne.Exec instead")
+	}
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -234,7 +569,7 @@ func (u *UserInvitationCodeUpsertOne) ID(ctx context.Context) (id int, err error
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *UserInvitationCodeUpsertOne) IDX(ctx context.Context) int {
+func (u *UserInvitationCodeUpsertOne) IDX(ctx context.Context) uuid.UUID {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -257,6 +592,7 @@ func (uiccb *UserInvitationCodeCreateBulk) Save(ctx context.Context) ([]*UserInv
 	for i := range uiccb.builders {
 		func(i int, root context.Context) {
 			builder := uiccb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*UserInvitationCodeMutation)
 				if !ok {
@@ -285,10 +621,6 @@ func (uiccb *UserInvitationCodeCreateBulk) Save(ctx context.Context) ([]*UserInv
 				}
 				mutation.id = &nodes[i].ID
 				mutation.done = true
-				if specs[i].ID.Value != nil {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
-				}
 				return nodes[i], nil
 			})
 			for i := len(builder.hooks) - 1; i >= 0; i-- {
@@ -336,6 +668,11 @@ func (uiccb *UserInvitationCodeCreateBulk) ExecX(ctx context.Context) {
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.UserInvitationCodeUpsert) {
+//			SetUserID(v+v).
+//		}).
 //		Exec(ctx)
 //
 func (uiccb *UserInvitationCodeCreateBulk) OnConflict(opts ...sql.ConflictOption) *UserInvitationCodeUpsertBulk {
@@ -371,11 +708,22 @@ type UserInvitationCodeUpsertBulk struct {
 //	client.UserInvitationCode.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(userinvitationcode.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 //
 func (u *UserInvitationCodeUpsertBulk) UpdateNewValues() *UserInvitationCodeUpsertBulk {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(userinvitationcode.FieldID)
+				return
+			}
+		}
+	}))
 	return u
 }
 
@@ -405,6 +753,90 @@ func (u *UserInvitationCodeUpsertBulk) Update(set func(*UserInvitationCodeUpsert
 		set(&UserInvitationCodeUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *UserInvitationCodeUpsertBulk) SetUserID(v uuid.UUID) *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertBulk) UpdateUserID() *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// SetAppID sets the "app_id" field.
+func (u *UserInvitationCodeUpsertBulk) SetAppID(v uuid.UUID) *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertBulk) UpdateAppID() *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateAppID()
+	})
+}
+
+// SetInvitationCode sets the "invitation_code" field.
+func (u *UserInvitationCodeUpsertBulk) SetInvitationCode(v string) *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetInvitationCode(v)
+	})
+}
+
+// UpdateInvitationCode sets the "invitation_code" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertBulk) UpdateInvitationCode() *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateInvitationCode()
+	})
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *UserInvitationCodeUpsertBulk) SetCreateAt(v uint32) *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetCreateAt(v)
+	})
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertBulk) UpdateCreateAt() *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateCreateAt()
+	})
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *UserInvitationCodeUpsertBulk) SetUpdateAt(v uint32) *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetUpdateAt(v)
+	})
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertBulk) UpdateUpdateAt() *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateUpdateAt()
+	})
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *UserInvitationCodeUpsertBulk) SetDeleteAt(v uint32) *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetDeleteAt(v)
+	})
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertBulk) UpdateDeleteAt() *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateDeleteAt()
+	})
 }
 
 // Exec executes the query.

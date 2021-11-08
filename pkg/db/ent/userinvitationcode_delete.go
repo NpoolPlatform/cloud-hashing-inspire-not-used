@@ -72,7 +72,7 @@ func (uicd *UserInvitationCodeDelete) sqlExec(ctx context.Context) (int, error) 
 		Node: &sqlgraph.NodeSpec{
 			Table: userinvitationcode.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: userinvitationcode.FieldID,
 			},
 		},

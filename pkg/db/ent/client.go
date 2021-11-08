@@ -8,6 +8,7 @@ import (
 	"log"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/migrate"
+	"github.com/google/uuid"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/agencysetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
@@ -549,7 +550,7 @@ func (c *UserInvitationCodeClient) UpdateOne(uic *UserInvitationCode) *UserInvit
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *UserInvitationCodeClient) UpdateOneID(id int) *UserInvitationCodeUpdateOne {
+func (c *UserInvitationCodeClient) UpdateOneID(id uuid.UUID) *UserInvitationCodeUpdateOne {
 	mutation := newUserInvitationCodeMutation(c.config, OpUpdateOne, withUserInvitationCodeID(id))
 	return &UserInvitationCodeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -566,7 +567,7 @@ func (c *UserInvitationCodeClient) DeleteOne(uic *UserInvitationCode) *UserInvit
 }
 
 // DeleteOneID returns a delete builder for the given id.
-func (c *UserInvitationCodeClient) DeleteOneID(id int) *UserInvitationCodeDeleteOne {
+func (c *UserInvitationCodeClient) DeleteOneID(id uuid.UUID) *UserInvitationCodeDeleteOne {
 	builder := c.Delete().Where(userinvitationcode.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -581,12 +582,12 @@ func (c *UserInvitationCodeClient) Query() *UserInvitationCodeQuery {
 }
 
 // Get returns a UserInvitationCode entity by its id.
-func (c *UserInvitationCodeClient) Get(ctx context.Context, id int) (*UserInvitationCode, error) {
+func (c *UserInvitationCodeClient) Get(ctx context.Context, id uuid.UUID) (*UserInvitationCode, error) {
 	return c.Query().Where(userinvitationcode.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *UserInvitationCodeClient) GetX(ctx context.Context, id int) *UserInvitationCode {
+func (c *UserInvitationCodeClient) GetX(ctx context.Context, id uuid.UUID) *UserInvitationCode {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)

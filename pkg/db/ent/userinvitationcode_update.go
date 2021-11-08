@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
+	"github.com/google/uuid"
 )
 
 // UserInvitationCodeUpdate is the builder for updating UserInvitationCode entities.
@@ -26,6 +27,79 @@ func (uicu *UserInvitationCodeUpdate) Where(ps ...predicate.UserInvitationCode) 
 	return uicu
 }
 
+// SetUserID sets the "user_id" field.
+func (uicu *UserInvitationCodeUpdate) SetUserID(u uuid.UUID) *UserInvitationCodeUpdate {
+	uicu.mutation.SetUserID(u)
+	return uicu
+}
+
+// SetAppID sets the "app_id" field.
+func (uicu *UserInvitationCodeUpdate) SetAppID(u uuid.UUID) *UserInvitationCodeUpdate {
+	uicu.mutation.SetAppID(u)
+	return uicu
+}
+
+// SetInvitationCode sets the "invitation_code" field.
+func (uicu *UserInvitationCodeUpdate) SetInvitationCode(s string) *UserInvitationCodeUpdate {
+	uicu.mutation.SetInvitationCode(s)
+	return uicu
+}
+
+// SetCreateAt sets the "create_at" field.
+func (uicu *UserInvitationCodeUpdate) SetCreateAt(u uint32) *UserInvitationCodeUpdate {
+	uicu.mutation.ResetCreateAt()
+	uicu.mutation.SetCreateAt(u)
+	return uicu
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (uicu *UserInvitationCodeUpdate) SetNillableCreateAt(u *uint32) *UserInvitationCodeUpdate {
+	if u != nil {
+		uicu.SetCreateAt(*u)
+	}
+	return uicu
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (uicu *UserInvitationCodeUpdate) AddCreateAt(u uint32) *UserInvitationCodeUpdate {
+	uicu.mutation.AddCreateAt(u)
+	return uicu
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (uicu *UserInvitationCodeUpdate) SetUpdateAt(u uint32) *UserInvitationCodeUpdate {
+	uicu.mutation.ResetUpdateAt()
+	uicu.mutation.SetUpdateAt(u)
+	return uicu
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (uicu *UserInvitationCodeUpdate) AddUpdateAt(u uint32) *UserInvitationCodeUpdate {
+	uicu.mutation.AddUpdateAt(u)
+	return uicu
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (uicu *UserInvitationCodeUpdate) SetDeleteAt(u uint32) *UserInvitationCodeUpdate {
+	uicu.mutation.ResetDeleteAt()
+	uicu.mutation.SetDeleteAt(u)
+	return uicu
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (uicu *UserInvitationCodeUpdate) SetNillableDeleteAt(u *uint32) *UserInvitationCodeUpdate {
+	if u != nil {
+		uicu.SetDeleteAt(*u)
+	}
+	return uicu
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (uicu *UserInvitationCodeUpdate) AddDeleteAt(u uint32) *UserInvitationCodeUpdate {
+	uicu.mutation.AddDeleteAt(u)
+	return uicu
+}
+
 // Mutation returns the UserInvitationCodeMutation object of the builder.
 func (uicu *UserInvitationCodeUpdate) Mutation() *UserInvitationCodeMutation {
 	return uicu.mutation
@@ -37,6 +111,7 @@ func (uicu *UserInvitationCodeUpdate) Save(ctx context.Context) (int, error) {
 		err      error
 		affected int
 	)
+	uicu.defaults()
 	if len(uicu.hooks) == 0 {
 		affected, err = uicu.sqlSave(ctx)
 	} else {
@@ -85,13 +160,21 @@ func (uicu *UserInvitationCodeUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (uicu *UserInvitationCodeUpdate) defaults() {
+	if _, ok := uicu.mutation.UpdateAt(); !ok {
+		v := userinvitationcode.UpdateDefaultUpdateAt()
+		uicu.mutation.SetUpdateAt(v)
+	}
+}
+
 func (uicu *UserInvitationCodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   userinvitationcode.Table,
 			Columns: userinvitationcode.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: userinvitationcode.FieldID,
 			},
 		},
@@ -102,6 +185,69 @@ func (uicu *UserInvitationCodeUpdate) sqlSave(ctx context.Context) (n int, err e
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := uicu.mutation.UserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userinvitationcode.FieldUserID,
+		})
+	}
+	if value, ok := uicu.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userinvitationcode.FieldAppID,
+		})
+	}
+	if value, ok := uicu.mutation.InvitationCode(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userinvitationcode.FieldInvitationCode,
+		})
+	}
+	if value, ok := uicu.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldCreateAt,
+		})
+	}
+	if value, ok := uicu.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldCreateAt,
+		})
+	}
+	if value, ok := uicu.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldUpdateAt,
+		})
+	}
+	if value, ok := uicu.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldUpdateAt,
+		})
+	}
+	if value, ok := uicu.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldDeleteAt,
+		})
+	}
+	if value, ok := uicu.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldDeleteAt,
+		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, uicu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -122,6 +268,79 @@ type UserInvitationCodeUpdateOne struct {
 	mutation *UserInvitationCodeMutation
 }
 
+// SetUserID sets the "user_id" field.
+func (uicuo *UserInvitationCodeUpdateOne) SetUserID(u uuid.UUID) *UserInvitationCodeUpdateOne {
+	uicuo.mutation.SetUserID(u)
+	return uicuo
+}
+
+// SetAppID sets the "app_id" field.
+func (uicuo *UserInvitationCodeUpdateOne) SetAppID(u uuid.UUID) *UserInvitationCodeUpdateOne {
+	uicuo.mutation.SetAppID(u)
+	return uicuo
+}
+
+// SetInvitationCode sets the "invitation_code" field.
+func (uicuo *UserInvitationCodeUpdateOne) SetInvitationCode(s string) *UserInvitationCodeUpdateOne {
+	uicuo.mutation.SetInvitationCode(s)
+	return uicuo
+}
+
+// SetCreateAt sets the "create_at" field.
+func (uicuo *UserInvitationCodeUpdateOne) SetCreateAt(u uint32) *UserInvitationCodeUpdateOne {
+	uicuo.mutation.ResetCreateAt()
+	uicuo.mutation.SetCreateAt(u)
+	return uicuo
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (uicuo *UserInvitationCodeUpdateOne) SetNillableCreateAt(u *uint32) *UserInvitationCodeUpdateOne {
+	if u != nil {
+		uicuo.SetCreateAt(*u)
+	}
+	return uicuo
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (uicuo *UserInvitationCodeUpdateOne) AddCreateAt(u uint32) *UserInvitationCodeUpdateOne {
+	uicuo.mutation.AddCreateAt(u)
+	return uicuo
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (uicuo *UserInvitationCodeUpdateOne) SetUpdateAt(u uint32) *UserInvitationCodeUpdateOne {
+	uicuo.mutation.ResetUpdateAt()
+	uicuo.mutation.SetUpdateAt(u)
+	return uicuo
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (uicuo *UserInvitationCodeUpdateOne) AddUpdateAt(u uint32) *UserInvitationCodeUpdateOne {
+	uicuo.mutation.AddUpdateAt(u)
+	return uicuo
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (uicuo *UserInvitationCodeUpdateOne) SetDeleteAt(u uint32) *UserInvitationCodeUpdateOne {
+	uicuo.mutation.ResetDeleteAt()
+	uicuo.mutation.SetDeleteAt(u)
+	return uicuo
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (uicuo *UserInvitationCodeUpdateOne) SetNillableDeleteAt(u *uint32) *UserInvitationCodeUpdateOne {
+	if u != nil {
+		uicuo.SetDeleteAt(*u)
+	}
+	return uicuo
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (uicuo *UserInvitationCodeUpdateOne) AddDeleteAt(u uint32) *UserInvitationCodeUpdateOne {
+	uicuo.mutation.AddDeleteAt(u)
+	return uicuo
+}
+
 // Mutation returns the UserInvitationCodeMutation object of the builder.
 func (uicuo *UserInvitationCodeUpdateOne) Mutation() *UserInvitationCodeMutation {
 	return uicuo.mutation
@@ -140,6 +359,7 @@ func (uicuo *UserInvitationCodeUpdateOne) Save(ctx context.Context) (*UserInvita
 		err  error
 		node *UserInvitationCode
 	)
+	uicuo.defaults()
 	if len(uicuo.hooks) == 0 {
 		node, err = uicuo.sqlSave(ctx)
 	} else {
@@ -188,13 +408,21 @@ func (uicuo *UserInvitationCodeUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (uicuo *UserInvitationCodeUpdateOne) defaults() {
+	if _, ok := uicuo.mutation.UpdateAt(); !ok {
+		v := userinvitationcode.UpdateDefaultUpdateAt()
+		uicuo.mutation.SetUpdateAt(v)
+	}
+}
+
 func (uicuo *UserInvitationCodeUpdateOne) sqlSave(ctx context.Context) (_node *UserInvitationCode, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   userinvitationcode.Table,
 			Columns: userinvitationcode.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: userinvitationcode.FieldID,
 			},
 		},
@@ -222,6 +450,69 @@ func (uicuo *UserInvitationCodeUpdateOne) sqlSave(ctx context.Context) (_node *U
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := uicuo.mutation.UserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userinvitationcode.FieldUserID,
+		})
+	}
+	if value, ok := uicuo.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: userinvitationcode.FieldAppID,
+		})
+	}
+	if value, ok := uicuo.mutation.InvitationCode(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: userinvitationcode.FieldInvitationCode,
+		})
+	}
+	if value, ok := uicuo.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldCreateAt,
+		})
+	}
+	if value, ok := uicuo.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldCreateAt,
+		})
+	}
+	if value, ok := uicuo.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldUpdateAt,
+		})
+	}
+	if value, ok := uicuo.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldUpdateAt,
+		})
+	}
+	if value, ok := uicuo.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldDeleteAt,
+		})
+	}
+	if value, ok := uicuo.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: userinvitationcode.FieldDeleteAt,
+		})
 	}
 	_node = &UserInvitationCode{config: uicuo.config}
 	_spec.Assign = _node.assignValues
