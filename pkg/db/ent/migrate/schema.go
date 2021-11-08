@@ -8,19 +8,19 @@ import (
 )
 
 var (
-	// EmptiesColumns holds the columns for the "empties" table.
-	EmptiesColumns = []*schema.Column{
+	// RegistrationInvitationsColumns holds the columns for the "registration_invitations" table.
+	RegistrationInvitationsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 	}
-	// EmptiesTable holds the schema information for the "empties" table.
-	EmptiesTable = &schema.Table{
-		Name:       "empties",
-		Columns:    EmptiesColumns,
-		PrimaryKey: []*schema.Column{EmptiesColumns[0]},
+	// RegistrationInvitationsTable holds the schema information for the "registration_invitations" table.
+	RegistrationInvitationsTable = &schema.Table{
+		Name:       "registration_invitations",
+		Columns:    RegistrationInvitationsColumns,
+		PrimaryKey: []*schema.Column{RegistrationInvitationsColumns[0]},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		EmptiesTable,
+		RegistrationInvitationsTable,
 	}
 )
 

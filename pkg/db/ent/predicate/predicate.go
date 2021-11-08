@@ -6,5 +6,5 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Empty is the predicate function for empty builders.
-type Empty func(*sql.Selector)
+// RegistrationInvitation is the predicate function for registrationinvitation builders.
+type RegistrationInvitation func(*sql.Selector)

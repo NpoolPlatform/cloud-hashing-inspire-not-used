@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service-sample
+  name: cloud-hashing-stimulate
   namespace: kube-system
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: service-sample
+      app: cloud-hashing-stimulate
   template:
     metadata:
       labels:
-        app: service-sample
+        app: cloud-hashing-stimulate
     spec:
       containers:
-      - name: service-sample
-        image: entropypool/service-sample:latest
+      - name: cloud-hashing-stimulate
+        image: entropypool/cloud-hashing-stimulate:latest
         imagePullPolicy: Always
         env:
         - name: ENV_ENVIRONMENT_TARGET
@@ -42,7 +42,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-sample
+  name: cloud-hashing-stimulate
   namespace: kube-system
 spec:
   ports:

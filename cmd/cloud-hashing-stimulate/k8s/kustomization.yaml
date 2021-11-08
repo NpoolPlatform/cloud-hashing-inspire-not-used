@@ -1,5 +1,5 @@
 commonLabels:
-  # app: service-example
+  # app: cloud-hashing-stimulate
 
 resources:
 - 01-service-sample.yaml
