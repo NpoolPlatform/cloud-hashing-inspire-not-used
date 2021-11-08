@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
+	"github.com/google/uuid"
 )
 
 // RegistrationInvitationUpdate is the builder for updating RegistrationInvitation entities.
@@ -26,6 +27,79 @@ func (riu *RegistrationInvitationUpdate) Where(ps ...predicate.RegistrationInvit
 	return riu
 }
 
+// SetInviterID sets the "inviter_id" field.
+func (riu *RegistrationInvitationUpdate) SetInviterID(u uuid.UUID) *RegistrationInvitationUpdate {
+	riu.mutation.SetInviterID(u)
+	return riu
+}
+
+// SetInviteeID sets the "invitee_id" field.
+func (riu *RegistrationInvitationUpdate) SetInviteeID(u uuid.UUID) *RegistrationInvitationUpdate {
+	riu.mutation.SetInviteeID(u)
+	return riu
+}
+
+// SetAppID sets the "app_id" field.
+func (riu *RegistrationInvitationUpdate) SetAppID(u uuid.UUID) *RegistrationInvitationUpdate {
+	riu.mutation.SetAppID(u)
+	return riu
+}
+
+// SetCreateAt sets the "create_at" field.
+func (riu *RegistrationInvitationUpdate) SetCreateAt(u uint32) *RegistrationInvitationUpdate {
+	riu.mutation.ResetCreateAt()
+	riu.mutation.SetCreateAt(u)
+	return riu
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (riu *RegistrationInvitationUpdate) SetNillableCreateAt(u *uint32) *RegistrationInvitationUpdate {
+	if u != nil {
+		riu.SetCreateAt(*u)
+	}
+	return riu
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (riu *RegistrationInvitationUpdate) AddCreateAt(u uint32) *RegistrationInvitationUpdate {
+	riu.mutation.AddCreateAt(u)
+	return riu
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (riu *RegistrationInvitationUpdate) SetUpdateAt(u uint32) *RegistrationInvitationUpdate {
+	riu.mutation.ResetUpdateAt()
+	riu.mutation.SetUpdateAt(u)
+	return riu
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (riu *RegistrationInvitationUpdate) AddUpdateAt(u uint32) *RegistrationInvitationUpdate {
+	riu.mutation.AddUpdateAt(u)
+	return riu
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (riu *RegistrationInvitationUpdate) SetDeleteAt(u uint32) *RegistrationInvitationUpdate {
+	riu.mutation.ResetDeleteAt()
+	riu.mutation.SetDeleteAt(u)
+	return riu
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (riu *RegistrationInvitationUpdate) SetNillableDeleteAt(u *uint32) *RegistrationInvitationUpdate {
+	if u != nil {
+		riu.SetDeleteAt(*u)
+	}
+	return riu
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (riu *RegistrationInvitationUpdate) AddDeleteAt(u uint32) *RegistrationInvitationUpdate {
+	riu.mutation.AddDeleteAt(u)
+	return riu
+}
+
 // Mutation returns the RegistrationInvitationMutation object of the builder.
 func (riu *RegistrationInvitationUpdate) Mutation() *RegistrationInvitationMutation {
 	return riu.mutation
@@ -37,6 +111,7 @@ func (riu *RegistrationInvitationUpdate) Save(ctx context.Context) (int, error) 
 		err      error
 		affected int
 	)
+	riu.defaults()
 	if len(riu.hooks) == 0 {
 		affected, err = riu.sqlSave(ctx)
 	} else {
@@ -85,13 +160,21 @@ func (riu *RegistrationInvitationUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (riu *RegistrationInvitationUpdate) defaults() {
+	if _, ok := riu.mutation.UpdateAt(); !ok {
+		v := registrationinvitation.UpdateDefaultUpdateAt()
+		riu.mutation.SetUpdateAt(v)
+	}
+}
+
 func (riu *RegistrationInvitationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   registrationinvitation.Table,
 			Columns: registrationinvitation.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: registrationinvitation.FieldID,
 			},
 		},
@@ -102,6 +185,69 @@ func (riu *RegistrationInvitationUpdate) sqlSave(ctx context.Context) (n int, er
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := riu.mutation.InviterID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: registrationinvitation.FieldInviterID,
+		})
+	}
+	if value, ok := riu.mutation.InviteeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: registrationinvitation.FieldInviteeID,
+		})
+	}
+	if value, ok := riu.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: registrationinvitation.FieldAppID,
+		})
+	}
+	if value, ok := riu.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldCreateAt,
+		})
+	}
+	if value, ok := riu.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldCreateAt,
+		})
+	}
+	if value, ok := riu.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldUpdateAt,
+		})
+	}
+	if value, ok := riu.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldUpdateAt,
+		})
+	}
+	if value, ok := riu.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldDeleteAt,
+		})
+	}
+	if value, ok := riu.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldDeleteAt,
+		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, riu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -122,6 +268,79 @@ type RegistrationInvitationUpdateOne struct {
 	mutation *RegistrationInvitationMutation
 }
 
+// SetInviterID sets the "inviter_id" field.
+func (riuo *RegistrationInvitationUpdateOne) SetInviterID(u uuid.UUID) *RegistrationInvitationUpdateOne {
+	riuo.mutation.SetInviterID(u)
+	return riuo
+}
+
+// SetInviteeID sets the "invitee_id" field.
+func (riuo *RegistrationInvitationUpdateOne) SetInviteeID(u uuid.UUID) *RegistrationInvitationUpdateOne {
+	riuo.mutation.SetInviteeID(u)
+	return riuo
+}
+
+// SetAppID sets the "app_id" field.
+func (riuo *RegistrationInvitationUpdateOne) SetAppID(u uuid.UUID) *RegistrationInvitationUpdateOne {
+	riuo.mutation.SetAppID(u)
+	return riuo
+}
+
+// SetCreateAt sets the "create_at" field.
+func (riuo *RegistrationInvitationUpdateOne) SetCreateAt(u uint32) *RegistrationInvitationUpdateOne {
+	riuo.mutation.ResetCreateAt()
+	riuo.mutation.SetCreateAt(u)
+	return riuo
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (riuo *RegistrationInvitationUpdateOne) SetNillableCreateAt(u *uint32) *RegistrationInvitationUpdateOne {
+	if u != nil {
+		riuo.SetCreateAt(*u)
+	}
+	return riuo
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (riuo *RegistrationInvitationUpdateOne) AddCreateAt(u uint32) *RegistrationInvitationUpdateOne {
+	riuo.mutation.AddCreateAt(u)
+	return riuo
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (riuo *RegistrationInvitationUpdateOne) SetUpdateAt(u uint32) *RegistrationInvitationUpdateOne {
+	riuo.mutation.ResetUpdateAt()
+	riuo.mutation.SetUpdateAt(u)
+	return riuo
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (riuo *RegistrationInvitationUpdateOne) AddUpdateAt(u uint32) *RegistrationInvitationUpdateOne {
+	riuo.mutation.AddUpdateAt(u)
+	return riuo
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (riuo *RegistrationInvitationUpdateOne) SetDeleteAt(u uint32) *RegistrationInvitationUpdateOne {
+	riuo.mutation.ResetDeleteAt()
+	riuo.mutation.SetDeleteAt(u)
+	return riuo
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (riuo *RegistrationInvitationUpdateOne) SetNillableDeleteAt(u *uint32) *RegistrationInvitationUpdateOne {
+	if u != nil {
+		riuo.SetDeleteAt(*u)
+	}
+	return riuo
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (riuo *RegistrationInvitationUpdateOne) AddDeleteAt(u uint32) *RegistrationInvitationUpdateOne {
+	riuo.mutation.AddDeleteAt(u)
+	return riuo
+}
+
 // Mutation returns the RegistrationInvitationMutation object of the builder.
 func (riuo *RegistrationInvitationUpdateOne) Mutation() *RegistrationInvitationMutation {
 	return riuo.mutation
@@ -140,6 +359,7 @@ func (riuo *RegistrationInvitationUpdateOne) Save(ctx context.Context) (*Registr
 		err  error
 		node *RegistrationInvitation
 	)
+	riuo.defaults()
 	if len(riuo.hooks) == 0 {
 		node, err = riuo.sqlSave(ctx)
 	} else {
@@ -188,13 +408,21 @@ func (riuo *RegistrationInvitationUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (riuo *RegistrationInvitationUpdateOne) defaults() {
+	if _, ok := riuo.mutation.UpdateAt(); !ok {
+		v := registrationinvitation.UpdateDefaultUpdateAt()
+		riuo.mutation.SetUpdateAt(v)
+	}
+}
+
 func (riuo *RegistrationInvitationUpdateOne) sqlSave(ctx context.Context) (_node *RegistrationInvitation, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   registrationinvitation.Table,
 			Columns: registrationinvitation.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: registrationinvitation.FieldID,
 			},
 		},
@@ -222,6 +450,69 @@ func (riuo *RegistrationInvitationUpdateOne) sqlSave(ctx context.Context) (_node
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := riuo.mutation.InviterID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: registrationinvitation.FieldInviterID,
+		})
+	}
+	if value, ok := riuo.mutation.InviteeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: registrationinvitation.FieldInviteeID,
+		})
+	}
+	if value, ok := riuo.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: registrationinvitation.FieldAppID,
+		})
+	}
+	if value, ok := riuo.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldCreateAt,
+		})
+	}
+	if value, ok := riuo.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldCreateAt,
+		})
+	}
+	if value, ok := riuo.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldUpdateAt,
+		})
+	}
+	if value, ok := riuo.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldUpdateAt,
+		})
+	}
+	if value, ok := riuo.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldDeleteAt,
+		})
+	}
+	if value, ok := riuo.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: registrationinvitation.FieldDeleteAt,
+		})
 	}
 	_node = &RegistrationInvitation{config: riuo.config}
 	_spec.Assign = _node.assignValues

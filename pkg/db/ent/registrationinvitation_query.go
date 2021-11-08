@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
+	"github.com/google/uuid"
 )
 
 // RegistrationInvitationQuery is the builder for querying RegistrationInvitation entities.
@@ -84,8 +85,8 @@ func (riq *RegistrationInvitationQuery) FirstX(ctx context.Context) *Registratio
 
 // FirstID returns the first RegistrationInvitation ID from the query.
 // Returns a *NotFoundError when no RegistrationInvitation ID was found.
-func (riq *RegistrationInvitationQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (riq *RegistrationInvitationQuery) FirstID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = riq.Limit(1).IDs(ctx); err != nil {
 		return
 	}
@@ -97,7 +98,7 @@ func (riq *RegistrationInvitationQuery) FirstID(ctx context.Context) (id int, er
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (riq *RegistrationInvitationQuery) FirstIDX(ctx context.Context) int {
+func (riq *RegistrationInvitationQuery) FirstIDX(ctx context.Context) uuid.UUID {
 	id, err := riq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -135,8 +136,8 @@ func (riq *RegistrationInvitationQuery) OnlyX(ctx context.Context) *Registration
 // OnlyID is like Only, but returns the only RegistrationInvitation ID in the query.
 // Returns a *NotSingularError when exactly one RegistrationInvitation ID is not found.
 // Returns a *NotFoundError when no entities are found.
-func (riq *RegistrationInvitationQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (riq *RegistrationInvitationQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = riq.Limit(2).IDs(ctx); err != nil {
 		return
 	}
@@ -152,7 +153,7 @@ func (riq *RegistrationInvitationQuery) OnlyID(ctx context.Context) (id int, err
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (riq *RegistrationInvitationQuery) OnlyIDX(ctx context.Context) int {
+func (riq *RegistrationInvitationQuery) OnlyIDX(ctx context.Context) uuid.UUID {
 	id, err := riq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -178,8 +179,8 @@ func (riq *RegistrationInvitationQuery) AllX(ctx context.Context) []*Registratio
 }
 
 // IDs executes the query and returns a list of RegistrationInvitation IDs.
-func (riq *RegistrationInvitationQuery) IDs(ctx context.Context) ([]int, error) {
-	var ids []int
+func (riq *RegistrationInvitationQuery) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	var ids []uuid.UUID
 	if err := riq.Select(registrationinvitation.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -187,7 +188,7 @@ func (riq *RegistrationInvitationQuery) IDs(ctx context.Context) ([]int, error) 
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (riq *RegistrationInvitationQuery) IDsX(ctx context.Context) []int {
+func (riq *RegistrationInvitationQuery) IDsX(ctx context.Context) []uuid.UUID {
 	ids, err := riq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -249,6 +250,19 @@ func (riq *RegistrationInvitationQuery) Clone() *RegistrationInvitationQuery {
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		InviterID uuid.UUID `json:"inviter_id,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.RegistrationInvitation.Query().
+//		GroupBy(registrationinvitation.FieldInviterID).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
+//
 func (riq *RegistrationInvitationQuery) GroupBy(field string, fields ...string) *RegistrationInvitationGroupBy {
 	group := &RegistrationInvitationGroupBy{config: riq.config}
 	group.fields = append([]string{field}, fields...)
@@ -263,6 +277,17 @@ func (riq *RegistrationInvitationQuery) GroupBy(field string, fields ...string) 
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		InviterID uuid.UUID `json:"inviter_id,omitempty"`
+//	}
+//
+//	client.RegistrationInvitation.Query().
+//		Select(registrationinvitation.FieldInviterID).
+//		Scan(ctx, &v)
+//
 func (riq *RegistrationInvitationQuery) Select(fields ...string) *RegistrationInvitationSelect {
 	riq.fields = append(riq.fields, fields...)
 	return &RegistrationInvitationSelect{RegistrationInvitationQuery: riq}
@@ -329,7 +354,7 @@ func (riq *RegistrationInvitationQuery) querySpec() *sqlgraph.QuerySpec {
 			Table:   registrationinvitation.Table,
 			Columns: registrationinvitation.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: registrationinvitation.FieldID,
 			},
 		},

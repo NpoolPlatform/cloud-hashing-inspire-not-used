@@ -95,7 +95,13 @@ var (
 	}
 	// RegistrationInvitationsColumns holds the columns for the "registration_invitations" table.
 	RegistrationInvitationsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "inviter_id", Type: field.TypeUUID},
+		{Name: "invitee_id", Type: field.TypeUUID},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
 	}
 	// RegistrationInvitationsTable holds the schema information for the "registration_invitations" table.
 	RegistrationInvitationsTable = &schema.Table{

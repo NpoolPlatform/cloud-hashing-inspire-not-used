@@ -72,7 +72,7 @@ func (rid *RegistrationInvitationDelete) sqlExec(ctx context.Context) (int, erro
 		Node: &sqlgraph.NodeSpec{
 			Table: registrationinvitation.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: registrationinvitation.FieldID,
 			},
 		},

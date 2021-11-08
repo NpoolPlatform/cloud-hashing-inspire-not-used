@@ -11,6 +11,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
 	"github.com/google/uuid"
 
@@ -3350,7 +3351,16 @@ type RegistrationInvitationMutation struct {
 	config
 	op            Op
 	typ           string
-	id            *int
+	id            *uuid.UUID
+	inviter_id    *uuid.UUID
+	invitee_id    *uuid.UUID
+	app_id        *uuid.UUID
+	create_at     *uint32
+	addcreate_at  *uint32
+	update_at     *uint32
+	addupdate_at  *uint32
+	delete_at     *uint32
+	adddelete_at  *uint32
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*RegistrationInvitation, error)
@@ -3377,7 +3387,7 @@ func newRegistrationInvitationMutation(c config, op Op, opts ...registrationinvi
 }
 
 // withRegistrationInvitationID sets the ID field of the mutation.
-func withRegistrationInvitationID(id int) registrationinvitationOption {
+func withRegistrationInvitationID(id uuid.UUID) registrationinvitationOption {
 	return func(m *RegistrationInvitationMutation) {
 		var (
 			err   error
@@ -3427,13 +3437,295 @@ func (m RegistrationInvitationMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of RegistrationInvitation entities.
+func (m *RegistrationInvitationMutation) SetID(id uuid.UUID) {
+	m.id = &id
+}
+
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *RegistrationInvitationMutation) ID() (id int, exists bool) {
+func (m *RegistrationInvitationMutation) ID() (id uuid.UUID, exists bool) {
 	if m.id == nil {
 		return
 	}
 	return *m.id, true
+}
+
+// SetInviterID sets the "inviter_id" field.
+func (m *RegistrationInvitationMutation) SetInviterID(u uuid.UUID) {
+	m.inviter_id = &u
+}
+
+// InviterID returns the value of the "inviter_id" field in the mutation.
+func (m *RegistrationInvitationMutation) InviterID() (r uuid.UUID, exists bool) {
+	v := m.inviter_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInviterID returns the old "inviter_id" field's value of the RegistrationInvitation entity.
+// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RegistrationInvitationMutation) OldInviterID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldInviterID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldInviterID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInviterID: %w", err)
+	}
+	return oldValue.InviterID, nil
+}
+
+// ResetInviterID resets all changes to the "inviter_id" field.
+func (m *RegistrationInvitationMutation) ResetInviterID() {
+	m.inviter_id = nil
+}
+
+// SetInviteeID sets the "invitee_id" field.
+func (m *RegistrationInvitationMutation) SetInviteeID(u uuid.UUID) {
+	m.invitee_id = &u
+}
+
+// InviteeID returns the value of the "invitee_id" field in the mutation.
+func (m *RegistrationInvitationMutation) InviteeID() (r uuid.UUID, exists bool) {
+	v := m.invitee_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInviteeID returns the old "invitee_id" field's value of the RegistrationInvitation entity.
+// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RegistrationInvitationMutation) OldInviteeID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldInviteeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldInviteeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInviteeID: %w", err)
+	}
+	return oldValue.InviteeID, nil
+}
+
+// ResetInviteeID resets all changes to the "invitee_id" field.
+func (m *RegistrationInvitationMutation) ResetInviteeID() {
+	m.invitee_id = nil
+}
+
+// SetAppID sets the "app_id" field.
+func (m *RegistrationInvitationMutation) SetAppID(u uuid.UUID) {
+	m.app_id = &u
+}
+
+// AppID returns the value of the "app_id" field in the mutation.
+func (m *RegistrationInvitationMutation) AppID() (r uuid.UUID, exists bool) {
+	v := m.app_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAppID returns the old "app_id" field's value of the RegistrationInvitation entity.
+// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RegistrationInvitationMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
+	}
+	return oldValue.AppID, nil
+}
+
+// ResetAppID resets all changes to the "app_id" field.
+func (m *RegistrationInvitationMutation) ResetAppID() {
+	m.app_id = nil
+}
+
+// SetCreateAt sets the "create_at" field.
+func (m *RegistrationInvitationMutation) SetCreateAt(u uint32) {
+	m.create_at = &u
+	m.addcreate_at = nil
+}
+
+// CreateAt returns the value of the "create_at" field in the mutation.
+func (m *RegistrationInvitationMutation) CreateAt() (r uint32, exists bool) {
+	v := m.create_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateAt returns the old "create_at" field's value of the RegistrationInvitation entity.
+// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RegistrationInvitationMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateAt: %w", err)
+	}
+	return oldValue.CreateAt, nil
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (m *RegistrationInvitationMutation) AddCreateAt(u uint32) {
+	if m.addcreate_at != nil {
+		*m.addcreate_at += u
+	} else {
+		m.addcreate_at = &u
+	}
+}
+
+// AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
+func (m *RegistrationInvitationMutation) AddedCreateAt() (r uint32, exists bool) {
+	v := m.addcreate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCreateAt resets all changes to the "create_at" field.
+func (m *RegistrationInvitationMutation) ResetCreateAt() {
+	m.create_at = nil
+	m.addcreate_at = nil
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (m *RegistrationInvitationMutation) SetUpdateAt(u uint32) {
+	m.update_at = &u
+	m.addupdate_at = nil
+}
+
+// UpdateAt returns the value of the "update_at" field in the mutation.
+func (m *RegistrationInvitationMutation) UpdateAt() (r uint32, exists bool) {
+	v := m.update_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateAt returns the old "update_at" field's value of the RegistrationInvitation entity.
+// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RegistrationInvitationMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateAt: %w", err)
+	}
+	return oldValue.UpdateAt, nil
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (m *RegistrationInvitationMutation) AddUpdateAt(u uint32) {
+	if m.addupdate_at != nil {
+		*m.addupdate_at += u
+	} else {
+		m.addupdate_at = &u
+	}
+}
+
+// AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
+func (m *RegistrationInvitationMutation) AddedUpdateAt() (r uint32, exists bool) {
+	v := m.addupdate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetUpdateAt resets all changes to the "update_at" field.
+func (m *RegistrationInvitationMutation) ResetUpdateAt() {
+	m.update_at = nil
+	m.addupdate_at = nil
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (m *RegistrationInvitationMutation) SetDeleteAt(u uint32) {
+	m.delete_at = &u
+	m.adddelete_at = nil
+}
+
+// DeleteAt returns the value of the "delete_at" field in the mutation.
+func (m *RegistrationInvitationMutation) DeleteAt() (r uint32, exists bool) {
+	v := m.delete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteAt returns the old "delete_at" field's value of the RegistrationInvitation entity.
+// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RegistrationInvitationMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteAt: %w", err)
+	}
+	return oldValue.DeleteAt, nil
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (m *RegistrationInvitationMutation) AddDeleteAt(u uint32) {
+	if m.adddelete_at != nil {
+		*m.adddelete_at += u
+	} else {
+		m.adddelete_at = &u
+	}
+}
+
+// AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
+func (m *RegistrationInvitationMutation) AddedDeleteAt() (r uint32, exists bool) {
+	v := m.adddelete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetDeleteAt resets all changes to the "delete_at" field.
+func (m *RegistrationInvitationMutation) ResetDeleteAt() {
+	m.delete_at = nil
+	m.adddelete_at = nil
 }
 
 // Where appends a list predicates to the RegistrationInvitationMutation builder.
@@ -3455,7 +3747,25 @@ func (m *RegistrationInvitationMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *RegistrationInvitationMutation) Fields() []string {
-	fields := make([]string, 0, 0)
+	fields := make([]string, 0, 6)
+	if m.inviter_id != nil {
+		fields = append(fields, registrationinvitation.FieldInviterID)
+	}
+	if m.invitee_id != nil {
+		fields = append(fields, registrationinvitation.FieldInviteeID)
+	}
+	if m.app_id != nil {
+		fields = append(fields, registrationinvitation.FieldAppID)
+	}
+	if m.create_at != nil {
+		fields = append(fields, registrationinvitation.FieldCreateAt)
+	}
+	if m.update_at != nil {
+		fields = append(fields, registrationinvitation.FieldUpdateAt)
+	}
+	if m.delete_at != nil {
+		fields = append(fields, registrationinvitation.FieldDeleteAt)
+	}
 	return fields
 }
 
@@ -3463,6 +3773,20 @@ func (m *RegistrationInvitationMutation) Fields() []string {
 // return value indicates that this field was not set, or was not defined in the
 // schema.
 func (m *RegistrationInvitationMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case registrationinvitation.FieldInviterID:
+		return m.InviterID()
+	case registrationinvitation.FieldInviteeID:
+		return m.InviteeID()
+	case registrationinvitation.FieldAppID:
+		return m.AppID()
+	case registrationinvitation.FieldCreateAt:
+		return m.CreateAt()
+	case registrationinvitation.FieldUpdateAt:
+		return m.UpdateAt()
+	case registrationinvitation.FieldDeleteAt:
+		return m.DeleteAt()
+	}
 	return nil, false
 }
 
@@ -3470,6 +3794,20 @@ func (m *RegistrationInvitationMutation) Field(name string) (ent.Value, bool) {
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
 func (m *RegistrationInvitationMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case registrationinvitation.FieldInviterID:
+		return m.OldInviterID(ctx)
+	case registrationinvitation.FieldInviteeID:
+		return m.OldInviteeID(ctx)
+	case registrationinvitation.FieldAppID:
+		return m.OldAppID(ctx)
+	case registrationinvitation.FieldCreateAt:
+		return m.OldCreateAt(ctx)
+	case registrationinvitation.FieldUpdateAt:
+		return m.OldUpdateAt(ctx)
+	case registrationinvitation.FieldDeleteAt:
+		return m.OldDeleteAt(ctx)
+	}
 	return nil, fmt.Errorf("unknown RegistrationInvitation field %s", name)
 }
 
@@ -3478,6 +3816,48 @@ func (m *RegistrationInvitationMutation) OldField(ctx context.Context, name stri
 // type.
 func (m *RegistrationInvitationMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case registrationinvitation.FieldInviterID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInviterID(v)
+		return nil
+	case registrationinvitation.FieldInviteeID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInviteeID(v)
+		return nil
+	case registrationinvitation.FieldAppID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAppID(v)
+		return nil
+	case registrationinvitation.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateAt(v)
+		return nil
+	case registrationinvitation.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateAt(v)
+		return nil
+	case registrationinvitation.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown RegistrationInvitation field %s", name)
 }
@@ -3485,13 +3865,31 @@ func (m *RegistrationInvitationMutation) SetField(name string, value ent.Value) 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *RegistrationInvitationMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addcreate_at != nil {
+		fields = append(fields, registrationinvitation.FieldCreateAt)
+	}
+	if m.addupdate_at != nil {
+		fields = append(fields, registrationinvitation.FieldUpdateAt)
+	}
+	if m.adddelete_at != nil {
+		fields = append(fields, registrationinvitation.FieldDeleteAt)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *RegistrationInvitationMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case registrationinvitation.FieldCreateAt:
+		return m.AddedCreateAt()
+	case registrationinvitation.FieldUpdateAt:
+		return m.AddedUpdateAt()
+	case registrationinvitation.FieldDeleteAt:
+		return m.AddedDeleteAt()
+	}
 	return nil, false
 }
 
@@ -3499,6 +3897,29 @@ func (m *RegistrationInvitationMutation) AddedField(name string) (ent.Value, boo
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
 func (m *RegistrationInvitationMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case registrationinvitation.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreateAt(v)
+		return nil
+	case registrationinvitation.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdateAt(v)
+		return nil
+	case registrationinvitation.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDeleteAt(v)
+		return nil
+	}
 	return fmt.Errorf("unknown RegistrationInvitation numeric field %s", name)
 }
 
@@ -3524,6 +3945,26 @@ func (m *RegistrationInvitationMutation) ClearField(name string) error {
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
 func (m *RegistrationInvitationMutation) ResetField(name string) error {
+	switch name {
+	case registrationinvitation.FieldInviterID:
+		m.ResetInviterID()
+		return nil
+	case registrationinvitation.FieldInviteeID:
+		m.ResetInviteeID()
+		return nil
+	case registrationinvitation.FieldAppID:
+		m.ResetAppID()
+		return nil
+	case registrationinvitation.FieldCreateAt:
+		m.ResetCreateAt()
+		return nil
+	case registrationinvitation.FieldUpdateAt:
+		m.ResetUpdateAt()
+		return nil
+	case registrationinvitation.FieldDeleteAt:
+		m.ResetDeleteAt()
+		return nil
+	}
 	return fmt.Errorf("unknown RegistrationInvitation field %s", name)
 }
 

@@ -751,7 +751,7 @@ func (c *RegistrationInvitationClient) UpdateOne(ri *RegistrationInvitation) *Re
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *RegistrationInvitationClient) UpdateOneID(id int) *RegistrationInvitationUpdateOne {
+func (c *RegistrationInvitationClient) UpdateOneID(id uuid.UUID) *RegistrationInvitationUpdateOne {
 	mutation := newRegistrationInvitationMutation(c.config, OpUpdateOne, withRegistrationInvitationID(id))
 	return &RegistrationInvitationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -768,7 +768,7 @@ func (c *RegistrationInvitationClient) DeleteOne(ri *RegistrationInvitation) *Re
 }
 
 // DeleteOneID returns a delete builder for the given id.
-func (c *RegistrationInvitationClient) DeleteOneID(id int) *RegistrationInvitationDeleteOne {
+func (c *RegistrationInvitationClient) DeleteOneID(id uuid.UUID) *RegistrationInvitationDeleteOne {
 	builder := c.Delete().Where(registrationinvitation.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -783,12 +783,12 @@ func (c *RegistrationInvitationClient) Query() *RegistrationInvitationQuery {
 }
 
 // Get returns a RegistrationInvitation entity by its id.
-func (c *RegistrationInvitationClient) Get(ctx context.Context, id int) (*RegistrationInvitation, error) {
+func (c *RegistrationInvitationClient) Get(ctx context.Context, id uuid.UUID) (*RegistrationInvitation, error) {
 	return c.Query().Where(registrationinvitation.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *RegistrationInvitationClient) GetX(ctx context.Context, id int) *RegistrationInvitation {
+func (c *RegistrationInvitationClient) GetX(ctx context.Context, id uuid.UUID) *RegistrationInvitation {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)

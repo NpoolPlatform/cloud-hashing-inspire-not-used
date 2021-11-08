@@ -6,6 +6,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/schema"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
 	"github.com/google/uuid"
@@ -91,6 +92,26 @@ func init() {
 	couponpoolDescID := couponpoolFields[0].Descriptor()
 	// couponpool.DefaultID holds the default value on creation for the id field.
 	couponpool.DefaultID = couponpoolDescID.Default.(func() uuid.UUID)
+	registrationinvitationFields := schema.RegistrationInvitation{}.Fields()
+	_ = registrationinvitationFields
+	// registrationinvitationDescCreateAt is the schema descriptor for create_at field.
+	registrationinvitationDescCreateAt := registrationinvitationFields[4].Descriptor()
+	// registrationinvitation.DefaultCreateAt holds the default value on creation for the create_at field.
+	registrationinvitation.DefaultCreateAt = registrationinvitationDescCreateAt.Default.(func() uint32)
+	// registrationinvitationDescUpdateAt is the schema descriptor for update_at field.
+	registrationinvitationDescUpdateAt := registrationinvitationFields[5].Descriptor()
+	// registrationinvitation.DefaultUpdateAt holds the default value on creation for the update_at field.
+	registrationinvitation.DefaultUpdateAt = registrationinvitationDescUpdateAt.Default.(func() uint32)
+	// registrationinvitation.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	registrationinvitation.UpdateDefaultUpdateAt = registrationinvitationDescUpdateAt.UpdateDefault.(func() uint32)
+	// registrationinvitationDescDeleteAt is the schema descriptor for delete_at field.
+	registrationinvitationDescDeleteAt := registrationinvitationFields[6].Descriptor()
+	// registrationinvitation.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	registrationinvitation.DefaultDeleteAt = registrationinvitationDescDeleteAt.Default.(func() uint32)
+	// registrationinvitationDescID is the schema descriptor for id field.
+	registrationinvitationDescID := registrationinvitationFields[0].Descriptor()
+	// registrationinvitation.DefaultID holds the default value on creation for the id field.
+	registrationinvitation.DefaultID = registrationinvitationDescID.Default.(func() uuid.UUID)
 	userinvitationcodeFields := schema.UserInvitationCode{}.Fields()
 	_ = userinvitationcodeFields
 	// userinvitationcodeDescCreateAt is the schema descriptor for create_at field.
