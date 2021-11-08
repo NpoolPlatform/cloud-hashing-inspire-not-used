@@ -55,4 +55,21 @@ func TestCRUD(t *testing.T) {
 		assert.NotEqual(t, resp1.Info.ID, uuid.UUID{}.String())
 		assertUserInvitationCode(t, resp1.Info, &userInvitationCode)
 	}
+
+	resp2, err := GetByAppUser(context.Background(), &npool.GetUserInvitationCodeByAppUserRequest{
+		AppID:  userInvitationCode.AppID,
+		UserID: userInvitationCode.UserID,
+	})
+	if assert.Nil(t, err) {
+		assert.NotEqual(t, resp2.Info.ID, uuid.UUID{}.String())
+		assertUserInvitationCode(t, resp2.Info, &userInvitationCode)
+	}
+
+	resp3, err := GetByCode(context.Background(), &npool.GetUserInvitationCodeByCodeRequest{
+		Code: resp2.Info.InvitationCode,
+	})
+	if assert.Nil(t, err) {
+		assert.NotEqual(t, resp3.Info.ID, uuid.UUID{}.String())
+		assertUserInvitationCode(t, resp3.Info, &userInvitationCode)
+	}
 }
