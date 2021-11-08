@@ -51,8 +51,8 @@ var (
 	// UserInvitationCodesColumns holds the columns for the "user_invitation_codes" table.
 	UserInvitationCodesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "user_id", Type: field.TypeUUID, Unique: true},
-		{Name: "app_id", Type: field.TypeUUID, Unique: true},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "invitation_code", Type: field.TypeString, Unique: true},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},

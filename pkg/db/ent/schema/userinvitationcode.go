@@ -21,10 +21,8 @@ func (UserInvitationCode) Fields() []ent.Field {
 		field.UUID("id", uuid.UUID{}).
 			Default(uuid.New).
 			Unique(),
-		field.UUID("user_id", uuid.UUID{}).
-			Unique(),
-		field.UUID("app_id", uuid.UUID{}).
-			Unique(),
+		field.UUID("user_id", uuid.UUID{}),
+		field.UUID("app_id", uuid.UUID{}),
 		field.String("invitation_code").
 			Unique(),
 		field.Uint32("create_at").
