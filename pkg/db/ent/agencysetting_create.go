@@ -30,37 +30,37 @@ func (asc *AgencySettingCreate) SetAppID(u uuid.UUID) *AgencySettingCreate {
 }
 
 // SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
-func (asc *AgencySettingCreate) SetRegistrationRewardThreshold(i int) *AgencySettingCreate {
+func (asc *AgencySettingCreate) SetRegistrationRewardThreshold(i int32) *AgencySettingCreate {
 	asc.mutation.SetRegistrationRewardThreshold(i)
 	return asc
 }
 
-// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
-func (asc *AgencySettingCreate) SetRegistrationRewardAmount(i int) *AgencySettingCreate {
-	asc.mutation.SetRegistrationRewardAmount(i)
+// SetRegistrationCouponID sets the "registration_coupon_id" field.
+func (asc *AgencySettingCreate) SetRegistrationCouponID(u uuid.UUID) *AgencySettingCreate {
+	asc.mutation.SetRegistrationCouponID(u)
 	return asc
 }
 
 // SetKycRewardThreshold sets the "kyc_reward_threshold" field.
-func (asc *AgencySettingCreate) SetKycRewardThreshold(i int) *AgencySettingCreate {
+func (asc *AgencySettingCreate) SetKycRewardThreshold(i int32) *AgencySettingCreate {
 	asc.mutation.SetKycRewardThreshold(i)
 	return asc
 }
 
-// SetKycRewardAmount sets the "kyc_reward_amount" field.
-func (asc *AgencySettingCreate) SetKycRewardAmount(i int) *AgencySettingCreate {
-	asc.mutation.SetKycRewardAmount(i)
+// SetKycCouponID sets the "kyc_coupon_id" field.
+func (asc *AgencySettingCreate) SetKycCouponID(u uuid.UUID) *AgencySettingCreate {
+	asc.mutation.SetKycCouponID(u)
 	return asc
 }
 
 // SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (asc *AgencySettingCreate) SetPurchaseRewardPercent(i int) *AgencySettingCreate {
+func (asc *AgencySettingCreate) SetPurchaseRewardPercent(i int32) *AgencySettingCreate {
 	asc.mutation.SetPurchaseRewardPercent(i)
 	return asc
 }
 
 // SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
-func (asc *AgencySettingCreate) SetPurchaseRewardChainLevels(i int) *AgencySettingCreate {
+func (asc *AgencySettingCreate) SetPurchaseRewardChainLevels(i int32) *AgencySettingCreate {
 	asc.mutation.SetPurchaseRewardChainLevels(i)
 	return asc
 }
@@ -210,14 +210,14 @@ func (asc *AgencySettingCreate) check() error {
 	if _, ok := asc.mutation.RegistrationRewardThreshold(); !ok {
 		return &ValidationError{Name: "registration_reward_threshold", err: errors.New(`ent: missing required field "registration_reward_threshold"`)}
 	}
-	if _, ok := asc.mutation.RegistrationRewardAmount(); !ok {
-		return &ValidationError{Name: "registration_reward_amount", err: errors.New(`ent: missing required field "registration_reward_amount"`)}
+	if _, ok := asc.mutation.RegistrationCouponID(); !ok {
+		return &ValidationError{Name: "registration_coupon_id", err: errors.New(`ent: missing required field "registration_coupon_id"`)}
 	}
 	if _, ok := asc.mutation.KycRewardThreshold(); !ok {
 		return &ValidationError{Name: "kyc_reward_threshold", err: errors.New(`ent: missing required field "kyc_reward_threshold"`)}
 	}
-	if _, ok := asc.mutation.KycRewardAmount(); !ok {
-		return &ValidationError{Name: "kyc_reward_amount", err: errors.New(`ent: missing required field "kyc_reward_amount"`)}
+	if _, ok := asc.mutation.KycCouponID(); !ok {
+		return &ValidationError{Name: "kyc_coupon_id", err: errors.New(`ent: missing required field "kyc_coupon_id"`)}
 	}
 	if _, ok := asc.mutation.PurchaseRewardPercent(); !ok {
 		return &ValidationError{Name: "purchase_reward_percent", err: errors.New(`ent: missing required field "purchase_reward_percent"`)}
@@ -277,39 +277,39 @@ func (asc *AgencySettingCreate) createSpec() (*AgencySetting, *sqlgraph.CreateSp
 	}
 	if value, ok := asc.mutation.RegistrationRewardThreshold(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldRegistrationRewardThreshold,
 		})
 		_node.RegistrationRewardThreshold = value
 	}
-	if value, ok := asc.mutation.RegistrationRewardAmount(); ok {
+	if value, ok := asc.mutation.RegistrationCouponID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUUID,
 			Value:  value,
-			Column: agencysetting.FieldRegistrationRewardAmount,
+			Column: agencysetting.FieldRegistrationCouponID,
 		})
-		_node.RegistrationRewardAmount = value
+		_node.RegistrationCouponID = value
 	}
 	if value, ok := asc.mutation.KycRewardThreshold(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldKycRewardThreshold,
 		})
 		_node.KycRewardThreshold = value
 	}
-	if value, ok := asc.mutation.KycRewardAmount(); ok {
+	if value, ok := asc.mutation.KycCouponID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUUID,
 			Value:  value,
-			Column: agencysetting.FieldKycRewardAmount,
+			Column: agencysetting.FieldKycCouponID,
 		})
-		_node.KycRewardAmount = value
+		_node.KycCouponID = value
 	}
 	if value, ok := asc.mutation.PurchaseRewardPercent(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardPercent,
 		})
@@ -317,7 +317,7 @@ func (asc *AgencySettingCreate) createSpec() (*AgencySetting, *sqlgraph.CreateSp
 	}
 	if value, ok := asc.mutation.PurchaseRewardChainLevels(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardChainLevels,
 		})
@@ -414,7 +414,7 @@ func (u *AgencySettingUpsert) UpdateAppID() *AgencySettingUpsert {
 }
 
 // SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
-func (u *AgencySettingUpsert) SetRegistrationRewardThreshold(v int) *AgencySettingUpsert {
+func (u *AgencySettingUpsert) SetRegistrationRewardThreshold(v int32) *AgencySettingUpsert {
 	u.Set(agencysetting.FieldRegistrationRewardThreshold, v)
 	return u
 }
@@ -425,20 +425,20 @@ func (u *AgencySettingUpsert) UpdateRegistrationRewardThreshold() *AgencySetting
 	return u
 }
 
-// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
-func (u *AgencySettingUpsert) SetRegistrationRewardAmount(v int) *AgencySettingUpsert {
-	u.Set(agencysetting.FieldRegistrationRewardAmount, v)
+// SetRegistrationCouponID sets the "registration_coupon_id" field.
+func (u *AgencySettingUpsert) SetRegistrationCouponID(v uuid.UUID) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldRegistrationCouponID, v)
 	return u
 }
 
-// UpdateRegistrationRewardAmount sets the "registration_reward_amount" field to the value that was provided on create.
-func (u *AgencySettingUpsert) UpdateRegistrationRewardAmount() *AgencySettingUpsert {
-	u.SetExcluded(agencysetting.FieldRegistrationRewardAmount)
+// UpdateRegistrationCouponID sets the "registration_coupon_id" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateRegistrationCouponID() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldRegistrationCouponID)
 	return u
 }
 
 // SetKycRewardThreshold sets the "kyc_reward_threshold" field.
-func (u *AgencySettingUpsert) SetKycRewardThreshold(v int) *AgencySettingUpsert {
+func (u *AgencySettingUpsert) SetKycRewardThreshold(v int32) *AgencySettingUpsert {
 	u.Set(agencysetting.FieldKycRewardThreshold, v)
 	return u
 }
@@ -449,20 +449,20 @@ func (u *AgencySettingUpsert) UpdateKycRewardThreshold() *AgencySettingUpsert {
 	return u
 }
 
-// SetKycRewardAmount sets the "kyc_reward_amount" field.
-func (u *AgencySettingUpsert) SetKycRewardAmount(v int) *AgencySettingUpsert {
-	u.Set(agencysetting.FieldKycRewardAmount, v)
+// SetKycCouponID sets the "kyc_coupon_id" field.
+func (u *AgencySettingUpsert) SetKycCouponID(v uuid.UUID) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldKycCouponID, v)
 	return u
 }
 
-// UpdateKycRewardAmount sets the "kyc_reward_amount" field to the value that was provided on create.
-func (u *AgencySettingUpsert) UpdateKycRewardAmount() *AgencySettingUpsert {
-	u.SetExcluded(agencysetting.FieldKycRewardAmount)
+// UpdateKycCouponID sets the "kyc_coupon_id" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateKycCouponID() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldKycCouponID)
 	return u
 }
 
 // SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (u *AgencySettingUpsert) SetPurchaseRewardPercent(v int) *AgencySettingUpsert {
+func (u *AgencySettingUpsert) SetPurchaseRewardPercent(v int32) *AgencySettingUpsert {
 	u.Set(agencysetting.FieldPurchaseRewardPercent, v)
 	return u
 }
@@ -474,7 +474,7 @@ func (u *AgencySettingUpsert) UpdatePurchaseRewardPercent() *AgencySettingUpsert
 }
 
 // SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
-func (u *AgencySettingUpsert) SetPurchaseRewardChainLevels(v int) *AgencySettingUpsert {
+func (u *AgencySettingUpsert) SetPurchaseRewardChainLevels(v int32) *AgencySettingUpsert {
 	u.Set(agencysetting.FieldPurchaseRewardChainLevels, v)
 	return u
 }
@@ -586,7 +586,7 @@ func (u *AgencySettingUpsertOne) UpdateAppID() *AgencySettingUpsertOne {
 }
 
 // SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
-func (u *AgencySettingUpsertOne) SetRegistrationRewardThreshold(v int) *AgencySettingUpsertOne {
+func (u *AgencySettingUpsertOne) SetRegistrationRewardThreshold(v int32) *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
 		s.SetRegistrationRewardThreshold(v)
 	})
@@ -599,22 +599,22 @@ func (u *AgencySettingUpsertOne) UpdateRegistrationRewardThreshold() *AgencySett
 	})
 }
 
-// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
-func (u *AgencySettingUpsertOne) SetRegistrationRewardAmount(v int) *AgencySettingUpsertOne {
+// SetRegistrationCouponID sets the "registration_coupon_id" field.
+func (u *AgencySettingUpsertOne) SetRegistrationCouponID(v uuid.UUID) *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.SetRegistrationRewardAmount(v)
+		s.SetRegistrationCouponID(v)
 	})
 }
 
-// UpdateRegistrationRewardAmount sets the "registration_reward_amount" field to the value that was provided on create.
-func (u *AgencySettingUpsertOne) UpdateRegistrationRewardAmount() *AgencySettingUpsertOne {
+// UpdateRegistrationCouponID sets the "registration_coupon_id" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateRegistrationCouponID() *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.UpdateRegistrationRewardAmount()
+		s.UpdateRegistrationCouponID()
 	})
 }
 
 // SetKycRewardThreshold sets the "kyc_reward_threshold" field.
-func (u *AgencySettingUpsertOne) SetKycRewardThreshold(v int) *AgencySettingUpsertOne {
+func (u *AgencySettingUpsertOne) SetKycRewardThreshold(v int32) *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
 		s.SetKycRewardThreshold(v)
 	})
@@ -627,22 +627,22 @@ func (u *AgencySettingUpsertOne) UpdateKycRewardThreshold() *AgencySettingUpsert
 	})
 }
 
-// SetKycRewardAmount sets the "kyc_reward_amount" field.
-func (u *AgencySettingUpsertOne) SetKycRewardAmount(v int) *AgencySettingUpsertOne {
+// SetKycCouponID sets the "kyc_coupon_id" field.
+func (u *AgencySettingUpsertOne) SetKycCouponID(v uuid.UUID) *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.SetKycRewardAmount(v)
+		s.SetKycCouponID(v)
 	})
 }
 
-// UpdateKycRewardAmount sets the "kyc_reward_amount" field to the value that was provided on create.
-func (u *AgencySettingUpsertOne) UpdateKycRewardAmount() *AgencySettingUpsertOne {
+// UpdateKycCouponID sets the "kyc_coupon_id" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateKycCouponID() *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.UpdateKycRewardAmount()
+		s.UpdateKycCouponID()
 	})
 }
 
 // SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (u *AgencySettingUpsertOne) SetPurchaseRewardPercent(v int) *AgencySettingUpsertOne {
+func (u *AgencySettingUpsertOne) SetPurchaseRewardPercent(v int32) *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
 		s.SetPurchaseRewardPercent(v)
 	})
@@ -656,7 +656,7 @@ func (u *AgencySettingUpsertOne) UpdatePurchaseRewardPercent() *AgencySettingUps
 }
 
 // SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
-func (u *AgencySettingUpsertOne) SetPurchaseRewardChainLevels(v int) *AgencySettingUpsertOne {
+func (u *AgencySettingUpsertOne) SetPurchaseRewardChainLevels(v int32) *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
 		s.SetPurchaseRewardChainLevels(v)
 	})
@@ -942,7 +942,7 @@ func (u *AgencySettingUpsertBulk) UpdateAppID() *AgencySettingUpsertBulk {
 }
 
 // SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
-func (u *AgencySettingUpsertBulk) SetRegistrationRewardThreshold(v int) *AgencySettingUpsertBulk {
+func (u *AgencySettingUpsertBulk) SetRegistrationRewardThreshold(v int32) *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
 		s.SetRegistrationRewardThreshold(v)
 	})
@@ -955,22 +955,22 @@ func (u *AgencySettingUpsertBulk) UpdateRegistrationRewardThreshold() *AgencySet
 	})
 }
 
-// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
-func (u *AgencySettingUpsertBulk) SetRegistrationRewardAmount(v int) *AgencySettingUpsertBulk {
+// SetRegistrationCouponID sets the "registration_coupon_id" field.
+func (u *AgencySettingUpsertBulk) SetRegistrationCouponID(v uuid.UUID) *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.SetRegistrationRewardAmount(v)
+		s.SetRegistrationCouponID(v)
 	})
 }
 
-// UpdateRegistrationRewardAmount sets the "registration_reward_amount" field to the value that was provided on create.
-func (u *AgencySettingUpsertBulk) UpdateRegistrationRewardAmount() *AgencySettingUpsertBulk {
+// UpdateRegistrationCouponID sets the "registration_coupon_id" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateRegistrationCouponID() *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.UpdateRegistrationRewardAmount()
+		s.UpdateRegistrationCouponID()
 	})
 }
 
 // SetKycRewardThreshold sets the "kyc_reward_threshold" field.
-func (u *AgencySettingUpsertBulk) SetKycRewardThreshold(v int) *AgencySettingUpsertBulk {
+func (u *AgencySettingUpsertBulk) SetKycRewardThreshold(v int32) *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
 		s.SetKycRewardThreshold(v)
 	})
@@ -983,22 +983,22 @@ func (u *AgencySettingUpsertBulk) UpdateKycRewardThreshold() *AgencySettingUpser
 	})
 }
 
-// SetKycRewardAmount sets the "kyc_reward_amount" field.
-func (u *AgencySettingUpsertBulk) SetKycRewardAmount(v int) *AgencySettingUpsertBulk {
+// SetKycCouponID sets the "kyc_coupon_id" field.
+func (u *AgencySettingUpsertBulk) SetKycCouponID(v uuid.UUID) *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.SetKycRewardAmount(v)
+		s.SetKycCouponID(v)
 	})
 }
 
-// UpdateKycRewardAmount sets the "kyc_reward_amount" field to the value that was provided on create.
-func (u *AgencySettingUpsertBulk) UpdateKycRewardAmount() *AgencySettingUpsertBulk {
+// UpdateKycCouponID sets the "kyc_coupon_id" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateKycCouponID() *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.UpdateKycRewardAmount()
+		s.UpdateKycCouponID()
 	})
 }
 
 // SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (u *AgencySettingUpsertBulk) SetPurchaseRewardPercent(v int) *AgencySettingUpsertBulk {
+func (u *AgencySettingUpsertBulk) SetPurchaseRewardPercent(v int32) *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
 		s.SetPurchaseRewardPercent(v)
 	})
@@ -1012,7 +1012,7 @@ func (u *AgencySettingUpsertBulk) UpdatePurchaseRewardPercent() *AgencySettingUp
 }
 
 // SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
-func (u *AgencySettingUpsertBulk) SetPurchaseRewardChainLevels(v int) *AgencySettingUpsertBulk {
+func (u *AgencySettingUpsertBulk) SetPurchaseRewardChainLevels(v int32) *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
 		s.SetPurchaseRewardChainLevels(v)
 	})

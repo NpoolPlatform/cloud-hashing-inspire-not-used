@@ -19,17 +19,17 @@ type AgencySetting struct {
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
 	// RegistrationRewardThreshold holds the value of the "registration_reward_threshold" field.
-	RegistrationRewardThreshold int `json:"registration_reward_threshold,omitempty"`
-	// RegistrationRewardAmount holds the value of the "registration_reward_amount" field.
-	RegistrationRewardAmount int `json:"registration_reward_amount,omitempty"`
+	RegistrationRewardThreshold int32 `json:"registration_reward_threshold,omitempty"`
+	// RegistrationCouponID holds the value of the "registration_coupon_id" field.
+	RegistrationCouponID uuid.UUID `json:"registration_coupon_id,omitempty"`
 	// KycRewardThreshold holds the value of the "kyc_reward_threshold" field.
-	KycRewardThreshold int `json:"kyc_reward_threshold,omitempty"`
-	// KycRewardAmount holds the value of the "kyc_reward_amount" field.
-	KycRewardAmount int `json:"kyc_reward_amount,omitempty"`
+	KycRewardThreshold int32 `json:"kyc_reward_threshold,omitempty"`
+	// KycCouponID holds the value of the "kyc_coupon_id" field.
+	KycCouponID uuid.UUID `json:"kyc_coupon_id,omitempty"`
 	// PurchaseRewardPercent holds the value of the "purchase_reward_percent" field.
-	PurchaseRewardPercent int `json:"purchase_reward_percent,omitempty"`
+	PurchaseRewardPercent int32 `json:"purchase_reward_percent,omitempty"`
 	// PurchaseRewardChainLevels holds the value of the "purchase_reward_chain_levels" field.
-	PurchaseRewardChainLevels int `json:"purchase_reward_chain_levels,omitempty"`
+	PurchaseRewardChainLevels int32 `json:"purchase_reward_chain_levels,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -43,9 +43,9 @@ func (*AgencySetting) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case agencysetting.FieldRegistrationRewardThreshold, agencysetting.FieldRegistrationRewardAmount, agencysetting.FieldKycRewardThreshold, agencysetting.FieldKycRewardAmount, agencysetting.FieldPurchaseRewardPercent, agencysetting.FieldPurchaseRewardChainLevels, agencysetting.FieldCreateAt, agencysetting.FieldUpdateAt, agencysetting.FieldDeleteAt:
+		case agencysetting.FieldRegistrationRewardThreshold, agencysetting.FieldKycRewardThreshold, agencysetting.FieldPurchaseRewardPercent, agencysetting.FieldPurchaseRewardChainLevels, agencysetting.FieldCreateAt, agencysetting.FieldUpdateAt, agencysetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
-		case agencysetting.FieldID, agencysetting.FieldAppID:
+		case agencysetting.FieldID, agencysetting.FieldAppID, agencysetting.FieldRegistrationCouponID, agencysetting.FieldKycCouponID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type AgencySetting", columns[i])
@@ -78,37 +78,37 @@ func (as *AgencySetting) assignValues(columns []string, values []interface{}) er
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field registration_reward_threshold", values[i])
 			} else if value.Valid {
-				as.RegistrationRewardThreshold = int(value.Int64)
+				as.RegistrationRewardThreshold = int32(value.Int64)
 			}
-		case agencysetting.FieldRegistrationRewardAmount:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field registration_reward_amount", values[i])
-			} else if value.Valid {
-				as.RegistrationRewardAmount = int(value.Int64)
+		case agencysetting.FieldRegistrationCouponID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field registration_coupon_id", values[i])
+			} else if value != nil {
+				as.RegistrationCouponID = *value
 			}
 		case agencysetting.FieldKycRewardThreshold:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field kyc_reward_threshold", values[i])
 			} else if value.Valid {
-				as.KycRewardThreshold = int(value.Int64)
+				as.KycRewardThreshold = int32(value.Int64)
 			}
-		case agencysetting.FieldKycRewardAmount:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field kyc_reward_amount", values[i])
-			} else if value.Valid {
-				as.KycRewardAmount = int(value.Int64)
+		case agencysetting.FieldKycCouponID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field kyc_coupon_id", values[i])
+			} else if value != nil {
+				as.KycCouponID = *value
 			}
 		case agencysetting.FieldPurchaseRewardPercent:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field purchase_reward_percent", values[i])
 			} else if value.Valid {
-				as.PurchaseRewardPercent = int(value.Int64)
+				as.PurchaseRewardPercent = int32(value.Int64)
 			}
 		case agencysetting.FieldPurchaseRewardChainLevels:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field purchase_reward_chain_levels", values[i])
 			} else if value.Valid {
-				as.PurchaseRewardChainLevels = int(value.Int64)
+				as.PurchaseRewardChainLevels = int32(value.Int64)
 			}
 		case agencysetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -160,12 +160,12 @@ func (as *AgencySetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", as.AppID))
 	builder.WriteString(", registration_reward_threshold=")
 	builder.WriteString(fmt.Sprintf("%v", as.RegistrationRewardThreshold))
-	builder.WriteString(", registration_reward_amount=")
-	builder.WriteString(fmt.Sprintf("%v", as.RegistrationRewardAmount))
+	builder.WriteString(", registration_coupon_id=")
+	builder.WriteString(fmt.Sprintf("%v", as.RegistrationCouponID))
 	builder.WriteString(", kyc_reward_threshold=")
 	builder.WriteString(fmt.Sprintf("%v", as.KycRewardThreshold))
-	builder.WriteString(", kyc_reward_amount=")
-	builder.WriteString(fmt.Sprintf("%v", as.KycRewardAmount))
+	builder.WriteString(", kyc_coupon_id=")
+	builder.WriteString(fmt.Sprintf("%v", as.KycCouponID))
 	builder.WriteString(", purchase_reward_percent=")
 	builder.WriteString(fmt.Sprintf("%v", as.PurchaseRewardPercent))
 	builder.WriteString(", purchase_reward_chain_levels=")

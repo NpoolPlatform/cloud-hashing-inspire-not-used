@@ -22,12 +22,12 @@ func (AgencySetting) Fields() []ent.Field {
 			Unique(),
 		field.UUID("app_id", uuid.UUID{}).
 			Unique(),
-		field.Int("registration_reward_threshold"),
-		field.Int("registration_reward_amount"),
-		field.Int("kyc_reward_threshold"),
-		field.Int("kyc_reward_amount"),
-		field.Int("purchase_reward_percent"),
-		field.Int("purchase_reward_chain_levels"),
+		field.Int32("registration_reward_threshold"),
+		field.UUID("registration_coupon_id", uuid.UUID{}),
+		field.Int32("kyc_reward_threshold"),
+		field.UUID("kyc_coupon_id", uuid.UUID{}),
+		field.Int32("purchase_reward_percent"),
+		field.Int32("purchase_reward_chain_levels"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

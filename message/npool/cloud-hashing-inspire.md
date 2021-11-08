@@ -104,10 +104,10 @@
 | ID | [string](#string) |  |  |
 | AppID | [string](#string) |  |  |
 | RegistrationRewardThreshold | [int32](#int32) |  |  |
+| RegistrationCouponID | [string](#string) |  |  |
 | KycRewardThreshold | [int32](#int32) |  |  |
+| KycCouponID | [string](#string) |  |  |
 | PurchaseRewardPercent | [int32](#int32) |  |  |
-| RegistrationRewardAmount | [double](#double) |  |  |
-| KycRewardAmount | [double](#double) |  |  |
 | PurchaseRewardChainLevels | [int32](#int32) |  |  |
 
 

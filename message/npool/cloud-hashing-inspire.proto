@@ -272,10 +272,10 @@ message AgencySetting {
     string ID = 1100;
     string AppID = 1101;
     int32 RegistrationRewardThreshold = 1102;
-    int32 KycRewardThreshold = 1103;
-    int32 PurchaseRewardPercent = 1104;
-    double RegistrationRewardAmount = 1105;
-    double KycRewardAmount = 1106;
+    string RegistrationCouponID = 1103;
+    int32 KycRewardThreshold = 1104;
+    string KycCouponID = 1105;
+    int32 PurchaseRewardPercent = 1106;
     int32 PurchaseRewardChainLevels = 1107;
 }
 

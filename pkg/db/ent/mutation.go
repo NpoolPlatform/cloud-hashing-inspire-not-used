@@ -47,18 +47,16 @@ type AgencySettingMutation struct {
 	typ                              string
 	id                               *uuid.UUID
 	app_id                           *uuid.UUID
-	registration_reward_threshold    *int
-	addregistration_reward_threshold *int
-	registration_reward_amount       *int
-	addregistration_reward_amount    *int
-	kyc_reward_threshold             *int
-	addkyc_reward_threshold          *int
-	kyc_reward_amount                *int
-	addkyc_reward_amount             *int
-	purchase_reward_percent          *int
-	addpurchase_reward_percent       *int
-	purchase_reward_chain_levels     *int
-	addpurchase_reward_chain_levels  *int
+	registration_reward_threshold    *int32
+	addregistration_reward_threshold *int32
+	registration_coupon_id           *uuid.UUID
+	kyc_reward_threshold             *int32
+	addkyc_reward_threshold          *int32
+	kyc_coupon_id                    *uuid.UUID
+	purchase_reward_percent          *int32
+	addpurchase_reward_percent       *int32
+	purchase_reward_chain_levels     *int32
+	addpurchase_reward_chain_levels  *int32
 	create_at                        *uint32
 	addcreate_at                     *uint32
 	update_at                        *uint32
@@ -193,13 +191,13 @@ func (m *AgencySettingMutation) ResetAppID() {
 }
 
 // SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
-func (m *AgencySettingMutation) SetRegistrationRewardThreshold(i int) {
+func (m *AgencySettingMutation) SetRegistrationRewardThreshold(i int32) {
 	m.registration_reward_threshold = &i
 	m.addregistration_reward_threshold = nil
 }
 
 // RegistrationRewardThreshold returns the value of the "registration_reward_threshold" field in the mutation.
-func (m *AgencySettingMutation) RegistrationRewardThreshold() (r int, exists bool) {
+func (m *AgencySettingMutation) RegistrationRewardThreshold() (r int32, exists bool) {
 	v := m.registration_reward_threshold
 	if v == nil {
 		return
@@ -210,7 +208,7 @@ func (m *AgencySettingMutation) RegistrationRewardThreshold() (r int, exists boo
 // OldRegistrationRewardThreshold returns the old "registration_reward_threshold" field's value of the AgencySetting entity.
 // If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AgencySettingMutation) OldRegistrationRewardThreshold(ctx context.Context) (v int, err error) {
+func (m *AgencySettingMutation) OldRegistrationRewardThreshold(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldRegistrationRewardThreshold is only allowed on UpdateOne operations")
 	}
@@ -225,7 +223,7 @@ func (m *AgencySettingMutation) OldRegistrationRewardThreshold(ctx context.Conte
 }
 
 // AddRegistrationRewardThreshold adds i to the "registration_reward_threshold" field.
-func (m *AgencySettingMutation) AddRegistrationRewardThreshold(i int) {
+func (m *AgencySettingMutation) AddRegistrationRewardThreshold(i int32) {
 	if m.addregistration_reward_threshold != nil {
 		*m.addregistration_reward_threshold += i
 	} else {
@@ -234,7 +232,7 @@ func (m *AgencySettingMutation) AddRegistrationRewardThreshold(i int) {
 }
 
 // AddedRegistrationRewardThreshold returns the value that was added to the "registration_reward_threshold" field in this mutation.
-func (m *AgencySettingMutation) AddedRegistrationRewardThreshold() (r int, exists bool) {
+func (m *AgencySettingMutation) AddedRegistrationRewardThreshold() (r int32, exists bool) {
 	v := m.addregistration_reward_threshold
 	if v == nil {
 		return
@@ -248,70 +246,50 @@ func (m *AgencySettingMutation) ResetRegistrationRewardThreshold() {
 	m.addregistration_reward_threshold = nil
 }
 
-// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
-func (m *AgencySettingMutation) SetRegistrationRewardAmount(i int) {
-	m.registration_reward_amount = &i
-	m.addregistration_reward_amount = nil
+// SetRegistrationCouponID sets the "registration_coupon_id" field.
+func (m *AgencySettingMutation) SetRegistrationCouponID(u uuid.UUID) {
+	m.registration_coupon_id = &u
 }
 
-// RegistrationRewardAmount returns the value of the "registration_reward_amount" field in the mutation.
-func (m *AgencySettingMutation) RegistrationRewardAmount() (r int, exists bool) {
-	v := m.registration_reward_amount
+// RegistrationCouponID returns the value of the "registration_coupon_id" field in the mutation.
+func (m *AgencySettingMutation) RegistrationCouponID() (r uuid.UUID, exists bool) {
+	v := m.registration_coupon_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldRegistrationRewardAmount returns the old "registration_reward_amount" field's value of the AgencySetting entity.
+// OldRegistrationCouponID returns the old "registration_coupon_id" field's value of the AgencySetting entity.
 // If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AgencySettingMutation) OldRegistrationRewardAmount(ctx context.Context) (v int, err error) {
+func (m *AgencySettingMutation) OldRegistrationCouponID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldRegistrationRewardAmount is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldRegistrationCouponID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldRegistrationRewardAmount requires an ID field in the mutation")
+		return v, fmt.Errorf("OldRegistrationCouponID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldRegistrationRewardAmount: %w", err)
+		return v, fmt.Errorf("querying old value for OldRegistrationCouponID: %w", err)
 	}
-	return oldValue.RegistrationRewardAmount, nil
+	return oldValue.RegistrationCouponID, nil
 }
 
-// AddRegistrationRewardAmount adds i to the "registration_reward_amount" field.
-func (m *AgencySettingMutation) AddRegistrationRewardAmount(i int) {
-	if m.addregistration_reward_amount != nil {
-		*m.addregistration_reward_amount += i
-	} else {
-		m.addregistration_reward_amount = &i
-	}
-}
-
-// AddedRegistrationRewardAmount returns the value that was added to the "registration_reward_amount" field in this mutation.
-func (m *AgencySettingMutation) AddedRegistrationRewardAmount() (r int, exists bool) {
-	v := m.addregistration_reward_amount
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetRegistrationRewardAmount resets all changes to the "registration_reward_amount" field.
-func (m *AgencySettingMutation) ResetRegistrationRewardAmount() {
-	m.registration_reward_amount = nil
-	m.addregistration_reward_amount = nil
+// ResetRegistrationCouponID resets all changes to the "registration_coupon_id" field.
+func (m *AgencySettingMutation) ResetRegistrationCouponID() {
+	m.registration_coupon_id = nil
 }
 
 // SetKycRewardThreshold sets the "kyc_reward_threshold" field.
-func (m *AgencySettingMutation) SetKycRewardThreshold(i int) {
+func (m *AgencySettingMutation) SetKycRewardThreshold(i int32) {
 	m.kyc_reward_threshold = &i
 	m.addkyc_reward_threshold = nil
 }
 
 // KycRewardThreshold returns the value of the "kyc_reward_threshold" field in the mutation.
-func (m *AgencySettingMutation) KycRewardThreshold() (r int, exists bool) {
+func (m *AgencySettingMutation) KycRewardThreshold() (r int32, exists bool) {
 	v := m.kyc_reward_threshold
 	if v == nil {
 		return
@@ -322,7 +300,7 @@ func (m *AgencySettingMutation) KycRewardThreshold() (r int, exists bool) {
 // OldKycRewardThreshold returns the old "kyc_reward_threshold" field's value of the AgencySetting entity.
 // If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AgencySettingMutation) OldKycRewardThreshold(ctx context.Context) (v int, err error) {
+func (m *AgencySettingMutation) OldKycRewardThreshold(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldKycRewardThreshold is only allowed on UpdateOne operations")
 	}
@@ -337,7 +315,7 @@ func (m *AgencySettingMutation) OldKycRewardThreshold(ctx context.Context) (v in
 }
 
 // AddKycRewardThreshold adds i to the "kyc_reward_threshold" field.
-func (m *AgencySettingMutation) AddKycRewardThreshold(i int) {
+func (m *AgencySettingMutation) AddKycRewardThreshold(i int32) {
 	if m.addkyc_reward_threshold != nil {
 		*m.addkyc_reward_threshold += i
 	} else {
@@ -346,7 +324,7 @@ func (m *AgencySettingMutation) AddKycRewardThreshold(i int) {
 }
 
 // AddedKycRewardThreshold returns the value that was added to the "kyc_reward_threshold" field in this mutation.
-func (m *AgencySettingMutation) AddedKycRewardThreshold() (r int, exists bool) {
+func (m *AgencySettingMutation) AddedKycRewardThreshold() (r int32, exists bool) {
 	v := m.addkyc_reward_threshold
 	if v == nil {
 		return
@@ -360,70 +338,50 @@ func (m *AgencySettingMutation) ResetKycRewardThreshold() {
 	m.addkyc_reward_threshold = nil
 }
 
-// SetKycRewardAmount sets the "kyc_reward_amount" field.
-func (m *AgencySettingMutation) SetKycRewardAmount(i int) {
-	m.kyc_reward_amount = &i
-	m.addkyc_reward_amount = nil
+// SetKycCouponID sets the "kyc_coupon_id" field.
+func (m *AgencySettingMutation) SetKycCouponID(u uuid.UUID) {
+	m.kyc_coupon_id = &u
 }
 
-// KycRewardAmount returns the value of the "kyc_reward_amount" field in the mutation.
-func (m *AgencySettingMutation) KycRewardAmount() (r int, exists bool) {
-	v := m.kyc_reward_amount
+// KycCouponID returns the value of the "kyc_coupon_id" field in the mutation.
+func (m *AgencySettingMutation) KycCouponID() (r uuid.UUID, exists bool) {
+	v := m.kyc_coupon_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldKycRewardAmount returns the old "kyc_reward_amount" field's value of the AgencySetting entity.
+// OldKycCouponID returns the old "kyc_coupon_id" field's value of the AgencySetting entity.
 // If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AgencySettingMutation) OldKycRewardAmount(ctx context.Context) (v int, err error) {
+func (m *AgencySettingMutation) OldKycCouponID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldKycRewardAmount is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldKycCouponID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldKycRewardAmount requires an ID field in the mutation")
+		return v, fmt.Errorf("OldKycCouponID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldKycRewardAmount: %w", err)
+		return v, fmt.Errorf("querying old value for OldKycCouponID: %w", err)
 	}
-	return oldValue.KycRewardAmount, nil
+	return oldValue.KycCouponID, nil
 }
 
-// AddKycRewardAmount adds i to the "kyc_reward_amount" field.
-func (m *AgencySettingMutation) AddKycRewardAmount(i int) {
-	if m.addkyc_reward_amount != nil {
-		*m.addkyc_reward_amount += i
-	} else {
-		m.addkyc_reward_amount = &i
-	}
-}
-
-// AddedKycRewardAmount returns the value that was added to the "kyc_reward_amount" field in this mutation.
-func (m *AgencySettingMutation) AddedKycRewardAmount() (r int, exists bool) {
-	v := m.addkyc_reward_amount
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetKycRewardAmount resets all changes to the "kyc_reward_amount" field.
-func (m *AgencySettingMutation) ResetKycRewardAmount() {
-	m.kyc_reward_amount = nil
-	m.addkyc_reward_amount = nil
+// ResetKycCouponID resets all changes to the "kyc_coupon_id" field.
+func (m *AgencySettingMutation) ResetKycCouponID() {
+	m.kyc_coupon_id = nil
 }
 
 // SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (m *AgencySettingMutation) SetPurchaseRewardPercent(i int) {
+func (m *AgencySettingMutation) SetPurchaseRewardPercent(i int32) {
 	m.purchase_reward_percent = &i
 	m.addpurchase_reward_percent = nil
 }
 
 // PurchaseRewardPercent returns the value of the "purchase_reward_percent" field in the mutation.
-func (m *AgencySettingMutation) PurchaseRewardPercent() (r int, exists bool) {
+func (m *AgencySettingMutation) PurchaseRewardPercent() (r int32, exists bool) {
 	v := m.purchase_reward_percent
 	if v == nil {
 		return
@@ -434,7 +392,7 @@ func (m *AgencySettingMutation) PurchaseRewardPercent() (r int, exists bool) {
 // OldPurchaseRewardPercent returns the old "purchase_reward_percent" field's value of the AgencySetting entity.
 // If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AgencySettingMutation) OldPurchaseRewardPercent(ctx context.Context) (v int, err error) {
+func (m *AgencySettingMutation) OldPurchaseRewardPercent(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldPurchaseRewardPercent is only allowed on UpdateOne operations")
 	}
@@ -449,7 +407,7 @@ func (m *AgencySettingMutation) OldPurchaseRewardPercent(ctx context.Context) (v
 }
 
 // AddPurchaseRewardPercent adds i to the "purchase_reward_percent" field.
-func (m *AgencySettingMutation) AddPurchaseRewardPercent(i int) {
+func (m *AgencySettingMutation) AddPurchaseRewardPercent(i int32) {
 	if m.addpurchase_reward_percent != nil {
 		*m.addpurchase_reward_percent += i
 	} else {
@@ -458,7 +416,7 @@ func (m *AgencySettingMutation) AddPurchaseRewardPercent(i int) {
 }
 
 // AddedPurchaseRewardPercent returns the value that was added to the "purchase_reward_percent" field in this mutation.
-func (m *AgencySettingMutation) AddedPurchaseRewardPercent() (r int, exists bool) {
+func (m *AgencySettingMutation) AddedPurchaseRewardPercent() (r int32, exists bool) {
 	v := m.addpurchase_reward_percent
 	if v == nil {
 		return
@@ -473,13 +431,13 @@ func (m *AgencySettingMutation) ResetPurchaseRewardPercent() {
 }
 
 // SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
-func (m *AgencySettingMutation) SetPurchaseRewardChainLevels(i int) {
+func (m *AgencySettingMutation) SetPurchaseRewardChainLevels(i int32) {
 	m.purchase_reward_chain_levels = &i
 	m.addpurchase_reward_chain_levels = nil
 }
 
 // PurchaseRewardChainLevels returns the value of the "purchase_reward_chain_levels" field in the mutation.
-func (m *AgencySettingMutation) PurchaseRewardChainLevels() (r int, exists bool) {
+func (m *AgencySettingMutation) PurchaseRewardChainLevels() (r int32, exists bool) {
 	v := m.purchase_reward_chain_levels
 	if v == nil {
 		return
@@ -490,7 +448,7 @@ func (m *AgencySettingMutation) PurchaseRewardChainLevels() (r int, exists bool)
 // OldPurchaseRewardChainLevels returns the old "purchase_reward_chain_levels" field's value of the AgencySetting entity.
 // If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AgencySettingMutation) OldPurchaseRewardChainLevels(ctx context.Context) (v int, err error) {
+func (m *AgencySettingMutation) OldPurchaseRewardChainLevels(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldPurchaseRewardChainLevels is only allowed on UpdateOne operations")
 	}
@@ -505,7 +463,7 @@ func (m *AgencySettingMutation) OldPurchaseRewardChainLevels(ctx context.Context
 }
 
 // AddPurchaseRewardChainLevels adds i to the "purchase_reward_chain_levels" field.
-func (m *AgencySettingMutation) AddPurchaseRewardChainLevels(i int) {
+func (m *AgencySettingMutation) AddPurchaseRewardChainLevels(i int32) {
 	if m.addpurchase_reward_chain_levels != nil {
 		*m.addpurchase_reward_chain_levels += i
 	} else {
@@ -514,7 +472,7 @@ func (m *AgencySettingMutation) AddPurchaseRewardChainLevels(i int) {
 }
 
 // AddedPurchaseRewardChainLevels returns the value that was added to the "purchase_reward_chain_levels" field in this mutation.
-func (m *AgencySettingMutation) AddedPurchaseRewardChainLevels() (r int, exists bool) {
+func (m *AgencySettingMutation) AddedPurchaseRewardChainLevels() (r int32, exists bool) {
 	v := m.addpurchase_reward_chain_levels
 	if v == nil {
 		return
@@ -722,14 +680,14 @@ func (m *AgencySettingMutation) Fields() []string {
 	if m.registration_reward_threshold != nil {
 		fields = append(fields, agencysetting.FieldRegistrationRewardThreshold)
 	}
-	if m.registration_reward_amount != nil {
-		fields = append(fields, agencysetting.FieldRegistrationRewardAmount)
+	if m.registration_coupon_id != nil {
+		fields = append(fields, agencysetting.FieldRegistrationCouponID)
 	}
 	if m.kyc_reward_threshold != nil {
 		fields = append(fields, agencysetting.FieldKycRewardThreshold)
 	}
-	if m.kyc_reward_amount != nil {
-		fields = append(fields, agencysetting.FieldKycRewardAmount)
+	if m.kyc_coupon_id != nil {
+		fields = append(fields, agencysetting.FieldKycCouponID)
 	}
 	if m.purchase_reward_percent != nil {
 		fields = append(fields, agencysetting.FieldPurchaseRewardPercent)
@@ -758,12 +716,12 @@ func (m *AgencySettingMutation) Field(name string) (ent.Value, bool) {
 		return m.AppID()
 	case agencysetting.FieldRegistrationRewardThreshold:
 		return m.RegistrationRewardThreshold()
-	case agencysetting.FieldRegistrationRewardAmount:
-		return m.RegistrationRewardAmount()
+	case agencysetting.FieldRegistrationCouponID:
+		return m.RegistrationCouponID()
 	case agencysetting.FieldKycRewardThreshold:
 		return m.KycRewardThreshold()
-	case agencysetting.FieldKycRewardAmount:
-		return m.KycRewardAmount()
+	case agencysetting.FieldKycCouponID:
+		return m.KycCouponID()
 	case agencysetting.FieldPurchaseRewardPercent:
 		return m.PurchaseRewardPercent()
 	case agencysetting.FieldPurchaseRewardChainLevels:
@@ -787,12 +745,12 @@ func (m *AgencySettingMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldAppID(ctx)
 	case agencysetting.FieldRegistrationRewardThreshold:
 		return m.OldRegistrationRewardThreshold(ctx)
-	case agencysetting.FieldRegistrationRewardAmount:
-		return m.OldRegistrationRewardAmount(ctx)
+	case agencysetting.FieldRegistrationCouponID:
+		return m.OldRegistrationCouponID(ctx)
 	case agencysetting.FieldKycRewardThreshold:
 		return m.OldKycRewardThreshold(ctx)
-	case agencysetting.FieldKycRewardAmount:
-		return m.OldKycRewardAmount(ctx)
+	case agencysetting.FieldKycCouponID:
+		return m.OldKycCouponID(ctx)
 	case agencysetting.FieldPurchaseRewardPercent:
 		return m.OldPurchaseRewardPercent(ctx)
 	case agencysetting.FieldPurchaseRewardChainLevels:
@@ -820,42 +778,42 @@ func (m *AgencySettingMutation) SetField(name string, value ent.Value) error {
 		m.SetAppID(v)
 		return nil
 	case agencysetting.FieldRegistrationRewardThreshold:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetRegistrationRewardThreshold(v)
 		return nil
-	case agencysetting.FieldRegistrationRewardAmount:
-		v, ok := value.(int)
+	case agencysetting.FieldRegistrationCouponID:
+		v, ok := value.(uuid.UUID)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetRegistrationRewardAmount(v)
+		m.SetRegistrationCouponID(v)
 		return nil
 	case agencysetting.FieldKycRewardThreshold:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetKycRewardThreshold(v)
 		return nil
-	case agencysetting.FieldKycRewardAmount:
-		v, ok := value.(int)
+	case agencysetting.FieldKycCouponID:
+		v, ok := value.(uuid.UUID)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetKycRewardAmount(v)
+		m.SetKycCouponID(v)
 		return nil
 	case agencysetting.FieldPurchaseRewardPercent:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPurchaseRewardPercent(v)
 		return nil
 	case agencysetting.FieldPurchaseRewardChainLevels:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -893,14 +851,8 @@ func (m *AgencySettingMutation) AddedFields() []string {
 	if m.addregistration_reward_threshold != nil {
 		fields = append(fields, agencysetting.FieldRegistrationRewardThreshold)
 	}
-	if m.addregistration_reward_amount != nil {
-		fields = append(fields, agencysetting.FieldRegistrationRewardAmount)
-	}
 	if m.addkyc_reward_threshold != nil {
 		fields = append(fields, agencysetting.FieldKycRewardThreshold)
-	}
-	if m.addkyc_reward_amount != nil {
-		fields = append(fields, agencysetting.FieldKycRewardAmount)
 	}
 	if m.addpurchase_reward_percent != nil {
 		fields = append(fields, agencysetting.FieldPurchaseRewardPercent)
@@ -927,12 +879,8 @@ func (m *AgencySettingMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case agencysetting.FieldRegistrationRewardThreshold:
 		return m.AddedRegistrationRewardThreshold()
-	case agencysetting.FieldRegistrationRewardAmount:
-		return m.AddedRegistrationRewardAmount()
 	case agencysetting.FieldKycRewardThreshold:
 		return m.AddedKycRewardThreshold()
-	case agencysetting.FieldKycRewardAmount:
-		return m.AddedKycRewardAmount()
 	case agencysetting.FieldPurchaseRewardPercent:
 		return m.AddedPurchaseRewardPercent()
 	case agencysetting.FieldPurchaseRewardChainLevels:
@@ -953,42 +901,28 @@ func (m *AgencySettingMutation) AddedField(name string) (ent.Value, bool) {
 func (m *AgencySettingMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case agencysetting.FieldRegistrationRewardThreshold:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddRegistrationRewardThreshold(v)
 		return nil
-	case agencysetting.FieldRegistrationRewardAmount:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddRegistrationRewardAmount(v)
-		return nil
 	case agencysetting.FieldKycRewardThreshold:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddKycRewardThreshold(v)
 		return nil
-	case agencysetting.FieldKycRewardAmount:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddKycRewardAmount(v)
-		return nil
 	case agencysetting.FieldPurchaseRewardPercent:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddPurchaseRewardPercent(v)
 		return nil
 	case agencysetting.FieldPurchaseRewardChainLevels:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1048,14 +982,14 @@ func (m *AgencySettingMutation) ResetField(name string) error {
 	case agencysetting.FieldRegistrationRewardThreshold:
 		m.ResetRegistrationRewardThreshold()
 		return nil
-	case agencysetting.FieldRegistrationRewardAmount:
-		m.ResetRegistrationRewardAmount()
+	case agencysetting.FieldRegistrationCouponID:
+		m.ResetRegistrationCouponID()
 		return nil
 	case agencysetting.FieldKycRewardThreshold:
 		m.ResetKycRewardThreshold()
 		return nil
-	case agencysetting.FieldKycRewardAmount:
-		m.ResetKycRewardAmount()
+	case agencysetting.FieldKycCouponID:
+		m.ResetKycCouponID()
 		return nil
 	case agencysetting.FieldPurchaseRewardPercent:
 		m.ResetPurchaseRewardPercent()

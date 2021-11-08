@@ -34,79 +34,65 @@ func (asu *AgencySettingUpdate) SetAppID(u uuid.UUID) *AgencySettingUpdate {
 }
 
 // SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
-func (asu *AgencySettingUpdate) SetRegistrationRewardThreshold(i int) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) SetRegistrationRewardThreshold(i int32) *AgencySettingUpdate {
 	asu.mutation.ResetRegistrationRewardThreshold()
 	asu.mutation.SetRegistrationRewardThreshold(i)
 	return asu
 }
 
 // AddRegistrationRewardThreshold adds i to the "registration_reward_threshold" field.
-func (asu *AgencySettingUpdate) AddRegistrationRewardThreshold(i int) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) AddRegistrationRewardThreshold(i int32) *AgencySettingUpdate {
 	asu.mutation.AddRegistrationRewardThreshold(i)
 	return asu
 }
 
-// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
-func (asu *AgencySettingUpdate) SetRegistrationRewardAmount(i int) *AgencySettingUpdate {
-	asu.mutation.ResetRegistrationRewardAmount()
-	asu.mutation.SetRegistrationRewardAmount(i)
-	return asu
-}
-
-// AddRegistrationRewardAmount adds i to the "registration_reward_amount" field.
-func (asu *AgencySettingUpdate) AddRegistrationRewardAmount(i int) *AgencySettingUpdate {
-	asu.mutation.AddRegistrationRewardAmount(i)
+// SetRegistrationCouponID sets the "registration_coupon_id" field.
+func (asu *AgencySettingUpdate) SetRegistrationCouponID(u uuid.UUID) *AgencySettingUpdate {
+	asu.mutation.SetRegistrationCouponID(u)
 	return asu
 }
 
 // SetKycRewardThreshold sets the "kyc_reward_threshold" field.
-func (asu *AgencySettingUpdate) SetKycRewardThreshold(i int) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) SetKycRewardThreshold(i int32) *AgencySettingUpdate {
 	asu.mutation.ResetKycRewardThreshold()
 	asu.mutation.SetKycRewardThreshold(i)
 	return asu
 }
 
 // AddKycRewardThreshold adds i to the "kyc_reward_threshold" field.
-func (asu *AgencySettingUpdate) AddKycRewardThreshold(i int) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) AddKycRewardThreshold(i int32) *AgencySettingUpdate {
 	asu.mutation.AddKycRewardThreshold(i)
 	return asu
 }
 
-// SetKycRewardAmount sets the "kyc_reward_amount" field.
-func (asu *AgencySettingUpdate) SetKycRewardAmount(i int) *AgencySettingUpdate {
-	asu.mutation.ResetKycRewardAmount()
-	asu.mutation.SetKycRewardAmount(i)
-	return asu
-}
-
-// AddKycRewardAmount adds i to the "kyc_reward_amount" field.
-func (asu *AgencySettingUpdate) AddKycRewardAmount(i int) *AgencySettingUpdate {
-	asu.mutation.AddKycRewardAmount(i)
+// SetKycCouponID sets the "kyc_coupon_id" field.
+func (asu *AgencySettingUpdate) SetKycCouponID(u uuid.UUID) *AgencySettingUpdate {
+	asu.mutation.SetKycCouponID(u)
 	return asu
 }
 
 // SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (asu *AgencySettingUpdate) SetPurchaseRewardPercent(i int) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) SetPurchaseRewardPercent(i int32) *AgencySettingUpdate {
 	asu.mutation.ResetPurchaseRewardPercent()
 	asu.mutation.SetPurchaseRewardPercent(i)
 	return asu
 }
 
 // AddPurchaseRewardPercent adds i to the "purchase_reward_percent" field.
-func (asu *AgencySettingUpdate) AddPurchaseRewardPercent(i int) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) AddPurchaseRewardPercent(i int32) *AgencySettingUpdate {
 	asu.mutation.AddPurchaseRewardPercent(i)
 	return asu
 }
 
 // SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
-func (asu *AgencySettingUpdate) SetPurchaseRewardChainLevels(i int) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) SetPurchaseRewardChainLevels(i int32) *AgencySettingUpdate {
 	asu.mutation.ResetPurchaseRewardChainLevels()
 	asu.mutation.SetPurchaseRewardChainLevels(i)
 	return asu
 }
 
 // AddPurchaseRewardChainLevels adds i to the "purchase_reward_chain_levels" field.
-func (asu *AgencySettingUpdate) AddPurchaseRewardChainLevels(i int) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) AddPurchaseRewardChainLevels(i int32) *AgencySettingUpdate {
 	asu.mutation.AddPurchaseRewardChainLevels(i)
 	return asu
 }
@@ -261,84 +247,70 @@ func (asu *AgencySettingUpdate) sqlSave(ctx context.Context) (n int, err error) 
 	}
 	if value, ok := asu.mutation.RegistrationRewardThreshold(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldRegistrationRewardThreshold,
 		})
 	}
 	if value, ok := asu.mutation.AddedRegistrationRewardThreshold(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldRegistrationRewardThreshold,
 		})
 	}
-	if value, ok := asu.mutation.RegistrationRewardAmount(); ok {
+	if value, ok := asu.mutation.RegistrationCouponID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUUID,
 			Value:  value,
-			Column: agencysetting.FieldRegistrationRewardAmount,
-		})
-	}
-	if value, ok := asu.mutation.AddedRegistrationRewardAmount(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: agencysetting.FieldRegistrationRewardAmount,
+			Column: agencysetting.FieldRegistrationCouponID,
 		})
 	}
 	if value, ok := asu.mutation.KycRewardThreshold(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldKycRewardThreshold,
 		})
 	}
 	if value, ok := asu.mutation.AddedKycRewardThreshold(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldKycRewardThreshold,
 		})
 	}
-	if value, ok := asu.mutation.KycRewardAmount(); ok {
+	if value, ok := asu.mutation.KycCouponID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUUID,
 			Value:  value,
-			Column: agencysetting.FieldKycRewardAmount,
-		})
-	}
-	if value, ok := asu.mutation.AddedKycRewardAmount(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: agencysetting.FieldKycRewardAmount,
+			Column: agencysetting.FieldKycCouponID,
 		})
 	}
 	if value, ok := asu.mutation.PurchaseRewardPercent(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardPercent,
 		})
 	}
 	if value, ok := asu.mutation.AddedPurchaseRewardPercent(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardPercent,
 		})
 	}
 	if value, ok := asu.mutation.PurchaseRewardChainLevels(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardChainLevels,
 		})
 	}
 	if value, ok := asu.mutation.AddedPurchaseRewardChainLevels(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardChainLevels,
 		})
@@ -411,79 +383,65 @@ func (asuo *AgencySettingUpdateOne) SetAppID(u uuid.UUID) *AgencySettingUpdateOn
 }
 
 // SetRegistrationRewardThreshold sets the "registration_reward_threshold" field.
-func (asuo *AgencySettingUpdateOne) SetRegistrationRewardThreshold(i int) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) SetRegistrationRewardThreshold(i int32) *AgencySettingUpdateOne {
 	asuo.mutation.ResetRegistrationRewardThreshold()
 	asuo.mutation.SetRegistrationRewardThreshold(i)
 	return asuo
 }
 
 // AddRegistrationRewardThreshold adds i to the "registration_reward_threshold" field.
-func (asuo *AgencySettingUpdateOne) AddRegistrationRewardThreshold(i int) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) AddRegistrationRewardThreshold(i int32) *AgencySettingUpdateOne {
 	asuo.mutation.AddRegistrationRewardThreshold(i)
 	return asuo
 }
 
-// SetRegistrationRewardAmount sets the "registration_reward_amount" field.
-func (asuo *AgencySettingUpdateOne) SetRegistrationRewardAmount(i int) *AgencySettingUpdateOne {
-	asuo.mutation.ResetRegistrationRewardAmount()
-	asuo.mutation.SetRegistrationRewardAmount(i)
-	return asuo
-}
-
-// AddRegistrationRewardAmount adds i to the "registration_reward_amount" field.
-func (asuo *AgencySettingUpdateOne) AddRegistrationRewardAmount(i int) *AgencySettingUpdateOne {
-	asuo.mutation.AddRegistrationRewardAmount(i)
+// SetRegistrationCouponID sets the "registration_coupon_id" field.
+func (asuo *AgencySettingUpdateOne) SetRegistrationCouponID(u uuid.UUID) *AgencySettingUpdateOne {
+	asuo.mutation.SetRegistrationCouponID(u)
 	return asuo
 }
 
 // SetKycRewardThreshold sets the "kyc_reward_threshold" field.
-func (asuo *AgencySettingUpdateOne) SetKycRewardThreshold(i int) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) SetKycRewardThreshold(i int32) *AgencySettingUpdateOne {
 	asuo.mutation.ResetKycRewardThreshold()
 	asuo.mutation.SetKycRewardThreshold(i)
 	return asuo
 }
 
 // AddKycRewardThreshold adds i to the "kyc_reward_threshold" field.
-func (asuo *AgencySettingUpdateOne) AddKycRewardThreshold(i int) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) AddKycRewardThreshold(i int32) *AgencySettingUpdateOne {
 	asuo.mutation.AddKycRewardThreshold(i)
 	return asuo
 }
 
-// SetKycRewardAmount sets the "kyc_reward_amount" field.
-func (asuo *AgencySettingUpdateOne) SetKycRewardAmount(i int) *AgencySettingUpdateOne {
-	asuo.mutation.ResetKycRewardAmount()
-	asuo.mutation.SetKycRewardAmount(i)
-	return asuo
-}
-
-// AddKycRewardAmount adds i to the "kyc_reward_amount" field.
-func (asuo *AgencySettingUpdateOne) AddKycRewardAmount(i int) *AgencySettingUpdateOne {
-	asuo.mutation.AddKycRewardAmount(i)
+// SetKycCouponID sets the "kyc_coupon_id" field.
+func (asuo *AgencySettingUpdateOne) SetKycCouponID(u uuid.UUID) *AgencySettingUpdateOne {
+	asuo.mutation.SetKycCouponID(u)
 	return asuo
 }
 
 // SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (asuo *AgencySettingUpdateOne) SetPurchaseRewardPercent(i int) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) SetPurchaseRewardPercent(i int32) *AgencySettingUpdateOne {
 	asuo.mutation.ResetPurchaseRewardPercent()
 	asuo.mutation.SetPurchaseRewardPercent(i)
 	return asuo
 }
 
 // AddPurchaseRewardPercent adds i to the "purchase_reward_percent" field.
-func (asuo *AgencySettingUpdateOne) AddPurchaseRewardPercent(i int) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) AddPurchaseRewardPercent(i int32) *AgencySettingUpdateOne {
 	asuo.mutation.AddPurchaseRewardPercent(i)
 	return asuo
 }
 
 // SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
-func (asuo *AgencySettingUpdateOne) SetPurchaseRewardChainLevels(i int) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) SetPurchaseRewardChainLevels(i int32) *AgencySettingUpdateOne {
 	asuo.mutation.ResetPurchaseRewardChainLevels()
 	asuo.mutation.SetPurchaseRewardChainLevels(i)
 	return asuo
 }
 
 // AddPurchaseRewardChainLevels adds i to the "purchase_reward_chain_levels" field.
-func (asuo *AgencySettingUpdateOne) AddPurchaseRewardChainLevels(i int) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) AddPurchaseRewardChainLevels(i int32) *AgencySettingUpdateOne {
 	asuo.mutation.AddPurchaseRewardChainLevels(i)
 	return asuo
 }
@@ -662,84 +620,70 @@ func (asuo *AgencySettingUpdateOne) sqlSave(ctx context.Context) (_node *AgencyS
 	}
 	if value, ok := asuo.mutation.RegistrationRewardThreshold(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldRegistrationRewardThreshold,
 		})
 	}
 	if value, ok := asuo.mutation.AddedRegistrationRewardThreshold(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldRegistrationRewardThreshold,
 		})
 	}
-	if value, ok := asuo.mutation.RegistrationRewardAmount(); ok {
+	if value, ok := asuo.mutation.RegistrationCouponID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUUID,
 			Value:  value,
-			Column: agencysetting.FieldRegistrationRewardAmount,
-		})
-	}
-	if value, ok := asuo.mutation.AddedRegistrationRewardAmount(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: agencysetting.FieldRegistrationRewardAmount,
+			Column: agencysetting.FieldRegistrationCouponID,
 		})
 	}
 	if value, ok := asuo.mutation.KycRewardThreshold(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldKycRewardThreshold,
 		})
 	}
 	if value, ok := asuo.mutation.AddedKycRewardThreshold(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldKycRewardThreshold,
 		})
 	}
-	if value, ok := asuo.mutation.KycRewardAmount(); ok {
+	if value, ok := asuo.mutation.KycCouponID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUUID,
 			Value:  value,
-			Column: agencysetting.FieldKycRewardAmount,
-		})
-	}
-	if value, ok := asuo.mutation.AddedKycRewardAmount(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: agencysetting.FieldKycRewardAmount,
+			Column: agencysetting.FieldKycCouponID,
 		})
 	}
 	if value, ok := asuo.mutation.PurchaseRewardPercent(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardPercent,
 		})
 	}
 	if value, ok := asuo.mutation.AddedPurchaseRewardPercent(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardPercent,
 		})
 	}
 	if value, ok := asuo.mutation.PurchaseRewardChainLevels(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardChainLevels,
 		})
 	}
 	if value, ok := asuo.mutation.AddedPurchaseRewardChainLevels(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardChainLevels,
 		})
