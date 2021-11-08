@@ -22,6 +22,8 @@ type NewUserRewardSetting struct {
 	RegistrationCouponID uuid.UUID `json:"registration_coupon_id,omitempty"`
 	// KycCouponID holds the value of the "kyc_coupon_id" field.
 	KycCouponID uuid.UUID `json:"kyc_coupon_id,omitempty"`
+	// AutoGenerateInvitationCode holds the value of the "auto_generate_invitation_code" field.
+	AutoGenerateInvitationCode bool `json:"auto_generate_invitation_code,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -35,6 +37,8 @@ func (*NewUserRewardSetting) scanValues(columns []string) ([]interface{}, error)
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case newuserrewardsetting.FieldAutoGenerateInvitationCode:
+			values[i] = new(sql.NullBool)
 		case newuserrewardsetting.FieldCreateAt, newuserrewardsetting.FieldUpdateAt, newuserrewardsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case newuserrewardsetting.FieldID, newuserrewardsetting.FieldAppID, newuserrewardsetting.FieldRegistrationCouponID, newuserrewardsetting.FieldKycCouponID:
@@ -77,6 +81,12 @@ func (nurs *NewUserRewardSetting) assignValues(columns []string, values []interf
 				return fmt.Errorf("unexpected type %T for field kyc_coupon_id", values[i])
 			} else if value != nil {
 				nurs.KycCouponID = *value
+			}
+		case newuserrewardsetting.FieldAutoGenerateInvitationCode:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field auto_generate_invitation_code", values[i])
+			} else if value.Valid {
+				nurs.AutoGenerateInvitationCode = value.Bool
 			}
 		case newuserrewardsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -130,6 +140,8 @@ func (nurs *NewUserRewardSetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", nurs.RegistrationCouponID))
 	builder.WriteString(", kyc_coupon_id=")
 	builder.WriteString(fmt.Sprintf("%v", nurs.KycCouponID))
+	builder.WriteString(", auto_generate_invitation_code=")
+	builder.WriteString(fmt.Sprintf("%v", nurs.AutoGenerateInvitationCode))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", nurs.CreateAt))
 	builder.WriteString(", update_at=")

@@ -16,6 +16,8 @@
     - [CreateCouponAllocatedResponse](#cloud.hashing.inspire.v1.CreateCouponAllocatedResponse)
     - [CreateCouponPoolRequest](#cloud.hashing.inspire.v1.CreateCouponPoolRequest)
     - [CreateCouponPoolResponse](#cloud.hashing.inspire.v1.CreateCouponPoolResponse)
+    - [CreateDefaultKpiSettingRequest](#cloud.hashing.inspire.v1.CreateDefaultKpiSettingRequest)
+    - [CreateDefaultKpiSettingResponse](#cloud.hashing.inspire.v1.CreateDefaultKpiSettingResponse)
     - [CreateNewUserRewardSettingRequest](#cloud.hashing.inspire.v1.CreateNewUserRewardSettingRequest)
     - [CreateNewUserRewardSettingResponse](#cloud.hashing.inspire.v1.CreateNewUserRewardSettingResponse)
     - [CreatePurchaseInvitationRequest](#cloud.hashing.inspire.v1.CreatePurchaseInvitationRequest)
@@ -24,6 +26,9 @@
     - [CreateRegistrationInvitationResponse](#cloud.hashing.inspire.v1.CreateRegistrationInvitationResponse)
     - [CreateUserInvitationCodeRequest](#cloud.hashing.inspire.v1.CreateUserInvitationCodeRequest)
     - [CreateUserInvitationCodeResponse](#cloud.hashing.inspire.v1.CreateUserInvitationCodeResponse)
+    - [CreateUserKpiSettingRequest](#cloud.hashing.inspire.v1.CreateUserKpiSettingRequest)
+    - [CreateUserKpiSettingResponse](#cloud.hashing.inspire.v1.CreateUserKpiSettingResponse)
+    - [DefaultKpiSetting](#cloud.hashing.inspire.v1.DefaultKpiSetting)
     - [GetAgencySettingByAppRequest](#cloud.hashing.inspire.v1.GetAgencySettingByAppRequest)
     - [GetAgencySettingByAppResponse](#cloud.hashing.inspire.v1.GetAgencySettingByAppResponse)
     - [GetAgencySettingRequest](#cloud.hashing.inspire.v1.GetAgencySettingRequest)
@@ -44,6 +49,10 @@
     - [GetCouponsAllocatedByAppResponse](#cloud.hashing.inspire.v1.GetCouponsAllocatedByAppResponse)
     - [GetCouponsAllocatedByAppUserRequest](#cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserRequest)
     - [GetCouponsAllocatedByAppUserResponse](#cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserResponse)
+    - [GetDefaultKpiSettingByAppGoodRequest](#cloud.hashing.inspire.v1.GetDefaultKpiSettingByAppGoodRequest)
+    - [GetDefaultKpiSettingByAppGoodResponse](#cloud.hashing.inspire.v1.GetDefaultKpiSettingByAppGoodResponse)
+    - [GetDefaultKpiSettingRequest](#cloud.hashing.inspire.v1.GetDefaultKpiSettingRequest)
+    - [GetDefaultKpiSettingResponse](#cloud.hashing.inspire.v1.GetDefaultKpiSettingResponse)
     - [GetNewUserRewardSettingByAppRequest](#cloud.hashing.inspire.v1.GetNewUserRewardSettingByAppRequest)
     - [GetNewUserRewardSettingByAppResponse](#cloud.hashing.inspire.v1.GetNewUserRewardSettingByAppResponse)
     - [GetNewUserRewardSettingRequest](#cloud.hashing.inspire.v1.GetNewUserRewardSettingRequest)
@@ -66,6 +75,10 @@
     - [GetUserInvitationCodeByCodeResponse](#cloud.hashing.inspire.v1.GetUserInvitationCodeByCodeResponse)
     - [GetUserInvitationCodeRequest](#cloud.hashing.inspire.v1.GetUserInvitationCodeRequest)
     - [GetUserInvitationCodeResponse](#cloud.hashing.inspire.v1.GetUserInvitationCodeResponse)
+    - [GetUserKpiSettingByAppGoodRequest](#cloud.hashing.inspire.v1.GetUserKpiSettingByAppGoodRequest)
+    - [GetUserKpiSettingByAppGoodResponse](#cloud.hashing.inspire.v1.GetUserKpiSettingByAppGoodResponse)
+    - [GetUserKpiSettingRequest](#cloud.hashing.inspire.v1.GetUserKpiSettingRequest)
+    - [GetUserKpiSettingResponse](#cloud.hashing.inspire.v1.GetUserKpiSettingResponse)
     - [NewUserRewardSetting](#cloud.hashing.inspire.v1.NewUserRewardSetting)
     - [PurchaseInvitation](#cloud.hashing.inspire.v1.PurchaseInvitation)
     - [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation)
@@ -75,9 +88,14 @@
     - [UpdateAppCouponSettingResponse](#cloud.hashing.inspire.v1.UpdateAppCouponSettingResponse)
     - [UpdateCouponAllocatedRequest](#cloud.hashing.inspire.v1.UpdateCouponAllocatedRequest)
     - [UpdateCouponAllocatedResponse](#cloud.hashing.inspire.v1.UpdateCouponAllocatedResponse)
+    - [UpdateDefaultKpiSettingRequest](#cloud.hashing.inspire.v1.UpdateDefaultKpiSettingRequest)
+    - [UpdateDefaultKpiSettingResponse](#cloud.hashing.inspire.v1.UpdateDefaultKpiSettingResponse)
     - [UpdateNewUserRewardSettingRequest](#cloud.hashing.inspire.v1.UpdateNewUserRewardSettingRequest)
     - [UpdateNewUserRewardSettingResponse](#cloud.hashing.inspire.v1.UpdateNewUserRewardSettingResponse)
+    - [UpdateUserKpiSettingRequest](#cloud.hashing.inspire.v1.UpdateUserKpiSettingRequest)
+    - [UpdateUserKpiSettingResponse](#cloud.hashing.inspire.v1.UpdateUserKpiSettingResponse)
     - [UserInvitationCode](#cloud.hashing.inspire.v1.UserInvitationCode)
+    - [UserKpiSetting](#cloud.hashing.inspire.v1.UserKpiSetting)
     - [VersionResponse](#cloud.hashing.inspire.v1.VersionResponse)
   
     - [CloudHashingInspire](#cloud.hashing.inspire.v1.CloudHashingInspire)
@@ -103,12 +121,14 @@
 | ----- | ---- | ----- | ----------- |
 | ID | [string](#string) |  |  |
 | AppID | [string](#string) |  |  |
+| GoodID | [string](#string) |  |  |
 | RegistrationRewardThreshold | [int32](#int32) |  |  |
 | RegistrationCouponID | [string](#string) |  |  |
 | KycRewardThreshold | [int32](#int32) |  |  |
 | KycCouponID | [string](#string) |  |  |
-| PurchaseRewardPercent | [int32](#int32) |  |  |
+| TotalPurchaseRewardPercent | [int32](#int32) |  |  |
 | PurchaseRewardChainLevels | [int32](#int32) |  |  |
+| LevelPurchaseRewardPercent | [int32](#int32) |  |  |
 
 
 
@@ -295,6 +315,36 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.CreateDefaultKpiSettingRequest"></a>
+
+### CreateDefaultKpiSettingRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [DefaultKpiSetting](#cloud.hashing.inspire.v1.DefaultKpiSetting) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.CreateDefaultKpiSettingResponse"></a>
+
+### CreateDefaultKpiSettingResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [DefaultKpiSetting](#cloud.hashing.inspire.v1.DefaultKpiSetting) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.CreateNewUserRewardSettingRequest"></a>
 
 ### CreateNewUserRewardSettingRequest
@@ -409,6 +459,55 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | Info | [UserInvitationCode](#cloud.hashing.inspire.v1.UserInvitationCode) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.CreateUserKpiSettingRequest"></a>
+
+### CreateUserKpiSettingRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserKpiSetting](#cloud.hashing.inspire.v1.UserKpiSetting) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.CreateUserKpiSettingResponse"></a>
+
+### CreateUserKpiSettingResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserKpiSetting](#cloud.hashing.inspire.v1.UserKpiSetting) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.DefaultKpiSetting"></a>
+
+### DefaultKpiSetting
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+| AppID | [string](#string) |  |  |
+| GoodID | [string](#string) |  |  |
+| Amount | [double](#double) |  |  |
+| Percent | [int32](#int32) |  |  |
 
 
 
@@ -711,6 +810,67 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | Infos | [CouponAllocated](#cloud.hashing.inspire.v1.CouponAllocated) | repeated |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetDefaultKpiSettingByAppGoodRequest"></a>
+
+### GetDefaultKpiSettingByAppGoodRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| AppID | [string](#string) |  |  |
+| GoodID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetDefaultKpiSettingByAppGoodResponse"></a>
+
+### GetDefaultKpiSettingByAppGoodResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [DefaultKpiSetting](#cloud.hashing.inspire.v1.DefaultKpiSetting) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetDefaultKpiSettingRequest"></a>
+
+### GetDefaultKpiSettingRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetDefaultKpiSettingResponse"></a>
+
+### GetDefaultKpiSettingResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [DefaultKpiSetting](#cloud.hashing.inspire.v1.DefaultKpiSetting) |  |  |
 
 
 
@@ -1049,6 +1209,67 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.GetUserKpiSettingByAppGoodRequest"></a>
+
+### GetUserKpiSettingByAppGoodRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| AppID | [string](#string) |  |  |
+| GoodID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetUserKpiSettingByAppGoodResponse"></a>
+
+### GetUserKpiSettingByAppGoodResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserKpiSetting](#cloud.hashing.inspire.v1.UserKpiSetting) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetUserKpiSettingRequest"></a>
+
+### GetUserKpiSettingRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetUserKpiSettingResponse"></a>
+
+### GetUserKpiSettingResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserKpiSetting](#cloud.hashing.inspire.v1.UserKpiSetting) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.NewUserRewardSetting"></a>
 
 ### NewUserRewardSetting
@@ -1061,6 +1282,7 @@
 | AppID | [string](#string) |  |  |
 | RegistrationCouponID | [string](#string) |  |  |
 | KycCouponID | [string](#string) |  |  |
+| AutoGenerateInvitationCode | [bool](#bool) |  |  |
 
 
 
@@ -1079,6 +1301,7 @@
 | AppID | [string](#string) |  |  |
 | OrderID | [string](#string) |  |  |
 | InvitationCodeID | [string](#string) |  |  |
+| Fullfilled | [bool](#bool) |  |  |
 
 
 
@@ -1097,6 +1320,7 @@
 | AppID | [string](#string) |  |  |
 | InviterID | [string](#string) |  |  |
 | InviteeID | [string](#string) |  |  |
+| Fullfilled | [bool](#bool) |  |  |
 
 
 
@@ -1193,6 +1417,36 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.UpdateDefaultKpiSettingRequest"></a>
+
+### UpdateDefaultKpiSettingRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [DefaultKpiSetting](#cloud.hashing.inspire.v1.DefaultKpiSetting) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.UpdateDefaultKpiSettingResponse"></a>
+
+### UpdateDefaultKpiSettingResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [DefaultKpiSetting](#cloud.hashing.inspire.v1.DefaultKpiSetting) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.UpdateNewUserRewardSettingRequest"></a>
 
 ### UpdateNewUserRewardSettingRequest
@@ -1223,6 +1477,36 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.UpdateUserKpiSettingRequest"></a>
+
+### UpdateUserKpiSettingRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserKpiSetting](#cloud.hashing.inspire.v1.UserKpiSetting) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.UpdateUserKpiSettingResponse"></a>
+
+### UpdateUserKpiSettingResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserKpiSetting](#cloud.hashing.inspire.v1.UserKpiSetting) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.UserInvitationCode"></a>
 
 ### UserInvitationCode
@@ -1235,6 +1519,26 @@
 | UserID | [string](#string) |  |  |
 | AppID | [string](#string) |  |  |
 | InvitationCode | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.UserKpiSetting"></a>
+
+### UserKpiSetting
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+| AppID | [string](#string) |  |  |
+| UserID | [string](#string) |  |  |
+| GoodID | [string](#string) |  |  |
+| Amount | [double](#double) |  |  |
+| Percent | [int32](#int32) |  |  |
 
 
 
@@ -1303,6 +1607,14 @@ Service Name
 | GetAppCouponSetting | [GetAppCouponSettingRequest](#cloud.hashing.inspire.v1.GetAppCouponSettingRequest) | [GetAppCouponSettingResponse](#cloud.hashing.inspire.v1.GetAppCouponSettingResponse) |  |
 | GetAppCouponSettingByApp | [GetAppCouponSettingByAppRequest](#cloud.hashing.inspire.v1.GetAppCouponSettingByAppRequest) | [GetAppCouponSettingByAppResponse](#cloud.hashing.inspire.v1.GetAppCouponSettingByAppResponse) |  |
 | UpdateAppCouponSetting | [UpdateAppCouponSettingRequest](#cloud.hashing.inspire.v1.UpdateAppCouponSettingRequest) | [UpdateAppCouponSettingResponse](#cloud.hashing.inspire.v1.UpdateAppCouponSettingResponse) |  |
+| CreateDefaultKpiSetting | [CreateDefaultKpiSettingRequest](#cloud.hashing.inspire.v1.CreateDefaultKpiSettingRequest) | [CreateDefaultKpiSettingResponse](#cloud.hashing.inspire.v1.CreateDefaultKpiSettingResponse) |  |
+| GetDefaultKpiSetting | [GetDefaultKpiSettingRequest](#cloud.hashing.inspire.v1.GetDefaultKpiSettingRequest) | [GetDefaultKpiSettingResponse](#cloud.hashing.inspire.v1.GetDefaultKpiSettingResponse) |  |
+| GetDefaultKpiSettingByAppGood | [GetDefaultKpiSettingByAppGoodRequest](#cloud.hashing.inspire.v1.GetDefaultKpiSettingByAppGoodRequest) | [GetDefaultKpiSettingByAppGoodResponse](#cloud.hashing.inspire.v1.GetDefaultKpiSettingByAppGoodResponse) |  |
+| UpdateDefaultKpiSetting | [UpdateDefaultKpiSettingRequest](#cloud.hashing.inspire.v1.UpdateDefaultKpiSettingRequest) | [UpdateDefaultKpiSettingResponse](#cloud.hashing.inspire.v1.UpdateDefaultKpiSettingResponse) |  |
+| CreateUserKpiSetting | [CreateUserKpiSettingRequest](#cloud.hashing.inspire.v1.CreateUserKpiSettingRequest) | [CreateUserKpiSettingResponse](#cloud.hashing.inspire.v1.CreateUserKpiSettingResponse) |  |
+| GetUserKpiSetting | [GetUserKpiSettingRequest](#cloud.hashing.inspire.v1.GetUserKpiSettingRequest) | [GetUserKpiSettingResponse](#cloud.hashing.inspire.v1.GetUserKpiSettingResponse) |  |
+| GetUserKpiSettingByAppGood | [GetUserKpiSettingByAppGoodRequest](#cloud.hashing.inspire.v1.GetUserKpiSettingByAppGoodRequest) | [GetUserKpiSettingByAppGoodResponse](#cloud.hashing.inspire.v1.GetUserKpiSettingByAppGoodResponse) |  |
+| UpdateUserKpiSetting | [UpdateUserKpiSettingRequest](#cloud.hashing.inspire.v1.UpdateUserKpiSettingRequest) | [UpdateUserKpiSettingResponse](#cloud.hashing.inspire.v1.UpdateUserKpiSettingResponse) |  |
 
  
 

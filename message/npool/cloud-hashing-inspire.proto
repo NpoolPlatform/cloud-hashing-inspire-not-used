@@ -222,6 +222,56 @@ service CloudHashingInspire {
             body: "*"
         };
     }
+
+    rpc CreateDefaultKpiSetting(CreateDefaultKpiSettingRequest) returns (CreateDefaultKpiSettingResponse) {
+        option (google.api.http) = {
+            post: "/v1/create/default/kpi/setting"
+            body: "*"
+        };
+    }
+    rpc GetDefaultKpiSetting(GetDefaultKpiSettingRequest) returns (GetDefaultKpiSettingResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/default/kpi/setting"
+            body: "*"
+        };
+    }
+    rpc GetDefaultKpiSettingByAppGood(GetDefaultKpiSettingByAppGoodRequest) returns (GetDefaultKpiSettingByAppGoodResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/default/kpi/setting/by/app/good"
+            body: "*"
+        };
+    }
+    rpc UpdateDefaultKpiSetting(UpdateDefaultKpiSettingRequest) returns (UpdateDefaultKpiSettingResponse) {
+        option (google.api.http) = {
+            post: "/v1/update/default/kpi/setting"
+            body: "*"
+        };
+    }
+
+    rpc CreateUserKpiSetting(CreateUserKpiSettingRequest) returns (CreateUserKpiSettingResponse) {
+        option (google.api.http) = {
+            post: "/v1/create/user/kpi/setting"
+            body: "*"
+        };
+    }
+    rpc GetUserKpiSetting(GetUserKpiSettingRequest) returns (GetUserKpiSettingResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/user/kpi/setting"
+            body: "*"
+        };
+    }
+    rpc GetUserKpiSettingByAppGood(GetUserKpiSettingByAppGoodRequest) returns (GetUserKpiSettingByAppGoodResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/user/kpi/setting/by/app/good"
+            body: "*"
+        };
+    }
+    rpc UpdateUserKpiSetting(UpdateUserKpiSettingRequest) returns (UpdateUserKpiSettingResponse) {
+        option (google.api.http) = {
+            post: "/v1/update/user/kpi/setting"
+            body: "*"
+        };
+    }
 }
 
 // request body and response
@@ -234,6 +284,7 @@ message NewUserRewardSetting {
     string AppID = 201;
     string RegistrationCouponID = 202;
     string KycCouponID = 203;
+    bool AutoGenerateInvitationCode = 204;
 }
 
 message CreateNewUserRewardSettingRequest {
@@ -271,12 +322,15 @@ message UpdateNewUserRewardSettingResponse {
 message AgencySetting {
     string ID = 1100;
     string AppID = 1101;
-    int32 RegistrationRewardThreshold = 1102;
-    string RegistrationCouponID = 1103;
-    int32 KycRewardThreshold = 1104;
-    string KycCouponID = 1105;
-    int32 PurchaseRewardPercent = 1106;
-    int32 PurchaseRewardChainLevels = 1107;
+    string GoodID = 1102;
+    int32 RegistrationRewardThreshold = 1103;
+    string RegistrationCouponID = 1104;
+    int32 KycRewardThreshold = 1105;
+    string KycCouponID = 1106;
+    int32 TotalPurchaseRewardPercent = 1107;
+    int32 PurchaseRewardChainLevels = 1108;
+    int32 LevelPurchaseRewardPercent = 1109;
+
 }
 
 message CreateAgencySettingRequest {
@@ -316,6 +370,7 @@ message PurchaseInvitation {
     string AppID = 2001;
     string OrderID = 2002;
     string InvitationCodeID = 2003;
+    bool Fullfilled = 2004;
 }
 
 message CreatePurchaseInvitationRequest {
@@ -356,6 +411,7 @@ message RegistrationInvitation {
     string AppID = 2901;
     string InviterID = 2902;
     string InviteeID = 2903;
+    bool Fullfilled = 2904;
 }
 
 message CreateRegistrationInvitationRequest {
@@ -561,4 +617,87 @@ message UpdateAppCouponSettingRequest {
 
 message UpdateAppCouponSettingResponse {
     AppCouponSetting Info = 6200;
+}
+
+message DefaultKpiSetting {
+    string ID = 6300;
+    string AppID = 6301;
+    string GoodID = 6302;
+    double Amount = 6303;
+    int32 Percent = 6304;
+}
+
+message CreateDefaultKpiSettingRequest {
+    DefaultKpiSetting Info = 6400;
+}
+
+message CreateDefaultKpiSettingResponse {
+    DefaultKpiSetting Info = 6500;
+}
+
+message GetDefaultKpiSettingRequest {
+    string ID = 6600;
+}
+
+message GetDefaultKpiSettingResponse {
+    DefaultKpiSetting Info = 6700;
+}
+
+message GetDefaultKpiSettingByAppGoodRequest {
+    string AppID = 6800;
+    string GoodID = 6801;
+}
+
+message GetDefaultKpiSettingByAppGoodResponse {
+    DefaultKpiSetting Info = 6900;
+}
+
+message UpdateDefaultKpiSettingRequest {
+    DefaultKpiSetting Info = 7000;
+}
+
+message UpdateDefaultKpiSettingResponse {
+    DefaultKpiSetting Info = 7100;
+}
+
+message UserKpiSetting {
+    string ID = 7200;
+    string AppID = 7201;
+    string UserID = 7202;
+    string GoodID = 7203;
+    double Amount = 7204;
+    int32 Percent = 7205;
+}
+
+message CreateUserKpiSettingRequest {
+    UserKpiSetting Info = 7300;
+}
+
+message CreateUserKpiSettingResponse {
+    UserKpiSetting Info = 7400;
+}
+
+message GetUserKpiSettingRequest {
+    string ID = 7500;
+}
+
+message GetUserKpiSettingResponse {
+    UserKpiSetting Info = 7600;
+}
+
+message GetUserKpiSettingByAppGoodRequest {
+    string AppID = 7700;
+    string GoodID = 7701;
+}
+
+message GetUserKpiSettingByAppGoodResponse {
+    UserKpiSetting Info = 7800;
+}
+
+message UpdateUserKpiSettingRequest {
+    UserKpiSetting Info = 7900;
+}
+
+message UpdateUserKpiSettingResponse {
+    UserKpiSetting Info = 8000;
 }

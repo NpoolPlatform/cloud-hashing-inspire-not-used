@@ -126,10 +126,10 @@ func KycCouponID(v uuid.UUID) predicate.AgencySetting {
 	})
 }
 
-// PurchaseRewardPercent applies equality check predicate on the "purchase_reward_percent" field. It's identical to PurchaseRewardPercentEQ.
-func PurchaseRewardPercent(v int32) predicate.AgencySetting {
+// TotalPurchaseRewardPercent applies equality check predicate on the "total_purchase_reward_percent" field. It's identical to TotalPurchaseRewardPercentEQ.
+func TotalPurchaseRewardPercent(v int32) predicate.AgencySetting {
 	return predicate.AgencySetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPurchaseRewardPercent), v))
+		s.Where(sql.EQ(s.C(FieldTotalPurchaseRewardPercent), v))
 	})
 }
 
@@ -137,6 +137,13 @@ func PurchaseRewardPercent(v int32) predicate.AgencySetting {
 func PurchaseRewardChainLevels(v int32) predicate.AgencySetting {
 	return predicate.AgencySetting(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldPurchaseRewardChainLevels), v))
+	})
+}
+
+// LevelPurchaseRewardPercent applies equality check predicate on the "level_purchase_reward_percent" field. It's identical to LevelPurchaseRewardPercentEQ.
+func LevelPurchaseRewardPercent(v int32) predicate.AgencySetting {
+	return predicate.AgencySetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldLevelPurchaseRewardPercent), v))
 	})
 }
 
@@ -541,22 +548,22 @@ func KycCouponIDLTE(v uuid.UUID) predicate.AgencySetting {
 	})
 }
 
-// PurchaseRewardPercentEQ applies the EQ predicate on the "purchase_reward_percent" field.
-func PurchaseRewardPercentEQ(v int32) predicate.AgencySetting {
+// TotalPurchaseRewardPercentEQ applies the EQ predicate on the "total_purchase_reward_percent" field.
+func TotalPurchaseRewardPercentEQ(v int32) predicate.AgencySetting {
 	return predicate.AgencySetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPurchaseRewardPercent), v))
+		s.Where(sql.EQ(s.C(FieldTotalPurchaseRewardPercent), v))
 	})
 }
 
-// PurchaseRewardPercentNEQ applies the NEQ predicate on the "purchase_reward_percent" field.
-func PurchaseRewardPercentNEQ(v int32) predicate.AgencySetting {
+// TotalPurchaseRewardPercentNEQ applies the NEQ predicate on the "total_purchase_reward_percent" field.
+func TotalPurchaseRewardPercentNEQ(v int32) predicate.AgencySetting {
 	return predicate.AgencySetting(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldPurchaseRewardPercent), v))
+		s.Where(sql.NEQ(s.C(FieldTotalPurchaseRewardPercent), v))
 	})
 }
 
-// PurchaseRewardPercentIn applies the In predicate on the "purchase_reward_percent" field.
-func PurchaseRewardPercentIn(vs ...int32) predicate.AgencySetting {
+// TotalPurchaseRewardPercentIn applies the In predicate on the "total_purchase_reward_percent" field.
+func TotalPurchaseRewardPercentIn(vs ...int32) predicate.AgencySetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -568,12 +575,12 @@ func PurchaseRewardPercentIn(vs ...int32) predicate.AgencySetting {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldPurchaseRewardPercent), v...))
+		s.Where(sql.In(s.C(FieldTotalPurchaseRewardPercent), v...))
 	})
 }
 
-// PurchaseRewardPercentNotIn applies the NotIn predicate on the "purchase_reward_percent" field.
-func PurchaseRewardPercentNotIn(vs ...int32) predicate.AgencySetting {
+// TotalPurchaseRewardPercentNotIn applies the NotIn predicate on the "total_purchase_reward_percent" field.
+func TotalPurchaseRewardPercentNotIn(vs ...int32) predicate.AgencySetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -585,35 +592,35 @@ func PurchaseRewardPercentNotIn(vs ...int32) predicate.AgencySetting {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldPurchaseRewardPercent), v...))
+		s.Where(sql.NotIn(s.C(FieldTotalPurchaseRewardPercent), v...))
 	})
 }
 
-// PurchaseRewardPercentGT applies the GT predicate on the "purchase_reward_percent" field.
-func PurchaseRewardPercentGT(v int32) predicate.AgencySetting {
+// TotalPurchaseRewardPercentGT applies the GT predicate on the "total_purchase_reward_percent" field.
+func TotalPurchaseRewardPercentGT(v int32) predicate.AgencySetting {
 	return predicate.AgencySetting(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldPurchaseRewardPercent), v))
+		s.Where(sql.GT(s.C(FieldTotalPurchaseRewardPercent), v))
 	})
 }
 
-// PurchaseRewardPercentGTE applies the GTE predicate on the "purchase_reward_percent" field.
-func PurchaseRewardPercentGTE(v int32) predicate.AgencySetting {
+// TotalPurchaseRewardPercentGTE applies the GTE predicate on the "total_purchase_reward_percent" field.
+func TotalPurchaseRewardPercentGTE(v int32) predicate.AgencySetting {
 	return predicate.AgencySetting(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldPurchaseRewardPercent), v))
+		s.Where(sql.GTE(s.C(FieldTotalPurchaseRewardPercent), v))
 	})
 }
 
-// PurchaseRewardPercentLT applies the LT predicate on the "purchase_reward_percent" field.
-func PurchaseRewardPercentLT(v int32) predicate.AgencySetting {
+// TotalPurchaseRewardPercentLT applies the LT predicate on the "total_purchase_reward_percent" field.
+func TotalPurchaseRewardPercentLT(v int32) predicate.AgencySetting {
 	return predicate.AgencySetting(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldPurchaseRewardPercent), v))
+		s.Where(sql.LT(s.C(FieldTotalPurchaseRewardPercent), v))
 	})
 }
 
-// PurchaseRewardPercentLTE applies the LTE predicate on the "purchase_reward_percent" field.
-func PurchaseRewardPercentLTE(v int32) predicate.AgencySetting {
+// TotalPurchaseRewardPercentLTE applies the LTE predicate on the "total_purchase_reward_percent" field.
+func TotalPurchaseRewardPercentLTE(v int32) predicate.AgencySetting {
 	return predicate.AgencySetting(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldPurchaseRewardPercent), v))
+		s.Where(sql.LTE(s.C(FieldTotalPurchaseRewardPercent), v))
 	})
 }
 
@@ -690,6 +697,82 @@ func PurchaseRewardChainLevelsLT(v int32) predicate.AgencySetting {
 func PurchaseRewardChainLevelsLTE(v int32) predicate.AgencySetting {
 	return predicate.AgencySetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldPurchaseRewardChainLevels), v))
+	})
+}
+
+// LevelPurchaseRewardPercentEQ applies the EQ predicate on the "level_purchase_reward_percent" field.
+func LevelPurchaseRewardPercentEQ(v int32) predicate.AgencySetting {
+	return predicate.AgencySetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldLevelPurchaseRewardPercent), v))
+	})
+}
+
+// LevelPurchaseRewardPercentNEQ applies the NEQ predicate on the "level_purchase_reward_percent" field.
+func LevelPurchaseRewardPercentNEQ(v int32) predicate.AgencySetting {
+	return predicate.AgencySetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldLevelPurchaseRewardPercent), v))
+	})
+}
+
+// LevelPurchaseRewardPercentIn applies the In predicate on the "level_purchase_reward_percent" field.
+func LevelPurchaseRewardPercentIn(vs ...int32) predicate.AgencySetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AgencySetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldLevelPurchaseRewardPercent), v...))
+	})
+}
+
+// LevelPurchaseRewardPercentNotIn applies the NotIn predicate on the "level_purchase_reward_percent" field.
+func LevelPurchaseRewardPercentNotIn(vs ...int32) predicate.AgencySetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AgencySetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldLevelPurchaseRewardPercent), v...))
+	})
+}
+
+// LevelPurchaseRewardPercentGT applies the GT predicate on the "level_purchase_reward_percent" field.
+func LevelPurchaseRewardPercentGT(v int32) predicate.AgencySetting {
+	return predicate.AgencySetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldLevelPurchaseRewardPercent), v))
+	})
+}
+
+// LevelPurchaseRewardPercentGTE applies the GTE predicate on the "level_purchase_reward_percent" field.
+func LevelPurchaseRewardPercentGTE(v int32) predicate.AgencySetting {
+	return predicate.AgencySetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldLevelPurchaseRewardPercent), v))
+	})
+}
+
+// LevelPurchaseRewardPercentLT applies the LT predicate on the "level_purchase_reward_percent" field.
+func LevelPurchaseRewardPercentLT(v int32) predicate.AgencySetting {
+	return predicate.AgencySetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldLevelPurchaseRewardPercent), v))
+	})
+}
+
+// LevelPurchaseRewardPercentLTE applies the LTE predicate on the "level_purchase_reward_percent" field.
+func LevelPurchaseRewardPercentLTE(v int32) predicate.AgencySetting {
+	return predicate.AgencySetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldLevelPurchaseRewardPercent), v))
 	})
 }
 

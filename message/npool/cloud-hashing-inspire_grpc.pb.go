@@ -54,6 +54,14 @@ type CloudHashingInspireClient interface {
 	GetAppCouponSetting(ctx context.Context, in *GetAppCouponSettingRequest, opts ...grpc.CallOption) (*GetAppCouponSettingResponse, error)
 	GetAppCouponSettingByApp(ctx context.Context, in *GetAppCouponSettingByAppRequest, opts ...grpc.CallOption) (*GetAppCouponSettingByAppResponse, error)
 	UpdateAppCouponSetting(ctx context.Context, in *UpdateAppCouponSettingRequest, opts ...grpc.CallOption) (*UpdateAppCouponSettingResponse, error)
+	CreateDefaultKpiSetting(ctx context.Context, in *CreateDefaultKpiSettingRequest, opts ...grpc.CallOption) (*CreateDefaultKpiSettingResponse, error)
+	GetDefaultKpiSetting(ctx context.Context, in *GetDefaultKpiSettingRequest, opts ...grpc.CallOption) (*GetDefaultKpiSettingResponse, error)
+	GetDefaultKpiSettingByAppGood(ctx context.Context, in *GetDefaultKpiSettingByAppGoodRequest, opts ...grpc.CallOption) (*GetDefaultKpiSettingByAppGoodResponse, error)
+	UpdateDefaultKpiSetting(ctx context.Context, in *UpdateDefaultKpiSettingRequest, opts ...grpc.CallOption) (*UpdateDefaultKpiSettingResponse, error)
+	CreateUserKpiSetting(ctx context.Context, in *CreateUserKpiSettingRequest, opts ...grpc.CallOption) (*CreateUserKpiSettingResponse, error)
+	GetUserKpiSetting(ctx context.Context, in *GetUserKpiSettingRequest, opts ...grpc.CallOption) (*GetUserKpiSettingResponse, error)
+	GetUserKpiSettingByAppGood(ctx context.Context, in *GetUserKpiSettingByAppGoodRequest, opts ...grpc.CallOption) (*GetUserKpiSettingByAppGoodResponse, error)
+	UpdateUserKpiSetting(ctx context.Context, in *UpdateUserKpiSettingRequest, opts ...grpc.CallOption) (*UpdateUserKpiSettingResponse, error)
 }
 
 type cloudHashingInspireClient struct {
@@ -370,6 +378,78 @@ func (c *cloudHashingInspireClient) UpdateAppCouponSetting(ctx context.Context, 
 	return out, nil
 }
 
+func (c *cloudHashingInspireClient) CreateDefaultKpiSetting(ctx context.Context, in *CreateDefaultKpiSettingRequest, opts ...grpc.CallOption) (*CreateDefaultKpiSettingResponse, error) {
+	out := new(CreateDefaultKpiSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateDefaultKpiSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetDefaultKpiSetting(ctx context.Context, in *GetDefaultKpiSettingRequest, opts ...grpc.CallOption) (*GetDefaultKpiSettingResponse, error) {
+	out := new(GetDefaultKpiSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetDefaultKpiSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetDefaultKpiSettingByAppGood(ctx context.Context, in *GetDefaultKpiSettingByAppGoodRequest, opts ...grpc.CallOption) (*GetDefaultKpiSettingByAppGoodResponse, error) {
+	out := new(GetDefaultKpiSettingByAppGoodResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetDefaultKpiSettingByAppGood", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) UpdateDefaultKpiSetting(ctx context.Context, in *UpdateDefaultKpiSettingRequest, opts ...grpc.CallOption) (*UpdateDefaultKpiSettingResponse, error) {
+	out := new(UpdateDefaultKpiSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateDefaultKpiSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) CreateUserKpiSetting(ctx context.Context, in *CreateUserKpiSettingRequest, opts ...grpc.CallOption) (*CreateUserKpiSettingResponse, error) {
+	out := new(CreateUserKpiSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateUserKpiSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetUserKpiSetting(ctx context.Context, in *GetUserKpiSettingRequest, opts ...grpc.CallOption) (*GetUserKpiSettingResponse, error) {
+	out := new(GetUserKpiSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetUserKpiSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetUserKpiSettingByAppGood(ctx context.Context, in *GetUserKpiSettingByAppGoodRequest, opts ...grpc.CallOption) (*GetUserKpiSettingByAppGoodResponse, error) {
+	out := new(GetUserKpiSettingByAppGoodResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetUserKpiSettingByAppGood", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) UpdateUserKpiSetting(ctx context.Context, in *UpdateUserKpiSettingRequest, opts ...grpc.CallOption) (*UpdateUserKpiSettingResponse, error) {
+	out := new(UpdateUserKpiSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateUserKpiSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CloudHashingInspireServer is the server API for CloudHashingInspire service.
 // All implementations must embed UnimplementedCloudHashingInspireServer
 // for forward compatibility
@@ -409,6 +489,14 @@ type CloudHashingInspireServer interface {
 	GetAppCouponSetting(context.Context, *GetAppCouponSettingRequest) (*GetAppCouponSettingResponse, error)
 	GetAppCouponSettingByApp(context.Context, *GetAppCouponSettingByAppRequest) (*GetAppCouponSettingByAppResponse, error)
 	UpdateAppCouponSetting(context.Context, *UpdateAppCouponSettingRequest) (*UpdateAppCouponSettingResponse, error)
+	CreateDefaultKpiSetting(context.Context, *CreateDefaultKpiSettingRequest) (*CreateDefaultKpiSettingResponse, error)
+	GetDefaultKpiSetting(context.Context, *GetDefaultKpiSettingRequest) (*GetDefaultKpiSettingResponse, error)
+	GetDefaultKpiSettingByAppGood(context.Context, *GetDefaultKpiSettingByAppGoodRequest) (*GetDefaultKpiSettingByAppGoodResponse, error)
+	UpdateDefaultKpiSetting(context.Context, *UpdateDefaultKpiSettingRequest) (*UpdateDefaultKpiSettingResponse, error)
+	CreateUserKpiSetting(context.Context, *CreateUserKpiSettingRequest) (*CreateUserKpiSettingResponse, error)
+	GetUserKpiSetting(context.Context, *GetUserKpiSettingRequest) (*GetUserKpiSettingResponse, error)
+	GetUserKpiSettingByAppGood(context.Context, *GetUserKpiSettingByAppGoodRequest) (*GetUserKpiSettingByAppGoodResponse, error)
+	UpdateUserKpiSetting(context.Context, *UpdateUserKpiSettingRequest) (*UpdateUserKpiSettingResponse, error)
 	mustEmbedUnimplementedCloudHashingInspireServer()
 }
 
@@ -517,6 +605,30 @@ func (UnimplementedCloudHashingInspireServer) GetAppCouponSettingByApp(context.C
 }
 func (UnimplementedCloudHashingInspireServer) UpdateAppCouponSetting(context.Context, *UpdateAppCouponSettingRequest) (*UpdateAppCouponSettingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAppCouponSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) CreateDefaultKpiSetting(context.Context, *CreateDefaultKpiSettingRequest) (*CreateDefaultKpiSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDefaultKpiSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetDefaultKpiSetting(context.Context, *GetDefaultKpiSettingRequest) (*GetDefaultKpiSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDefaultKpiSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetDefaultKpiSettingByAppGood(context.Context, *GetDefaultKpiSettingByAppGoodRequest) (*GetDefaultKpiSettingByAppGoodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDefaultKpiSettingByAppGood not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) UpdateDefaultKpiSetting(context.Context, *UpdateDefaultKpiSettingRequest) (*UpdateDefaultKpiSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDefaultKpiSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) CreateUserKpiSetting(context.Context, *CreateUserKpiSettingRequest) (*CreateUserKpiSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUserKpiSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetUserKpiSetting(context.Context, *GetUserKpiSettingRequest) (*GetUserKpiSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserKpiSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetUserKpiSettingByAppGood(context.Context, *GetUserKpiSettingByAppGoodRequest) (*GetUserKpiSettingByAppGoodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserKpiSettingByAppGood not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) UpdateUserKpiSetting(context.Context, *UpdateUserKpiSettingRequest) (*UpdateUserKpiSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserKpiSetting not implemented")
 }
 func (UnimplementedCloudHashingInspireServer) mustEmbedUnimplementedCloudHashingInspireServer() {}
 
@@ -1143,6 +1255,150 @@ func _CloudHashingInspire_UpdateAppCouponSetting_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CloudHashingInspire_CreateDefaultKpiSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateDefaultKpiSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).CreateDefaultKpiSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateDefaultKpiSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).CreateDefaultKpiSetting(ctx, req.(*CreateDefaultKpiSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetDefaultKpiSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDefaultKpiSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetDefaultKpiSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetDefaultKpiSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetDefaultKpiSetting(ctx, req.(*GetDefaultKpiSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetDefaultKpiSettingByAppGood_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDefaultKpiSettingByAppGoodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetDefaultKpiSettingByAppGood(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetDefaultKpiSettingByAppGood",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetDefaultKpiSettingByAppGood(ctx, req.(*GetDefaultKpiSettingByAppGoodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_UpdateDefaultKpiSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDefaultKpiSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).UpdateDefaultKpiSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateDefaultKpiSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).UpdateDefaultKpiSetting(ctx, req.(*UpdateDefaultKpiSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_CreateUserKpiSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserKpiSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).CreateUserKpiSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateUserKpiSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).CreateUserKpiSetting(ctx, req.(*CreateUserKpiSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetUserKpiSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserKpiSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetUserKpiSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetUserKpiSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetUserKpiSetting(ctx, req.(*GetUserKpiSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetUserKpiSettingByAppGood_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserKpiSettingByAppGoodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetUserKpiSettingByAppGood(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetUserKpiSettingByAppGood",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetUserKpiSettingByAppGood(ctx, req.(*GetUserKpiSettingByAppGoodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_UpdateUserKpiSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserKpiSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).UpdateUserKpiSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateUserKpiSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).UpdateUserKpiSetting(ctx, req.(*UpdateUserKpiSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CloudHashingInspire_ServiceDesc is the grpc.ServiceDesc for CloudHashingInspire service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1285,6 +1541,38 @@ var CloudHashingInspire_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAppCouponSetting",
 			Handler:    _CloudHashingInspire_UpdateAppCouponSetting_Handler,
+		},
+		{
+			MethodName: "CreateDefaultKpiSetting",
+			Handler:    _CloudHashingInspire_CreateDefaultKpiSetting_Handler,
+		},
+		{
+			MethodName: "GetDefaultKpiSetting",
+			Handler:    _CloudHashingInspire_GetDefaultKpiSetting_Handler,
+		},
+		{
+			MethodName: "GetDefaultKpiSettingByAppGood",
+			Handler:    _CloudHashingInspire_GetDefaultKpiSettingByAppGood_Handler,
+		},
+		{
+			MethodName: "UpdateDefaultKpiSetting",
+			Handler:    _CloudHashingInspire_UpdateDefaultKpiSetting_Handler,
+		},
+		{
+			MethodName: "CreateUserKpiSetting",
+			Handler:    _CloudHashingInspire_CreateUserKpiSetting_Handler,
+		},
+		{
+			MethodName: "GetUserKpiSetting",
+			Handler:    _CloudHashingInspire_GetUserKpiSetting_Handler,
+		},
+		{
+			MethodName: "GetUserKpiSettingByAppGood",
+			Handler:    _CloudHashingInspire_GetUserKpiSettingByAppGood_Handler,
+		},
+		{
+			MethodName: "UpdateUserKpiSetting",
+			Handler:    _CloudHashingInspire_UpdateUserKpiSetting_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

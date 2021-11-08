@@ -17,6 +17,8 @@ const (
 	FieldRegistrationCouponID = "registration_coupon_id"
 	// FieldKycCouponID holds the string denoting the kyc_coupon_id field in the database.
 	FieldKycCouponID = "kyc_coupon_id"
+	// FieldAutoGenerateInvitationCode holds the string denoting the auto_generate_invitation_code field in the database.
+	FieldAutoGenerateInvitationCode = "auto_generate_invitation_code"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -33,6 +35,7 @@ var Columns = []string{
 	FieldAppID,
 	FieldRegistrationCouponID,
 	FieldKycCouponID,
+	FieldAutoGenerateInvitationCode,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,
@@ -49,6 +52,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultAutoGenerateInvitationCode holds the default value on creation for the "auto_generate_invitation_code" field.
+	DefaultAutoGenerateInvitationCode bool
 	// DefaultCreateAt holds the default value on creation for the "create_at" field.
 	DefaultCreateAt func() uint32
 	// DefaultUpdateAt holds the default value on creation for the "update_at" field.

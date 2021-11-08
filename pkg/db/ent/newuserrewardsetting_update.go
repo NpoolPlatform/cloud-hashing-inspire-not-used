@@ -45,6 +45,20 @@ func (nursu *NewUserRewardSettingUpdate) SetKycCouponID(u uuid.UUID) *NewUserRew
 	return nursu
 }
 
+// SetAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field.
+func (nursu *NewUserRewardSettingUpdate) SetAutoGenerateInvitationCode(b bool) *NewUserRewardSettingUpdate {
+	nursu.mutation.SetAutoGenerateInvitationCode(b)
+	return nursu
+}
+
+// SetNillableAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field if the given value is not nil.
+func (nursu *NewUserRewardSettingUpdate) SetNillableAutoGenerateInvitationCode(b *bool) *NewUserRewardSettingUpdate {
+	if b != nil {
+		nursu.SetAutoGenerateInvitationCode(*b)
+	}
+	return nursu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (nursu *NewUserRewardSettingUpdate) SetCreateAt(u uint32) *NewUserRewardSettingUpdate {
 	nursu.mutation.ResetCreateAt()
@@ -207,6 +221,13 @@ func (nursu *NewUserRewardSettingUpdate) sqlSave(ctx context.Context) (n int, er
 			Column: newuserrewardsetting.FieldKycCouponID,
 		})
 	}
+	if value, ok := nursu.mutation.AutoGenerateInvitationCode(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: newuserrewardsetting.FieldAutoGenerateInvitationCode,
+		})
+	}
 	if value, ok := nursu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -283,6 +304,20 @@ func (nursuo *NewUserRewardSettingUpdateOne) SetRegistrationCouponID(u uuid.UUID
 // SetKycCouponID sets the "kyc_coupon_id" field.
 func (nursuo *NewUserRewardSettingUpdateOne) SetKycCouponID(u uuid.UUID) *NewUserRewardSettingUpdateOne {
 	nursuo.mutation.SetKycCouponID(u)
+	return nursuo
+}
+
+// SetAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field.
+func (nursuo *NewUserRewardSettingUpdateOne) SetAutoGenerateInvitationCode(b bool) *NewUserRewardSettingUpdateOne {
+	nursuo.mutation.SetAutoGenerateInvitationCode(b)
+	return nursuo
+}
+
+// SetNillableAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field if the given value is not nil.
+func (nursuo *NewUserRewardSettingUpdateOne) SetNillableAutoGenerateInvitationCode(b *bool) *NewUserRewardSettingUpdateOne {
+	if b != nil {
+		nursuo.SetAutoGenerateInvitationCode(*b)
+	}
 	return nursuo
 }
 
@@ -470,6 +505,13 @@ func (nursuo *NewUserRewardSettingUpdateOne) sqlSave(ctx context.Context) (_node
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: newuserrewardsetting.FieldKycCouponID,
+		})
+	}
+	if value, ok := nursuo.mutation.AutoGenerateInvitationCode(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: newuserrewardsetting.FieldAutoGenerateInvitationCode,
 		})
 	}
 	if value, ok := nursuo.mutation.CreateAt(); ok {

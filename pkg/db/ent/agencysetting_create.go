@@ -53,15 +53,21 @@ func (asc *AgencySettingCreate) SetKycCouponID(u uuid.UUID) *AgencySettingCreate
 	return asc
 }
 
-// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (asc *AgencySettingCreate) SetPurchaseRewardPercent(i int32) *AgencySettingCreate {
-	asc.mutation.SetPurchaseRewardPercent(i)
+// SetTotalPurchaseRewardPercent sets the "total_purchase_reward_percent" field.
+func (asc *AgencySettingCreate) SetTotalPurchaseRewardPercent(i int32) *AgencySettingCreate {
+	asc.mutation.SetTotalPurchaseRewardPercent(i)
 	return asc
 }
 
 // SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
 func (asc *AgencySettingCreate) SetPurchaseRewardChainLevels(i int32) *AgencySettingCreate {
 	asc.mutation.SetPurchaseRewardChainLevels(i)
+	return asc
+}
+
+// SetLevelPurchaseRewardPercent sets the "level_purchase_reward_percent" field.
+func (asc *AgencySettingCreate) SetLevelPurchaseRewardPercent(i int32) *AgencySettingCreate {
+	asc.mutation.SetLevelPurchaseRewardPercent(i)
 	return asc
 }
 
@@ -219,11 +225,14 @@ func (asc *AgencySettingCreate) check() error {
 	if _, ok := asc.mutation.KycCouponID(); !ok {
 		return &ValidationError{Name: "kyc_coupon_id", err: errors.New(`ent: missing required field "kyc_coupon_id"`)}
 	}
-	if _, ok := asc.mutation.PurchaseRewardPercent(); !ok {
-		return &ValidationError{Name: "purchase_reward_percent", err: errors.New(`ent: missing required field "purchase_reward_percent"`)}
+	if _, ok := asc.mutation.TotalPurchaseRewardPercent(); !ok {
+		return &ValidationError{Name: "total_purchase_reward_percent", err: errors.New(`ent: missing required field "total_purchase_reward_percent"`)}
 	}
 	if _, ok := asc.mutation.PurchaseRewardChainLevels(); !ok {
 		return &ValidationError{Name: "purchase_reward_chain_levels", err: errors.New(`ent: missing required field "purchase_reward_chain_levels"`)}
+	}
+	if _, ok := asc.mutation.LevelPurchaseRewardPercent(); !ok {
+		return &ValidationError{Name: "level_purchase_reward_percent", err: errors.New(`ent: missing required field "level_purchase_reward_percent"`)}
 	}
 	if _, ok := asc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
@@ -307,13 +316,13 @@ func (asc *AgencySettingCreate) createSpec() (*AgencySetting, *sqlgraph.CreateSp
 		})
 		_node.KycCouponID = value
 	}
-	if value, ok := asc.mutation.PurchaseRewardPercent(); ok {
+	if value, ok := asc.mutation.TotalPurchaseRewardPercent(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt32,
 			Value:  value,
-			Column: agencysetting.FieldPurchaseRewardPercent,
+			Column: agencysetting.FieldTotalPurchaseRewardPercent,
 		})
-		_node.PurchaseRewardPercent = value
+		_node.TotalPurchaseRewardPercent = value
 	}
 	if value, ok := asc.mutation.PurchaseRewardChainLevels(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -322,6 +331,14 @@ func (asc *AgencySettingCreate) createSpec() (*AgencySetting, *sqlgraph.CreateSp
 			Column: agencysetting.FieldPurchaseRewardChainLevels,
 		})
 		_node.PurchaseRewardChainLevels = value
+	}
+	if value, ok := asc.mutation.LevelPurchaseRewardPercent(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt32,
+			Value:  value,
+			Column: agencysetting.FieldLevelPurchaseRewardPercent,
+		})
+		_node.LevelPurchaseRewardPercent = value
 	}
 	if value, ok := asc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -461,15 +478,15 @@ func (u *AgencySettingUpsert) UpdateKycCouponID() *AgencySettingUpsert {
 	return u
 }
 
-// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (u *AgencySettingUpsert) SetPurchaseRewardPercent(v int32) *AgencySettingUpsert {
-	u.Set(agencysetting.FieldPurchaseRewardPercent, v)
+// SetTotalPurchaseRewardPercent sets the "total_purchase_reward_percent" field.
+func (u *AgencySettingUpsert) SetTotalPurchaseRewardPercent(v int32) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldTotalPurchaseRewardPercent, v)
 	return u
 }
 
-// UpdatePurchaseRewardPercent sets the "purchase_reward_percent" field to the value that was provided on create.
-func (u *AgencySettingUpsert) UpdatePurchaseRewardPercent() *AgencySettingUpsert {
-	u.SetExcluded(agencysetting.FieldPurchaseRewardPercent)
+// UpdateTotalPurchaseRewardPercent sets the "total_purchase_reward_percent" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateTotalPurchaseRewardPercent() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldTotalPurchaseRewardPercent)
 	return u
 }
 
@@ -482,6 +499,18 @@ func (u *AgencySettingUpsert) SetPurchaseRewardChainLevels(v int32) *AgencySetti
 // UpdatePurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field to the value that was provided on create.
 func (u *AgencySettingUpsert) UpdatePurchaseRewardChainLevels() *AgencySettingUpsert {
 	u.SetExcluded(agencysetting.FieldPurchaseRewardChainLevels)
+	return u
+}
+
+// SetLevelPurchaseRewardPercent sets the "level_purchase_reward_percent" field.
+func (u *AgencySettingUpsert) SetLevelPurchaseRewardPercent(v int32) *AgencySettingUpsert {
+	u.Set(agencysetting.FieldLevelPurchaseRewardPercent, v)
+	return u
+}
+
+// UpdateLevelPurchaseRewardPercent sets the "level_purchase_reward_percent" field to the value that was provided on create.
+func (u *AgencySettingUpsert) UpdateLevelPurchaseRewardPercent() *AgencySettingUpsert {
+	u.SetExcluded(agencysetting.FieldLevelPurchaseRewardPercent)
 	return u
 }
 
@@ -641,17 +670,17 @@ func (u *AgencySettingUpsertOne) UpdateKycCouponID() *AgencySettingUpsertOne {
 	})
 }
 
-// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (u *AgencySettingUpsertOne) SetPurchaseRewardPercent(v int32) *AgencySettingUpsertOne {
+// SetTotalPurchaseRewardPercent sets the "total_purchase_reward_percent" field.
+func (u *AgencySettingUpsertOne) SetTotalPurchaseRewardPercent(v int32) *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.SetPurchaseRewardPercent(v)
+		s.SetTotalPurchaseRewardPercent(v)
 	})
 }
 
-// UpdatePurchaseRewardPercent sets the "purchase_reward_percent" field to the value that was provided on create.
-func (u *AgencySettingUpsertOne) UpdatePurchaseRewardPercent() *AgencySettingUpsertOne {
+// UpdateTotalPurchaseRewardPercent sets the "total_purchase_reward_percent" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateTotalPurchaseRewardPercent() *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.UpdatePurchaseRewardPercent()
+		s.UpdateTotalPurchaseRewardPercent()
 	})
 }
 
@@ -666,6 +695,20 @@ func (u *AgencySettingUpsertOne) SetPurchaseRewardChainLevels(v int32) *AgencySe
 func (u *AgencySettingUpsertOne) UpdatePurchaseRewardChainLevels() *AgencySettingUpsertOne {
 	return u.Update(func(s *AgencySettingUpsert) {
 		s.UpdatePurchaseRewardChainLevels()
+	})
+}
+
+// SetLevelPurchaseRewardPercent sets the "level_purchase_reward_percent" field.
+func (u *AgencySettingUpsertOne) SetLevelPurchaseRewardPercent(v int32) *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetLevelPurchaseRewardPercent(v)
+	})
+}
+
+// UpdateLevelPurchaseRewardPercent sets the "level_purchase_reward_percent" field to the value that was provided on create.
+func (u *AgencySettingUpsertOne) UpdateLevelPurchaseRewardPercent() *AgencySettingUpsertOne {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateLevelPurchaseRewardPercent()
 	})
 }
 
@@ -997,17 +1040,17 @@ func (u *AgencySettingUpsertBulk) UpdateKycCouponID() *AgencySettingUpsertBulk {
 	})
 }
 
-// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (u *AgencySettingUpsertBulk) SetPurchaseRewardPercent(v int32) *AgencySettingUpsertBulk {
+// SetTotalPurchaseRewardPercent sets the "total_purchase_reward_percent" field.
+func (u *AgencySettingUpsertBulk) SetTotalPurchaseRewardPercent(v int32) *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.SetPurchaseRewardPercent(v)
+		s.SetTotalPurchaseRewardPercent(v)
 	})
 }
 
-// UpdatePurchaseRewardPercent sets the "purchase_reward_percent" field to the value that was provided on create.
-func (u *AgencySettingUpsertBulk) UpdatePurchaseRewardPercent() *AgencySettingUpsertBulk {
+// UpdateTotalPurchaseRewardPercent sets the "total_purchase_reward_percent" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateTotalPurchaseRewardPercent() *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
-		s.UpdatePurchaseRewardPercent()
+		s.UpdateTotalPurchaseRewardPercent()
 	})
 }
 
@@ -1022,6 +1065,20 @@ func (u *AgencySettingUpsertBulk) SetPurchaseRewardChainLevels(v int32) *AgencyS
 func (u *AgencySettingUpsertBulk) UpdatePurchaseRewardChainLevels() *AgencySettingUpsertBulk {
 	return u.Update(func(s *AgencySettingUpsert) {
 		s.UpdatePurchaseRewardChainLevels()
+	})
+}
+
+// SetLevelPurchaseRewardPercent sets the "level_purchase_reward_percent" field.
+func (u *AgencySettingUpsertBulk) SetLevelPurchaseRewardPercent(v int32) *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.SetLevelPurchaseRewardPercent(v)
+	})
+}
+
+// UpdateLevelPurchaseRewardPercent sets the "level_purchase_reward_percent" field to the value that was provided on create.
+func (u *AgencySettingUpsertBulk) UpdateLevelPurchaseRewardPercent() *AgencySettingUpsertBulk {
+	return u.Update(func(s *AgencySettingUpsert) {
+		s.UpdateLevelPurchaseRewardPercent()
 	})
 }
 

@@ -26,10 +26,12 @@ type AgencySetting struct {
 	KycRewardThreshold int32 `json:"kyc_reward_threshold,omitempty"`
 	// KycCouponID holds the value of the "kyc_coupon_id" field.
 	KycCouponID uuid.UUID `json:"kyc_coupon_id,omitempty"`
-	// PurchaseRewardPercent holds the value of the "purchase_reward_percent" field.
-	PurchaseRewardPercent int32 `json:"purchase_reward_percent,omitempty"`
+	// TotalPurchaseRewardPercent holds the value of the "total_purchase_reward_percent" field.
+	TotalPurchaseRewardPercent int32 `json:"total_purchase_reward_percent,omitempty"`
 	// PurchaseRewardChainLevels holds the value of the "purchase_reward_chain_levels" field.
 	PurchaseRewardChainLevels int32 `json:"purchase_reward_chain_levels,omitempty"`
+	// LevelPurchaseRewardPercent holds the value of the "level_purchase_reward_percent" field.
+	LevelPurchaseRewardPercent int32 `json:"level_purchase_reward_percent,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -43,7 +45,7 @@ func (*AgencySetting) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case agencysetting.FieldRegistrationRewardThreshold, agencysetting.FieldKycRewardThreshold, agencysetting.FieldPurchaseRewardPercent, agencysetting.FieldPurchaseRewardChainLevels, agencysetting.FieldCreateAt, agencysetting.FieldUpdateAt, agencysetting.FieldDeleteAt:
+		case agencysetting.FieldRegistrationRewardThreshold, agencysetting.FieldKycRewardThreshold, agencysetting.FieldTotalPurchaseRewardPercent, agencysetting.FieldPurchaseRewardChainLevels, agencysetting.FieldLevelPurchaseRewardPercent, agencysetting.FieldCreateAt, agencysetting.FieldUpdateAt, agencysetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case agencysetting.FieldID, agencysetting.FieldAppID, agencysetting.FieldRegistrationCouponID, agencysetting.FieldKycCouponID:
 			values[i] = new(uuid.UUID)
@@ -98,17 +100,23 @@ func (as *AgencySetting) assignValues(columns []string, values []interface{}) er
 			} else if value != nil {
 				as.KycCouponID = *value
 			}
-		case agencysetting.FieldPurchaseRewardPercent:
+		case agencysetting.FieldTotalPurchaseRewardPercent:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field purchase_reward_percent", values[i])
+				return fmt.Errorf("unexpected type %T for field total_purchase_reward_percent", values[i])
 			} else if value.Valid {
-				as.PurchaseRewardPercent = int32(value.Int64)
+				as.TotalPurchaseRewardPercent = int32(value.Int64)
 			}
 		case agencysetting.FieldPurchaseRewardChainLevels:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field purchase_reward_chain_levels", values[i])
 			} else if value.Valid {
 				as.PurchaseRewardChainLevels = int32(value.Int64)
+			}
+		case agencysetting.FieldLevelPurchaseRewardPercent:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field level_purchase_reward_percent", values[i])
+			} else if value.Valid {
+				as.LevelPurchaseRewardPercent = int32(value.Int64)
 			}
 		case agencysetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -166,10 +174,12 @@ func (as *AgencySetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", as.KycRewardThreshold))
 	builder.WriteString(", kyc_coupon_id=")
 	builder.WriteString(fmt.Sprintf("%v", as.KycCouponID))
-	builder.WriteString(", purchase_reward_percent=")
-	builder.WriteString(fmt.Sprintf("%v", as.PurchaseRewardPercent))
+	builder.WriteString(", total_purchase_reward_percent=")
+	builder.WriteString(fmt.Sprintf("%v", as.TotalPurchaseRewardPercent))
 	builder.WriteString(", purchase_reward_chain_levels=")
 	builder.WriteString(fmt.Sprintf("%v", as.PurchaseRewardChainLevels))
+	builder.WriteString(", level_purchase_reward_percent=")
+	builder.WriteString(fmt.Sprintf("%v", as.LevelPurchaseRewardPercent))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", as.CreateAt))
 	builder.WriteString(", update_at=")

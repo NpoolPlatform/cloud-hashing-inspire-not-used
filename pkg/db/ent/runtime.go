@@ -22,17 +22,17 @@ func init() {
 	agencysettingFields := schema.AgencySetting{}.Fields()
 	_ = agencysettingFields
 	// agencysettingDescCreateAt is the schema descriptor for create_at field.
-	agencysettingDescCreateAt := agencysettingFields[8].Descriptor()
+	agencysettingDescCreateAt := agencysettingFields[9].Descriptor()
 	// agencysetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	agencysetting.DefaultCreateAt = agencysettingDescCreateAt.Default.(func() uint32)
 	// agencysettingDescUpdateAt is the schema descriptor for update_at field.
-	agencysettingDescUpdateAt := agencysettingFields[9].Descriptor()
+	agencysettingDescUpdateAt := agencysettingFields[10].Descriptor()
 	// agencysetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	agencysetting.DefaultUpdateAt = agencysettingDescUpdateAt.Default.(func() uint32)
 	// agencysetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	agencysetting.UpdateDefaultUpdateAt = agencysettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// agencysettingDescDeleteAt is the schema descriptor for delete_at field.
-	agencysettingDescDeleteAt := agencysettingFields[10].Descriptor()
+	agencysettingDescDeleteAt := agencysettingFields[11].Descriptor()
 	// agencysetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	agencysetting.DefaultDeleteAt = agencysettingDescDeleteAt.Default.(func() uint32)
 	// agencysettingDescID is the schema descriptor for id field.
@@ -117,18 +117,22 @@ func init() {
 	couponpool.DefaultID = couponpoolDescID.Default.(func() uuid.UUID)
 	newuserrewardsettingFields := schema.NewUserRewardSetting{}.Fields()
 	_ = newuserrewardsettingFields
+	// newuserrewardsettingDescAutoGenerateInvitationCode is the schema descriptor for auto_generate_invitation_code field.
+	newuserrewardsettingDescAutoGenerateInvitationCode := newuserrewardsettingFields[4].Descriptor()
+	// newuserrewardsetting.DefaultAutoGenerateInvitationCode holds the default value on creation for the auto_generate_invitation_code field.
+	newuserrewardsetting.DefaultAutoGenerateInvitationCode = newuserrewardsettingDescAutoGenerateInvitationCode.Default.(bool)
 	// newuserrewardsettingDescCreateAt is the schema descriptor for create_at field.
-	newuserrewardsettingDescCreateAt := newuserrewardsettingFields[4].Descriptor()
+	newuserrewardsettingDescCreateAt := newuserrewardsettingFields[5].Descriptor()
 	// newuserrewardsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	newuserrewardsetting.DefaultCreateAt = newuserrewardsettingDescCreateAt.Default.(func() uint32)
 	// newuserrewardsettingDescUpdateAt is the schema descriptor for update_at field.
-	newuserrewardsettingDescUpdateAt := newuserrewardsettingFields[5].Descriptor()
+	newuserrewardsettingDescUpdateAt := newuserrewardsettingFields[6].Descriptor()
 	// newuserrewardsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	newuserrewardsetting.DefaultUpdateAt = newuserrewardsettingDescUpdateAt.Default.(func() uint32)
 	// newuserrewardsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	newuserrewardsetting.UpdateDefaultUpdateAt = newuserrewardsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// newuserrewardsettingDescDeleteAt is the schema descriptor for delete_at field.
-	newuserrewardsettingDescDeleteAt := newuserrewardsettingFields[6].Descriptor()
+	newuserrewardsettingDescDeleteAt := newuserrewardsettingFields[7].Descriptor()
 	// newuserrewardsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	newuserrewardsetting.DefaultDeleteAt = newuserrewardsettingDescDeleteAt.Default.(func() uint32)
 	// newuserrewardsettingDescID is the schema descriptor for id field.

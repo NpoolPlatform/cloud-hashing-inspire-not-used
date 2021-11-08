@@ -53,10 +53,12 @@ type AgencySettingMutation struct {
 	kyc_reward_threshold             *int32
 	addkyc_reward_threshold          *int32
 	kyc_coupon_id                    *uuid.UUID
-	purchase_reward_percent          *int32
-	addpurchase_reward_percent       *int32
+	total_purchase_reward_percent    *int32
+	addtotal_purchase_reward_percent *int32
 	purchase_reward_chain_levels     *int32
 	addpurchase_reward_chain_levels  *int32
+	level_purchase_reward_percent    *int32
+	addlevel_purchase_reward_percent *int32
 	create_at                        *uint32
 	addcreate_at                     *uint32
 	update_at                        *uint32
@@ -374,60 +376,60 @@ func (m *AgencySettingMutation) ResetKycCouponID() {
 	m.kyc_coupon_id = nil
 }
 
-// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (m *AgencySettingMutation) SetPurchaseRewardPercent(i int32) {
-	m.purchase_reward_percent = &i
-	m.addpurchase_reward_percent = nil
+// SetTotalPurchaseRewardPercent sets the "total_purchase_reward_percent" field.
+func (m *AgencySettingMutation) SetTotalPurchaseRewardPercent(i int32) {
+	m.total_purchase_reward_percent = &i
+	m.addtotal_purchase_reward_percent = nil
 }
 
-// PurchaseRewardPercent returns the value of the "purchase_reward_percent" field in the mutation.
-func (m *AgencySettingMutation) PurchaseRewardPercent() (r int32, exists bool) {
-	v := m.purchase_reward_percent
+// TotalPurchaseRewardPercent returns the value of the "total_purchase_reward_percent" field in the mutation.
+func (m *AgencySettingMutation) TotalPurchaseRewardPercent() (r int32, exists bool) {
+	v := m.total_purchase_reward_percent
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldPurchaseRewardPercent returns the old "purchase_reward_percent" field's value of the AgencySetting entity.
+// OldTotalPurchaseRewardPercent returns the old "total_purchase_reward_percent" field's value of the AgencySetting entity.
 // If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AgencySettingMutation) OldPurchaseRewardPercent(ctx context.Context) (v int32, err error) {
+func (m *AgencySettingMutation) OldTotalPurchaseRewardPercent(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldPurchaseRewardPercent is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldTotalPurchaseRewardPercent is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldPurchaseRewardPercent requires an ID field in the mutation")
+		return v, fmt.Errorf("OldTotalPurchaseRewardPercent requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPurchaseRewardPercent: %w", err)
+		return v, fmt.Errorf("querying old value for OldTotalPurchaseRewardPercent: %w", err)
 	}
-	return oldValue.PurchaseRewardPercent, nil
+	return oldValue.TotalPurchaseRewardPercent, nil
 }
 
-// AddPurchaseRewardPercent adds i to the "purchase_reward_percent" field.
-func (m *AgencySettingMutation) AddPurchaseRewardPercent(i int32) {
-	if m.addpurchase_reward_percent != nil {
-		*m.addpurchase_reward_percent += i
+// AddTotalPurchaseRewardPercent adds i to the "total_purchase_reward_percent" field.
+func (m *AgencySettingMutation) AddTotalPurchaseRewardPercent(i int32) {
+	if m.addtotal_purchase_reward_percent != nil {
+		*m.addtotal_purchase_reward_percent += i
 	} else {
-		m.addpurchase_reward_percent = &i
+		m.addtotal_purchase_reward_percent = &i
 	}
 }
 
-// AddedPurchaseRewardPercent returns the value that was added to the "purchase_reward_percent" field in this mutation.
-func (m *AgencySettingMutation) AddedPurchaseRewardPercent() (r int32, exists bool) {
-	v := m.addpurchase_reward_percent
+// AddedTotalPurchaseRewardPercent returns the value that was added to the "total_purchase_reward_percent" field in this mutation.
+func (m *AgencySettingMutation) AddedTotalPurchaseRewardPercent() (r int32, exists bool) {
+	v := m.addtotal_purchase_reward_percent
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetPurchaseRewardPercent resets all changes to the "purchase_reward_percent" field.
-func (m *AgencySettingMutation) ResetPurchaseRewardPercent() {
-	m.purchase_reward_percent = nil
-	m.addpurchase_reward_percent = nil
+// ResetTotalPurchaseRewardPercent resets all changes to the "total_purchase_reward_percent" field.
+func (m *AgencySettingMutation) ResetTotalPurchaseRewardPercent() {
+	m.total_purchase_reward_percent = nil
+	m.addtotal_purchase_reward_percent = nil
 }
 
 // SetPurchaseRewardChainLevels sets the "purchase_reward_chain_levels" field.
@@ -484,6 +486,62 @@ func (m *AgencySettingMutation) AddedPurchaseRewardChainLevels() (r int32, exist
 func (m *AgencySettingMutation) ResetPurchaseRewardChainLevels() {
 	m.purchase_reward_chain_levels = nil
 	m.addpurchase_reward_chain_levels = nil
+}
+
+// SetLevelPurchaseRewardPercent sets the "level_purchase_reward_percent" field.
+func (m *AgencySettingMutation) SetLevelPurchaseRewardPercent(i int32) {
+	m.level_purchase_reward_percent = &i
+	m.addlevel_purchase_reward_percent = nil
+}
+
+// LevelPurchaseRewardPercent returns the value of the "level_purchase_reward_percent" field in the mutation.
+func (m *AgencySettingMutation) LevelPurchaseRewardPercent() (r int32, exists bool) {
+	v := m.level_purchase_reward_percent
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLevelPurchaseRewardPercent returns the old "level_purchase_reward_percent" field's value of the AgencySetting entity.
+// If the AgencySetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AgencySettingMutation) OldLevelPurchaseRewardPercent(ctx context.Context) (v int32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldLevelPurchaseRewardPercent is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldLevelPurchaseRewardPercent requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLevelPurchaseRewardPercent: %w", err)
+	}
+	return oldValue.LevelPurchaseRewardPercent, nil
+}
+
+// AddLevelPurchaseRewardPercent adds i to the "level_purchase_reward_percent" field.
+func (m *AgencySettingMutation) AddLevelPurchaseRewardPercent(i int32) {
+	if m.addlevel_purchase_reward_percent != nil {
+		*m.addlevel_purchase_reward_percent += i
+	} else {
+		m.addlevel_purchase_reward_percent = &i
+	}
+}
+
+// AddedLevelPurchaseRewardPercent returns the value that was added to the "level_purchase_reward_percent" field in this mutation.
+func (m *AgencySettingMutation) AddedLevelPurchaseRewardPercent() (r int32, exists bool) {
+	v := m.addlevel_purchase_reward_percent
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetLevelPurchaseRewardPercent resets all changes to the "level_purchase_reward_percent" field.
+func (m *AgencySettingMutation) ResetLevelPurchaseRewardPercent() {
+	m.level_purchase_reward_percent = nil
+	m.addlevel_purchase_reward_percent = nil
 }
 
 // SetCreateAt sets the "create_at" field.
@@ -673,7 +731,7 @@ func (m *AgencySettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AgencySettingMutation) Fields() []string {
-	fields := make([]string, 0, 10)
+	fields := make([]string, 0, 11)
 	if m.app_id != nil {
 		fields = append(fields, agencysetting.FieldAppID)
 	}
@@ -689,11 +747,14 @@ func (m *AgencySettingMutation) Fields() []string {
 	if m.kyc_coupon_id != nil {
 		fields = append(fields, agencysetting.FieldKycCouponID)
 	}
-	if m.purchase_reward_percent != nil {
-		fields = append(fields, agencysetting.FieldPurchaseRewardPercent)
+	if m.total_purchase_reward_percent != nil {
+		fields = append(fields, agencysetting.FieldTotalPurchaseRewardPercent)
 	}
 	if m.purchase_reward_chain_levels != nil {
 		fields = append(fields, agencysetting.FieldPurchaseRewardChainLevels)
+	}
+	if m.level_purchase_reward_percent != nil {
+		fields = append(fields, agencysetting.FieldLevelPurchaseRewardPercent)
 	}
 	if m.create_at != nil {
 		fields = append(fields, agencysetting.FieldCreateAt)
@@ -722,10 +783,12 @@ func (m *AgencySettingMutation) Field(name string) (ent.Value, bool) {
 		return m.KycRewardThreshold()
 	case agencysetting.FieldKycCouponID:
 		return m.KycCouponID()
-	case agencysetting.FieldPurchaseRewardPercent:
-		return m.PurchaseRewardPercent()
+	case agencysetting.FieldTotalPurchaseRewardPercent:
+		return m.TotalPurchaseRewardPercent()
 	case agencysetting.FieldPurchaseRewardChainLevels:
 		return m.PurchaseRewardChainLevels()
+	case agencysetting.FieldLevelPurchaseRewardPercent:
+		return m.LevelPurchaseRewardPercent()
 	case agencysetting.FieldCreateAt:
 		return m.CreateAt()
 	case agencysetting.FieldUpdateAt:
@@ -751,10 +814,12 @@ func (m *AgencySettingMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldKycRewardThreshold(ctx)
 	case agencysetting.FieldKycCouponID:
 		return m.OldKycCouponID(ctx)
-	case agencysetting.FieldPurchaseRewardPercent:
-		return m.OldPurchaseRewardPercent(ctx)
+	case agencysetting.FieldTotalPurchaseRewardPercent:
+		return m.OldTotalPurchaseRewardPercent(ctx)
 	case agencysetting.FieldPurchaseRewardChainLevels:
 		return m.OldPurchaseRewardChainLevels(ctx)
+	case agencysetting.FieldLevelPurchaseRewardPercent:
+		return m.OldLevelPurchaseRewardPercent(ctx)
 	case agencysetting.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case agencysetting.FieldUpdateAt:
@@ -805,12 +870,12 @@ func (m *AgencySettingMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetKycCouponID(v)
 		return nil
-	case agencysetting.FieldPurchaseRewardPercent:
+	case agencysetting.FieldTotalPurchaseRewardPercent:
 		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetPurchaseRewardPercent(v)
+		m.SetTotalPurchaseRewardPercent(v)
 		return nil
 	case agencysetting.FieldPurchaseRewardChainLevels:
 		v, ok := value.(int32)
@@ -818,6 +883,13 @@ func (m *AgencySettingMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPurchaseRewardChainLevels(v)
+		return nil
+	case agencysetting.FieldLevelPurchaseRewardPercent:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLevelPurchaseRewardPercent(v)
 		return nil
 	case agencysetting.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -854,11 +926,14 @@ func (m *AgencySettingMutation) AddedFields() []string {
 	if m.addkyc_reward_threshold != nil {
 		fields = append(fields, agencysetting.FieldKycRewardThreshold)
 	}
-	if m.addpurchase_reward_percent != nil {
-		fields = append(fields, agencysetting.FieldPurchaseRewardPercent)
+	if m.addtotal_purchase_reward_percent != nil {
+		fields = append(fields, agencysetting.FieldTotalPurchaseRewardPercent)
 	}
 	if m.addpurchase_reward_chain_levels != nil {
 		fields = append(fields, agencysetting.FieldPurchaseRewardChainLevels)
+	}
+	if m.addlevel_purchase_reward_percent != nil {
+		fields = append(fields, agencysetting.FieldLevelPurchaseRewardPercent)
 	}
 	if m.addcreate_at != nil {
 		fields = append(fields, agencysetting.FieldCreateAt)
@@ -881,10 +956,12 @@ func (m *AgencySettingMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedRegistrationRewardThreshold()
 	case agencysetting.FieldKycRewardThreshold:
 		return m.AddedKycRewardThreshold()
-	case agencysetting.FieldPurchaseRewardPercent:
-		return m.AddedPurchaseRewardPercent()
+	case agencysetting.FieldTotalPurchaseRewardPercent:
+		return m.AddedTotalPurchaseRewardPercent()
 	case agencysetting.FieldPurchaseRewardChainLevels:
 		return m.AddedPurchaseRewardChainLevels()
+	case agencysetting.FieldLevelPurchaseRewardPercent:
+		return m.AddedLevelPurchaseRewardPercent()
 	case agencysetting.FieldCreateAt:
 		return m.AddedCreateAt()
 	case agencysetting.FieldUpdateAt:
@@ -914,12 +991,12 @@ func (m *AgencySettingMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddKycRewardThreshold(v)
 		return nil
-	case agencysetting.FieldPurchaseRewardPercent:
+	case agencysetting.FieldTotalPurchaseRewardPercent:
 		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddPurchaseRewardPercent(v)
+		m.AddTotalPurchaseRewardPercent(v)
 		return nil
 	case agencysetting.FieldPurchaseRewardChainLevels:
 		v, ok := value.(int32)
@@ -927,6 +1004,13 @@ func (m *AgencySettingMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddPurchaseRewardChainLevels(v)
+		return nil
+	case agencysetting.FieldLevelPurchaseRewardPercent:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddLevelPurchaseRewardPercent(v)
 		return nil
 	case agencysetting.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -991,11 +1075,14 @@ func (m *AgencySettingMutation) ResetField(name string) error {
 	case agencysetting.FieldKycCouponID:
 		m.ResetKycCouponID()
 		return nil
-	case agencysetting.FieldPurchaseRewardPercent:
-		m.ResetPurchaseRewardPercent()
+	case agencysetting.FieldTotalPurchaseRewardPercent:
+		m.ResetTotalPurchaseRewardPercent()
 		return nil
 	case agencysetting.FieldPurchaseRewardChainLevels:
 		m.ResetPurchaseRewardChainLevels()
+		return nil
+	case agencysetting.FieldLevelPurchaseRewardPercent:
+		m.ResetLevelPurchaseRewardPercent()
 		return nil
 	case agencysetting.FieldCreateAt:
 		m.ResetCreateAt()
@@ -3680,22 +3767,23 @@ func (m *CouponPoolMutation) ResetEdge(name string) error {
 // NewUserRewardSettingMutation represents an operation that mutates the NewUserRewardSetting nodes in the graph.
 type NewUserRewardSettingMutation struct {
 	config
-	op                     Op
-	typ                    string
-	id                     *uuid.UUID
-	app_id                 *uuid.UUID
-	registration_coupon_id *uuid.UUID
-	kyc_coupon_id          *uuid.UUID
-	create_at              *uint32
-	addcreate_at           *uint32
-	update_at              *uint32
-	addupdate_at           *uint32
-	delete_at              *uint32
-	adddelete_at           *uint32
-	clearedFields          map[string]struct{}
-	done                   bool
-	oldValue               func(context.Context) (*NewUserRewardSetting, error)
-	predicates             []predicate.NewUserRewardSetting
+	op                            Op
+	typ                           string
+	id                            *uuid.UUID
+	app_id                        *uuid.UUID
+	registration_coupon_id        *uuid.UUID
+	kyc_coupon_id                 *uuid.UUID
+	auto_generate_invitation_code *bool
+	create_at                     *uint32
+	addcreate_at                  *uint32
+	update_at                     *uint32
+	addupdate_at                  *uint32
+	delete_at                     *uint32
+	adddelete_at                  *uint32
+	clearedFields                 map[string]struct{}
+	done                          bool
+	oldValue                      func(context.Context) (*NewUserRewardSetting, error)
+	predicates                    []predicate.NewUserRewardSetting
 }
 
 var _ ent.Mutation = (*NewUserRewardSettingMutation)(nil)
@@ -3891,6 +3979,42 @@ func (m *NewUserRewardSettingMutation) ResetKycCouponID() {
 	m.kyc_coupon_id = nil
 }
 
+// SetAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field.
+func (m *NewUserRewardSettingMutation) SetAutoGenerateInvitationCode(b bool) {
+	m.auto_generate_invitation_code = &b
+}
+
+// AutoGenerateInvitationCode returns the value of the "auto_generate_invitation_code" field in the mutation.
+func (m *NewUserRewardSettingMutation) AutoGenerateInvitationCode() (r bool, exists bool) {
+	v := m.auto_generate_invitation_code
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAutoGenerateInvitationCode returns the old "auto_generate_invitation_code" field's value of the NewUserRewardSetting entity.
+// If the NewUserRewardSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *NewUserRewardSettingMutation) OldAutoGenerateInvitationCode(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAutoGenerateInvitationCode is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAutoGenerateInvitationCode requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAutoGenerateInvitationCode: %w", err)
+	}
+	return oldValue.AutoGenerateInvitationCode, nil
+}
+
+// ResetAutoGenerateInvitationCode resets all changes to the "auto_generate_invitation_code" field.
+func (m *NewUserRewardSettingMutation) ResetAutoGenerateInvitationCode() {
+	m.auto_generate_invitation_code = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *NewUserRewardSettingMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -4078,7 +4202,7 @@ func (m *NewUserRewardSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *NewUserRewardSettingMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 7)
 	if m.app_id != nil {
 		fields = append(fields, newuserrewardsetting.FieldAppID)
 	}
@@ -4087,6 +4211,9 @@ func (m *NewUserRewardSettingMutation) Fields() []string {
 	}
 	if m.kyc_coupon_id != nil {
 		fields = append(fields, newuserrewardsetting.FieldKycCouponID)
+	}
+	if m.auto_generate_invitation_code != nil {
+		fields = append(fields, newuserrewardsetting.FieldAutoGenerateInvitationCode)
 	}
 	if m.create_at != nil {
 		fields = append(fields, newuserrewardsetting.FieldCreateAt)
@@ -4111,6 +4238,8 @@ func (m *NewUserRewardSettingMutation) Field(name string) (ent.Value, bool) {
 		return m.RegistrationCouponID()
 	case newuserrewardsetting.FieldKycCouponID:
 		return m.KycCouponID()
+	case newuserrewardsetting.FieldAutoGenerateInvitationCode:
+		return m.AutoGenerateInvitationCode()
 	case newuserrewardsetting.FieldCreateAt:
 		return m.CreateAt()
 	case newuserrewardsetting.FieldUpdateAt:
@@ -4132,6 +4261,8 @@ func (m *NewUserRewardSettingMutation) OldField(ctx context.Context, name string
 		return m.OldRegistrationCouponID(ctx)
 	case newuserrewardsetting.FieldKycCouponID:
 		return m.OldKycCouponID(ctx)
+	case newuserrewardsetting.FieldAutoGenerateInvitationCode:
+		return m.OldAutoGenerateInvitationCode(ctx)
 	case newuserrewardsetting.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case newuserrewardsetting.FieldUpdateAt:
@@ -4167,6 +4298,13 @@ func (m *NewUserRewardSettingMutation) SetField(name string, value ent.Value) er
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetKycCouponID(v)
+		return nil
+	case newuserrewardsetting.FieldAutoGenerateInvitationCode:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAutoGenerateInvitationCode(v)
 		return nil
 	case newuserrewardsetting.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -4285,6 +4423,9 @@ func (m *NewUserRewardSettingMutation) ResetField(name string) error {
 		return nil
 	case newuserrewardsetting.FieldKycCouponID:
 		m.ResetKycCouponID()
+		return nil
+	case newuserrewardsetting.FieldAutoGenerateInvitationCode:
+		m.ResetAutoGenerateInvitationCode()
 		return nil
 	case newuserrewardsetting.FieldCreateAt:
 		m.ResetCreateAt()

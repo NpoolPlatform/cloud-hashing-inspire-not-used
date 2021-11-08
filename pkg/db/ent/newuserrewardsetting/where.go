@@ -112,6 +112,13 @@ func KycCouponID(v uuid.UUID) predicate.NewUserRewardSetting {
 	})
 }
 
+// AutoGenerateInvitationCode applies equality check predicate on the "auto_generate_invitation_code" field. It's identical to AutoGenerateInvitationCodeEQ.
+func AutoGenerateInvitationCode(v bool) predicate.NewUserRewardSetting {
+	return predicate.NewUserRewardSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAutoGenerateInvitationCode), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.NewUserRewardSetting {
 	return predicate.NewUserRewardSetting(func(s *sql.Selector) {
@@ -358,6 +365,20 @@ func KycCouponIDLT(v uuid.UUID) predicate.NewUserRewardSetting {
 func KycCouponIDLTE(v uuid.UUID) predicate.NewUserRewardSetting {
 	return predicate.NewUserRewardSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldKycCouponID), v))
+	})
+}
+
+// AutoGenerateInvitationCodeEQ applies the EQ predicate on the "auto_generate_invitation_code" field.
+func AutoGenerateInvitationCodeEQ(v bool) predicate.NewUserRewardSetting {
+	return predicate.NewUserRewardSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAutoGenerateInvitationCode), v))
+	})
+}
+
+// AutoGenerateInvitationCodeNEQ applies the NEQ predicate on the "auto_generate_invitation_code" field.
+func AutoGenerateInvitationCodeNEQ(v bool) predicate.NewUserRewardSetting {
+	return predicate.NewUserRewardSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldAutoGenerateInvitationCode), v))
 	})
 }
 

@@ -21,10 +21,12 @@ const (
 	FieldKycRewardThreshold = "kyc_reward_threshold"
 	// FieldKycCouponID holds the string denoting the kyc_coupon_id field in the database.
 	FieldKycCouponID = "kyc_coupon_id"
-	// FieldPurchaseRewardPercent holds the string denoting the purchase_reward_percent field in the database.
-	FieldPurchaseRewardPercent = "purchase_reward_percent"
+	// FieldTotalPurchaseRewardPercent holds the string denoting the total_purchase_reward_percent field in the database.
+	FieldTotalPurchaseRewardPercent = "total_purchase_reward_percent"
 	// FieldPurchaseRewardChainLevels holds the string denoting the purchase_reward_chain_levels field in the database.
 	FieldPurchaseRewardChainLevels = "purchase_reward_chain_levels"
+	// FieldLevelPurchaseRewardPercent holds the string denoting the level_purchase_reward_percent field in the database.
+	FieldLevelPurchaseRewardPercent = "level_purchase_reward_percent"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -43,8 +45,9 @@ var Columns = []string{
 	FieldRegistrationCouponID,
 	FieldKycRewardThreshold,
 	FieldKycCouponID,
-	FieldPurchaseRewardPercent,
+	FieldTotalPurchaseRewardPercent,
 	FieldPurchaseRewardChainLevels,
+	FieldLevelPurchaseRewardPercent,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

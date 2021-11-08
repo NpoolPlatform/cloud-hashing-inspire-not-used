@@ -18,7 +18,7 @@ func validateAgencySetting(info *npool.AgencySetting) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
 		return xerrors.Errorf("invalid app id: %v", err)
 	}
-	if info.GetPurchaseRewardPercent() >= 20 {
+	if info.GetTotalPurchaseRewardPercent() >= 20 {
 		return xerrors.Errorf("too much purchase reward")
 	}
 	return nil
@@ -32,8 +32,9 @@ func dbRowToAgencySetting(row *ent.AgencySetting) *npool.AgencySetting {
 		RegistrationCouponID:        row.RegistrationCouponID.String(),
 		KycRewardThreshold:          row.KycRewardThreshold,
 		KycCouponID:                 row.KycCouponID.String(),
-		PurchaseRewardPercent:       row.PurchaseRewardPercent,
+		TotalPurchaseRewardPercent:  row.TotalPurchaseRewardPercent,
 		PurchaseRewardChainLevels:   row.PurchaseRewardChainLevels,
+		LevelPurchaseRewardPercent:  row.LevelPurchaseRewardPercent,
 	}
 }
 
@@ -50,8 +51,9 @@ func Create(ctx context.Context, in *npool.CreateAgencySettingRequest) (*npool.C
 		SetRegistrationCouponID(uuid.MustParse(in.GetInfo().GetRegistrationCouponID())).
 		SetKycRewardThreshold(in.GetInfo().GetKycRewardThreshold()).
 		SetKycCouponID(uuid.MustParse(in.GetInfo().GetKycCouponID())).
-		SetPurchaseRewardPercent(in.GetInfo().GetPurchaseRewardPercent()).
+		SetTotalPurchaseRewardPercent(in.GetInfo().GetTotalPurchaseRewardPercent()).
 		SetPurchaseRewardChainLevels(in.GetInfo().GetPurchaseRewardChainLevels()).
+		SetLevelPurchaseRewardPercent(in.GetInfo().GetLevelPurchaseRewardPercent()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create agency setting: %v", err)
@@ -133,8 +135,9 @@ func Update(ctx context.Context, in *npool.UpdateAgencySettingRequest) (*npool.U
 		SetRegistrationCouponID(uuid.MustParse(in.GetInfo().GetRegistrationCouponID())).
 		SetKycRewardThreshold(in.GetInfo().GetKycRewardThreshold()).
 		SetKycCouponID(uuid.MustParse(in.GetInfo().GetKycCouponID())).
-		SetPurchaseRewardPercent(in.GetInfo().GetPurchaseRewardPercent()).
+		SetTotalPurchaseRewardPercent(in.GetInfo().GetTotalPurchaseRewardPercent()).
 		SetPurchaseRewardChainLevels(in.GetInfo().GetPurchaseRewardChainLevels()).
+		SetLevelPurchaseRewardPercent(in.GetInfo().GetLevelPurchaseRewardPercent()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update agency setting: %v", err)

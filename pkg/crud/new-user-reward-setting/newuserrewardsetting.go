@@ -29,10 +29,11 @@ func validateNewUserRewardSetting(info *npool.NewUserRewardSetting) error {
 
 func dbRowToNewUserRewardSetting(row *ent.NewUserRewardSetting) *npool.NewUserRewardSetting {
 	return &npool.NewUserRewardSetting{
-		AppID:                row.AppID.String(),
-		RegistrationCouponID: row.RegistrationCouponID.String(),
-		KycCouponID:          row.KycCouponID.String(),
-		ID:                   row.ID.String(),
+		ID:                         row.ID.String(),
+		AppID:                      row.AppID.String(),
+		RegistrationCouponID:       row.RegistrationCouponID.String(),
+		KycCouponID:                row.KycCouponID.String(),
+		AutoGenerateInvitationCode: row.AutoGenerateInvitationCode,
 	}
 }
 
@@ -126,6 +127,7 @@ func Update(ctx context.Context, in *npool.UpdateNewUserRewardSettingRequest) (*
 		UpdateOneID(id).
 		SetRegistrationCouponID(uuid.MustParse(in.GetInfo().GetRegistrationCouponID())).
 		SetKycCouponID(uuid.MustParse(in.GetInfo().GetKycCouponID())).
+		SetAutoGenerateInvitationCode(in.GetInfo().GetAutoGenerateInvitationCode()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update new user reward setting: %v", err)

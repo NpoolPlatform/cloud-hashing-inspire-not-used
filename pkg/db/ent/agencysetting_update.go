@@ -71,16 +71,16 @@ func (asu *AgencySettingUpdate) SetKycCouponID(u uuid.UUID) *AgencySettingUpdate
 	return asu
 }
 
-// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (asu *AgencySettingUpdate) SetPurchaseRewardPercent(i int32) *AgencySettingUpdate {
-	asu.mutation.ResetPurchaseRewardPercent()
-	asu.mutation.SetPurchaseRewardPercent(i)
+// SetTotalPurchaseRewardPercent sets the "total_purchase_reward_percent" field.
+func (asu *AgencySettingUpdate) SetTotalPurchaseRewardPercent(i int32) *AgencySettingUpdate {
+	asu.mutation.ResetTotalPurchaseRewardPercent()
+	asu.mutation.SetTotalPurchaseRewardPercent(i)
 	return asu
 }
 
-// AddPurchaseRewardPercent adds i to the "purchase_reward_percent" field.
-func (asu *AgencySettingUpdate) AddPurchaseRewardPercent(i int32) *AgencySettingUpdate {
-	asu.mutation.AddPurchaseRewardPercent(i)
+// AddTotalPurchaseRewardPercent adds i to the "total_purchase_reward_percent" field.
+func (asu *AgencySettingUpdate) AddTotalPurchaseRewardPercent(i int32) *AgencySettingUpdate {
+	asu.mutation.AddTotalPurchaseRewardPercent(i)
 	return asu
 }
 
@@ -94,6 +94,19 @@ func (asu *AgencySettingUpdate) SetPurchaseRewardChainLevels(i int32) *AgencySet
 // AddPurchaseRewardChainLevels adds i to the "purchase_reward_chain_levels" field.
 func (asu *AgencySettingUpdate) AddPurchaseRewardChainLevels(i int32) *AgencySettingUpdate {
 	asu.mutation.AddPurchaseRewardChainLevels(i)
+	return asu
+}
+
+// SetLevelPurchaseRewardPercent sets the "level_purchase_reward_percent" field.
+func (asu *AgencySettingUpdate) SetLevelPurchaseRewardPercent(i int32) *AgencySettingUpdate {
+	asu.mutation.ResetLevelPurchaseRewardPercent()
+	asu.mutation.SetLevelPurchaseRewardPercent(i)
+	return asu
+}
+
+// AddLevelPurchaseRewardPercent adds i to the "level_purchase_reward_percent" field.
+func (asu *AgencySettingUpdate) AddLevelPurchaseRewardPercent(i int32) *AgencySettingUpdate {
+	asu.mutation.AddLevelPurchaseRewardPercent(i)
 	return asu
 }
 
@@ -287,18 +300,18 @@ func (asu *AgencySettingUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Column: agencysetting.FieldKycCouponID,
 		})
 	}
-	if value, ok := asu.mutation.PurchaseRewardPercent(); ok {
+	if value, ok := asu.mutation.TotalPurchaseRewardPercent(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt32,
 			Value:  value,
-			Column: agencysetting.FieldPurchaseRewardPercent,
+			Column: agencysetting.FieldTotalPurchaseRewardPercent,
 		})
 	}
-	if value, ok := asu.mutation.AddedPurchaseRewardPercent(); ok {
+	if value, ok := asu.mutation.AddedTotalPurchaseRewardPercent(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt32,
 			Value:  value,
-			Column: agencysetting.FieldPurchaseRewardPercent,
+			Column: agencysetting.FieldTotalPurchaseRewardPercent,
 		})
 	}
 	if value, ok := asu.mutation.PurchaseRewardChainLevels(); ok {
@@ -313,6 +326,20 @@ func (asu *AgencySettingUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardChainLevels,
+		})
+	}
+	if value, ok := asu.mutation.LevelPurchaseRewardPercent(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt32,
+			Value:  value,
+			Column: agencysetting.FieldLevelPurchaseRewardPercent,
+		})
+	}
+	if value, ok := asu.mutation.AddedLevelPurchaseRewardPercent(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt32,
+			Value:  value,
+			Column: agencysetting.FieldLevelPurchaseRewardPercent,
 		})
 	}
 	if value, ok := asu.mutation.CreateAt(); ok {
@@ -420,16 +447,16 @@ func (asuo *AgencySettingUpdateOne) SetKycCouponID(u uuid.UUID) *AgencySettingUp
 	return asuo
 }
 
-// SetPurchaseRewardPercent sets the "purchase_reward_percent" field.
-func (asuo *AgencySettingUpdateOne) SetPurchaseRewardPercent(i int32) *AgencySettingUpdateOne {
-	asuo.mutation.ResetPurchaseRewardPercent()
-	asuo.mutation.SetPurchaseRewardPercent(i)
+// SetTotalPurchaseRewardPercent sets the "total_purchase_reward_percent" field.
+func (asuo *AgencySettingUpdateOne) SetTotalPurchaseRewardPercent(i int32) *AgencySettingUpdateOne {
+	asuo.mutation.ResetTotalPurchaseRewardPercent()
+	asuo.mutation.SetTotalPurchaseRewardPercent(i)
 	return asuo
 }
 
-// AddPurchaseRewardPercent adds i to the "purchase_reward_percent" field.
-func (asuo *AgencySettingUpdateOne) AddPurchaseRewardPercent(i int32) *AgencySettingUpdateOne {
-	asuo.mutation.AddPurchaseRewardPercent(i)
+// AddTotalPurchaseRewardPercent adds i to the "total_purchase_reward_percent" field.
+func (asuo *AgencySettingUpdateOne) AddTotalPurchaseRewardPercent(i int32) *AgencySettingUpdateOne {
+	asuo.mutation.AddTotalPurchaseRewardPercent(i)
 	return asuo
 }
 
@@ -443,6 +470,19 @@ func (asuo *AgencySettingUpdateOne) SetPurchaseRewardChainLevels(i int32) *Agenc
 // AddPurchaseRewardChainLevels adds i to the "purchase_reward_chain_levels" field.
 func (asuo *AgencySettingUpdateOne) AddPurchaseRewardChainLevels(i int32) *AgencySettingUpdateOne {
 	asuo.mutation.AddPurchaseRewardChainLevels(i)
+	return asuo
+}
+
+// SetLevelPurchaseRewardPercent sets the "level_purchase_reward_percent" field.
+func (asuo *AgencySettingUpdateOne) SetLevelPurchaseRewardPercent(i int32) *AgencySettingUpdateOne {
+	asuo.mutation.ResetLevelPurchaseRewardPercent()
+	asuo.mutation.SetLevelPurchaseRewardPercent(i)
+	return asuo
+}
+
+// AddLevelPurchaseRewardPercent adds i to the "level_purchase_reward_percent" field.
+func (asuo *AgencySettingUpdateOne) AddLevelPurchaseRewardPercent(i int32) *AgencySettingUpdateOne {
+	asuo.mutation.AddLevelPurchaseRewardPercent(i)
 	return asuo
 }
 
@@ -660,18 +700,18 @@ func (asuo *AgencySettingUpdateOne) sqlSave(ctx context.Context) (_node *AgencyS
 			Column: agencysetting.FieldKycCouponID,
 		})
 	}
-	if value, ok := asuo.mutation.PurchaseRewardPercent(); ok {
+	if value, ok := asuo.mutation.TotalPurchaseRewardPercent(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt32,
 			Value:  value,
-			Column: agencysetting.FieldPurchaseRewardPercent,
+			Column: agencysetting.FieldTotalPurchaseRewardPercent,
 		})
 	}
-	if value, ok := asuo.mutation.AddedPurchaseRewardPercent(); ok {
+	if value, ok := asuo.mutation.AddedTotalPurchaseRewardPercent(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt32,
 			Value:  value,
-			Column: agencysetting.FieldPurchaseRewardPercent,
+			Column: agencysetting.FieldTotalPurchaseRewardPercent,
 		})
 	}
 	if value, ok := asuo.mutation.PurchaseRewardChainLevels(); ok {
@@ -686,6 +726,20 @@ func (asuo *AgencySettingUpdateOne) sqlSave(ctx context.Context) (_node *AgencyS
 			Type:   field.TypeInt32,
 			Value:  value,
 			Column: agencysetting.FieldPurchaseRewardChainLevels,
+		})
+	}
+	if value, ok := asuo.mutation.LevelPurchaseRewardPercent(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt32,
+			Value:  value,
+			Column: agencysetting.FieldLevelPurchaseRewardPercent,
+		})
+	}
+	if value, ok := asuo.mutation.AddedLevelPurchaseRewardPercent(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt32,
+			Value:  value,
+			Column: agencysetting.FieldLevelPurchaseRewardPercent,
 		})
 	}
 	if value, ok := asuo.mutation.CreateAt(); ok {

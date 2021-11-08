@@ -30,8 +30,9 @@ func assertAgencySetting(t *testing.T, actual, expected *npool.AgencySetting) {
 	assert.Equal(t, actual.RegistrationCouponID, expected.RegistrationCouponID)
 	assert.Equal(t, actual.KycRewardThreshold, expected.KycRewardThreshold)
 	assert.Equal(t, actual.KycCouponID, expected.KycCouponID)
-	assert.Equal(t, actual.PurchaseRewardPercent, expected.PurchaseRewardPercent)
+	assert.Equal(t, actual.TotalPurchaseRewardPercent, expected.TotalPurchaseRewardPercent)
 	assert.Equal(t, actual.PurchaseRewardChainLevels, expected.PurchaseRewardChainLevels)
+	assert.Equal(t, actual.LevelPurchaseRewardPercent, expected.LevelPurchaseRewardPercent)
 }
 
 func TestCRUD(t *testing.T) {
@@ -40,8 +41,9 @@ func TestCRUD(t *testing.T) {
 		RegistrationCouponID:        uuid.New().String(),
 		KycRewardThreshold:          5,
 		KycCouponID:                 uuid.New().String(),
-		PurchaseRewardPercent:       19,
+		TotalPurchaseRewardPercent:  19,
 		PurchaseRewardChainLevels:   2,
+		LevelPurchaseRewardPercent:  5,
 		AppID:                       uuid.New().String(),
 	}
 

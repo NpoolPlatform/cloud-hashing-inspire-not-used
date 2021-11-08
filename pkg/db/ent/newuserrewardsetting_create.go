@@ -41,6 +41,20 @@ func (nursc *NewUserRewardSettingCreate) SetKycCouponID(u uuid.UUID) *NewUserRew
 	return nursc
 }
 
+// SetAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field.
+func (nursc *NewUserRewardSettingCreate) SetAutoGenerateInvitationCode(b bool) *NewUserRewardSettingCreate {
+	nursc.mutation.SetAutoGenerateInvitationCode(b)
+	return nursc
+}
+
+// SetNillableAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field if the given value is not nil.
+func (nursc *NewUserRewardSettingCreate) SetNillableAutoGenerateInvitationCode(b *bool) *NewUserRewardSettingCreate {
+	if b != nil {
+		nursc.SetAutoGenerateInvitationCode(*b)
+	}
+	return nursc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (nursc *NewUserRewardSettingCreate) SetCreateAt(u uint32) *NewUserRewardSettingCreate {
 	nursc.mutation.SetCreateAt(u)
@@ -160,6 +174,10 @@ func (nursc *NewUserRewardSettingCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (nursc *NewUserRewardSettingCreate) defaults() {
+	if _, ok := nursc.mutation.AutoGenerateInvitationCode(); !ok {
+		v := newuserrewardsetting.DefaultAutoGenerateInvitationCode
+		nursc.mutation.SetAutoGenerateInvitationCode(v)
+	}
 	if _, ok := nursc.mutation.CreateAt(); !ok {
 		v := newuserrewardsetting.DefaultCreateAt()
 		nursc.mutation.SetCreateAt(v)
@@ -188,6 +206,9 @@ func (nursc *NewUserRewardSettingCreate) check() error {
 	}
 	if _, ok := nursc.mutation.KycCouponID(); !ok {
 		return &ValidationError{Name: "kyc_coupon_id", err: errors.New(`ent: missing required field "kyc_coupon_id"`)}
+	}
+	if _, ok := nursc.mutation.AutoGenerateInvitationCode(); !ok {
+		return &ValidationError{Name: "auto_generate_invitation_code", err: errors.New(`ent: missing required field "auto_generate_invitation_code"`)}
 	}
 	if _, ok := nursc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
@@ -254,6 +275,14 @@ func (nursc *NewUserRewardSettingCreate) createSpec() (*NewUserRewardSetting, *s
 			Column: newuserrewardsetting.FieldKycCouponID,
 		})
 		_node.KycCouponID = value
+	}
+	if value, ok := nursc.mutation.AutoGenerateInvitationCode(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: newuserrewardsetting.FieldAutoGenerateInvitationCode,
+		})
+		_node.AutoGenerateInvitationCode = value
 	}
 	if value, ok := nursc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -366,6 +395,18 @@ func (u *NewUserRewardSettingUpsert) SetKycCouponID(v uuid.UUID) *NewUserRewardS
 // UpdateKycCouponID sets the "kyc_coupon_id" field to the value that was provided on create.
 func (u *NewUserRewardSettingUpsert) UpdateKycCouponID() *NewUserRewardSettingUpsert {
 	u.SetExcluded(newuserrewardsetting.FieldKycCouponID)
+	return u
+}
+
+// SetAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field.
+func (u *NewUserRewardSettingUpsert) SetAutoGenerateInvitationCode(v bool) *NewUserRewardSettingUpsert {
+	u.Set(newuserrewardsetting.FieldAutoGenerateInvitationCode, v)
+	return u
+}
+
+// UpdateAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field to the value that was provided on create.
+func (u *NewUserRewardSettingUpsert) UpdateAutoGenerateInvitationCode() *NewUserRewardSettingUpsert {
+	u.SetExcluded(newuserrewardsetting.FieldAutoGenerateInvitationCode)
 	return u
 }
 
@@ -494,6 +535,20 @@ func (u *NewUserRewardSettingUpsertOne) SetKycCouponID(v uuid.UUID) *NewUserRewa
 func (u *NewUserRewardSettingUpsertOne) UpdateKycCouponID() *NewUserRewardSettingUpsertOne {
 	return u.Update(func(s *NewUserRewardSettingUpsert) {
 		s.UpdateKycCouponID()
+	})
+}
+
+// SetAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field.
+func (u *NewUserRewardSettingUpsertOne) SetAutoGenerateInvitationCode(v bool) *NewUserRewardSettingUpsertOne {
+	return u.Update(func(s *NewUserRewardSettingUpsert) {
+		s.SetAutoGenerateInvitationCode(v)
+	})
+}
+
+// UpdateAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field to the value that was provided on create.
+func (u *NewUserRewardSettingUpsertOne) UpdateAutoGenerateInvitationCode() *NewUserRewardSettingUpsertOne {
+	return u.Update(func(s *NewUserRewardSettingUpsert) {
+		s.UpdateAutoGenerateInvitationCode()
 	})
 }
 
@@ -794,6 +849,20 @@ func (u *NewUserRewardSettingUpsertBulk) SetKycCouponID(v uuid.UUID) *NewUserRew
 func (u *NewUserRewardSettingUpsertBulk) UpdateKycCouponID() *NewUserRewardSettingUpsertBulk {
 	return u.Update(func(s *NewUserRewardSettingUpsert) {
 		s.UpdateKycCouponID()
+	})
+}
+
+// SetAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field.
+func (u *NewUserRewardSettingUpsertBulk) SetAutoGenerateInvitationCode(v bool) *NewUserRewardSettingUpsertBulk {
+	return u.Update(func(s *NewUserRewardSettingUpsert) {
+		s.SetAutoGenerateInvitationCode(v)
+	})
+}
+
+// UpdateAutoGenerateInvitationCode sets the "auto_generate_invitation_code" field to the value that was provided on create.
+func (u *NewUserRewardSettingUpsertBulk) UpdateAutoGenerateInvitationCode() *NewUserRewardSettingUpsertBulk {
+	return u.Update(func(s *NewUserRewardSettingUpsert) {
+		s.UpdateAutoGenerateInvitationCode()
 	})
 }
 
