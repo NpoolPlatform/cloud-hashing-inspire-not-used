@@ -40,7 +40,19 @@ var (
 	}
 	// CouponPoolsColumns holds the columns for the "coupon_pools" table.
 	CouponPoolsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "denomination", Type: field.TypeUint64},
+		{Name: "ciculation", Type: field.TypeInt},
+		{Name: "used", Type: field.TypeInt, Default: 0},
+		{Name: "release_by_user_id", Type: field.TypeUUID},
+		{Name: "start", Type: field.TypeUint32},
+		{Name: "duration_days", Type: field.TypeInt},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "message", Type: field.TypeString, Size: 512},
+		{Name: "name", Type: field.TypeString, Unique: true, Size: 64},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
 	}
 	// CouponPoolsTable holds the schema information for the "coupon_pools" table.
 	CouponPoolsTable = &schema.Table{

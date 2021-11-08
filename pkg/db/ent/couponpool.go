@@ -8,13 +8,38 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
+	"github.com/google/uuid"
 )
 
 // CouponPool is the model entity for the CouponPool schema.
 type CouponPool struct {
-	config
+	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uuid.UUID `json:"id,omitempty"`
+	// Denomination holds the value of the "denomination" field.
+	Denomination uint64 `json:"denomination,omitempty"`
+	// Ciculation holds the value of the "ciculation" field.
+	Ciculation int `json:"ciculation,omitempty"`
+	// Used holds the value of the "used" field.
+	Used int `json:"used,omitempty"`
+	// ReleaseByUserID holds the value of the "release_by_user_id" field.
+	ReleaseByUserID uuid.UUID `json:"release_by_user_id,omitempty"`
+	// Start holds the value of the "start" field.
+	Start uint32 `json:"start,omitempty"`
+	// DurationDays holds the value of the "duration_days" field.
+	DurationDays int `json:"duration_days,omitempty"`
+	// AppID holds the value of the "app_id" field.
+	AppID uuid.UUID `json:"app_id,omitempty"`
+	// Message holds the value of the "message" field.
+	Message string `json:"message,omitempty"`
+	// Name holds the value of the "name" field.
+	Name string `json:"name,omitempty"`
+	// CreateAt holds the value of the "create_at" field.
+	CreateAt uint32 `json:"create_at,omitempty"`
+	// UpdateAt holds the value of the "update_at" field.
+	UpdateAt uint32 `json:"update_at,omitempty"`
+	// DeleteAt holds the value of the "delete_at" field.
+	DeleteAt uint32 `json:"delete_at,omitempty"`
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -22,8 +47,12 @@ func (*CouponPool) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case couponpool.FieldID:
+		case couponpool.FieldDenomination, couponpool.FieldCiculation, couponpool.FieldUsed, couponpool.FieldStart, couponpool.FieldDurationDays, couponpool.FieldCreateAt, couponpool.FieldUpdateAt, couponpool.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
+		case couponpool.FieldMessage, couponpool.FieldName:
+			values[i] = new(sql.NullString)
+		case couponpool.FieldID, couponpool.FieldReleaseByUserID, couponpool.FieldAppID:
+			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CouponPool", columns[i])
 		}
@@ -40,11 +69,83 @@ func (cp *CouponPool) assignValues(columns []string, values []interface{}) error
 	for i := range columns {
 		switch columns[i] {
 		case couponpool.FieldID:
-			value, ok := values[i].(*sql.NullInt64)
-			if !ok {
-				return fmt.Errorf("unexpected type %T for field id", value)
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field id", values[i])
+			} else if value != nil {
+				cp.ID = *value
 			}
-			cp.ID = int(value.Int64)
+		case couponpool.FieldDenomination:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field denomination", values[i])
+			} else if value.Valid {
+				cp.Denomination = uint64(value.Int64)
+			}
+		case couponpool.FieldCiculation:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field ciculation", values[i])
+			} else if value.Valid {
+				cp.Ciculation = int(value.Int64)
+			}
+		case couponpool.FieldUsed:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field used", values[i])
+			} else if value.Valid {
+				cp.Used = int(value.Int64)
+			}
+		case couponpool.FieldReleaseByUserID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field release_by_user_id", values[i])
+			} else if value != nil {
+				cp.ReleaseByUserID = *value
+			}
+		case couponpool.FieldStart:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field start", values[i])
+			} else if value.Valid {
+				cp.Start = uint32(value.Int64)
+			}
+		case couponpool.FieldDurationDays:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field duration_days", values[i])
+			} else if value.Valid {
+				cp.DurationDays = int(value.Int64)
+			}
+		case couponpool.FieldAppID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field app_id", values[i])
+			} else if value != nil {
+				cp.AppID = *value
+			}
+		case couponpool.FieldMessage:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field message", values[i])
+			} else if value.Valid {
+				cp.Message = value.String
+			}
+		case couponpool.FieldName:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field name", values[i])
+			} else if value.Valid {
+				cp.Name = value.String
+			}
+		case couponpool.FieldCreateAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field create_at", values[i])
+			} else if value.Valid {
+				cp.CreateAt = uint32(value.Int64)
+			}
+		case couponpool.FieldUpdateAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field update_at", values[i])
+			} else if value.Valid {
+				cp.UpdateAt = uint32(value.Int64)
+			}
+		case couponpool.FieldDeleteAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field delete_at", values[i])
+			} else if value.Valid {
+				cp.DeleteAt = uint32(value.Int64)
+			}
 		}
 	}
 	return nil
@@ -73,6 +174,30 @@ func (cp *CouponPool) String() string {
 	var builder strings.Builder
 	builder.WriteString("CouponPool(")
 	builder.WriteString(fmt.Sprintf("id=%v", cp.ID))
+	builder.WriteString(", denomination=")
+	builder.WriteString(fmt.Sprintf("%v", cp.Denomination))
+	builder.WriteString(", ciculation=")
+	builder.WriteString(fmt.Sprintf("%v", cp.Ciculation))
+	builder.WriteString(", used=")
+	builder.WriteString(fmt.Sprintf("%v", cp.Used))
+	builder.WriteString(", release_by_user_id=")
+	builder.WriteString(fmt.Sprintf("%v", cp.ReleaseByUserID))
+	builder.WriteString(", start=")
+	builder.WriteString(fmt.Sprintf("%v", cp.Start))
+	builder.WriteString(", duration_days=")
+	builder.WriteString(fmt.Sprintf("%v", cp.DurationDays))
+	builder.WriteString(", app_id=")
+	builder.WriteString(fmt.Sprintf("%v", cp.AppID))
+	builder.WriteString(", message=")
+	builder.WriteString(cp.Message)
+	builder.WriteString(", name=")
+	builder.WriteString(cp.Name)
+	builder.WriteString(", create_at=")
+	builder.WriteString(fmt.Sprintf("%v", cp.CreateAt))
+	builder.WriteString(", update_at=")
+	builder.WriteString(fmt.Sprintf("%v", cp.UpdateAt))
+	builder.WriteString(", delete_at=")
+	builder.WriteString(fmt.Sprintf("%v", cp.DeleteAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -72,7 +72,7 @@ func (cpd *CouponPoolDelete) sqlExec(ctx context.Context) (int, error) {
 		Node: &sqlgraph.NodeSpec{
 			Table: couponpool.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: couponpool.FieldID,
 			},
 		},

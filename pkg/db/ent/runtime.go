@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/schema"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
 	"github.com/google/uuid"
@@ -12,6 +13,38 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	couponpoolFields := schema.CouponPool{}.Fields()
+	_ = couponpoolFields
+	// couponpoolDescUsed is the schema descriptor for used field.
+	couponpoolDescUsed := couponpoolFields[3].Descriptor()
+	// couponpool.DefaultUsed holds the default value on creation for the used field.
+	couponpool.DefaultUsed = couponpoolDescUsed.Default.(int)
+	// couponpoolDescMessage is the schema descriptor for message field.
+	couponpoolDescMessage := couponpoolFields[8].Descriptor()
+	// couponpool.MessageValidator is a validator for the "message" field. It is called by the builders before save.
+	couponpool.MessageValidator = couponpoolDescMessage.Validators[0].(func(string) error)
+	// couponpoolDescName is the schema descriptor for name field.
+	couponpoolDescName := couponpoolFields[9].Descriptor()
+	// couponpool.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	couponpool.NameValidator = couponpoolDescName.Validators[0].(func(string) error)
+	// couponpoolDescCreateAt is the schema descriptor for create_at field.
+	couponpoolDescCreateAt := couponpoolFields[10].Descriptor()
+	// couponpool.DefaultCreateAt holds the default value on creation for the create_at field.
+	couponpool.DefaultCreateAt = couponpoolDescCreateAt.Default.(func() uint32)
+	// couponpoolDescUpdateAt is the schema descriptor for update_at field.
+	couponpoolDescUpdateAt := couponpoolFields[11].Descriptor()
+	// couponpool.DefaultUpdateAt holds the default value on creation for the update_at field.
+	couponpool.DefaultUpdateAt = couponpoolDescUpdateAt.Default.(func() uint32)
+	// couponpool.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	couponpool.UpdateDefaultUpdateAt = couponpoolDescUpdateAt.UpdateDefault.(func() uint32)
+	// couponpoolDescDeleteAt is the schema descriptor for delete_at field.
+	couponpoolDescDeleteAt := couponpoolFields[12].Descriptor()
+	// couponpool.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	couponpool.DefaultDeleteAt = couponpoolDescDeleteAt.Default.(func() uint32)
+	// couponpoolDescID is the schema descriptor for id field.
+	couponpoolDescID := couponpoolFields[0].Descriptor()
+	// couponpool.DefaultID holds the default value on creation for the id field.
+	couponpool.DefaultID = couponpoolDescID.Default.(func() uuid.UUID)
 	userinvitationcodeFields := schema.UserInvitationCode{}.Fields()
 	_ = userinvitationcodeFields
 	// userinvitationcodeDescCreateAt is the schema descriptor for create_at field.

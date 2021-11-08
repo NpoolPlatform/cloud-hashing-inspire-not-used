@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // CouponPoolUpdate is the builder for updating CouponPool entities.
@@ -26,6 +27,158 @@ func (cpu *CouponPoolUpdate) Where(ps ...predicate.CouponPool) *CouponPoolUpdate
 	return cpu
 }
 
+// SetDenomination sets the "denomination" field.
+func (cpu *CouponPoolUpdate) SetDenomination(u uint64) *CouponPoolUpdate {
+	cpu.mutation.ResetDenomination()
+	cpu.mutation.SetDenomination(u)
+	return cpu
+}
+
+// AddDenomination adds u to the "denomination" field.
+func (cpu *CouponPoolUpdate) AddDenomination(u uint64) *CouponPoolUpdate {
+	cpu.mutation.AddDenomination(u)
+	return cpu
+}
+
+// SetCiculation sets the "ciculation" field.
+func (cpu *CouponPoolUpdate) SetCiculation(i int) *CouponPoolUpdate {
+	cpu.mutation.ResetCiculation()
+	cpu.mutation.SetCiculation(i)
+	return cpu
+}
+
+// AddCiculation adds i to the "ciculation" field.
+func (cpu *CouponPoolUpdate) AddCiculation(i int) *CouponPoolUpdate {
+	cpu.mutation.AddCiculation(i)
+	return cpu
+}
+
+// SetUsed sets the "used" field.
+func (cpu *CouponPoolUpdate) SetUsed(i int) *CouponPoolUpdate {
+	cpu.mutation.ResetUsed()
+	cpu.mutation.SetUsed(i)
+	return cpu
+}
+
+// SetNillableUsed sets the "used" field if the given value is not nil.
+func (cpu *CouponPoolUpdate) SetNillableUsed(i *int) *CouponPoolUpdate {
+	if i != nil {
+		cpu.SetUsed(*i)
+	}
+	return cpu
+}
+
+// AddUsed adds i to the "used" field.
+func (cpu *CouponPoolUpdate) AddUsed(i int) *CouponPoolUpdate {
+	cpu.mutation.AddUsed(i)
+	return cpu
+}
+
+// SetReleaseByUserID sets the "release_by_user_id" field.
+func (cpu *CouponPoolUpdate) SetReleaseByUserID(u uuid.UUID) *CouponPoolUpdate {
+	cpu.mutation.SetReleaseByUserID(u)
+	return cpu
+}
+
+// SetStart sets the "start" field.
+func (cpu *CouponPoolUpdate) SetStart(u uint32) *CouponPoolUpdate {
+	cpu.mutation.ResetStart()
+	cpu.mutation.SetStart(u)
+	return cpu
+}
+
+// AddStart adds u to the "start" field.
+func (cpu *CouponPoolUpdate) AddStart(u uint32) *CouponPoolUpdate {
+	cpu.mutation.AddStart(u)
+	return cpu
+}
+
+// SetDurationDays sets the "duration_days" field.
+func (cpu *CouponPoolUpdate) SetDurationDays(i int) *CouponPoolUpdate {
+	cpu.mutation.ResetDurationDays()
+	cpu.mutation.SetDurationDays(i)
+	return cpu
+}
+
+// AddDurationDays adds i to the "duration_days" field.
+func (cpu *CouponPoolUpdate) AddDurationDays(i int) *CouponPoolUpdate {
+	cpu.mutation.AddDurationDays(i)
+	return cpu
+}
+
+// SetAppID sets the "app_id" field.
+func (cpu *CouponPoolUpdate) SetAppID(u uuid.UUID) *CouponPoolUpdate {
+	cpu.mutation.SetAppID(u)
+	return cpu
+}
+
+// SetMessage sets the "message" field.
+func (cpu *CouponPoolUpdate) SetMessage(s string) *CouponPoolUpdate {
+	cpu.mutation.SetMessage(s)
+	return cpu
+}
+
+// SetName sets the "name" field.
+func (cpu *CouponPoolUpdate) SetName(s string) *CouponPoolUpdate {
+	cpu.mutation.SetName(s)
+	return cpu
+}
+
+// SetCreateAt sets the "create_at" field.
+func (cpu *CouponPoolUpdate) SetCreateAt(u uint32) *CouponPoolUpdate {
+	cpu.mutation.ResetCreateAt()
+	cpu.mutation.SetCreateAt(u)
+	return cpu
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (cpu *CouponPoolUpdate) SetNillableCreateAt(u *uint32) *CouponPoolUpdate {
+	if u != nil {
+		cpu.SetCreateAt(*u)
+	}
+	return cpu
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (cpu *CouponPoolUpdate) AddCreateAt(u uint32) *CouponPoolUpdate {
+	cpu.mutation.AddCreateAt(u)
+	return cpu
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (cpu *CouponPoolUpdate) SetUpdateAt(u uint32) *CouponPoolUpdate {
+	cpu.mutation.ResetUpdateAt()
+	cpu.mutation.SetUpdateAt(u)
+	return cpu
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (cpu *CouponPoolUpdate) AddUpdateAt(u uint32) *CouponPoolUpdate {
+	cpu.mutation.AddUpdateAt(u)
+	return cpu
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (cpu *CouponPoolUpdate) SetDeleteAt(u uint32) *CouponPoolUpdate {
+	cpu.mutation.ResetDeleteAt()
+	cpu.mutation.SetDeleteAt(u)
+	return cpu
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (cpu *CouponPoolUpdate) SetNillableDeleteAt(u *uint32) *CouponPoolUpdate {
+	if u != nil {
+		cpu.SetDeleteAt(*u)
+	}
+	return cpu
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (cpu *CouponPoolUpdate) AddDeleteAt(u uint32) *CouponPoolUpdate {
+	cpu.mutation.AddDeleteAt(u)
+	return cpu
+}
+
 // Mutation returns the CouponPoolMutation object of the builder.
 func (cpu *CouponPoolUpdate) Mutation() *CouponPoolMutation {
 	return cpu.mutation
@@ -37,13 +190,20 @@ func (cpu *CouponPoolUpdate) Save(ctx context.Context) (int, error) {
 		err      error
 		affected int
 	)
+	cpu.defaults()
 	if len(cpu.hooks) == 0 {
+		if err = cpu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = cpu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*CouponPoolMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = cpu.check(); err != nil {
+				return 0, err
 			}
 			cpu.mutation = mutation
 			affected, err = cpu.sqlSave(ctx)
@@ -85,13 +245,36 @@ func (cpu *CouponPoolUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (cpu *CouponPoolUpdate) defaults() {
+	if _, ok := cpu.mutation.UpdateAt(); !ok {
+		v := couponpool.UpdateDefaultUpdateAt()
+		cpu.mutation.SetUpdateAt(v)
+	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (cpu *CouponPoolUpdate) check() error {
+	if v, ok := cpu.mutation.Message(); ok {
+		if err := couponpool.MessageValidator(v); err != nil {
+			return &ValidationError{Name: "message", err: fmt.Errorf("ent: validator failed for field \"message\": %w", err)}
+		}
+	}
+	if v, ok := cpu.mutation.Name(); ok {
+		if err := couponpool.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf("ent: validator failed for field \"name\": %w", err)}
+		}
+	}
+	return nil
+}
+
 func (cpu *CouponPoolUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   couponpool.Table,
 			Columns: couponpool.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: couponpool.FieldID,
 			},
 		},
@@ -102,6 +285,146 @@ func (cpu *CouponPoolUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := cpu.mutation.Denomination(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: couponpool.FieldDenomination,
+		})
+	}
+	if value, ok := cpu.mutation.AddedDenomination(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: couponpool.FieldDenomination,
+		})
+	}
+	if value, ok := cpu.mutation.Ciculation(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldCiculation,
+		})
+	}
+	if value, ok := cpu.mutation.AddedCiculation(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldCiculation,
+		})
+	}
+	if value, ok := cpu.mutation.Used(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldUsed,
+		})
+	}
+	if value, ok := cpu.mutation.AddedUsed(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldUsed,
+		})
+	}
+	if value, ok := cpu.mutation.ReleaseByUserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponpool.FieldReleaseByUserID,
+		})
+	}
+	if value, ok := cpu.mutation.Start(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldStart,
+		})
+	}
+	if value, ok := cpu.mutation.AddedStart(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldStart,
+		})
+	}
+	if value, ok := cpu.mutation.DurationDays(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldDurationDays,
+		})
+	}
+	if value, ok := cpu.mutation.AddedDurationDays(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldDurationDays,
+		})
+	}
+	if value, ok := cpu.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponpool.FieldAppID,
+		})
+	}
+	if value, ok := cpu.mutation.Message(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: couponpool.FieldMessage,
+		})
+	}
+	if value, ok := cpu.mutation.Name(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: couponpool.FieldName,
+		})
+	}
+	if value, ok := cpu.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldCreateAt,
+		})
+	}
+	if value, ok := cpu.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldCreateAt,
+		})
+	}
+	if value, ok := cpu.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldUpdateAt,
+		})
+	}
+	if value, ok := cpu.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldUpdateAt,
+		})
+	}
+	if value, ok := cpu.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldDeleteAt,
+		})
+	}
+	if value, ok := cpu.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldDeleteAt,
+		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cpu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -122,6 +445,158 @@ type CouponPoolUpdateOne struct {
 	mutation *CouponPoolMutation
 }
 
+// SetDenomination sets the "denomination" field.
+func (cpuo *CouponPoolUpdateOne) SetDenomination(u uint64) *CouponPoolUpdateOne {
+	cpuo.mutation.ResetDenomination()
+	cpuo.mutation.SetDenomination(u)
+	return cpuo
+}
+
+// AddDenomination adds u to the "denomination" field.
+func (cpuo *CouponPoolUpdateOne) AddDenomination(u uint64) *CouponPoolUpdateOne {
+	cpuo.mutation.AddDenomination(u)
+	return cpuo
+}
+
+// SetCiculation sets the "ciculation" field.
+func (cpuo *CouponPoolUpdateOne) SetCiculation(i int) *CouponPoolUpdateOne {
+	cpuo.mutation.ResetCiculation()
+	cpuo.mutation.SetCiculation(i)
+	return cpuo
+}
+
+// AddCiculation adds i to the "ciculation" field.
+func (cpuo *CouponPoolUpdateOne) AddCiculation(i int) *CouponPoolUpdateOne {
+	cpuo.mutation.AddCiculation(i)
+	return cpuo
+}
+
+// SetUsed sets the "used" field.
+func (cpuo *CouponPoolUpdateOne) SetUsed(i int) *CouponPoolUpdateOne {
+	cpuo.mutation.ResetUsed()
+	cpuo.mutation.SetUsed(i)
+	return cpuo
+}
+
+// SetNillableUsed sets the "used" field if the given value is not nil.
+func (cpuo *CouponPoolUpdateOne) SetNillableUsed(i *int) *CouponPoolUpdateOne {
+	if i != nil {
+		cpuo.SetUsed(*i)
+	}
+	return cpuo
+}
+
+// AddUsed adds i to the "used" field.
+func (cpuo *CouponPoolUpdateOne) AddUsed(i int) *CouponPoolUpdateOne {
+	cpuo.mutation.AddUsed(i)
+	return cpuo
+}
+
+// SetReleaseByUserID sets the "release_by_user_id" field.
+func (cpuo *CouponPoolUpdateOne) SetReleaseByUserID(u uuid.UUID) *CouponPoolUpdateOne {
+	cpuo.mutation.SetReleaseByUserID(u)
+	return cpuo
+}
+
+// SetStart sets the "start" field.
+func (cpuo *CouponPoolUpdateOne) SetStart(u uint32) *CouponPoolUpdateOne {
+	cpuo.mutation.ResetStart()
+	cpuo.mutation.SetStart(u)
+	return cpuo
+}
+
+// AddStart adds u to the "start" field.
+func (cpuo *CouponPoolUpdateOne) AddStart(u uint32) *CouponPoolUpdateOne {
+	cpuo.mutation.AddStart(u)
+	return cpuo
+}
+
+// SetDurationDays sets the "duration_days" field.
+func (cpuo *CouponPoolUpdateOne) SetDurationDays(i int) *CouponPoolUpdateOne {
+	cpuo.mutation.ResetDurationDays()
+	cpuo.mutation.SetDurationDays(i)
+	return cpuo
+}
+
+// AddDurationDays adds i to the "duration_days" field.
+func (cpuo *CouponPoolUpdateOne) AddDurationDays(i int) *CouponPoolUpdateOne {
+	cpuo.mutation.AddDurationDays(i)
+	return cpuo
+}
+
+// SetAppID sets the "app_id" field.
+func (cpuo *CouponPoolUpdateOne) SetAppID(u uuid.UUID) *CouponPoolUpdateOne {
+	cpuo.mutation.SetAppID(u)
+	return cpuo
+}
+
+// SetMessage sets the "message" field.
+func (cpuo *CouponPoolUpdateOne) SetMessage(s string) *CouponPoolUpdateOne {
+	cpuo.mutation.SetMessage(s)
+	return cpuo
+}
+
+// SetName sets the "name" field.
+func (cpuo *CouponPoolUpdateOne) SetName(s string) *CouponPoolUpdateOne {
+	cpuo.mutation.SetName(s)
+	return cpuo
+}
+
+// SetCreateAt sets the "create_at" field.
+func (cpuo *CouponPoolUpdateOne) SetCreateAt(u uint32) *CouponPoolUpdateOne {
+	cpuo.mutation.ResetCreateAt()
+	cpuo.mutation.SetCreateAt(u)
+	return cpuo
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (cpuo *CouponPoolUpdateOne) SetNillableCreateAt(u *uint32) *CouponPoolUpdateOne {
+	if u != nil {
+		cpuo.SetCreateAt(*u)
+	}
+	return cpuo
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (cpuo *CouponPoolUpdateOne) AddCreateAt(u uint32) *CouponPoolUpdateOne {
+	cpuo.mutation.AddCreateAt(u)
+	return cpuo
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (cpuo *CouponPoolUpdateOne) SetUpdateAt(u uint32) *CouponPoolUpdateOne {
+	cpuo.mutation.ResetUpdateAt()
+	cpuo.mutation.SetUpdateAt(u)
+	return cpuo
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (cpuo *CouponPoolUpdateOne) AddUpdateAt(u uint32) *CouponPoolUpdateOne {
+	cpuo.mutation.AddUpdateAt(u)
+	return cpuo
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (cpuo *CouponPoolUpdateOne) SetDeleteAt(u uint32) *CouponPoolUpdateOne {
+	cpuo.mutation.ResetDeleteAt()
+	cpuo.mutation.SetDeleteAt(u)
+	return cpuo
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (cpuo *CouponPoolUpdateOne) SetNillableDeleteAt(u *uint32) *CouponPoolUpdateOne {
+	if u != nil {
+		cpuo.SetDeleteAt(*u)
+	}
+	return cpuo
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (cpuo *CouponPoolUpdateOne) AddDeleteAt(u uint32) *CouponPoolUpdateOne {
+	cpuo.mutation.AddDeleteAt(u)
+	return cpuo
+}
+
 // Mutation returns the CouponPoolMutation object of the builder.
 func (cpuo *CouponPoolUpdateOne) Mutation() *CouponPoolMutation {
 	return cpuo.mutation
@@ -140,13 +615,20 @@ func (cpuo *CouponPoolUpdateOne) Save(ctx context.Context) (*CouponPool, error) 
 		err  error
 		node *CouponPool
 	)
+	cpuo.defaults()
 	if len(cpuo.hooks) == 0 {
+		if err = cpuo.check(); err != nil {
+			return nil, err
+		}
 		node, err = cpuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*CouponPoolMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = cpuo.check(); err != nil {
+				return nil, err
 			}
 			cpuo.mutation = mutation
 			node, err = cpuo.sqlSave(ctx)
@@ -188,13 +670,36 @@ func (cpuo *CouponPoolUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (cpuo *CouponPoolUpdateOne) defaults() {
+	if _, ok := cpuo.mutation.UpdateAt(); !ok {
+		v := couponpool.UpdateDefaultUpdateAt()
+		cpuo.mutation.SetUpdateAt(v)
+	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (cpuo *CouponPoolUpdateOne) check() error {
+	if v, ok := cpuo.mutation.Message(); ok {
+		if err := couponpool.MessageValidator(v); err != nil {
+			return &ValidationError{Name: "message", err: fmt.Errorf("ent: validator failed for field \"message\": %w", err)}
+		}
+	}
+	if v, ok := cpuo.mutation.Name(); ok {
+		if err := couponpool.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf("ent: validator failed for field \"name\": %w", err)}
+		}
+	}
+	return nil
+}
+
 func (cpuo *CouponPoolUpdateOne) sqlSave(ctx context.Context) (_node *CouponPool, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   couponpool.Table,
 			Columns: couponpool.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: couponpool.FieldID,
 			},
 		},
@@ -222,6 +727,146 @@ func (cpuo *CouponPoolUpdateOne) sqlSave(ctx context.Context) (_node *CouponPool
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := cpuo.mutation.Denomination(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: couponpool.FieldDenomination,
+		})
+	}
+	if value, ok := cpuo.mutation.AddedDenomination(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint64,
+			Value:  value,
+			Column: couponpool.FieldDenomination,
+		})
+	}
+	if value, ok := cpuo.mutation.Ciculation(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldCiculation,
+		})
+	}
+	if value, ok := cpuo.mutation.AddedCiculation(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldCiculation,
+		})
+	}
+	if value, ok := cpuo.mutation.Used(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldUsed,
+		})
+	}
+	if value, ok := cpuo.mutation.AddedUsed(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldUsed,
+		})
+	}
+	if value, ok := cpuo.mutation.ReleaseByUserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponpool.FieldReleaseByUserID,
+		})
+	}
+	if value, ok := cpuo.mutation.Start(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldStart,
+		})
+	}
+	if value, ok := cpuo.mutation.AddedStart(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldStart,
+		})
+	}
+	if value, ok := cpuo.mutation.DurationDays(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldDurationDays,
+		})
+	}
+	if value, ok := cpuo.mutation.AddedDurationDays(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: couponpool.FieldDurationDays,
+		})
+	}
+	if value, ok := cpuo.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponpool.FieldAppID,
+		})
+	}
+	if value, ok := cpuo.mutation.Message(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: couponpool.FieldMessage,
+		})
+	}
+	if value, ok := cpuo.mutation.Name(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: couponpool.FieldName,
+		})
+	}
+	if value, ok := cpuo.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldCreateAt,
+		})
+	}
+	if value, ok := cpuo.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldCreateAt,
+		})
+	}
+	if value, ok := cpuo.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldUpdateAt,
+		})
+	}
+	if value, ok := cpuo.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldUpdateAt,
+		})
+	}
+	if value, ok := cpuo.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldDeleteAt,
+		})
+	}
+	if value, ok := cpuo.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponpool.FieldDeleteAt,
+		})
 	}
 	_node = &CouponPool{config: cpuo.config}
 	_spec.Assign = _node.assignValues

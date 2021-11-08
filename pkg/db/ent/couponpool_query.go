@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // CouponPoolQuery is the builder for querying CouponPool entities.
@@ -84,8 +85,8 @@ func (cpq *CouponPoolQuery) FirstX(ctx context.Context) *CouponPool {
 
 // FirstID returns the first CouponPool ID from the query.
 // Returns a *NotFoundError when no CouponPool ID was found.
-func (cpq *CouponPoolQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (cpq *CouponPoolQuery) FirstID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = cpq.Limit(1).IDs(ctx); err != nil {
 		return
 	}
@@ -97,7 +98,7 @@ func (cpq *CouponPoolQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (cpq *CouponPoolQuery) FirstIDX(ctx context.Context) int {
+func (cpq *CouponPoolQuery) FirstIDX(ctx context.Context) uuid.UUID {
 	id, err := cpq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -135,8 +136,8 @@ func (cpq *CouponPoolQuery) OnlyX(ctx context.Context) *CouponPool {
 // OnlyID is like Only, but returns the only CouponPool ID in the query.
 // Returns a *NotSingularError when exactly one CouponPool ID is not found.
 // Returns a *NotFoundError when no entities are found.
-func (cpq *CouponPoolQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (cpq *CouponPoolQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = cpq.Limit(2).IDs(ctx); err != nil {
 		return
 	}
@@ -152,7 +153,7 @@ func (cpq *CouponPoolQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (cpq *CouponPoolQuery) OnlyIDX(ctx context.Context) int {
+func (cpq *CouponPoolQuery) OnlyIDX(ctx context.Context) uuid.UUID {
 	id, err := cpq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -178,8 +179,8 @@ func (cpq *CouponPoolQuery) AllX(ctx context.Context) []*CouponPool {
 }
 
 // IDs executes the query and returns a list of CouponPool IDs.
-func (cpq *CouponPoolQuery) IDs(ctx context.Context) ([]int, error) {
-	var ids []int
+func (cpq *CouponPoolQuery) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	var ids []uuid.UUID
 	if err := cpq.Select(couponpool.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -187,7 +188,7 @@ func (cpq *CouponPoolQuery) IDs(ctx context.Context) ([]int, error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (cpq *CouponPoolQuery) IDsX(ctx context.Context) []int {
+func (cpq *CouponPoolQuery) IDsX(ctx context.Context) []uuid.UUID {
 	ids, err := cpq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -249,6 +250,19 @@ func (cpq *CouponPoolQuery) Clone() *CouponPoolQuery {
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		Denomination uint64 `json:"denomination,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.CouponPool.Query().
+//		GroupBy(couponpool.FieldDenomination).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
+//
 func (cpq *CouponPoolQuery) GroupBy(field string, fields ...string) *CouponPoolGroupBy {
 	group := &CouponPoolGroupBy{config: cpq.config}
 	group.fields = append([]string{field}, fields...)
@@ -263,6 +277,17 @@ func (cpq *CouponPoolQuery) GroupBy(field string, fields ...string) *CouponPoolG
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		Denomination uint64 `json:"denomination,omitempty"`
+//	}
+//
+//	client.CouponPool.Query().
+//		Select(couponpool.FieldDenomination).
+//		Scan(ctx, &v)
+//
 func (cpq *CouponPoolQuery) Select(fields ...string) *CouponPoolSelect {
 	cpq.fields = append(cpq.fields, fields...)
 	return &CouponPoolSelect{CouponPoolQuery: cpq}
@@ -329,7 +354,7 @@ func (cpq *CouponPoolQuery) querySpec() *sqlgraph.QuerySpec {
 			Table:   couponpool.Table,
 			Columns: couponpool.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: couponpool.FieldID,
 			},
 		},

@@ -481,7 +481,7 @@ func (c *CouponPoolClient) UpdateOne(cp *CouponPool) *CouponPoolUpdateOne {
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *CouponPoolClient) UpdateOneID(id int) *CouponPoolUpdateOne {
+func (c *CouponPoolClient) UpdateOneID(id uuid.UUID) *CouponPoolUpdateOne {
 	mutation := newCouponPoolMutation(c.config, OpUpdateOne, withCouponPoolID(id))
 	return &CouponPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -498,7 +498,7 @@ func (c *CouponPoolClient) DeleteOne(cp *CouponPool) *CouponPoolDeleteOne {
 }
 
 // DeleteOneID returns a delete builder for the given id.
-func (c *CouponPoolClient) DeleteOneID(id int) *CouponPoolDeleteOne {
+func (c *CouponPoolClient) DeleteOneID(id uuid.UUID) *CouponPoolDeleteOne {
 	builder := c.Delete().Where(couponpool.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -513,12 +513,12 @@ func (c *CouponPoolClient) Query() *CouponPoolQuery {
 }
 
 // Get returns a CouponPool entity by its id.
-func (c *CouponPoolClient) Get(ctx context.Context, id int) (*CouponPool, error) {
+func (c *CouponPoolClient) Get(ctx context.Context, id uuid.UUID) (*CouponPool, error) {
 	return c.Query().Where(couponpool.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *CouponPoolClient) GetX(ctx context.Context, id int) *CouponPool {
+func (c *CouponPoolClient) GetX(ctx context.Context, id uuid.UUID) *CouponPool {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
