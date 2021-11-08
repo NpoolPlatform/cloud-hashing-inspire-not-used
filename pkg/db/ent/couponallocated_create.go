@@ -7,10 +7,12 @@ import (
 	"errors"
 	"fmt"
 
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
+	"github.com/google/uuid"
 )
 
 // CouponAllocatedCreate is the builder for creating a CouponAllocated entity.
@@ -19,6 +21,86 @@ type CouponAllocatedCreate struct {
 	mutation *CouponAllocatedMutation
 	hooks    []Hook
 	conflict []sql.ConflictOption
+}
+
+// SetUserID sets the "user_id" field.
+func (cac *CouponAllocatedCreate) SetUserID(u uuid.UUID) *CouponAllocatedCreate {
+	cac.mutation.SetUserID(u)
+	return cac
+}
+
+// SetAppID sets the "app_id" field.
+func (cac *CouponAllocatedCreate) SetAppID(u uuid.UUID) *CouponAllocatedCreate {
+	cac.mutation.SetAppID(u)
+	return cac
+}
+
+// SetUsed sets the "used" field.
+func (cac *CouponAllocatedCreate) SetUsed(b bool) *CouponAllocatedCreate {
+	cac.mutation.SetUsed(b)
+	return cac
+}
+
+// SetNillableUsed sets the "used" field if the given value is not nil.
+func (cac *CouponAllocatedCreate) SetNillableUsed(b *bool) *CouponAllocatedCreate {
+	if b != nil {
+		cac.SetUsed(*b)
+	}
+	return cac
+}
+
+// SetCouponID sets the "coupon_id" field.
+func (cac *CouponAllocatedCreate) SetCouponID(u uuid.UUID) *CouponAllocatedCreate {
+	cac.mutation.SetCouponID(u)
+	return cac
+}
+
+// SetCreateAt sets the "create_at" field.
+func (cac *CouponAllocatedCreate) SetCreateAt(u uint32) *CouponAllocatedCreate {
+	cac.mutation.SetCreateAt(u)
+	return cac
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (cac *CouponAllocatedCreate) SetNillableCreateAt(u *uint32) *CouponAllocatedCreate {
+	if u != nil {
+		cac.SetCreateAt(*u)
+	}
+	return cac
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (cac *CouponAllocatedCreate) SetUpdateAt(u uint32) *CouponAllocatedCreate {
+	cac.mutation.SetUpdateAt(u)
+	return cac
+}
+
+// SetNillableUpdateAt sets the "update_at" field if the given value is not nil.
+func (cac *CouponAllocatedCreate) SetNillableUpdateAt(u *uint32) *CouponAllocatedCreate {
+	if u != nil {
+		cac.SetUpdateAt(*u)
+	}
+	return cac
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (cac *CouponAllocatedCreate) SetDeleteAt(u uint32) *CouponAllocatedCreate {
+	cac.mutation.SetDeleteAt(u)
+	return cac
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (cac *CouponAllocatedCreate) SetNillableDeleteAt(u *uint32) *CouponAllocatedCreate {
+	if u != nil {
+		cac.SetDeleteAt(*u)
+	}
+	return cac
+}
+
+// SetID sets the "id" field.
+func (cac *CouponAllocatedCreate) SetID(u uuid.UUID) *CouponAllocatedCreate {
+	cac.mutation.SetID(u)
+	return cac
 }
 
 // Mutation returns the CouponAllocatedMutation object of the builder.
@@ -32,6 +114,7 @@ func (cac *CouponAllocatedCreate) Save(ctx context.Context) (*CouponAllocated, e
 		err  error
 		node *CouponAllocated
 	)
+	cac.defaults()
 	if len(cac.hooks) == 0 {
 		if err = cac.check(); err != nil {
 			return nil, err
@@ -89,8 +172,53 @@ func (cac *CouponAllocatedCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (cac *CouponAllocatedCreate) defaults() {
+	if _, ok := cac.mutation.Used(); !ok {
+		v := couponallocated.DefaultUsed
+		cac.mutation.SetUsed(v)
+	}
+	if _, ok := cac.mutation.CreateAt(); !ok {
+		v := couponallocated.DefaultCreateAt()
+		cac.mutation.SetCreateAt(v)
+	}
+	if _, ok := cac.mutation.UpdateAt(); !ok {
+		v := couponallocated.DefaultUpdateAt()
+		cac.mutation.SetUpdateAt(v)
+	}
+	if _, ok := cac.mutation.DeleteAt(); !ok {
+		v := couponallocated.DefaultDeleteAt()
+		cac.mutation.SetDeleteAt(v)
+	}
+	if _, ok := cac.mutation.ID(); !ok {
+		v := couponallocated.DefaultID()
+		cac.mutation.SetID(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (cac *CouponAllocatedCreate) check() error {
+	if _, ok := cac.mutation.UserID(); !ok {
+		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "user_id"`)}
+	}
+	if _, ok := cac.mutation.AppID(); !ok {
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+	}
+	if _, ok := cac.mutation.Used(); !ok {
+		return &ValidationError{Name: "used", err: errors.New(`ent: missing required field "used"`)}
+	}
+	if _, ok := cac.mutation.CouponID(); !ok {
+		return &ValidationError{Name: "coupon_id", err: errors.New(`ent: missing required field "coupon_id"`)}
+	}
+	if _, ok := cac.mutation.CreateAt(); !ok {
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+	}
+	if _, ok := cac.mutation.UpdateAt(); !ok {
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+	}
+	if _, ok := cac.mutation.DeleteAt(); !ok {
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+	}
 	return nil
 }
 
@@ -102,8 +230,9 @@ func (cac *CouponAllocatedCreate) sqlSave(ctx context.Context) (*CouponAllocated
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != nil {
+		_node.ID = _spec.ID.Value.(uuid.UUID)
+	}
 	return _node, nil
 }
 
@@ -113,12 +242,72 @@ func (cac *CouponAllocatedCreate) createSpec() (*CouponAllocated, *sqlgraph.Crea
 		_spec = &sqlgraph.CreateSpec{
 			Table: couponallocated.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: couponallocated.FieldID,
 			},
 		}
 	)
 	_spec.OnConflict = cac.conflict
+	if id, ok := cac.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
+	if value, ok := cac.mutation.UserID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldUserID,
+		})
+		_node.UserID = value
+	}
+	if value, ok := cac.mutation.AppID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldAppID,
+		})
+		_node.AppID = value
+	}
+	if value, ok := cac.mutation.Used(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: couponallocated.FieldUsed,
+		})
+		_node.Used = value
+	}
+	if value, ok := cac.mutation.CouponID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldCouponID,
+		})
+		_node.CouponID = value
+	}
+	if value, ok := cac.mutation.CreateAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldCreateAt,
+		})
+		_node.CreateAt = value
+	}
+	if value, ok := cac.mutation.UpdateAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldUpdateAt,
+		})
+		_node.UpdateAt = value
+	}
+	if value, ok := cac.mutation.DeleteAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldDeleteAt,
+		})
+		_node.DeleteAt = value
+	}
 	return _node, _spec
 }
 
@@ -126,11 +315,17 @@ func (cac *CouponAllocatedCreate) createSpec() (*CouponAllocated, *sqlgraph.Crea
 // of the `INSERT` statement. For example:
 //
 //	client.CouponAllocated.Create().
+//		SetUserID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.CouponAllocatedUpsert) {
+//			SetUserID(v+v).
+//		}).
 //		Exec(ctx)
 //
 func (cac *CouponAllocatedCreate) OnConflict(opts ...sql.ConflictOption) *CouponAllocatedUpsertOne {
@@ -167,17 +362,109 @@ type (
 	}
 )
 
-// UpdateNewValues updates the fields using the new values that were set on create.
+// SetUserID sets the "user_id" field.
+func (u *CouponAllocatedUpsert) SetUserID(v uuid.UUID) *CouponAllocatedUpsert {
+	u.Set(couponallocated.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *CouponAllocatedUpsert) UpdateUserID() *CouponAllocatedUpsert {
+	u.SetExcluded(couponallocated.FieldUserID)
+	return u
+}
+
+// SetAppID sets the "app_id" field.
+func (u *CouponAllocatedUpsert) SetAppID(v uuid.UUID) *CouponAllocatedUpsert {
+	u.Set(couponallocated.FieldAppID, v)
+	return u
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *CouponAllocatedUpsert) UpdateAppID() *CouponAllocatedUpsert {
+	u.SetExcluded(couponallocated.FieldAppID)
+	return u
+}
+
+// SetUsed sets the "used" field.
+func (u *CouponAllocatedUpsert) SetUsed(v bool) *CouponAllocatedUpsert {
+	u.Set(couponallocated.FieldUsed, v)
+	return u
+}
+
+// UpdateUsed sets the "used" field to the value that was provided on create.
+func (u *CouponAllocatedUpsert) UpdateUsed() *CouponAllocatedUpsert {
+	u.SetExcluded(couponallocated.FieldUsed)
+	return u
+}
+
+// SetCouponID sets the "coupon_id" field.
+func (u *CouponAllocatedUpsert) SetCouponID(v uuid.UUID) *CouponAllocatedUpsert {
+	u.Set(couponallocated.FieldCouponID, v)
+	return u
+}
+
+// UpdateCouponID sets the "coupon_id" field to the value that was provided on create.
+func (u *CouponAllocatedUpsert) UpdateCouponID() *CouponAllocatedUpsert {
+	u.SetExcluded(couponallocated.FieldCouponID)
+	return u
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *CouponAllocatedUpsert) SetCreateAt(v uint32) *CouponAllocatedUpsert {
+	u.Set(couponallocated.FieldCreateAt, v)
+	return u
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *CouponAllocatedUpsert) UpdateCreateAt() *CouponAllocatedUpsert {
+	u.SetExcluded(couponallocated.FieldCreateAt)
+	return u
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *CouponAllocatedUpsert) SetUpdateAt(v uint32) *CouponAllocatedUpsert {
+	u.Set(couponallocated.FieldUpdateAt, v)
+	return u
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *CouponAllocatedUpsert) UpdateUpdateAt() *CouponAllocatedUpsert {
+	u.SetExcluded(couponallocated.FieldUpdateAt)
+	return u
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *CouponAllocatedUpsert) SetDeleteAt(v uint32) *CouponAllocatedUpsert {
+	u.Set(couponallocated.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *CouponAllocatedUpsert) UpdateDeleteAt() *CouponAllocatedUpsert {
+	u.SetExcluded(couponallocated.FieldDeleteAt)
+	return u
+}
+
+// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.CouponAllocated.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(couponallocated.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 //
 func (u *CouponAllocatedUpsertOne) UpdateNewValues() *CouponAllocatedUpsertOne {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(couponallocated.FieldID)
+		}
+	}))
 	return u
 }
 
@@ -209,6 +496,104 @@ func (u *CouponAllocatedUpsertOne) Update(set func(*CouponAllocatedUpsert)) *Cou
 	return u
 }
 
+// SetUserID sets the "user_id" field.
+func (u *CouponAllocatedUpsertOne) SetUserID(v uuid.UUID) *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertOne) UpdateUserID() *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// SetAppID sets the "app_id" field.
+func (u *CouponAllocatedUpsertOne) SetAppID(v uuid.UUID) *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertOne) UpdateAppID() *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateAppID()
+	})
+}
+
+// SetUsed sets the "used" field.
+func (u *CouponAllocatedUpsertOne) SetUsed(v bool) *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetUsed(v)
+	})
+}
+
+// UpdateUsed sets the "used" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertOne) UpdateUsed() *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateUsed()
+	})
+}
+
+// SetCouponID sets the "coupon_id" field.
+func (u *CouponAllocatedUpsertOne) SetCouponID(v uuid.UUID) *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetCouponID(v)
+	})
+}
+
+// UpdateCouponID sets the "coupon_id" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertOne) UpdateCouponID() *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateCouponID()
+	})
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *CouponAllocatedUpsertOne) SetCreateAt(v uint32) *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetCreateAt(v)
+	})
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertOne) UpdateCreateAt() *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateCreateAt()
+	})
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *CouponAllocatedUpsertOne) SetUpdateAt(v uint32) *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetUpdateAt(v)
+	})
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertOne) UpdateUpdateAt() *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateUpdateAt()
+	})
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *CouponAllocatedUpsertOne) SetDeleteAt(v uint32) *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetDeleteAt(v)
+	})
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertOne) UpdateDeleteAt() *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateDeleteAt()
+	})
+}
+
 // Exec executes the query.
 func (u *CouponAllocatedUpsertOne) Exec(ctx context.Context) error {
 	if len(u.create.conflict) == 0 {
@@ -225,7 +610,12 @@ func (u *CouponAllocatedUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *CouponAllocatedUpsertOne) ID(ctx context.Context) (id int, err error) {
+func (u *CouponAllocatedUpsertOne) ID(ctx context.Context) (id uuid.UUID, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: CouponAllocatedUpsertOne.ID is not supported by MySQL driver. Use CouponAllocatedUpsertOne.Exec instead")
+	}
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -234,7 +624,7 @@ func (u *CouponAllocatedUpsertOne) ID(ctx context.Context) (id int, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *CouponAllocatedUpsertOne) IDX(ctx context.Context) int {
+func (u *CouponAllocatedUpsertOne) IDX(ctx context.Context) uuid.UUID {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -257,6 +647,7 @@ func (cacb *CouponAllocatedCreateBulk) Save(ctx context.Context) ([]*CouponAlloc
 	for i := range cacb.builders {
 		func(i int, root context.Context) {
 			builder := cacb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CouponAllocatedMutation)
 				if !ok {
@@ -285,10 +676,6 @@ func (cacb *CouponAllocatedCreateBulk) Save(ctx context.Context) ([]*CouponAlloc
 				}
 				mutation.id = &nodes[i].ID
 				mutation.done = true
-				if specs[i].ID.Value != nil {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
-				}
 				return nodes[i], nil
 			})
 			for i := len(builder.hooks) - 1; i >= 0; i-- {
@@ -336,6 +723,11 @@ func (cacb *CouponAllocatedCreateBulk) ExecX(ctx context.Context) {
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.CouponAllocatedUpsert) {
+//			SetUserID(v+v).
+//		}).
 //		Exec(ctx)
 //
 func (cacb *CouponAllocatedCreateBulk) OnConflict(opts ...sql.ConflictOption) *CouponAllocatedUpsertBulk {
@@ -371,11 +763,22 @@ type CouponAllocatedUpsertBulk struct {
 //	client.CouponAllocated.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(couponallocated.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 //
 func (u *CouponAllocatedUpsertBulk) UpdateNewValues() *CouponAllocatedUpsertBulk {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(couponallocated.FieldID)
+				return
+			}
+		}
+	}))
 	return u
 }
 
@@ -405,6 +808,104 @@ func (u *CouponAllocatedUpsertBulk) Update(set func(*CouponAllocatedUpsert)) *Co
 		set(&CouponAllocatedUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *CouponAllocatedUpsertBulk) SetUserID(v uuid.UUID) *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertBulk) UpdateUserID() *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// SetAppID sets the "app_id" field.
+func (u *CouponAllocatedUpsertBulk) SetAppID(v uuid.UUID) *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertBulk) UpdateAppID() *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateAppID()
+	})
+}
+
+// SetUsed sets the "used" field.
+func (u *CouponAllocatedUpsertBulk) SetUsed(v bool) *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetUsed(v)
+	})
+}
+
+// UpdateUsed sets the "used" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertBulk) UpdateUsed() *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateUsed()
+	})
+}
+
+// SetCouponID sets the "coupon_id" field.
+func (u *CouponAllocatedUpsertBulk) SetCouponID(v uuid.UUID) *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetCouponID(v)
+	})
+}
+
+// UpdateCouponID sets the "coupon_id" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertBulk) UpdateCouponID() *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateCouponID()
+	})
+}
+
+// SetCreateAt sets the "create_at" field.
+func (u *CouponAllocatedUpsertBulk) SetCreateAt(v uint32) *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetCreateAt(v)
+	})
+}
+
+// UpdateCreateAt sets the "create_at" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertBulk) UpdateCreateAt() *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateCreateAt()
+	})
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (u *CouponAllocatedUpsertBulk) SetUpdateAt(v uint32) *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetUpdateAt(v)
+	})
+}
+
+// UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertBulk) UpdateUpdateAt() *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateUpdateAt()
+	})
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (u *CouponAllocatedUpsertBulk) SetDeleteAt(v uint32) *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetDeleteAt(v)
+	})
+}
+
+// UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertBulk) UpdateDeleteAt() *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateDeleteAt()
+	})
 }
 
 // Exec executes the query.

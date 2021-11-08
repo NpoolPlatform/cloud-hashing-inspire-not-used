@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // CouponAllocatedUpdate is the builder for updating CouponAllocated entities.
@@ -26,6 +27,93 @@ func (cau *CouponAllocatedUpdate) Where(ps ...predicate.CouponAllocated) *Coupon
 	return cau
 }
 
+// SetUserID sets the "user_id" field.
+func (cau *CouponAllocatedUpdate) SetUserID(u uuid.UUID) *CouponAllocatedUpdate {
+	cau.mutation.SetUserID(u)
+	return cau
+}
+
+// SetAppID sets the "app_id" field.
+func (cau *CouponAllocatedUpdate) SetAppID(u uuid.UUID) *CouponAllocatedUpdate {
+	cau.mutation.SetAppID(u)
+	return cau
+}
+
+// SetUsed sets the "used" field.
+func (cau *CouponAllocatedUpdate) SetUsed(b bool) *CouponAllocatedUpdate {
+	cau.mutation.SetUsed(b)
+	return cau
+}
+
+// SetNillableUsed sets the "used" field if the given value is not nil.
+func (cau *CouponAllocatedUpdate) SetNillableUsed(b *bool) *CouponAllocatedUpdate {
+	if b != nil {
+		cau.SetUsed(*b)
+	}
+	return cau
+}
+
+// SetCouponID sets the "coupon_id" field.
+func (cau *CouponAllocatedUpdate) SetCouponID(u uuid.UUID) *CouponAllocatedUpdate {
+	cau.mutation.SetCouponID(u)
+	return cau
+}
+
+// SetCreateAt sets the "create_at" field.
+func (cau *CouponAllocatedUpdate) SetCreateAt(u uint32) *CouponAllocatedUpdate {
+	cau.mutation.ResetCreateAt()
+	cau.mutation.SetCreateAt(u)
+	return cau
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (cau *CouponAllocatedUpdate) SetNillableCreateAt(u *uint32) *CouponAllocatedUpdate {
+	if u != nil {
+		cau.SetCreateAt(*u)
+	}
+	return cau
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (cau *CouponAllocatedUpdate) AddCreateAt(u uint32) *CouponAllocatedUpdate {
+	cau.mutation.AddCreateAt(u)
+	return cau
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (cau *CouponAllocatedUpdate) SetUpdateAt(u uint32) *CouponAllocatedUpdate {
+	cau.mutation.ResetUpdateAt()
+	cau.mutation.SetUpdateAt(u)
+	return cau
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (cau *CouponAllocatedUpdate) AddUpdateAt(u uint32) *CouponAllocatedUpdate {
+	cau.mutation.AddUpdateAt(u)
+	return cau
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (cau *CouponAllocatedUpdate) SetDeleteAt(u uint32) *CouponAllocatedUpdate {
+	cau.mutation.ResetDeleteAt()
+	cau.mutation.SetDeleteAt(u)
+	return cau
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (cau *CouponAllocatedUpdate) SetNillableDeleteAt(u *uint32) *CouponAllocatedUpdate {
+	if u != nil {
+		cau.SetDeleteAt(*u)
+	}
+	return cau
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (cau *CouponAllocatedUpdate) AddDeleteAt(u uint32) *CouponAllocatedUpdate {
+	cau.mutation.AddDeleteAt(u)
+	return cau
+}
+
 // Mutation returns the CouponAllocatedMutation object of the builder.
 func (cau *CouponAllocatedUpdate) Mutation() *CouponAllocatedMutation {
 	return cau.mutation
@@ -37,6 +125,7 @@ func (cau *CouponAllocatedUpdate) Save(ctx context.Context) (int, error) {
 		err      error
 		affected int
 	)
+	cau.defaults()
 	if len(cau.hooks) == 0 {
 		affected, err = cau.sqlSave(ctx)
 	} else {
@@ -85,13 +174,21 @@ func (cau *CouponAllocatedUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (cau *CouponAllocatedUpdate) defaults() {
+	if _, ok := cau.mutation.UpdateAt(); !ok {
+		v := couponallocated.UpdateDefaultUpdateAt()
+		cau.mutation.SetUpdateAt(v)
+	}
+}
+
 func (cau *CouponAllocatedUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   couponallocated.Table,
 			Columns: couponallocated.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: couponallocated.FieldID,
 			},
 		},
@@ -102,6 +199,76 @@ func (cau *CouponAllocatedUpdate) sqlSave(ctx context.Context) (n int, err error
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := cau.mutation.UserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldUserID,
+		})
+	}
+	if value, ok := cau.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldAppID,
+		})
+	}
+	if value, ok := cau.mutation.Used(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: couponallocated.FieldUsed,
+		})
+	}
+	if value, ok := cau.mutation.CouponID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldCouponID,
+		})
+	}
+	if value, ok := cau.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldCreateAt,
+		})
+	}
+	if value, ok := cau.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldCreateAt,
+		})
+	}
+	if value, ok := cau.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldUpdateAt,
+		})
+	}
+	if value, ok := cau.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldUpdateAt,
+		})
+	}
+	if value, ok := cau.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldDeleteAt,
+		})
+	}
+	if value, ok := cau.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldDeleteAt,
+		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cau.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -122,6 +289,93 @@ type CouponAllocatedUpdateOne struct {
 	mutation *CouponAllocatedMutation
 }
 
+// SetUserID sets the "user_id" field.
+func (cauo *CouponAllocatedUpdateOne) SetUserID(u uuid.UUID) *CouponAllocatedUpdateOne {
+	cauo.mutation.SetUserID(u)
+	return cauo
+}
+
+// SetAppID sets the "app_id" field.
+func (cauo *CouponAllocatedUpdateOne) SetAppID(u uuid.UUID) *CouponAllocatedUpdateOne {
+	cauo.mutation.SetAppID(u)
+	return cauo
+}
+
+// SetUsed sets the "used" field.
+func (cauo *CouponAllocatedUpdateOne) SetUsed(b bool) *CouponAllocatedUpdateOne {
+	cauo.mutation.SetUsed(b)
+	return cauo
+}
+
+// SetNillableUsed sets the "used" field if the given value is not nil.
+func (cauo *CouponAllocatedUpdateOne) SetNillableUsed(b *bool) *CouponAllocatedUpdateOne {
+	if b != nil {
+		cauo.SetUsed(*b)
+	}
+	return cauo
+}
+
+// SetCouponID sets the "coupon_id" field.
+func (cauo *CouponAllocatedUpdateOne) SetCouponID(u uuid.UUID) *CouponAllocatedUpdateOne {
+	cauo.mutation.SetCouponID(u)
+	return cauo
+}
+
+// SetCreateAt sets the "create_at" field.
+func (cauo *CouponAllocatedUpdateOne) SetCreateAt(u uint32) *CouponAllocatedUpdateOne {
+	cauo.mutation.ResetCreateAt()
+	cauo.mutation.SetCreateAt(u)
+	return cauo
+}
+
+// SetNillableCreateAt sets the "create_at" field if the given value is not nil.
+func (cauo *CouponAllocatedUpdateOne) SetNillableCreateAt(u *uint32) *CouponAllocatedUpdateOne {
+	if u != nil {
+		cauo.SetCreateAt(*u)
+	}
+	return cauo
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (cauo *CouponAllocatedUpdateOne) AddCreateAt(u uint32) *CouponAllocatedUpdateOne {
+	cauo.mutation.AddCreateAt(u)
+	return cauo
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (cauo *CouponAllocatedUpdateOne) SetUpdateAt(u uint32) *CouponAllocatedUpdateOne {
+	cauo.mutation.ResetUpdateAt()
+	cauo.mutation.SetUpdateAt(u)
+	return cauo
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (cauo *CouponAllocatedUpdateOne) AddUpdateAt(u uint32) *CouponAllocatedUpdateOne {
+	cauo.mutation.AddUpdateAt(u)
+	return cauo
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (cauo *CouponAllocatedUpdateOne) SetDeleteAt(u uint32) *CouponAllocatedUpdateOne {
+	cauo.mutation.ResetDeleteAt()
+	cauo.mutation.SetDeleteAt(u)
+	return cauo
+}
+
+// SetNillableDeleteAt sets the "delete_at" field if the given value is not nil.
+func (cauo *CouponAllocatedUpdateOne) SetNillableDeleteAt(u *uint32) *CouponAllocatedUpdateOne {
+	if u != nil {
+		cauo.SetDeleteAt(*u)
+	}
+	return cauo
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (cauo *CouponAllocatedUpdateOne) AddDeleteAt(u uint32) *CouponAllocatedUpdateOne {
+	cauo.mutation.AddDeleteAt(u)
+	return cauo
+}
+
 // Mutation returns the CouponAllocatedMutation object of the builder.
 func (cauo *CouponAllocatedUpdateOne) Mutation() *CouponAllocatedMutation {
 	return cauo.mutation
@@ -140,6 +394,7 @@ func (cauo *CouponAllocatedUpdateOne) Save(ctx context.Context) (*CouponAllocate
 		err  error
 		node *CouponAllocated
 	)
+	cauo.defaults()
 	if len(cauo.hooks) == 0 {
 		node, err = cauo.sqlSave(ctx)
 	} else {
@@ -188,13 +443,21 @@ func (cauo *CouponAllocatedUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (cauo *CouponAllocatedUpdateOne) defaults() {
+	if _, ok := cauo.mutation.UpdateAt(); !ok {
+		v := couponallocated.UpdateDefaultUpdateAt()
+		cauo.mutation.SetUpdateAt(v)
+	}
+}
+
 func (cauo *CouponAllocatedUpdateOne) sqlSave(ctx context.Context) (_node *CouponAllocated, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
 			Table:   couponallocated.Table,
 			Columns: couponallocated.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: couponallocated.FieldID,
 			},
 		},
@@ -222,6 +485,76 @@ func (cauo *CouponAllocatedUpdateOne) sqlSave(ctx context.Context) (_node *Coupo
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := cauo.mutation.UserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldUserID,
+		})
+	}
+	if value, ok := cauo.mutation.AppID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldAppID,
+		})
+	}
+	if value, ok := cauo.mutation.Used(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: couponallocated.FieldUsed,
+		})
+	}
+	if value, ok := cauo.mutation.CouponID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldCouponID,
+		})
+	}
+	if value, ok := cauo.mutation.CreateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldCreateAt,
+		})
+	}
+	if value, ok := cauo.mutation.AddedCreateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldCreateAt,
+		})
+	}
+	if value, ok := cauo.mutation.UpdateAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldUpdateAt,
+		})
+	}
+	if value, ok := cauo.mutation.AddedUpdateAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldUpdateAt,
+		})
+	}
+	if value, ok := cauo.mutation.DeleteAt(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldDeleteAt,
+		})
+	}
+	if value, ok := cauo.mutation.AddedDeleteAt(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: couponallocated.FieldDeleteAt,
+		})
 	}
 	_node = &CouponAllocated{config: cauo.config}
 	_spec.Assign = _node.assignValues

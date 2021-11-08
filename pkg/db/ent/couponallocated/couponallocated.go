@@ -2,11 +2,29 @@
 
 package couponallocated
 
+import (
+	"github.com/google/uuid"
+)
+
 const (
 	// Label holds the string label denoting the couponallocated type in the database.
 	Label = "coupon_allocated"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldUserID holds the string denoting the user_id field in the database.
+	FieldUserID = "user_id"
+	// FieldAppID holds the string denoting the app_id field in the database.
+	FieldAppID = "app_id"
+	// FieldUsed holds the string denoting the used field in the database.
+	FieldUsed = "used"
+	// FieldCouponID holds the string denoting the coupon_id field in the database.
+	FieldCouponID = "coupon_id"
+	// FieldCreateAt holds the string denoting the create_at field in the database.
+	FieldCreateAt = "create_at"
+	// FieldUpdateAt holds the string denoting the update_at field in the database.
+	FieldUpdateAt = "update_at"
+	// FieldDeleteAt holds the string denoting the delete_at field in the database.
+	FieldDeleteAt = "delete_at"
 	// Table holds the table name of the couponallocated in the database.
 	Table = "coupon_allocateds"
 )
@@ -14,6 +32,13 @@ const (
 // Columns holds all SQL columns for couponallocated fields.
 var Columns = []string{
 	FieldID,
+	FieldUserID,
+	FieldAppID,
+	FieldUsed,
+	FieldCouponID,
+	FieldCreateAt,
+	FieldUpdateAt,
+	FieldDeleteAt,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -25,3 +50,18 @@ func ValidColumn(column string) bool {
 	}
 	return false
 }
+
+var (
+	// DefaultUsed holds the default value on creation for the "used" field.
+	DefaultUsed bool
+	// DefaultCreateAt holds the default value on creation for the "create_at" field.
+	DefaultCreateAt func() uint32
+	// DefaultUpdateAt holds the default value on creation for the "update_at" field.
+	DefaultUpdateAt func() uint32
+	// UpdateDefaultUpdateAt holds the default value on update for the "update_at" field.
+	UpdateDefaultUpdateAt func() uint32
+	// DefaultDeleteAt holds the default value on creation for the "delete_at" field.
+	DefaultDeleteAt func() uint32
+	// DefaultID holds the default value on creation for the "id" field.
+	DefaultID func() uuid.UUID
+)

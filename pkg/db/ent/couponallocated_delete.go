@@ -72,7 +72,7 @@ func (cad *CouponAllocatedDelete) sqlExec(ctx context.Context) (int, error) {
 		Node: &sqlgraph.NodeSpec{
 			Table: couponallocated.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: couponallocated.FieldID,
 			},
 		},

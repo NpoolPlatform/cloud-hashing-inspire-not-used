@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // CouponAllocatedQuery is the builder for querying CouponAllocated entities.
@@ -84,8 +85,8 @@ func (caq *CouponAllocatedQuery) FirstX(ctx context.Context) *CouponAllocated {
 
 // FirstID returns the first CouponAllocated ID from the query.
 // Returns a *NotFoundError when no CouponAllocated ID was found.
-func (caq *CouponAllocatedQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (caq *CouponAllocatedQuery) FirstID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = caq.Limit(1).IDs(ctx); err != nil {
 		return
 	}
@@ -97,7 +98,7 @@ func (caq *CouponAllocatedQuery) FirstID(ctx context.Context) (id int, err error
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (caq *CouponAllocatedQuery) FirstIDX(ctx context.Context) int {
+func (caq *CouponAllocatedQuery) FirstIDX(ctx context.Context) uuid.UUID {
 	id, err := caq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -135,8 +136,8 @@ func (caq *CouponAllocatedQuery) OnlyX(ctx context.Context) *CouponAllocated {
 // OnlyID is like Only, but returns the only CouponAllocated ID in the query.
 // Returns a *NotSingularError when exactly one CouponAllocated ID is not found.
 // Returns a *NotFoundError when no entities are found.
-func (caq *CouponAllocatedQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (caq *CouponAllocatedQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = caq.Limit(2).IDs(ctx); err != nil {
 		return
 	}
@@ -152,7 +153,7 @@ func (caq *CouponAllocatedQuery) OnlyID(ctx context.Context) (id int, err error)
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (caq *CouponAllocatedQuery) OnlyIDX(ctx context.Context) int {
+func (caq *CouponAllocatedQuery) OnlyIDX(ctx context.Context) uuid.UUID {
 	id, err := caq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -178,8 +179,8 @@ func (caq *CouponAllocatedQuery) AllX(ctx context.Context) []*CouponAllocated {
 }
 
 // IDs executes the query and returns a list of CouponAllocated IDs.
-func (caq *CouponAllocatedQuery) IDs(ctx context.Context) ([]int, error) {
-	var ids []int
+func (caq *CouponAllocatedQuery) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	var ids []uuid.UUID
 	if err := caq.Select(couponallocated.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -187,7 +188,7 @@ func (caq *CouponAllocatedQuery) IDs(ctx context.Context) ([]int, error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (caq *CouponAllocatedQuery) IDsX(ctx context.Context) []int {
+func (caq *CouponAllocatedQuery) IDsX(ctx context.Context) []uuid.UUID {
 	ids, err := caq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -249,6 +250,19 @@ func (caq *CouponAllocatedQuery) Clone() *CouponAllocatedQuery {
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		UserID uuid.UUID `json:"user_id,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.CouponAllocated.Query().
+//		GroupBy(couponallocated.FieldUserID).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
+//
 func (caq *CouponAllocatedQuery) GroupBy(field string, fields ...string) *CouponAllocatedGroupBy {
 	group := &CouponAllocatedGroupBy{config: caq.config}
 	group.fields = append([]string{field}, fields...)
@@ -263,6 +277,17 @@ func (caq *CouponAllocatedQuery) GroupBy(field string, fields ...string) *Coupon
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		UserID uuid.UUID `json:"user_id,omitempty"`
+//	}
+//
+//	client.CouponAllocated.Query().
+//		Select(couponallocated.FieldUserID).
+//		Scan(ctx, &v)
+//
 func (caq *CouponAllocatedQuery) Select(fields ...string) *CouponAllocatedSelect {
 	caq.fields = append(caq.fields, fields...)
 	return &CouponAllocatedSelect{CouponAllocatedQuery: caq}
@@ -329,7 +354,7 @@ func (caq *CouponAllocatedQuery) querySpec() *sqlgraph.QuerySpec {
 			Table:   couponallocated.Table,
 			Columns: couponallocated.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeUUID,
 				Column: couponallocated.FieldID,
 			},
 		},

@@ -8,13 +8,28 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
+	"github.com/google/uuid"
 )
 
 // CouponAllocated is the model entity for the CouponAllocated schema.
 type CouponAllocated struct {
-	config
+	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uuid.UUID `json:"id,omitempty"`
+	// UserID holds the value of the "user_id" field.
+	UserID uuid.UUID `json:"user_id,omitempty"`
+	// AppID holds the value of the "app_id" field.
+	AppID uuid.UUID `json:"app_id,omitempty"`
+	// Used holds the value of the "used" field.
+	Used bool `json:"used,omitempty"`
+	// CouponID holds the value of the "coupon_id" field.
+	CouponID uuid.UUID `json:"coupon_id,omitempty"`
+	// CreateAt holds the value of the "create_at" field.
+	CreateAt uint32 `json:"create_at,omitempty"`
+	// UpdateAt holds the value of the "update_at" field.
+	UpdateAt uint32 `json:"update_at,omitempty"`
+	// DeleteAt holds the value of the "delete_at" field.
+	DeleteAt uint32 `json:"delete_at,omitempty"`
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -22,8 +37,12 @@ func (*CouponAllocated) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case couponallocated.FieldID:
+		case couponallocated.FieldUsed:
+			values[i] = new(sql.NullBool)
+		case couponallocated.FieldCreateAt, couponallocated.FieldUpdateAt, couponallocated.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
+		case couponallocated.FieldID, couponallocated.FieldUserID, couponallocated.FieldAppID, couponallocated.FieldCouponID:
+			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CouponAllocated", columns[i])
 		}
@@ -40,11 +59,53 @@ func (ca *CouponAllocated) assignValues(columns []string, values []interface{}) 
 	for i := range columns {
 		switch columns[i] {
 		case couponallocated.FieldID:
-			value, ok := values[i].(*sql.NullInt64)
-			if !ok {
-				return fmt.Errorf("unexpected type %T for field id", value)
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field id", values[i])
+			} else if value != nil {
+				ca.ID = *value
 			}
-			ca.ID = int(value.Int64)
+		case couponallocated.FieldUserID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field user_id", values[i])
+			} else if value != nil {
+				ca.UserID = *value
+			}
+		case couponallocated.FieldAppID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field app_id", values[i])
+			} else if value != nil {
+				ca.AppID = *value
+			}
+		case couponallocated.FieldUsed:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field used", values[i])
+			} else if value.Valid {
+				ca.Used = value.Bool
+			}
+		case couponallocated.FieldCouponID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field coupon_id", values[i])
+			} else if value != nil {
+				ca.CouponID = *value
+			}
+		case couponallocated.FieldCreateAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field create_at", values[i])
+			} else if value.Valid {
+				ca.CreateAt = uint32(value.Int64)
+			}
+		case couponallocated.FieldUpdateAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field update_at", values[i])
+			} else if value.Valid {
+				ca.UpdateAt = uint32(value.Int64)
+			}
+		case couponallocated.FieldDeleteAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field delete_at", values[i])
+			} else if value.Valid {
+				ca.DeleteAt = uint32(value.Int64)
+			}
 		}
 	}
 	return nil
@@ -73,6 +134,20 @@ func (ca *CouponAllocated) String() string {
 	var builder strings.Builder
 	builder.WriteString("CouponAllocated(")
 	builder.WriteString(fmt.Sprintf("id=%v", ca.ID))
+	builder.WriteString(", user_id=")
+	builder.WriteString(fmt.Sprintf("%v", ca.UserID))
+	builder.WriteString(", app_id=")
+	builder.WriteString(fmt.Sprintf("%v", ca.AppID))
+	builder.WriteString(", used=")
+	builder.WriteString(fmt.Sprintf("%v", ca.Used))
+	builder.WriteString(", coupon_id=")
+	builder.WriteString(fmt.Sprintf("%v", ca.CouponID))
+	builder.WriteString(", create_at=")
+	builder.WriteString(fmt.Sprintf("%v", ca.CreateAt))
+	builder.WriteString(", update_at=")
+	builder.WriteString(fmt.Sprintf("%v", ca.UpdateAt))
+	builder.WriteString(", delete_at=")
+	builder.WriteString(fmt.Sprintf("%v", ca.DeleteAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

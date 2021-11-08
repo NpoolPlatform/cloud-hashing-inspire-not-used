@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/schema"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
@@ -13,6 +14,30 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	couponallocatedFields := schema.CouponAllocated{}.Fields()
+	_ = couponallocatedFields
+	// couponallocatedDescUsed is the schema descriptor for used field.
+	couponallocatedDescUsed := couponallocatedFields[3].Descriptor()
+	// couponallocated.DefaultUsed holds the default value on creation for the used field.
+	couponallocated.DefaultUsed = couponallocatedDescUsed.Default.(bool)
+	// couponallocatedDescCreateAt is the schema descriptor for create_at field.
+	couponallocatedDescCreateAt := couponallocatedFields[5].Descriptor()
+	// couponallocated.DefaultCreateAt holds the default value on creation for the create_at field.
+	couponallocated.DefaultCreateAt = couponallocatedDescCreateAt.Default.(func() uint32)
+	// couponallocatedDescUpdateAt is the schema descriptor for update_at field.
+	couponallocatedDescUpdateAt := couponallocatedFields[6].Descriptor()
+	// couponallocated.DefaultUpdateAt holds the default value on creation for the update_at field.
+	couponallocated.DefaultUpdateAt = couponallocatedDescUpdateAt.Default.(func() uint32)
+	// couponallocated.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	couponallocated.UpdateDefaultUpdateAt = couponallocatedDescUpdateAt.UpdateDefault.(func() uint32)
+	// couponallocatedDescDeleteAt is the schema descriptor for delete_at field.
+	couponallocatedDescDeleteAt := couponallocatedFields[7].Descriptor()
+	// couponallocated.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	couponallocated.DefaultDeleteAt = couponallocatedDescDeleteAt.Default.(func() uint32)
+	// couponallocatedDescID is the schema descriptor for id field.
+	couponallocatedDescID := couponallocatedFields[0].Descriptor()
+	// couponallocated.DefaultID holds the default value on creation for the id field.
+	couponallocated.DefaultID = couponallocatedDescID.Default.(func() uuid.UUID)
 	couponpoolFields := schema.CouponPool{}.Fields()
 	_ = couponpoolFields
 	// couponpoolDescUsed is the schema descriptor for used field.
