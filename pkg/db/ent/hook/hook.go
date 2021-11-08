@@ -9,6 +9,45 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"
 )
 
+// The AgencySettingFunc type is an adapter to allow the use of ordinary
+// function as AgencySetting mutator.
+type AgencySettingFunc func(context.Context, *ent.AgencySettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AgencySettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.AgencySettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AgencySettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The NewUserRewardSettingFunc type is an adapter to allow the use of ordinary
+// function as NewUserRewardSetting mutator.
+type NewUserRewardSettingFunc func(context.Context, *ent.NewUserRewardSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f NewUserRewardSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.NewUserRewardSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.NewUserRewardSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The PurchaseInvitationFunc type is an adapter to allow the use of ordinary
+// function as PurchaseInvitation mutator.
+type PurchaseInvitationFunc func(context.Context, *ent.PurchaseInvitationMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f PurchaseInvitationFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.PurchaseInvitationMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PurchaseInvitationMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The RegistrationInvitationFunc type is an adapter to allow the use of ordinary
 // function as RegistrationInvitation mutator.
 type RegistrationInvitationFunc func(context.Context, *ent.RegistrationInvitationMutation) (ent.Value, error)
@@ -18,6 +57,19 @@ func (f RegistrationInvitationFunc) Mutate(ctx context.Context, m ent.Mutation) 
 	mv, ok := m.(*ent.RegistrationInvitationMutation)
 	if !ok {
 		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.RegistrationInvitationMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The UserInvitationCodeFunc type is an adapter to allow the use of ordinary
+// function as UserInvitationCode mutator.
+type UserInvitationCodeFunc func(context.Context, *ent.UserInvitationCodeMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserInvitationCodeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.UserInvitationCodeMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserInvitationCodeMutation", m)
 	}
 	return f(ctx, mv)
 }

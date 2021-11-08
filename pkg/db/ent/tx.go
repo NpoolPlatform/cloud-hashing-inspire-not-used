@@ -12,8 +12,16 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// AgencySetting is the client for interacting with the AgencySetting builders.
+	AgencySetting *AgencySettingClient
+	// NewUserRewardSetting is the client for interacting with the NewUserRewardSetting builders.
+	NewUserRewardSetting *NewUserRewardSettingClient
+	// PurchaseInvitation is the client for interacting with the PurchaseInvitation builders.
+	PurchaseInvitation *PurchaseInvitationClient
 	// RegistrationInvitation is the client for interacting with the RegistrationInvitation builders.
 	RegistrationInvitation *RegistrationInvitationClient
+	// UserInvitationCode is the client for interacting with the UserInvitationCode builders.
+	UserInvitationCode *UserInvitationCodeClient
 
 	// lazily loaded.
 	client     *Client
@@ -149,7 +157,11 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.AgencySetting = NewAgencySettingClient(tx.config)
+	tx.NewUserRewardSetting = NewNewUserRewardSettingClient(tx.config)
+	tx.PurchaseInvitation = NewPurchaseInvitationClient(tx.config)
 	tx.RegistrationInvitation = NewRegistrationInvitationClient(tx.config)
+	tx.UserInvitationCode = NewUserInvitationCodeClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.
@@ -159,7 +171,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: RegistrationInvitation.QueryXXX(), the query will be executed
+// applies a query, for example: AgencySetting.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

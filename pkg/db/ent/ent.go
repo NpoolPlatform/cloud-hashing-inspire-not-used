@@ -8,7 +8,11 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/agencysetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -29,7 +33,11 @@ type OrderFunc func(*sql.Selector)
 // columnChecker returns a function indicates if the column exists in the given column.
 func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
+		agencysetting.Table:          agencysetting.ValidColumn,
+		newuserrewardsetting.Table:   newuserrewardsetting.ValidColumn,
+		purchaseinvitation.Table:     purchaseinvitation.ValidColumn,
 		registrationinvitation.Table: registrationinvitation.ValidColumn,
+		userinvitationcode.Table:     userinvitationcode.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {

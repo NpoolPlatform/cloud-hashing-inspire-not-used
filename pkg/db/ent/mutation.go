@@ -20,8 +20,702 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
+	TypeAgencySetting          = "AgencySetting"
+	TypeNewUserRewardSetting   = "NewUserRewardSetting"
+	TypePurchaseInvitation     = "PurchaseInvitation"
 	TypeRegistrationInvitation = "RegistrationInvitation"
+	TypeUserInvitationCode     = "UserInvitationCode"
 )
+
+// AgencySettingMutation represents an operation that mutates the AgencySetting nodes in the graph.
+type AgencySettingMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*AgencySetting, error)
+	predicates    []predicate.AgencySetting
+}
+
+var _ ent.Mutation = (*AgencySettingMutation)(nil)
+
+// agencysettingOption allows management of the mutation configuration using functional options.
+type agencysettingOption func(*AgencySettingMutation)
+
+// newAgencySettingMutation creates new mutation for the AgencySetting entity.
+func newAgencySettingMutation(c config, op Op, opts ...agencysettingOption) *AgencySettingMutation {
+	m := &AgencySettingMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeAgencySetting,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withAgencySettingID sets the ID field of the mutation.
+func withAgencySettingID(id int) agencysettingOption {
+	return func(m *AgencySettingMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *AgencySetting
+		)
+		m.oldValue = func(ctx context.Context) (*AgencySetting, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().AgencySetting.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withAgencySetting sets the old AgencySetting of the mutation.
+func withAgencySetting(node *AgencySetting) agencysettingOption {
+	return func(m *AgencySettingMutation) {
+		m.oldValue = func(context.Context) (*AgencySetting, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m AgencySettingMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m AgencySettingMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *AgencySettingMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// Where appends a list predicates to the AgencySettingMutation builder.
+func (m *AgencySettingMutation) Where(ps ...predicate.AgencySetting) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// Op returns the operation name.
+func (m *AgencySettingMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (AgencySetting).
+func (m *AgencySettingMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *AgencySettingMutation) Fields() []string {
+	fields := make([]string, 0, 0)
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *AgencySettingMutation) Field(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *AgencySettingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	return nil, fmt.Errorf("unknown AgencySetting field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AgencySettingMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown AgencySetting field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *AgencySettingMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *AgencySettingMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AgencySettingMutation) AddField(name string, value ent.Value) error {
+	return fmt.Errorf("unknown AgencySetting numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *AgencySettingMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *AgencySettingMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *AgencySettingMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown AgencySetting nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *AgencySettingMutation) ResetField(name string) error {
+	return fmt.Errorf("unknown AgencySetting field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *AgencySettingMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *AgencySettingMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *AgencySettingMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *AgencySettingMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *AgencySettingMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *AgencySettingMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *AgencySettingMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown AgencySetting unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *AgencySettingMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown AgencySetting edge %s", name)
+}
+
+// NewUserRewardSettingMutation represents an operation that mutates the NewUserRewardSetting nodes in the graph.
+type NewUserRewardSettingMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*NewUserRewardSetting, error)
+	predicates    []predicate.NewUserRewardSetting
+}
+
+var _ ent.Mutation = (*NewUserRewardSettingMutation)(nil)
+
+// newuserrewardsettingOption allows management of the mutation configuration using functional options.
+type newuserrewardsettingOption func(*NewUserRewardSettingMutation)
+
+// newNewUserRewardSettingMutation creates new mutation for the NewUserRewardSetting entity.
+func newNewUserRewardSettingMutation(c config, op Op, opts ...newuserrewardsettingOption) *NewUserRewardSettingMutation {
+	m := &NewUserRewardSettingMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeNewUserRewardSetting,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withNewUserRewardSettingID sets the ID field of the mutation.
+func withNewUserRewardSettingID(id int) newuserrewardsettingOption {
+	return func(m *NewUserRewardSettingMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *NewUserRewardSetting
+		)
+		m.oldValue = func(ctx context.Context) (*NewUserRewardSetting, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().NewUserRewardSetting.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withNewUserRewardSetting sets the old NewUserRewardSetting of the mutation.
+func withNewUserRewardSetting(node *NewUserRewardSetting) newuserrewardsettingOption {
+	return func(m *NewUserRewardSettingMutation) {
+		m.oldValue = func(context.Context) (*NewUserRewardSetting, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m NewUserRewardSettingMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m NewUserRewardSettingMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *NewUserRewardSettingMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// Where appends a list predicates to the NewUserRewardSettingMutation builder.
+func (m *NewUserRewardSettingMutation) Where(ps ...predicate.NewUserRewardSetting) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// Op returns the operation name.
+func (m *NewUserRewardSettingMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (NewUserRewardSetting).
+func (m *NewUserRewardSettingMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *NewUserRewardSettingMutation) Fields() []string {
+	fields := make([]string, 0, 0)
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *NewUserRewardSettingMutation) Field(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *NewUserRewardSettingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	return nil, fmt.Errorf("unknown NewUserRewardSetting field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *NewUserRewardSettingMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown NewUserRewardSetting field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *NewUserRewardSettingMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *NewUserRewardSettingMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *NewUserRewardSettingMutation) AddField(name string, value ent.Value) error {
+	return fmt.Errorf("unknown NewUserRewardSetting numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *NewUserRewardSettingMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *NewUserRewardSettingMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *NewUserRewardSettingMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown NewUserRewardSetting nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *NewUserRewardSettingMutation) ResetField(name string) error {
+	return fmt.Errorf("unknown NewUserRewardSetting field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *NewUserRewardSettingMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *NewUserRewardSettingMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *NewUserRewardSettingMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *NewUserRewardSettingMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *NewUserRewardSettingMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *NewUserRewardSettingMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *NewUserRewardSettingMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown NewUserRewardSetting unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *NewUserRewardSettingMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown NewUserRewardSetting edge %s", name)
+}
+
+// PurchaseInvitationMutation represents an operation that mutates the PurchaseInvitation nodes in the graph.
+type PurchaseInvitationMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*PurchaseInvitation, error)
+	predicates    []predicate.PurchaseInvitation
+}
+
+var _ ent.Mutation = (*PurchaseInvitationMutation)(nil)
+
+// purchaseinvitationOption allows management of the mutation configuration using functional options.
+type purchaseinvitationOption func(*PurchaseInvitationMutation)
+
+// newPurchaseInvitationMutation creates new mutation for the PurchaseInvitation entity.
+func newPurchaseInvitationMutation(c config, op Op, opts ...purchaseinvitationOption) *PurchaseInvitationMutation {
+	m := &PurchaseInvitationMutation{
+		config:        c,
+		op:            op,
+		typ:           TypePurchaseInvitation,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withPurchaseInvitationID sets the ID field of the mutation.
+func withPurchaseInvitationID(id int) purchaseinvitationOption {
+	return func(m *PurchaseInvitationMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *PurchaseInvitation
+		)
+		m.oldValue = func(ctx context.Context) (*PurchaseInvitation, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().PurchaseInvitation.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withPurchaseInvitation sets the old PurchaseInvitation of the mutation.
+func withPurchaseInvitation(node *PurchaseInvitation) purchaseinvitationOption {
+	return func(m *PurchaseInvitationMutation) {
+		m.oldValue = func(context.Context) (*PurchaseInvitation, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m PurchaseInvitationMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m PurchaseInvitationMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *PurchaseInvitationMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// Where appends a list predicates to the PurchaseInvitationMutation builder.
+func (m *PurchaseInvitationMutation) Where(ps ...predicate.PurchaseInvitation) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// Op returns the operation name.
+func (m *PurchaseInvitationMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (PurchaseInvitation).
+func (m *PurchaseInvitationMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *PurchaseInvitationMutation) Fields() []string {
+	fields := make([]string, 0, 0)
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *PurchaseInvitationMutation) Field(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *PurchaseInvitationMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	return nil, fmt.Errorf("unknown PurchaseInvitation field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PurchaseInvitationMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown PurchaseInvitation field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *PurchaseInvitationMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *PurchaseInvitationMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PurchaseInvitationMutation) AddField(name string, value ent.Value) error {
+	return fmt.Errorf("unknown PurchaseInvitation numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *PurchaseInvitationMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *PurchaseInvitationMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *PurchaseInvitationMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown PurchaseInvitation nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *PurchaseInvitationMutation) ResetField(name string) error {
+	return fmt.Errorf("unknown PurchaseInvitation field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *PurchaseInvitationMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *PurchaseInvitationMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *PurchaseInvitationMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *PurchaseInvitationMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *PurchaseInvitationMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *PurchaseInvitationMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *PurchaseInvitationMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown PurchaseInvitation unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *PurchaseInvitationMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown PurchaseInvitation edge %s", name)
+}
 
 // RegistrationInvitationMutation represents an operation that mutates the RegistrationInvitation nodes in the graph.
 type RegistrationInvitationMutation struct {
@@ -251,4 +945,234 @@ func (m *RegistrationInvitationMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *RegistrationInvitationMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown RegistrationInvitation edge %s", name)
+}
+
+// UserInvitationCodeMutation represents an operation that mutates the UserInvitationCode nodes in the graph.
+type UserInvitationCodeMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*UserInvitationCode, error)
+	predicates    []predicate.UserInvitationCode
+}
+
+var _ ent.Mutation = (*UserInvitationCodeMutation)(nil)
+
+// userinvitationcodeOption allows management of the mutation configuration using functional options.
+type userinvitationcodeOption func(*UserInvitationCodeMutation)
+
+// newUserInvitationCodeMutation creates new mutation for the UserInvitationCode entity.
+func newUserInvitationCodeMutation(c config, op Op, opts ...userinvitationcodeOption) *UserInvitationCodeMutation {
+	m := &UserInvitationCodeMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeUserInvitationCode,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withUserInvitationCodeID sets the ID field of the mutation.
+func withUserInvitationCodeID(id int) userinvitationcodeOption {
+	return func(m *UserInvitationCodeMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *UserInvitationCode
+		)
+		m.oldValue = func(ctx context.Context) (*UserInvitationCode, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().UserInvitationCode.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withUserInvitationCode sets the old UserInvitationCode of the mutation.
+func withUserInvitationCode(node *UserInvitationCode) userinvitationcodeOption {
+	return func(m *UserInvitationCodeMutation) {
+		m.oldValue = func(context.Context) (*UserInvitationCode, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m UserInvitationCodeMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m UserInvitationCodeMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *UserInvitationCodeMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// Where appends a list predicates to the UserInvitationCodeMutation builder.
+func (m *UserInvitationCodeMutation) Where(ps ...predicate.UserInvitationCode) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// Op returns the operation name.
+func (m *UserInvitationCodeMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (UserInvitationCode).
+func (m *UserInvitationCodeMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *UserInvitationCodeMutation) Fields() []string {
+	fields := make([]string, 0, 0)
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *UserInvitationCodeMutation) Field(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *UserInvitationCodeMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	return nil, fmt.Errorf("unknown UserInvitationCode field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *UserInvitationCodeMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown UserInvitationCode field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *UserInvitationCodeMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *UserInvitationCodeMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *UserInvitationCodeMutation) AddField(name string, value ent.Value) error {
+	return fmt.Errorf("unknown UserInvitationCode numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *UserInvitationCodeMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *UserInvitationCodeMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *UserInvitationCodeMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown UserInvitationCode nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *UserInvitationCodeMutation) ResetField(name string) error {
+	return fmt.Errorf("unknown UserInvitationCode field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *UserInvitationCodeMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *UserInvitationCodeMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *UserInvitationCodeMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *UserInvitationCodeMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *UserInvitationCodeMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *UserInvitationCodeMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *UserInvitationCodeMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown UserInvitationCode unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *UserInvitationCodeMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown UserInvitationCode edge %s", name)
 }
