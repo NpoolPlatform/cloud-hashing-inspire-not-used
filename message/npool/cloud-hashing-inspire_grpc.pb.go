@@ -21,6 +21,38 @@ const _ = grpc.SupportPackageIsVersion7
 type CloudHashingInspireClient interface {
 	// Method Version
 	Version(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VersionResponse, error)
+	CreateNewUserRewardSetting(ctx context.Context, in *CreateNewUserRewardSettingRequest, opts ...grpc.CallOption) (*CreateNewUserRewardSettingResponse, error)
+	GetNewUserRewardSetting(ctx context.Context, in *GetNewUserRewardSettingRequest, opts ...grpc.CallOption) (*GetNewUserRewardSettingResponse, error)
+	GetNewUserRewardSettingByApp(ctx context.Context, in *GetNewUserRewardSettingByAppRequest, opts ...grpc.CallOption) (*GetNewUserRewardSettingByAppResponse, error)
+	UpdateNewUserRewardSetting(ctx context.Context, in *UpdateNewUserRewardSettingRequest, opts ...grpc.CallOption) (*UpdateNewUserRewardSettingResponse, error)
+	CreateAgencySetting(ctx context.Context, in *CreateAgencySettingRequest, opts ...grpc.CallOption) (*CreateAgencySettingResponse, error)
+	GetAgencySetting(ctx context.Context, in *GetAgencySettingRequest, opts ...grpc.CallOption) (*GetAgencySettingResponse, error)
+	GetAgencySettingByApp(ctx context.Context, in *GetAgencySettingByAppRequest, opts ...grpc.CallOption) (*GetAgencySettingByAppResponse, error)
+	UpdateAgencySetting(ctx context.Context, in *UpdateAgencySettingRequest, opts ...grpc.CallOption) (*UpdateAgencySettingResponse, error)
+	CreatePurchaseInvitation(ctx context.Context, in *CreatePurchaseInvitationRequest, opts ...grpc.CallOption) (*CreatePurchaseInvitationResponse, error)
+	GetPurchaseInvitation(ctx context.Context, in *GetPurchaseInvitationRequest, opts ...grpc.CallOption) (*GetPurchaseInvitationResponse, error)
+	GetPurchaseInvitationsByApp(ctx context.Context, in *GetPurchaseInvitationsByAppRequest, opts ...grpc.CallOption) (*GetPurchaseInvitationsByAppResponse, error)
+	GetPurchaseInvitationByAppOrder(ctx context.Context, in *GetPurchaseInvitationByAppOrderRequest, opts ...grpc.CallOption) (*GetPurchaseInvitationByAppOrderResponse, error)
+	CreateRegistrationInvitation(ctx context.Context, in *CreateRegistrationInvitationRequest, opts ...grpc.CallOption) (*CreateRegistrationInvitationResponse, error)
+	GetRegistrationInvitation(ctx context.Context, in *GetRegistrationInvitationRequest, opts ...grpc.CallOption) (*GetRegistrationInvitationResponse, error)
+	GetRegistrationInvitationsByApp(ctx context.Context, in *GetRegistrationInvitationsByAppRequest, opts ...grpc.CallOption) (*GetRegistrationInvitationsByAppResponse, error)
+	GetRegistrationInvitationsByAppInviter(ctx context.Context, in *GetRegistrationInvitationsByAppInviterRequest, opts ...grpc.CallOption) (*GetRegistrationInvitationsByAppInviterResponse, error)
+	CreateUserInvitationCode(ctx context.Context, in *CreateUserInvitationCodeRequest, opts ...grpc.CallOption) (*CreateUserInvitationCodeResponse, error)
+	GetUserInvitationCode(ctx context.Context, in *GetUserInvitationCodeRequest, opts ...grpc.CallOption) (*GetUserInvitationCodeResponse, error)
+	GetUserInvitationCodeByAppUser(ctx context.Context, in *GetUserInvitationCodeByAppUserRequest, opts ...grpc.CallOption) (*GetUserInvitationCodeByAppUserResponse, error)
+	CreateCouponAllocated(ctx context.Context, in *CreateCouponAllocatedRequest, opts ...grpc.CallOption) (*CreateCouponAllocatedResponse, error)
+	GetCouponAllocated(ctx context.Context, in *GetCouponAllocatedRequest, opts ...grpc.CallOption) (*GetCouponAllocatedResponse, error)
+	GetCouponsAllocatedByApp(ctx context.Context, in *GetCouponsAllocatedByAppRequest, opts ...grpc.CallOption) (*GetCouponsAllocatedByAppResponse, error)
+	GetCouponsAllocatedByAppUser(ctx context.Context, in *GetCouponsAllocatedByAppUserRequest, opts ...grpc.CallOption) (*GetCouponsAllocatedByAppUserResponse, error)
+	UpdateCouponAllocated(ctx context.Context, in *UpdateCouponAllocatedRequest, opts ...grpc.CallOption) (*UpdateCouponAllocatedResponse, error)
+	CreateCouponPool(ctx context.Context, in *CreateCouponPoolRequest, opts ...grpc.CallOption) (*CreateCouponPoolResponse, error)
+	GetCouponPool(ctx context.Context, in *GetCouponPoolRequest, opts ...grpc.CallOption) (*GetCouponPoolResponse, error)
+	GetCouponPoolsByApp(ctx context.Context, in *GetCouponPoolsByAppRequest, opts ...grpc.CallOption) (*GetCouponPoolsByAppResponse, error)
+	GetCouponPoolsByAppReleaser(ctx context.Context, in *GetCouponPoolsByAppReleaserRequest, opts ...grpc.CallOption) (*GetCouponPoolsByAppReleaserResponse, error)
+	CreateAppCouponSetting(ctx context.Context, in *CreateAppCouponSettingRequest, opts ...grpc.CallOption) (*CreateAppCouponSettingResponse, error)
+	GetAppCouponSetting(ctx context.Context, in *GetAppCouponSettingRequest, opts ...grpc.CallOption) (*GetAppCouponSettingResponse, error)
+	GetAppCouponSettingByApp(ctx context.Context, in *GetAppCouponSettingByAppRequest, opts ...grpc.CallOption) (*GetAppCouponSettingByAppResponse, error)
+	UpdateAppCouponSetting(ctx context.Context, in *UpdateAppCouponSettingRequest, opts ...grpc.CallOption) (*UpdateAppCouponSettingResponse, error)
 }
 
 type cloudHashingInspireClient struct {
@@ -40,12 +72,332 @@ func (c *cloudHashingInspireClient) Version(ctx context.Context, in *emptypb.Emp
 	return out, nil
 }
 
+func (c *cloudHashingInspireClient) CreateNewUserRewardSetting(ctx context.Context, in *CreateNewUserRewardSettingRequest, opts ...grpc.CallOption) (*CreateNewUserRewardSettingResponse, error) {
+	out := new(CreateNewUserRewardSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateNewUserRewardSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetNewUserRewardSetting(ctx context.Context, in *GetNewUserRewardSettingRequest, opts ...grpc.CallOption) (*GetNewUserRewardSettingResponse, error) {
+	out := new(GetNewUserRewardSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetNewUserRewardSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetNewUserRewardSettingByApp(ctx context.Context, in *GetNewUserRewardSettingByAppRequest, opts ...grpc.CallOption) (*GetNewUserRewardSettingByAppResponse, error) {
+	out := new(GetNewUserRewardSettingByAppResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetNewUserRewardSettingByApp", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) UpdateNewUserRewardSetting(ctx context.Context, in *UpdateNewUserRewardSettingRequest, opts ...grpc.CallOption) (*UpdateNewUserRewardSettingResponse, error) {
+	out := new(UpdateNewUserRewardSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateNewUserRewardSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) CreateAgencySetting(ctx context.Context, in *CreateAgencySettingRequest, opts ...grpc.CallOption) (*CreateAgencySettingResponse, error) {
+	out := new(CreateAgencySettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateAgencySetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetAgencySetting(ctx context.Context, in *GetAgencySettingRequest, opts ...grpc.CallOption) (*GetAgencySettingResponse, error) {
+	out := new(GetAgencySettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetAgencySetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetAgencySettingByApp(ctx context.Context, in *GetAgencySettingByAppRequest, opts ...grpc.CallOption) (*GetAgencySettingByAppResponse, error) {
+	out := new(GetAgencySettingByAppResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetAgencySettingByApp", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) UpdateAgencySetting(ctx context.Context, in *UpdateAgencySettingRequest, opts ...grpc.CallOption) (*UpdateAgencySettingResponse, error) {
+	out := new(UpdateAgencySettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateAgencySetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) CreatePurchaseInvitation(ctx context.Context, in *CreatePurchaseInvitationRequest, opts ...grpc.CallOption) (*CreatePurchaseInvitationResponse, error) {
+	out := new(CreatePurchaseInvitationResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreatePurchaseInvitation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetPurchaseInvitation(ctx context.Context, in *GetPurchaseInvitationRequest, opts ...grpc.CallOption) (*GetPurchaseInvitationResponse, error) {
+	out := new(GetPurchaseInvitationResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetPurchaseInvitation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetPurchaseInvitationsByApp(ctx context.Context, in *GetPurchaseInvitationsByAppRequest, opts ...grpc.CallOption) (*GetPurchaseInvitationsByAppResponse, error) {
+	out := new(GetPurchaseInvitationsByAppResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetPurchaseInvitationsByApp", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetPurchaseInvitationByAppOrder(ctx context.Context, in *GetPurchaseInvitationByAppOrderRequest, opts ...grpc.CallOption) (*GetPurchaseInvitationByAppOrderResponse, error) {
+	out := new(GetPurchaseInvitationByAppOrderResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetPurchaseInvitationByAppOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) CreateRegistrationInvitation(ctx context.Context, in *CreateRegistrationInvitationRequest, opts ...grpc.CallOption) (*CreateRegistrationInvitationResponse, error) {
+	out := new(CreateRegistrationInvitationResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateRegistrationInvitation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetRegistrationInvitation(ctx context.Context, in *GetRegistrationInvitationRequest, opts ...grpc.CallOption) (*GetRegistrationInvitationResponse, error) {
+	out := new(GetRegistrationInvitationResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetRegistrationInvitation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetRegistrationInvitationsByApp(ctx context.Context, in *GetRegistrationInvitationsByAppRequest, opts ...grpc.CallOption) (*GetRegistrationInvitationsByAppResponse, error) {
+	out := new(GetRegistrationInvitationsByAppResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetRegistrationInvitationsByApp", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetRegistrationInvitationsByAppInviter(ctx context.Context, in *GetRegistrationInvitationsByAppInviterRequest, opts ...grpc.CallOption) (*GetRegistrationInvitationsByAppInviterResponse, error) {
+	out := new(GetRegistrationInvitationsByAppInviterResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetRegistrationInvitationsByAppInviter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) CreateUserInvitationCode(ctx context.Context, in *CreateUserInvitationCodeRequest, opts ...grpc.CallOption) (*CreateUserInvitationCodeResponse, error) {
+	out := new(CreateUserInvitationCodeResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateUserInvitationCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetUserInvitationCode(ctx context.Context, in *GetUserInvitationCodeRequest, opts ...grpc.CallOption) (*GetUserInvitationCodeResponse, error) {
+	out := new(GetUserInvitationCodeResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetUserInvitationCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetUserInvitationCodeByAppUser(ctx context.Context, in *GetUserInvitationCodeByAppUserRequest, opts ...grpc.CallOption) (*GetUserInvitationCodeByAppUserResponse, error) {
+	out := new(GetUserInvitationCodeByAppUserResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetUserInvitationCodeByAppUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) CreateCouponAllocated(ctx context.Context, in *CreateCouponAllocatedRequest, opts ...grpc.CallOption) (*CreateCouponAllocatedResponse, error) {
+	out := new(CreateCouponAllocatedResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateCouponAllocated", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetCouponAllocated(ctx context.Context, in *GetCouponAllocatedRequest, opts ...grpc.CallOption) (*GetCouponAllocatedResponse, error) {
+	out := new(GetCouponAllocatedResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponAllocated", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetCouponsAllocatedByApp(ctx context.Context, in *GetCouponsAllocatedByAppRequest, opts ...grpc.CallOption) (*GetCouponsAllocatedByAppResponse, error) {
+	out := new(GetCouponsAllocatedByAppResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponsAllocatedByApp", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetCouponsAllocatedByAppUser(ctx context.Context, in *GetCouponsAllocatedByAppUserRequest, opts ...grpc.CallOption) (*GetCouponsAllocatedByAppUserResponse, error) {
+	out := new(GetCouponsAllocatedByAppUserResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponsAllocatedByAppUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) UpdateCouponAllocated(ctx context.Context, in *UpdateCouponAllocatedRequest, opts ...grpc.CallOption) (*UpdateCouponAllocatedResponse, error) {
+	out := new(UpdateCouponAllocatedResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateCouponAllocated", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) CreateCouponPool(ctx context.Context, in *CreateCouponPoolRequest, opts ...grpc.CallOption) (*CreateCouponPoolResponse, error) {
+	out := new(CreateCouponPoolResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateCouponPool", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetCouponPool(ctx context.Context, in *GetCouponPoolRequest, opts ...grpc.CallOption) (*GetCouponPoolResponse, error) {
+	out := new(GetCouponPoolResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponPool", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetCouponPoolsByApp(ctx context.Context, in *GetCouponPoolsByAppRequest, opts ...grpc.CallOption) (*GetCouponPoolsByAppResponse, error) {
+	out := new(GetCouponPoolsByAppResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponPoolsByApp", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetCouponPoolsByAppReleaser(ctx context.Context, in *GetCouponPoolsByAppReleaserRequest, opts ...grpc.CallOption) (*GetCouponPoolsByAppReleaserResponse, error) {
+	out := new(GetCouponPoolsByAppReleaserResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponPoolsByAppReleaser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) CreateAppCouponSetting(ctx context.Context, in *CreateAppCouponSettingRequest, opts ...grpc.CallOption) (*CreateAppCouponSettingResponse, error) {
+	out := new(CreateAppCouponSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateAppCouponSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetAppCouponSetting(ctx context.Context, in *GetAppCouponSettingRequest, opts ...grpc.CallOption) (*GetAppCouponSettingResponse, error) {
+	out := new(GetAppCouponSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetAppCouponSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetAppCouponSettingByApp(ctx context.Context, in *GetAppCouponSettingByAppRequest, opts ...grpc.CallOption) (*GetAppCouponSettingByAppResponse, error) {
+	out := new(GetAppCouponSettingByAppResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetAppCouponSettingByApp", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) UpdateAppCouponSetting(ctx context.Context, in *UpdateAppCouponSettingRequest, opts ...grpc.CallOption) (*UpdateAppCouponSettingResponse, error) {
+	out := new(UpdateAppCouponSettingResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateAppCouponSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CloudHashingInspireServer is the server API for CloudHashingInspire service.
 // All implementations must embed UnimplementedCloudHashingInspireServer
 // for forward compatibility
 type CloudHashingInspireServer interface {
 	// Method Version
 	Version(context.Context, *emptypb.Empty) (*VersionResponse, error)
+	CreateNewUserRewardSetting(context.Context, *CreateNewUserRewardSettingRequest) (*CreateNewUserRewardSettingResponse, error)
+	GetNewUserRewardSetting(context.Context, *GetNewUserRewardSettingRequest) (*GetNewUserRewardSettingResponse, error)
+	GetNewUserRewardSettingByApp(context.Context, *GetNewUserRewardSettingByAppRequest) (*GetNewUserRewardSettingByAppResponse, error)
+	UpdateNewUserRewardSetting(context.Context, *UpdateNewUserRewardSettingRequest) (*UpdateNewUserRewardSettingResponse, error)
+	CreateAgencySetting(context.Context, *CreateAgencySettingRequest) (*CreateAgencySettingResponse, error)
+	GetAgencySetting(context.Context, *GetAgencySettingRequest) (*GetAgencySettingResponse, error)
+	GetAgencySettingByApp(context.Context, *GetAgencySettingByAppRequest) (*GetAgencySettingByAppResponse, error)
+	UpdateAgencySetting(context.Context, *UpdateAgencySettingRequest) (*UpdateAgencySettingResponse, error)
+	CreatePurchaseInvitation(context.Context, *CreatePurchaseInvitationRequest) (*CreatePurchaseInvitationResponse, error)
+	GetPurchaseInvitation(context.Context, *GetPurchaseInvitationRequest) (*GetPurchaseInvitationResponse, error)
+	GetPurchaseInvitationsByApp(context.Context, *GetPurchaseInvitationsByAppRequest) (*GetPurchaseInvitationsByAppResponse, error)
+	GetPurchaseInvitationByAppOrder(context.Context, *GetPurchaseInvitationByAppOrderRequest) (*GetPurchaseInvitationByAppOrderResponse, error)
+	CreateRegistrationInvitation(context.Context, *CreateRegistrationInvitationRequest) (*CreateRegistrationInvitationResponse, error)
+	GetRegistrationInvitation(context.Context, *GetRegistrationInvitationRequest) (*GetRegistrationInvitationResponse, error)
+	GetRegistrationInvitationsByApp(context.Context, *GetRegistrationInvitationsByAppRequest) (*GetRegistrationInvitationsByAppResponse, error)
+	GetRegistrationInvitationsByAppInviter(context.Context, *GetRegistrationInvitationsByAppInviterRequest) (*GetRegistrationInvitationsByAppInviterResponse, error)
+	CreateUserInvitationCode(context.Context, *CreateUserInvitationCodeRequest) (*CreateUserInvitationCodeResponse, error)
+	GetUserInvitationCode(context.Context, *GetUserInvitationCodeRequest) (*GetUserInvitationCodeResponse, error)
+	GetUserInvitationCodeByAppUser(context.Context, *GetUserInvitationCodeByAppUserRequest) (*GetUserInvitationCodeByAppUserResponse, error)
+	CreateCouponAllocated(context.Context, *CreateCouponAllocatedRequest) (*CreateCouponAllocatedResponse, error)
+	GetCouponAllocated(context.Context, *GetCouponAllocatedRequest) (*GetCouponAllocatedResponse, error)
+	GetCouponsAllocatedByApp(context.Context, *GetCouponsAllocatedByAppRequest) (*GetCouponsAllocatedByAppResponse, error)
+	GetCouponsAllocatedByAppUser(context.Context, *GetCouponsAllocatedByAppUserRequest) (*GetCouponsAllocatedByAppUserResponse, error)
+	UpdateCouponAllocated(context.Context, *UpdateCouponAllocatedRequest) (*UpdateCouponAllocatedResponse, error)
+	CreateCouponPool(context.Context, *CreateCouponPoolRequest) (*CreateCouponPoolResponse, error)
+	GetCouponPool(context.Context, *GetCouponPoolRequest) (*GetCouponPoolResponse, error)
+	GetCouponPoolsByApp(context.Context, *GetCouponPoolsByAppRequest) (*GetCouponPoolsByAppResponse, error)
+	GetCouponPoolsByAppReleaser(context.Context, *GetCouponPoolsByAppReleaserRequest) (*GetCouponPoolsByAppReleaserResponse, error)
+	CreateAppCouponSetting(context.Context, *CreateAppCouponSettingRequest) (*CreateAppCouponSettingResponse, error)
+	GetAppCouponSetting(context.Context, *GetAppCouponSettingRequest) (*GetAppCouponSettingResponse, error)
+	GetAppCouponSettingByApp(context.Context, *GetAppCouponSettingByAppRequest) (*GetAppCouponSettingByAppResponse, error)
+	UpdateAppCouponSetting(context.Context, *UpdateAppCouponSettingRequest) (*UpdateAppCouponSettingResponse, error)
 	mustEmbedUnimplementedCloudHashingInspireServer()
 }
 
@@ -55,6 +407,102 @@ type UnimplementedCloudHashingInspireServer struct {
 
 func (UnimplementedCloudHashingInspireServer) Version(context.Context, *emptypb.Empty) (*VersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Version not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) CreateNewUserRewardSetting(context.Context, *CreateNewUserRewardSettingRequest) (*CreateNewUserRewardSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateNewUserRewardSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetNewUserRewardSetting(context.Context, *GetNewUserRewardSettingRequest) (*GetNewUserRewardSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNewUserRewardSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetNewUserRewardSettingByApp(context.Context, *GetNewUserRewardSettingByAppRequest) (*GetNewUserRewardSettingByAppResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNewUserRewardSettingByApp not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) UpdateNewUserRewardSetting(context.Context, *UpdateNewUserRewardSettingRequest) (*UpdateNewUserRewardSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNewUserRewardSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) CreateAgencySetting(context.Context, *CreateAgencySettingRequest) (*CreateAgencySettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAgencySetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetAgencySetting(context.Context, *GetAgencySettingRequest) (*GetAgencySettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAgencySetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetAgencySettingByApp(context.Context, *GetAgencySettingByAppRequest) (*GetAgencySettingByAppResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAgencySettingByApp not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) UpdateAgencySetting(context.Context, *UpdateAgencySettingRequest) (*UpdateAgencySettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAgencySetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) CreatePurchaseInvitation(context.Context, *CreatePurchaseInvitationRequest) (*CreatePurchaseInvitationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePurchaseInvitation not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetPurchaseInvitation(context.Context, *GetPurchaseInvitationRequest) (*GetPurchaseInvitationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPurchaseInvitation not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetPurchaseInvitationsByApp(context.Context, *GetPurchaseInvitationsByAppRequest) (*GetPurchaseInvitationsByAppResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPurchaseInvitationsByApp not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetPurchaseInvitationByAppOrder(context.Context, *GetPurchaseInvitationByAppOrderRequest) (*GetPurchaseInvitationByAppOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPurchaseInvitationByAppOrder not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) CreateRegistrationInvitation(context.Context, *CreateRegistrationInvitationRequest) (*CreateRegistrationInvitationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRegistrationInvitation not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetRegistrationInvitation(context.Context, *GetRegistrationInvitationRequest) (*GetRegistrationInvitationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRegistrationInvitation not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetRegistrationInvitationsByApp(context.Context, *GetRegistrationInvitationsByAppRequest) (*GetRegistrationInvitationsByAppResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRegistrationInvitationsByApp not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetRegistrationInvitationsByAppInviter(context.Context, *GetRegistrationInvitationsByAppInviterRequest) (*GetRegistrationInvitationsByAppInviterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRegistrationInvitationsByAppInviter not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) CreateUserInvitationCode(context.Context, *CreateUserInvitationCodeRequest) (*CreateUserInvitationCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUserInvitationCode not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetUserInvitationCode(context.Context, *GetUserInvitationCodeRequest) (*GetUserInvitationCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInvitationCode not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetUserInvitationCodeByAppUser(context.Context, *GetUserInvitationCodeByAppUserRequest) (*GetUserInvitationCodeByAppUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInvitationCodeByAppUser not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) CreateCouponAllocated(context.Context, *CreateCouponAllocatedRequest) (*CreateCouponAllocatedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCouponAllocated not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetCouponAllocated(context.Context, *GetCouponAllocatedRequest) (*GetCouponAllocatedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCouponAllocated not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetCouponsAllocatedByApp(context.Context, *GetCouponsAllocatedByAppRequest) (*GetCouponsAllocatedByAppResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCouponsAllocatedByApp not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetCouponsAllocatedByAppUser(context.Context, *GetCouponsAllocatedByAppUserRequest) (*GetCouponsAllocatedByAppUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCouponsAllocatedByAppUser not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) UpdateCouponAllocated(context.Context, *UpdateCouponAllocatedRequest) (*UpdateCouponAllocatedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCouponAllocated not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) CreateCouponPool(context.Context, *CreateCouponPoolRequest) (*CreateCouponPoolResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCouponPool not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetCouponPool(context.Context, *GetCouponPoolRequest) (*GetCouponPoolResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCouponPool not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetCouponPoolsByApp(context.Context, *GetCouponPoolsByAppRequest) (*GetCouponPoolsByAppResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCouponPoolsByApp not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetCouponPoolsByAppReleaser(context.Context, *GetCouponPoolsByAppReleaserRequest) (*GetCouponPoolsByAppReleaserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCouponPoolsByAppReleaser not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) CreateAppCouponSetting(context.Context, *CreateAppCouponSettingRequest) (*CreateAppCouponSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAppCouponSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetAppCouponSetting(context.Context, *GetAppCouponSettingRequest) (*GetAppCouponSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAppCouponSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetAppCouponSettingByApp(context.Context, *GetAppCouponSettingByAppRequest) (*GetAppCouponSettingByAppResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAppCouponSettingByApp not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) UpdateAppCouponSetting(context.Context, *UpdateAppCouponSettingRequest) (*UpdateAppCouponSettingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAppCouponSetting not implemented")
 }
 func (UnimplementedCloudHashingInspireServer) mustEmbedUnimplementedCloudHashingInspireServer() {}
 
@@ -87,6 +535,582 @@ func _CloudHashingInspire_Version_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CloudHashingInspire_CreateNewUserRewardSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateNewUserRewardSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).CreateNewUserRewardSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateNewUserRewardSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).CreateNewUserRewardSetting(ctx, req.(*CreateNewUserRewardSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetNewUserRewardSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNewUserRewardSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetNewUserRewardSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetNewUserRewardSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetNewUserRewardSetting(ctx, req.(*GetNewUserRewardSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetNewUserRewardSettingByApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNewUserRewardSettingByAppRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetNewUserRewardSettingByApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetNewUserRewardSettingByApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetNewUserRewardSettingByApp(ctx, req.(*GetNewUserRewardSettingByAppRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_UpdateNewUserRewardSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateNewUserRewardSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).UpdateNewUserRewardSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateNewUserRewardSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).UpdateNewUserRewardSetting(ctx, req.(*UpdateNewUserRewardSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_CreateAgencySetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAgencySettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).CreateAgencySetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateAgencySetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).CreateAgencySetting(ctx, req.(*CreateAgencySettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetAgencySetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAgencySettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetAgencySetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetAgencySetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetAgencySetting(ctx, req.(*GetAgencySettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetAgencySettingByApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAgencySettingByAppRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetAgencySettingByApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetAgencySettingByApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetAgencySettingByApp(ctx, req.(*GetAgencySettingByAppRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_UpdateAgencySetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAgencySettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).UpdateAgencySetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateAgencySetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).UpdateAgencySetting(ctx, req.(*UpdateAgencySettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_CreatePurchaseInvitation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePurchaseInvitationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).CreatePurchaseInvitation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/CreatePurchaseInvitation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).CreatePurchaseInvitation(ctx, req.(*CreatePurchaseInvitationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetPurchaseInvitation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPurchaseInvitationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetPurchaseInvitation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetPurchaseInvitation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetPurchaseInvitation(ctx, req.(*GetPurchaseInvitationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetPurchaseInvitationsByApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPurchaseInvitationsByAppRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetPurchaseInvitationsByApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetPurchaseInvitationsByApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetPurchaseInvitationsByApp(ctx, req.(*GetPurchaseInvitationsByAppRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetPurchaseInvitationByAppOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPurchaseInvitationByAppOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetPurchaseInvitationByAppOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetPurchaseInvitationByAppOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetPurchaseInvitationByAppOrder(ctx, req.(*GetPurchaseInvitationByAppOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_CreateRegistrationInvitation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRegistrationInvitationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).CreateRegistrationInvitation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateRegistrationInvitation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).CreateRegistrationInvitation(ctx, req.(*CreateRegistrationInvitationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetRegistrationInvitation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRegistrationInvitationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetRegistrationInvitation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetRegistrationInvitation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetRegistrationInvitation(ctx, req.(*GetRegistrationInvitationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetRegistrationInvitationsByApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRegistrationInvitationsByAppRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetRegistrationInvitationsByApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetRegistrationInvitationsByApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetRegistrationInvitationsByApp(ctx, req.(*GetRegistrationInvitationsByAppRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetRegistrationInvitationsByAppInviter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRegistrationInvitationsByAppInviterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetRegistrationInvitationsByAppInviter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetRegistrationInvitationsByAppInviter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetRegistrationInvitationsByAppInviter(ctx, req.(*GetRegistrationInvitationsByAppInviterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_CreateUserInvitationCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserInvitationCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).CreateUserInvitationCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateUserInvitationCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).CreateUserInvitationCode(ctx, req.(*CreateUserInvitationCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetUserInvitationCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserInvitationCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetUserInvitationCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetUserInvitationCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetUserInvitationCode(ctx, req.(*GetUserInvitationCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetUserInvitationCodeByAppUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserInvitationCodeByAppUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetUserInvitationCodeByAppUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetUserInvitationCodeByAppUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetUserInvitationCodeByAppUser(ctx, req.(*GetUserInvitationCodeByAppUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_CreateCouponAllocated_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCouponAllocatedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).CreateCouponAllocated(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateCouponAllocated",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).CreateCouponAllocated(ctx, req.(*CreateCouponAllocatedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetCouponAllocated_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCouponAllocatedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetCouponAllocated(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponAllocated",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetCouponAllocated(ctx, req.(*GetCouponAllocatedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetCouponsAllocatedByApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCouponsAllocatedByAppRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetCouponsAllocatedByApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponsAllocatedByApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetCouponsAllocatedByApp(ctx, req.(*GetCouponsAllocatedByAppRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetCouponsAllocatedByAppUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCouponsAllocatedByAppUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetCouponsAllocatedByAppUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponsAllocatedByAppUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetCouponsAllocatedByAppUser(ctx, req.(*GetCouponsAllocatedByAppUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_UpdateCouponAllocated_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCouponAllocatedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).UpdateCouponAllocated(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateCouponAllocated",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).UpdateCouponAllocated(ctx, req.(*UpdateCouponAllocatedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_CreateCouponPool_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCouponPoolRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).CreateCouponPool(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateCouponPool",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).CreateCouponPool(ctx, req.(*CreateCouponPoolRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetCouponPool_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCouponPoolRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetCouponPool(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponPool",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetCouponPool(ctx, req.(*GetCouponPoolRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetCouponPoolsByApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCouponPoolsByAppRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetCouponPoolsByApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponPoolsByApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetCouponPoolsByApp(ctx, req.(*GetCouponPoolsByAppRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetCouponPoolsByAppReleaser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCouponPoolsByAppReleaserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetCouponPoolsByAppReleaser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponPoolsByAppReleaser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetCouponPoolsByAppReleaser(ctx, req.(*GetCouponPoolsByAppReleaserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_CreateAppCouponSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAppCouponSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).CreateAppCouponSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateAppCouponSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).CreateAppCouponSetting(ctx, req.(*CreateAppCouponSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetAppCouponSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAppCouponSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetAppCouponSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetAppCouponSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetAppCouponSetting(ctx, req.(*GetAppCouponSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetAppCouponSettingByApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAppCouponSettingByAppRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetAppCouponSettingByApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetAppCouponSettingByApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetAppCouponSettingByApp(ctx, req.(*GetAppCouponSettingByAppRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_UpdateAppCouponSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAppCouponSettingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).UpdateAppCouponSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateAppCouponSetting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).UpdateAppCouponSetting(ctx, req.(*UpdateAppCouponSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CloudHashingInspire_ServiceDesc is the grpc.ServiceDesc for CloudHashingInspire service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -97,6 +1121,134 @@ var CloudHashingInspire_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Version",
 			Handler:    _CloudHashingInspire_Version_Handler,
+		},
+		{
+			MethodName: "CreateNewUserRewardSetting",
+			Handler:    _CloudHashingInspire_CreateNewUserRewardSetting_Handler,
+		},
+		{
+			MethodName: "GetNewUserRewardSetting",
+			Handler:    _CloudHashingInspire_GetNewUserRewardSetting_Handler,
+		},
+		{
+			MethodName: "GetNewUserRewardSettingByApp",
+			Handler:    _CloudHashingInspire_GetNewUserRewardSettingByApp_Handler,
+		},
+		{
+			MethodName: "UpdateNewUserRewardSetting",
+			Handler:    _CloudHashingInspire_UpdateNewUserRewardSetting_Handler,
+		},
+		{
+			MethodName: "CreateAgencySetting",
+			Handler:    _CloudHashingInspire_CreateAgencySetting_Handler,
+		},
+		{
+			MethodName: "GetAgencySetting",
+			Handler:    _CloudHashingInspire_GetAgencySetting_Handler,
+		},
+		{
+			MethodName: "GetAgencySettingByApp",
+			Handler:    _CloudHashingInspire_GetAgencySettingByApp_Handler,
+		},
+		{
+			MethodName: "UpdateAgencySetting",
+			Handler:    _CloudHashingInspire_UpdateAgencySetting_Handler,
+		},
+		{
+			MethodName: "CreatePurchaseInvitation",
+			Handler:    _CloudHashingInspire_CreatePurchaseInvitation_Handler,
+		},
+		{
+			MethodName: "GetPurchaseInvitation",
+			Handler:    _CloudHashingInspire_GetPurchaseInvitation_Handler,
+		},
+		{
+			MethodName: "GetPurchaseInvitationsByApp",
+			Handler:    _CloudHashingInspire_GetPurchaseInvitationsByApp_Handler,
+		},
+		{
+			MethodName: "GetPurchaseInvitationByAppOrder",
+			Handler:    _CloudHashingInspire_GetPurchaseInvitationByAppOrder_Handler,
+		},
+		{
+			MethodName: "CreateRegistrationInvitation",
+			Handler:    _CloudHashingInspire_CreateRegistrationInvitation_Handler,
+		},
+		{
+			MethodName: "GetRegistrationInvitation",
+			Handler:    _CloudHashingInspire_GetRegistrationInvitation_Handler,
+		},
+		{
+			MethodName: "GetRegistrationInvitationsByApp",
+			Handler:    _CloudHashingInspire_GetRegistrationInvitationsByApp_Handler,
+		},
+		{
+			MethodName: "GetRegistrationInvitationsByAppInviter",
+			Handler:    _CloudHashingInspire_GetRegistrationInvitationsByAppInviter_Handler,
+		},
+		{
+			MethodName: "CreateUserInvitationCode",
+			Handler:    _CloudHashingInspire_CreateUserInvitationCode_Handler,
+		},
+		{
+			MethodName: "GetUserInvitationCode",
+			Handler:    _CloudHashingInspire_GetUserInvitationCode_Handler,
+		},
+		{
+			MethodName: "GetUserInvitationCodeByAppUser",
+			Handler:    _CloudHashingInspire_GetUserInvitationCodeByAppUser_Handler,
+		},
+		{
+			MethodName: "CreateCouponAllocated",
+			Handler:    _CloudHashingInspire_CreateCouponAllocated_Handler,
+		},
+		{
+			MethodName: "GetCouponAllocated",
+			Handler:    _CloudHashingInspire_GetCouponAllocated_Handler,
+		},
+		{
+			MethodName: "GetCouponsAllocatedByApp",
+			Handler:    _CloudHashingInspire_GetCouponsAllocatedByApp_Handler,
+		},
+		{
+			MethodName: "GetCouponsAllocatedByAppUser",
+			Handler:    _CloudHashingInspire_GetCouponsAllocatedByAppUser_Handler,
+		},
+		{
+			MethodName: "UpdateCouponAllocated",
+			Handler:    _CloudHashingInspire_UpdateCouponAllocated_Handler,
+		},
+		{
+			MethodName: "CreateCouponPool",
+			Handler:    _CloudHashingInspire_CreateCouponPool_Handler,
+		},
+		{
+			MethodName: "GetCouponPool",
+			Handler:    _CloudHashingInspire_GetCouponPool_Handler,
+		},
+		{
+			MethodName: "GetCouponPoolsByApp",
+			Handler:    _CloudHashingInspire_GetCouponPoolsByApp_Handler,
+		},
+		{
+			MethodName: "GetCouponPoolsByAppReleaser",
+			Handler:    _CloudHashingInspire_GetCouponPoolsByAppReleaser_Handler,
+		},
+		{
+			MethodName: "CreateAppCouponSetting",
+			Handler:    _CloudHashingInspire_CreateAppCouponSetting_Handler,
+		},
+		{
+			MethodName: "GetAppCouponSetting",
+			Handler:    _CloudHashingInspire_GetAppCouponSetting_Handler,
+		},
+		{
+			MethodName: "GetAppCouponSettingByApp",
+			Handler:    _CloudHashingInspire_GetAppCouponSettingByApp_Handler,
+		},
+		{
+			MethodName: "UpdateAppCouponSetting",
+			Handler:    _CloudHashingInspire_UpdateAppCouponSetting_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
