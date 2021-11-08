@@ -14,10 +14,12 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userkpisetting"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
@@ -36,6 +38,8 @@ type Client struct {
 	CouponAllocated *CouponAllocatedClient
 	// CouponPool is the client for interacting with the CouponPool builders.
 	CouponPool *CouponPoolClient
+	// DefaultKpiSetting is the client for interacting with the DefaultKpiSetting builders.
+	DefaultKpiSetting *DefaultKpiSettingClient
 	// NewUserRewardSetting is the client for interacting with the NewUserRewardSetting builders.
 	NewUserRewardSetting *NewUserRewardSettingClient
 	// PurchaseInvitation is the client for interacting with the PurchaseInvitation builders.
@@ -44,6 +48,8 @@ type Client struct {
 	RegistrationInvitation *RegistrationInvitationClient
 	// UserInvitationCode is the client for interacting with the UserInvitationCode builders.
 	UserInvitationCode *UserInvitationCodeClient
+	// UserKpiSetting is the client for interacting with the UserKpiSetting builders.
+	UserKpiSetting *UserKpiSettingClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -61,10 +67,12 @@ func (c *Client) init() {
 	c.AppCouponSetting = NewAppCouponSettingClient(c.config)
 	c.CouponAllocated = NewCouponAllocatedClient(c.config)
 	c.CouponPool = NewCouponPoolClient(c.config)
+	c.DefaultKpiSetting = NewDefaultKpiSettingClient(c.config)
 	c.NewUserRewardSetting = NewNewUserRewardSettingClient(c.config)
 	c.PurchaseInvitation = NewPurchaseInvitationClient(c.config)
 	c.RegistrationInvitation = NewRegistrationInvitationClient(c.config)
 	c.UserInvitationCode = NewUserInvitationCodeClient(c.config)
+	c.UserKpiSetting = NewUserKpiSettingClient(c.config)
 }
 
 // Open opens a database/sql.DB specified by the driver name and
@@ -102,10 +110,12 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		AppCouponSetting:       NewAppCouponSettingClient(cfg),
 		CouponAllocated:        NewCouponAllocatedClient(cfg),
 		CouponPool:             NewCouponPoolClient(cfg),
+		DefaultKpiSetting:      NewDefaultKpiSettingClient(cfg),
 		NewUserRewardSetting:   NewNewUserRewardSettingClient(cfg),
 		PurchaseInvitation:     NewPurchaseInvitationClient(cfg),
 		RegistrationInvitation: NewRegistrationInvitationClient(cfg),
 		UserInvitationCode:     NewUserInvitationCodeClient(cfg),
+		UserKpiSetting:         NewUserKpiSettingClient(cfg),
 	}, nil
 }
 
@@ -128,10 +138,12 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		AppCouponSetting:       NewAppCouponSettingClient(cfg),
 		CouponAllocated:        NewCouponAllocatedClient(cfg),
 		CouponPool:             NewCouponPoolClient(cfg),
+		DefaultKpiSetting:      NewDefaultKpiSettingClient(cfg),
 		NewUserRewardSetting:   NewNewUserRewardSettingClient(cfg),
 		PurchaseInvitation:     NewPurchaseInvitationClient(cfg),
 		RegistrationInvitation: NewRegistrationInvitationClient(cfg),
 		UserInvitationCode:     NewUserInvitationCodeClient(cfg),
+		UserKpiSetting:         NewUserKpiSettingClient(cfg),
 	}, nil
 }
 
@@ -165,10 +177,12 @@ func (c *Client) Use(hooks ...Hook) {
 	c.AppCouponSetting.Use(hooks...)
 	c.CouponAllocated.Use(hooks...)
 	c.CouponPool.Use(hooks...)
+	c.DefaultKpiSetting.Use(hooks...)
 	c.NewUserRewardSetting.Use(hooks...)
 	c.PurchaseInvitation.Use(hooks...)
 	c.RegistrationInvitation.Use(hooks...)
 	c.UserInvitationCode.Use(hooks...)
+	c.UserKpiSetting.Use(hooks...)
 }
 
 // AgencySettingClient is a client for the AgencySetting schema.
@@ -531,6 +545,96 @@ func (c *CouponPoolClient) Hooks() []Hook {
 	return c.hooks.CouponPool
 }
 
+// DefaultKpiSettingClient is a client for the DefaultKpiSetting schema.
+type DefaultKpiSettingClient struct {
+	config
+}
+
+// NewDefaultKpiSettingClient returns a client for the DefaultKpiSetting from the given config.
+func NewDefaultKpiSettingClient(c config) *DefaultKpiSettingClient {
+	return &DefaultKpiSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `defaultkpisetting.Hooks(f(g(h())))`.
+func (c *DefaultKpiSettingClient) Use(hooks ...Hook) {
+	c.hooks.DefaultKpiSetting = append(c.hooks.DefaultKpiSetting, hooks...)
+}
+
+// Create returns a create builder for DefaultKpiSetting.
+func (c *DefaultKpiSettingClient) Create() *DefaultKpiSettingCreate {
+	mutation := newDefaultKpiSettingMutation(c.config, OpCreate)
+	return &DefaultKpiSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of DefaultKpiSetting entities.
+func (c *DefaultKpiSettingClient) CreateBulk(builders ...*DefaultKpiSettingCreate) *DefaultKpiSettingCreateBulk {
+	return &DefaultKpiSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for DefaultKpiSetting.
+func (c *DefaultKpiSettingClient) Update() *DefaultKpiSettingUpdate {
+	mutation := newDefaultKpiSettingMutation(c.config, OpUpdate)
+	return &DefaultKpiSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *DefaultKpiSettingClient) UpdateOne(dks *DefaultKpiSetting) *DefaultKpiSettingUpdateOne {
+	mutation := newDefaultKpiSettingMutation(c.config, OpUpdateOne, withDefaultKpiSetting(dks))
+	return &DefaultKpiSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *DefaultKpiSettingClient) UpdateOneID(id uuid.UUID) *DefaultKpiSettingUpdateOne {
+	mutation := newDefaultKpiSettingMutation(c.config, OpUpdateOne, withDefaultKpiSettingID(id))
+	return &DefaultKpiSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for DefaultKpiSetting.
+func (c *DefaultKpiSettingClient) Delete() *DefaultKpiSettingDelete {
+	mutation := newDefaultKpiSettingMutation(c.config, OpDelete)
+	return &DefaultKpiSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *DefaultKpiSettingClient) DeleteOne(dks *DefaultKpiSetting) *DefaultKpiSettingDeleteOne {
+	return c.DeleteOneID(dks.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *DefaultKpiSettingClient) DeleteOneID(id uuid.UUID) *DefaultKpiSettingDeleteOne {
+	builder := c.Delete().Where(defaultkpisetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &DefaultKpiSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for DefaultKpiSetting.
+func (c *DefaultKpiSettingClient) Query() *DefaultKpiSettingQuery {
+	return &DefaultKpiSettingQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a DefaultKpiSetting entity by its id.
+func (c *DefaultKpiSettingClient) Get(ctx context.Context, id uuid.UUID) (*DefaultKpiSetting, error) {
+	return c.Query().Where(defaultkpisetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *DefaultKpiSettingClient) GetX(ctx context.Context, id uuid.UUID) *DefaultKpiSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *DefaultKpiSettingClient) Hooks() []Hook {
+	return c.hooks.DefaultKpiSetting
+}
+
 // NewUserRewardSettingClient is a client for the NewUserRewardSetting schema.
 type NewUserRewardSettingClient struct {
 	config
@@ -889,4 +993,94 @@ func (c *UserInvitationCodeClient) GetX(ctx context.Context, id uuid.UUID) *User
 // Hooks returns the client hooks.
 func (c *UserInvitationCodeClient) Hooks() []Hook {
 	return c.hooks.UserInvitationCode
+}
+
+// UserKpiSettingClient is a client for the UserKpiSetting schema.
+type UserKpiSettingClient struct {
+	config
+}
+
+// NewUserKpiSettingClient returns a client for the UserKpiSetting from the given config.
+func NewUserKpiSettingClient(c config) *UserKpiSettingClient {
+	return &UserKpiSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `userkpisetting.Hooks(f(g(h())))`.
+func (c *UserKpiSettingClient) Use(hooks ...Hook) {
+	c.hooks.UserKpiSetting = append(c.hooks.UserKpiSetting, hooks...)
+}
+
+// Create returns a create builder for UserKpiSetting.
+func (c *UserKpiSettingClient) Create() *UserKpiSettingCreate {
+	mutation := newUserKpiSettingMutation(c.config, OpCreate)
+	return &UserKpiSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserKpiSetting entities.
+func (c *UserKpiSettingClient) CreateBulk(builders ...*UserKpiSettingCreate) *UserKpiSettingCreateBulk {
+	return &UserKpiSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserKpiSetting.
+func (c *UserKpiSettingClient) Update() *UserKpiSettingUpdate {
+	mutation := newUserKpiSettingMutation(c.config, OpUpdate)
+	return &UserKpiSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserKpiSettingClient) UpdateOne(uks *UserKpiSetting) *UserKpiSettingUpdateOne {
+	mutation := newUserKpiSettingMutation(c.config, OpUpdateOne, withUserKpiSetting(uks))
+	return &UserKpiSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserKpiSettingClient) UpdateOneID(id uuid.UUID) *UserKpiSettingUpdateOne {
+	mutation := newUserKpiSettingMutation(c.config, OpUpdateOne, withUserKpiSettingID(id))
+	return &UserKpiSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserKpiSetting.
+func (c *UserKpiSettingClient) Delete() *UserKpiSettingDelete {
+	mutation := newUserKpiSettingMutation(c.config, OpDelete)
+	return &UserKpiSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *UserKpiSettingClient) DeleteOne(uks *UserKpiSetting) *UserKpiSettingDeleteOne {
+	return c.DeleteOneID(uks.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *UserKpiSettingClient) DeleteOneID(id uuid.UUID) *UserKpiSettingDeleteOne {
+	builder := c.Delete().Where(userkpisetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserKpiSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for UserKpiSetting.
+func (c *UserKpiSettingClient) Query() *UserKpiSettingQuery {
+	return &UserKpiSettingQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a UserKpiSetting entity by its id.
+func (c *UserKpiSettingClient) Get(ctx context.Context, id uuid.UUID) (*UserKpiSetting, error) {
+	return c.Query().Where(userkpisetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserKpiSettingClient) GetX(ctx context.Context, id uuid.UUID) *UserKpiSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserKpiSettingClient) Hooks() []Hook {
+	return c.hooks.UserKpiSetting
 }

@@ -20,6 +20,8 @@ type Tx struct {
 	CouponAllocated *CouponAllocatedClient
 	// CouponPool is the client for interacting with the CouponPool builders.
 	CouponPool *CouponPoolClient
+	// DefaultKpiSetting is the client for interacting with the DefaultKpiSetting builders.
+	DefaultKpiSetting *DefaultKpiSettingClient
 	// NewUserRewardSetting is the client for interacting with the NewUserRewardSetting builders.
 	NewUserRewardSetting *NewUserRewardSettingClient
 	// PurchaseInvitation is the client for interacting with the PurchaseInvitation builders.
@@ -28,6 +30,8 @@ type Tx struct {
 	RegistrationInvitation *RegistrationInvitationClient
 	// UserInvitationCode is the client for interacting with the UserInvitationCode builders.
 	UserInvitationCode *UserInvitationCodeClient
+	// UserKpiSetting is the client for interacting with the UserKpiSetting builders.
+	UserKpiSetting *UserKpiSettingClient
 
 	// lazily loaded.
 	client     *Client
@@ -167,10 +171,12 @@ func (tx *Tx) init() {
 	tx.AppCouponSetting = NewAppCouponSettingClient(tx.config)
 	tx.CouponAllocated = NewCouponAllocatedClient(tx.config)
 	tx.CouponPool = NewCouponPoolClient(tx.config)
+	tx.DefaultKpiSetting = NewDefaultKpiSettingClient(tx.config)
 	tx.NewUserRewardSetting = NewNewUserRewardSettingClient(tx.config)
 	tx.PurchaseInvitation = NewPurchaseInvitationClient(tx.config)
 	tx.RegistrationInvitation = NewRegistrationInvitationClient(tx.config)
 	tx.UserInvitationCode = NewUserInvitationCodeClient(tx.config)
+	tx.UserKpiSetting = NewUserKpiSettingClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

@@ -61,6 +61,19 @@ func (f CouponPoolFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, 
 	return f(ctx, mv)
 }
 
+// The DefaultKpiSettingFunc type is an adapter to allow the use of ordinary
+// function as DefaultKpiSetting mutator.
+type DefaultKpiSettingFunc func(context.Context, *ent.DefaultKpiSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f DefaultKpiSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.DefaultKpiSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DefaultKpiSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The NewUserRewardSettingFunc type is an adapter to allow the use of ordinary
 // function as NewUserRewardSetting mutator.
 type NewUserRewardSettingFunc func(context.Context, *ent.NewUserRewardSettingMutation) (ent.Value, error)
@@ -109,6 +122,19 @@ func (f UserInvitationCodeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent
 	mv, ok := m.(*ent.UserInvitationCodeMutation)
 	if !ok {
 		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserInvitationCodeMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The UserKpiSettingFunc type is an adapter to allow the use of ordinary
+// function as UserKpiSetting mutator.
+type UserKpiSettingFunc func(context.Context, *ent.UserKpiSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserKpiSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.UserKpiSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserKpiSettingMutation", m)
 	}
 	return f(ctx, mv)
 }

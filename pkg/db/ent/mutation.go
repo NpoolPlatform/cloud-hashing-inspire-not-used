@@ -11,11 +11,13 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/predicate"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userkpisetting"
 	"github.com/google/uuid"
 
 	"entgo.io/ent"
@@ -34,10 +36,12 @@ const (
 	TypeAppCouponSetting       = "AppCouponSetting"
 	TypeCouponAllocated        = "CouponAllocated"
 	TypeCouponPool             = "CouponPool"
+	TypeDefaultKpiSetting      = "DefaultKpiSetting"
 	TypeNewUserRewardSetting   = "NewUserRewardSetting"
 	TypePurchaseInvitation     = "PurchaseInvitation"
 	TypeRegistrationInvitation = "RegistrationInvitation"
 	TypeUserInvitationCode     = "UserInvitationCode"
+	TypeUserKpiSetting         = "UserKpiSetting"
 )
 
 // AgencySettingMutation represents an operation that mutates the AgencySetting nodes in the graph.
@@ -3764,6 +3768,796 @@ func (m *CouponPoolMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown CouponPool edge %s", name)
 }
 
+// DefaultKpiSettingMutation represents an operation that mutates the DefaultKpiSetting nodes in the graph.
+type DefaultKpiSettingMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *uuid.UUID
+	amount        *uint64
+	addamount     *uint64
+	percent       *int32
+	addpercent    *int32
+	app_id        *uuid.UUID
+	good_id       *uuid.UUID
+	create_at     *uint32
+	addcreate_at  *uint32
+	update_at     *uint32
+	addupdate_at  *uint32
+	delete_at     *uint32
+	adddelete_at  *uint32
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*DefaultKpiSetting, error)
+	predicates    []predicate.DefaultKpiSetting
+}
+
+var _ ent.Mutation = (*DefaultKpiSettingMutation)(nil)
+
+// defaultkpisettingOption allows management of the mutation configuration using functional options.
+type defaultkpisettingOption func(*DefaultKpiSettingMutation)
+
+// newDefaultKpiSettingMutation creates new mutation for the DefaultKpiSetting entity.
+func newDefaultKpiSettingMutation(c config, op Op, opts ...defaultkpisettingOption) *DefaultKpiSettingMutation {
+	m := &DefaultKpiSettingMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeDefaultKpiSetting,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withDefaultKpiSettingID sets the ID field of the mutation.
+func withDefaultKpiSettingID(id uuid.UUID) defaultkpisettingOption {
+	return func(m *DefaultKpiSettingMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *DefaultKpiSetting
+		)
+		m.oldValue = func(ctx context.Context) (*DefaultKpiSetting, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().DefaultKpiSetting.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withDefaultKpiSetting sets the old DefaultKpiSetting of the mutation.
+func withDefaultKpiSetting(node *DefaultKpiSetting) defaultkpisettingOption {
+	return func(m *DefaultKpiSettingMutation) {
+		m.oldValue = func(context.Context) (*DefaultKpiSetting, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m DefaultKpiSettingMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m DefaultKpiSettingMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of DefaultKpiSetting entities.
+func (m *DefaultKpiSettingMutation) SetID(id uuid.UUID) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *DefaultKpiSettingMutation) ID() (id uuid.UUID, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// SetAmount sets the "amount" field.
+func (m *DefaultKpiSettingMutation) SetAmount(u uint64) {
+	m.amount = &u
+	m.addamount = nil
+}
+
+// Amount returns the value of the "amount" field in the mutation.
+func (m *DefaultKpiSettingMutation) Amount() (r uint64, exists bool) {
+	v := m.amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAmount returns the old "amount" field's value of the DefaultKpiSetting entity.
+// If the DefaultKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DefaultKpiSettingMutation) OldAmount(ctx context.Context) (v uint64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAmount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAmount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAmount: %w", err)
+	}
+	return oldValue.Amount, nil
+}
+
+// AddAmount adds u to the "amount" field.
+func (m *DefaultKpiSettingMutation) AddAmount(u uint64) {
+	if m.addamount != nil {
+		*m.addamount += u
+	} else {
+		m.addamount = &u
+	}
+}
+
+// AddedAmount returns the value that was added to the "amount" field in this mutation.
+func (m *DefaultKpiSettingMutation) AddedAmount() (r uint64, exists bool) {
+	v := m.addamount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetAmount resets all changes to the "amount" field.
+func (m *DefaultKpiSettingMutation) ResetAmount() {
+	m.amount = nil
+	m.addamount = nil
+}
+
+// SetPercent sets the "percent" field.
+func (m *DefaultKpiSettingMutation) SetPercent(i int32) {
+	m.percent = &i
+	m.addpercent = nil
+}
+
+// Percent returns the value of the "percent" field in the mutation.
+func (m *DefaultKpiSettingMutation) Percent() (r int32, exists bool) {
+	v := m.percent
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPercent returns the old "percent" field's value of the DefaultKpiSetting entity.
+// If the DefaultKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DefaultKpiSettingMutation) OldPercent(ctx context.Context) (v int32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldPercent is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldPercent requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPercent: %w", err)
+	}
+	return oldValue.Percent, nil
+}
+
+// AddPercent adds i to the "percent" field.
+func (m *DefaultKpiSettingMutation) AddPercent(i int32) {
+	if m.addpercent != nil {
+		*m.addpercent += i
+	} else {
+		m.addpercent = &i
+	}
+}
+
+// AddedPercent returns the value that was added to the "percent" field in this mutation.
+func (m *DefaultKpiSettingMutation) AddedPercent() (r int32, exists bool) {
+	v := m.addpercent
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPercent resets all changes to the "percent" field.
+func (m *DefaultKpiSettingMutation) ResetPercent() {
+	m.percent = nil
+	m.addpercent = nil
+}
+
+// SetAppID sets the "app_id" field.
+func (m *DefaultKpiSettingMutation) SetAppID(u uuid.UUID) {
+	m.app_id = &u
+}
+
+// AppID returns the value of the "app_id" field in the mutation.
+func (m *DefaultKpiSettingMutation) AppID() (r uuid.UUID, exists bool) {
+	v := m.app_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAppID returns the old "app_id" field's value of the DefaultKpiSetting entity.
+// If the DefaultKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DefaultKpiSettingMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
+	}
+	return oldValue.AppID, nil
+}
+
+// ResetAppID resets all changes to the "app_id" field.
+func (m *DefaultKpiSettingMutation) ResetAppID() {
+	m.app_id = nil
+}
+
+// SetGoodID sets the "good_id" field.
+func (m *DefaultKpiSettingMutation) SetGoodID(u uuid.UUID) {
+	m.good_id = &u
+}
+
+// GoodID returns the value of the "good_id" field in the mutation.
+func (m *DefaultKpiSettingMutation) GoodID() (r uuid.UUID, exists bool) {
+	v := m.good_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGoodID returns the old "good_id" field's value of the DefaultKpiSetting entity.
+// If the DefaultKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DefaultKpiSettingMutation) OldGoodID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldGoodID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldGoodID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGoodID: %w", err)
+	}
+	return oldValue.GoodID, nil
+}
+
+// ResetGoodID resets all changes to the "good_id" field.
+func (m *DefaultKpiSettingMutation) ResetGoodID() {
+	m.good_id = nil
+}
+
+// SetCreateAt sets the "create_at" field.
+func (m *DefaultKpiSettingMutation) SetCreateAt(u uint32) {
+	m.create_at = &u
+	m.addcreate_at = nil
+}
+
+// CreateAt returns the value of the "create_at" field in the mutation.
+func (m *DefaultKpiSettingMutation) CreateAt() (r uint32, exists bool) {
+	v := m.create_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateAt returns the old "create_at" field's value of the DefaultKpiSetting entity.
+// If the DefaultKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DefaultKpiSettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateAt: %w", err)
+	}
+	return oldValue.CreateAt, nil
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (m *DefaultKpiSettingMutation) AddCreateAt(u uint32) {
+	if m.addcreate_at != nil {
+		*m.addcreate_at += u
+	} else {
+		m.addcreate_at = &u
+	}
+}
+
+// AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
+func (m *DefaultKpiSettingMutation) AddedCreateAt() (r uint32, exists bool) {
+	v := m.addcreate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCreateAt resets all changes to the "create_at" field.
+func (m *DefaultKpiSettingMutation) ResetCreateAt() {
+	m.create_at = nil
+	m.addcreate_at = nil
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (m *DefaultKpiSettingMutation) SetUpdateAt(u uint32) {
+	m.update_at = &u
+	m.addupdate_at = nil
+}
+
+// UpdateAt returns the value of the "update_at" field in the mutation.
+func (m *DefaultKpiSettingMutation) UpdateAt() (r uint32, exists bool) {
+	v := m.update_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateAt returns the old "update_at" field's value of the DefaultKpiSetting entity.
+// If the DefaultKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DefaultKpiSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateAt: %w", err)
+	}
+	return oldValue.UpdateAt, nil
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (m *DefaultKpiSettingMutation) AddUpdateAt(u uint32) {
+	if m.addupdate_at != nil {
+		*m.addupdate_at += u
+	} else {
+		m.addupdate_at = &u
+	}
+}
+
+// AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
+func (m *DefaultKpiSettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+	v := m.addupdate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetUpdateAt resets all changes to the "update_at" field.
+func (m *DefaultKpiSettingMutation) ResetUpdateAt() {
+	m.update_at = nil
+	m.addupdate_at = nil
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (m *DefaultKpiSettingMutation) SetDeleteAt(u uint32) {
+	m.delete_at = &u
+	m.adddelete_at = nil
+}
+
+// DeleteAt returns the value of the "delete_at" field in the mutation.
+func (m *DefaultKpiSettingMutation) DeleteAt() (r uint32, exists bool) {
+	v := m.delete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteAt returns the old "delete_at" field's value of the DefaultKpiSetting entity.
+// If the DefaultKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DefaultKpiSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteAt: %w", err)
+	}
+	return oldValue.DeleteAt, nil
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (m *DefaultKpiSettingMutation) AddDeleteAt(u uint32) {
+	if m.adddelete_at != nil {
+		*m.adddelete_at += u
+	} else {
+		m.adddelete_at = &u
+	}
+}
+
+// AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
+func (m *DefaultKpiSettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+	v := m.adddelete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetDeleteAt resets all changes to the "delete_at" field.
+func (m *DefaultKpiSettingMutation) ResetDeleteAt() {
+	m.delete_at = nil
+	m.adddelete_at = nil
+}
+
+// Where appends a list predicates to the DefaultKpiSettingMutation builder.
+func (m *DefaultKpiSettingMutation) Where(ps ...predicate.DefaultKpiSetting) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// Op returns the operation name.
+func (m *DefaultKpiSettingMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (DefaultKpiSetting).
+func (m *DefaultKpiSettingMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *DefaultKpiSettingMutation) Fields() []string {
+	fields := make([]string, 0, 7)
+	if m.amount != nil {
+		fields = append(fields, defaultkpisetting.FieldAmount)
+	}
+	if m.percent != nil {
+		fields = append(fields, defaultkpisetting.FieldPercent)
+	}
+	if m.app_id != nil {
+		fields = append(fields, defaultkpisetting.FieldAppID)
+	}
+	if m.good_id != nil {
+		fields = append(fields, defaultkpisetting.FieldGoodID)
+	}
+	if m.create_at != nil {
+		fields = append(fields, defaultkpisetting.FieldCreateAt)
+	}
+	if m.update_at != nil {
+		fields = append(fields, defaultkpisetting.FieldUpdateAt)
+	}
+	if m.delete_at != nil {
+		fields = append(fields, defaultkpisetting.FieldDeleteAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *DefaultKpiSettingMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case defaultkpisetting.FieldAmount:
+		return m.Amount()
+	case defaultkpisetting.FieldPercent:
+		return m.Percent()
+	case defaultkpisetting.FieldAppID:
+		return m.AppID()
+	case defaultkpisetting.FieldGoodID:
+		return m.GoodID()
+	case defaultkpisetting.FieldCreateAt:
+		return m.CreateAt()
+	case defaultkpisetting.FieldUpdateAt:
+		return m.UpdateAt()
+	case defaultkpisetting.FieldDeleteAt:
+		return m.DeleteAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *DefaultKpiSettingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case defaultkpisetting.FieldAmount:
+		return m.OldAmount(ctx)
+	case defaultkpisetting.FieldPercent:
+		return m.OldPercent(ctx)
+	case defaultkpisetting.FieldAppID:
+		return m.OldAppID(ctx)
+	case defaultkpisetting.FieldGoodID:
+		return m.OldGoodID(ctx)
+	case defaultkpisetting.FieldCreateAt:
+		return m.OldCreateAt(ctx)
+	case defaultkpisetting.FieldUpdateAt:
+		return m.OldUpdateAt(ctx)
+	case defaultkpisetting.FieldDeleteAt:
+		return m.OldDeleteAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown DefaultKpiSetting field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *DefaultKpiSettingMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case defaultkpisetting.FieldAmount:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAmount(v)
+		return nil
+	case defaultkpisetting.FieldPercent:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPercent(v)
+		return nil
+	case defaultkpisetting.FieldAppID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAppID(v)
+		return nil
+	case defaultkpisetting.FieldGoodID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGoodID(v)
+		return nil
+	case defaultkpisetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateAt(v)
+		return nil
+	case defaultkpisetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateAt(v)
+		return nil
+	case defaultkpisetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown DefaultKpiSetting field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *DefaultKpiSettingMutation) AddedFields() []string {
+	var fields []string
+	if m.addamount != nil {
+		fields = append(fields, defaultkpisetting.FieldAmount)
+	}
+	if m.addpercent != nil {
+		fields = append(fields, defaultkpisetting.FieldPercent)
+	}
+	if m.addcreate_at != nil {
+		fields = append(fields, defaultkpisetting.FieldCreateAt)
+	}
+	if m.addupdate_at != nil {
+		fields = append(fields, defaultkpisetting.FieldUpdateAt)
+	}
+	if m.adddelete_at != nil {
+		fields = append(fields, defaultkpisetting.FieldDeleteAt)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *DefaultKpiSettingMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case defaultkpisetting.FieldAmount:
+		return m.AddedAmount()
+	case defaultkpisetting.FieldPercent:
+		return m.AddedPercent()
+	case defaultkpisetting.FieldCreateAt:
+		return m.AddedCreateAt()
+	case defaultkpisetting.FieldUpdateAt:
+		return m.AddedUpdateAt()
+	case defaultkpisetting.FieldDeleteAt:
+		return m.AddedDeleteAt()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *DefaultKpiSettingMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case defaultkpisetting.FieldAmount:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddAmount(v)
+		return nil
+	case defaultkpisetting.FieldPercent:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPercent(v)
+		return nil
+	case defaultkpisetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreateAt(v)
+		return nil
+	case defaultkpisetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdateAt(v)
+		return nil
+	case defaultkpisetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDeleteAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown DefaultKpiSetting numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *DefaultKpiSettingMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *DefaultKpiSettingMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *DefaultKpiSettingMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown DefaultKpiSetting nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *DefaultKpiSettingMutation) ResetField(name string) error {
+	switch name {
+	case defaultkpisetting.FieldAmount:
+		m.ResetAmount()
+		return nil
+	case defaultkpisetting.FieldPercent:
+		m.ResetPercent()
+		return nil
+	case defaultkpisetting.FieldAppID:
+		m.ResetAppID()
+		return nil
+	case defaultkpisetting.FieldGoodID:
+		m.ResetGoodID()
+		return nil
+	case defaultkpisetting.FieldCreateAt:
+		m.ResetCreateAt()
+		return nil
+	case defaultkpisetting.FieldUpdateAt:
+		m.ResetUpdateAt()
+		return nil
+	case defaultkpisetting.FieldDeleteAt:
+		m.ResetDeleteAt()
+		return nil
+	}
+	return fmt.Errorf("unknown DefaultKpiSetting field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *DefaultKpiSettingMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *DefaultKpiSettingMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *DefaultKpiSettingMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *DefaultKpiSettingMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *DefaultKpiSettingMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *DefaultKpiSettingMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *DefaultKpiSettingMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown DefaultKpiSetting unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *DefaultKpiSettingMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown DefaultKpiSetting edge %s", name)
+}
+
 // NewUserRewardSettingMutation represents an operation that mutates the NewUserRewardSetting nodes in the graph.
 type NewUserRewardSettingMutation struct {
 	config
@@ -6496,4 +7290,848 @@ func (m *UserInvitationCodeMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *UserInvitationCodeMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown UserInvitationCode edge %s", name)
+}
+
+// UserKpiSettingMutation represents an operation that mutates the UserKpiSetting nodes in the graph.
+type UserKpiSettingMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *uuid.UUID
+	amount        *uint64
+	addamount     *uint64
+	percent       *int32
+	addpercent    *int32
+	app_id        *uuid.UUID
+	good_id       *uuid.UUID
+	user_id       *uuid.UUID
+	create_at     *uint32
+	addcreate_at  *uint32
+	update_at     *uint32
+	addupdate_at  *uint32
+	delete_at     *uint32
+	adddelete_at  *uint32
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*UserKpiSetting, error)
+	predicates    []predicate.UserKpiSetting
+}
+
+var _ ent.Mutation = (*UserKpiSettingMutation)(nil)
+
+// userkpisettingOption allows management of the mutation configuration using functional options.
+type userkpisettingOption func(*UserKpiSettingMutation)
+
+// newUserKpiSettingMutation creates new mutation for the UserKpiSetting entity.
+func newUserKpiSettingMutation(c config, op Op, opts ...userkpisettingOption) *UserKpiSettingMutation {
+	m := &UserKpiSettingMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeUserKpiSetting,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withUserKpiSettingID sets the ID field of the mutation.
+func withUserKpiSettingID(id uuid.UUID) userkpisettingOption {
+	return func(m *UserKpiSettingMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *UserKpiSetting
+		)
+		m.oldValue = func(ctx context.Context) (*UserKpiSetting, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().UserKpiSetting.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withUserKpiSetting sets the old UserKpiSetting of the mutation.
+func withUserKpiSetting(node *UserKpiSetting) userkpisettingOption {
+	return func(m *UserKpiSettingMutation) {
+		m.oldValue = func(context.Context) (*UserKpiSetting, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m UserKpiSettingMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m UserKpiSettingMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of UserKpiSetting entities.
+func (m *UserKpiSettingMutation) SetID(id uuid.UUID) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *UserKpiSettingMutation) ID() (id uuid.UUID, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// SetAmount sets the "amount" field.
+func (m *UserKpiSettingMutation) SetAmount(u uint64) {
+	m.amount = &u
+	m.addamount = nil
+}
+
+// Amount returns the value of the "amount" field in the mutation.
+func (m *UserKpiSettingMutation) Amount() (r uint64, exists bool) {
+	v := m.amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAmount returns the old "amount" field's value of the UserKpiSetting entity.
+// If the UserKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserKpiSettingMutation) OldAmount(ctx context.Context) (v uint64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAmount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAmount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAmount: %w", err)
+	}
+	return oldValue.Amount, nil
+}
+
+// AddAmount adds u to the "amount" field.
+func (m *UserKpiSettingMutation) AddAmount(u uint64) {
+	if m.addamount != nil {
+		*m.addamount += u
+	} else {
+		m.addamount = &u
+	}
+}
+
+// AddedAmount returns the value that was added to the "amount" field in this mutation.
+func (m *UserKpiSettingMutation) AddedAmount() (r uint64, exists bool) {
+	v := m.addamount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetAmount resets all changes to the "amount" field.
+func (m *UserKpiSettingMutation) ResetAmount() {
+	m.amount = nil
+	m.addamount = nil
+}
+
+// SetPercent sets the "percent" field.
+func (m *UserKpiSettingMutation) SetPercent(i int32) {
+	m.percent = &i
+	m.addpercent = nil
+}
+
+// Percent returns the value of the "percent" field in the mutation.
+func (m *UserKpiSettingMutation) Percent() (r int32, exists bool) {
+	v := m.percent
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPercent returns the old "percent" field's value of the UserKpiSetting entity.
+// If the UserKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserKpiSettingMutation) OldPercent(ctx context.Context) (v int32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldPercent is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldPercent requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPercent: %w", err)
+	}
+	return oldValue.Percent, nil
+}
+
+// AddPercent adds i to the "percent" field.
+func (m *UserKpiSettingMutation) AddPercent(i int32) {
+	if m.addpercent != nil {
+		*m.addpercent += i
+	} else {
+		m.addpercent = &i
+	}
+}
+
+// AddedPercent returns the value that was added to the "percent" field in this mutation.
+func (m *UserKpiSettingMutation) AddedPercent() (r int32, exists bool) {
+	v := m.addpercent
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPercent resets all changes to the "percent" field.
+func (m *UserKpiSettingMutation) ResetPercent() {
+	m.percent = nil
+	m.addpercent = nil
+}
+
+// SetAppID sets the "app_id" field.
+func (m *UserKpiSettingMutation) SetAppID(u uuid.UUID) {
+	m.app_id = &u
+}
+
+// AppID returns the value of the "app_id" field in the mutation.
+func (m *UserKpiSettingMutation) AppID() (r uuid.UUID, exists bool) {
+	v := m.app_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAppID returns the old "app_id" field's value of the UserKpiSetting entity.
+// If the UserKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserKpiSettingMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
+	}
+	return oldValue.AppID, nil
+}
+
+// ResetAppID resets all changes to the "app_id" field.
+func (m *UserKpiSettingMutation) ResetAppID() {
+	m.app_id = nil
+}
+
+// SetGoodID sets the "good_id" field.
+func (m *UserKpiSettingMutation) SetGoodID(u uuid.UUID) {
+	m.good_id = &u
+}
+
+// GoodID returns the value of the "good_id" field in the mutation.
+func (m *UserKpiSettingMutation) GoodID() (r uuid.UUID, exists bool) {
+	v := m.good_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGoodID returns the old "good_id" field's value of the UserKpiSetting entity.
+// If the UserKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserKpiSettingMutation) OldGoodID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldGoodID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldGoodID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGoodID: %w", err)
+	}
+	return oldValue.GoodID, nil
+}
+
+// ResetGoodID resets all changes to the "good_id" field.
+func (m *UserKpiSettingMutation) ResetGoodID() {
+	m.good_id = nil
+}
+
+// SetUserID sets the "user_id" field.
+func (m *UserKpiSettingMutation) SetUserID(u uuid.UUID) {
+	m.user_id = &u
+}
+
+// UserID returns the value of the "user_id" field in the mutation.
+func (m *UserKpiSettingMutation) UserID() (r uuid.UUID, exists bool) {
+	v := m.user_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserID returns the old "user_id" field's value of the UserKpiSetting entity.
+// If the UserKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserKpiSettingMutation) OldUserID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUserID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUserID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserID: %w", err)
+	}
+	return oldValue.UserID, nil
+}
+
+// ResetUserID resets all changes to the "user_id" field.
+func (m *UserKpiSettingMutation) ResetUserID() {
+	m.user_id = nil
+}
+
+// SetCreateAt sets the "create_at" field.
+func (m *UserKpiSettingMutation) SetCreateAt(u uint32) {
+	m.create_at = &u
+	m.addcreate_at = nil
+}
+
+// CreateAt returns the value of the "create_at" field in the mutation.
+func (m *UserKpiSettingMutation) CreateAt() (r uint32, exists bool) {
+	v := m.create_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateAt returns the old "create_at" field's value of the UserKpiSetting entity.
+// If the UserKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserKpiSettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateAt: %w", err)
+	}
+	return oldValue.CreateAt, nil
+}
+
+// AddCreateAt adds u to the "create_at" field.
+func (m *UserKpiSettingMutation) AddCreateAt(u uint32) {
+	if m.addcreate_at != nil {
+		*m.addcreate_at += u
+	} else {
+		m.addcreate_at = &u
+	}
+}
+
+// AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
+func (m *UserKpiSettingMutation) AddedCreateAt() (r uint32, exists bool) {
+	v := m.addcreate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCreateAt resets all changes to the "create_at" field.
+func (m *UserKpiSettingMutation) ResetCreateAt() {
+	m.create_at = nil
+	m.addcreate_at = nil
+}
+
+// SetUpdateAt sets the "update_at" field.
+func (m *UserKpiSettingMutation) SetUpdateAt(u uint32) {
+	m.update_at = &u
+	m.addupdate_at = nil
+}
+
+// UpdateAt returns the value of the "update_at" field in the mutation.
+func (m *UserKpiSettingMutation) UpdateAt() (r uint32, exists bool) {
+	v := m.update_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateAt returns the old "update_at" field's value of the UserKpiSetting entity.
+// If the UserKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserKpiSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateAt: %w", err)
+	}
+	return oldValue.UpdateAt, nil
+}
+
+// AddUpdateAt adds u to the "update_at" field.
+func (m *UserKpiSettingMutation) AddUpdateAt(u uint32) {
+	if m.addupdate_at != nil {
+		*m.addupdate_at += u
+	} else {
+		m.addupdate_at = &u
+	}
+}
+
+// AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
+func (m *UserKpiSettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+	v := m.addupdate_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetUpdateAt resets all changes to the "update_at" field.
+func (m *UserKpiSettingMutation) ResetUpdateAt() {
+	m.update_at = nil
+	m.addupdate_at = nil
+}
+
+// SetDeleteAt sets the "delete_at" field.
+func (m *UserKpiSettingMutation) SetDeleteAt(u uint32) {
+	m.delete_at = &u
+	m.adddelete_at = nil
+}
+
+// DeleteAt returns the value of the "delete_at" field in the mutation.
+func (m *UserKpiSettingMutation) DeleteAt() (r uint32, exists bool) {
+	v := m.delete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteAt returns the old "delete_at" field's value of the UserKpiSetting entity.
+// If the UserKpiSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserKpiSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteAt: %w", err)
+	}
+	return oldValue.DeleteAt, nil
+}
+
+// AddDeleteAt adds u to the "delete_at" field.
+func (m *UserKpiSettingMutation) AddDeleteAt(u uint32) {
+	if m.adddelete_at != nil {
+		*m.adddelete_at += u
+	} else {
+		m.adddelete_at = &u
+	}
+}
+
+// AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
+func (m *UserKpiSettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+	v := m.adddelete_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetDeleteAt resets all changes to the "delete_at" field.
+func (m *UserKpiSettingMutation) ResetDeleteAt() {
+	m.delete_at = nil
+	m.adddelete_at = nil
+}
+
+// Where appends a list predicates to the UserKpiSettingMutation builder.
+func (m *UserKpiSettingMutation) Where(ps ...predicate.UserKpiSetting) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// Op returns the operation name.
+func (m *UserKpiSettingMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (UserKpiSetting).
+func (m *UserKpiSettingMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *UserKpiSettingMutation) Fields() []string {
+	fields := make([]string, 0, 8)
+	if m.amount != nil {
+		fields = append(fields, userkpisetting.FieldAmount)
+	}
+	if m.percent != nil {
+		fields = append(fields, userkpisetting.FieldPercent)
+	}
+	if m.app_id != nil {
+		fields = append(fields, userkpisetting.FieldAppID)
+	}
+	if m.good_id != nil {
+		fields = append(fields, userkpisetting.FieldGoodID)
+	}
+	if m.user_id != nil {
+		fields = append(fields, userkpisetting.FieldUserID)
+	}
+	if m.create_at != nil {
+		fields = append(fields, userkpisetting.FieldCreateAt)
+	}
+	if m.update_at != nil {
+		fields = append(fields, userkpisetting.FieldUpdateAt)
+	}
+	if m.delete_at != nil {
+		fields = append(fields, userkpisetting.FieldDeleteAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *UserKpiSettingMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case userkpisetting.FieldAmount:
+		return m.Amount()
+	case userkpisetting.FieldPercent:
+		return m.Percent()
+	case userkpisetting.FieldAppID:
+		return m.AppID()
+	case userkpisetting.FieldGoodID:
+		return m.GoodID()
+	case userkpisetting.FieldUserID:
+		return m.UserID()
+	case userkpisetting.FieldCreateAt:
+		return m.CreateAt()
+	case userkpisetting.FieldUpdateAt:
+		return m.UpdateAt()
+	case userkpisetting.FieldDeleteAt:
+		return m.DeleteAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *UserKpiSettingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case userkpisetting.FieldAmount:
+		return m.OldAmount(ctx)
+	case userkpisetting.FieldPercent:
+		return m.OldPercent(ctx)
+	case userkpisetting.FieldAppID:
+		return m.OldAppID(ctx)
+	case userkpisetting.FieldGoodID:
+		return m.OldGoodID(ctx)
+	case userkpisetting.FieldUserID:
+		return m.OldUserID(ctx)
+	case userkpisetting.FieldCreateAt:
+		return m.OldCreateAt(ctx)
+	case userkpisetting.FieldUpdateAt:
+		return m.OldUpdateAt(ctx)
+	case userkpisetting.FieldDeleteAt:
+		return m.OldDeleteAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown UserKpiSetting field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *UserKpiSettingMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case userkpisetting.FieldAmount:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAmount(v)
+		return nil
+	case userkpisetting.FieldPercent:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPercent(v)
+		return nil
+	case userkpisetting.FieldAppID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAppID(v)
+		return nil
+	case userkpisetting.FieldGoodID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGoodID(v)
+		return nil
+	case userkpisetting.FieldUserID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserID(v)
+		return nil
+	case userkpisetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateAt(v)
+		return nil
+	case userkpisetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateAt(v)
+		return nil
+	case userkpisetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown UserKpiSetting field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *UserKpiSettingMutation) AddedFields() []string {
+	var fields []string
+	if m.addamount != nil {
+		fields = append(fields, userkpisetting.FieldAmount)
+	}
+	if m.addpercent != nil {
+		fields = append(fields, userkpisetting.FieldPercent)
+	}
+	if m.addcreate_at != nil {
+		fields = append(fields, userkpisetting.FieldCreateAt)
+	}
+	if m.addupdate_at != nil {
+		fields = append(fields, userkpisetting.FieldUpdateAt)
+	}
+	if m.adddelete_at != nil {
+		fields = append(fields, userkpisetting.FieldDeleteAt)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *UserKpiSettingMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case userkpisetting.FieldAmount:
+		return m.AddedAmount()
+	case userkpisetting.FieldPercent:
+		return m.AddedPercent()
+	case userkpisetting.FieldCreateAt:
+		return m.AddedCreateAt()
+	case userkpisetting.FieldUpdateAt:
+		return m.AddedUpdateAt()
+	case userkpisetting.FieldDeleteAt:
+		return m.AddedDeleteAt()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *UserKpiSettingMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case userkpisetting.FieldAmount:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddAmount(v)
+		return nil
+	case userkpisetting.FieldPercent:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPercent(v)
+		return nil
+	case userkpisetting.FieldCreateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreateAt(v)
+		return nil
+	case userkpisetting.FieldUpdateAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdateAt(v)
+		return nil
+	case userkpisetting.FieldDeleteAt:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDeleteAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown UserKpiSetting numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *UserKpiSettingMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *UserKpiSettingMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *UserKpiSettingMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown UserKpiSetting nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *UserKpiSettingMutation) ResetField(name string) error {
+	switch name {
+	case userkpisetting.FieldAmount:
+		m.ResetAmount()
+		return nil
+	case userkpisetting.FieldPercent:
+		m.ResetPercent()
+		return nil
+	case userkpisetting.FieldAppID:
+		m.ResetAppID()
+		return nil
+	case userkpisetting.FieldGoodID:
+		m.ResetGoodID()
+		return nil
+	case userkpisetting.FieldUserID:
+		m.ResetUserID()
+		return nil
+	case userkpisetting.FieldCreateAt:
+		m.ResetCreateAt()
+		return nil
+	case userkpisetting.FieldUpdateAt:
+		m.ResetUpdateAt()
+		return nil
+	case userkpisetting.FieldDeleteAt:
+		m.ResetDeleteAt()
+		return nil
+	}
+	return fmt.Errorf("unknown UserKpiSetting field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *UserKpiSettingMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *UserKpiSettingMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *UserKpiSettingMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *UserKpiSettingMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *UserKpiSettingMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *UserKpiSettingMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *UserKpiSettingMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown UserKpiSetting unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *UserKpiSettingMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown UserKpiSetting edge %s", name)
 }

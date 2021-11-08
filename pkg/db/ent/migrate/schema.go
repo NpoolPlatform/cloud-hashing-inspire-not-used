@@ -84,6 +84,23 @@ var (
 		Columns:    CouponPoolsColumns,
 		PrimaryKey: []*schema.Column{CouponPoolsColumns[0]},
 	}
+	// DefaultKpiSettingsColumns holds the columns for the "default_kpi_settings" table.
+	DefaultKpiSettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "amount", Type: field.TypeUint64},
+		{Name: "percent", Type: field.TypeInt32},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "good_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// DefaultKpiSettingsTable holds the schema information for the "default_kpi_settings" table.
+	DefaultKpiSettingsTable = &schema.Table{
+		Name:       "default_kpi_settings",
+		Columns:    DefaultKpiSettingsColumns,
+		PrimaryKey: []*schema.Column{DefaultKpiSettingsColumns[0]},
+	}
 	// NewUserRewardSettingsColumns holds the columns for the "new_user_reward_settings" table.
 	NewUserRewardSettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -149,16 +166,36 @@ var (
 		Columns:    UserInvitationCodesColumns,
 		PrimaryKey: []*schema.Column{UserInvitationCodesColumns[0]},
 	}
+	// UserKpiSettingsColumns holds the columns for the "user_kpi_settings" table.
+	UserKpiSettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "amount", Type: field.TypeUint64},
+		{Name: "percent", Type: field.TypeInt32},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "good_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// UserKpiSettingsTable holds the schema information for the "user_kpi_settings" table.
+	UserKpiSettingsTable = &schema.Table{
+		Name:       "user_kpi_settings",
+		Columns:    UserKpiSettingsColumns,
+		PrimaryKey: []*schema.Column{UserKpiSettingsColumns[0]},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		AgencySettingsTable,
 		AppCouponSettingsTable,
 		CouponAllocatedsTable,
 		CouponPoolsTable,
+		DefaultKpiSettingsTable,
 		NewUserRewardSettingsTable,
 		PurchaseInvitationsTable,
 		RegistrationInvitationsTable,
 		UserInvitationCodesTable,
+		UserKpiSettingsTable,
 	}
 )
 

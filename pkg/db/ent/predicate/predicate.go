@@ -18,6 +18,9 @@ type CouponAllocated func(*sql.Selector)
 // CouponPool is the predicate function for couponpool builders.
 type CouponPool func(*sql.Selector)
 
+// DefaultKpiSetting is the predicate function for defaultkpisetting builders.
+type DefaultKpiSetting func(*sql.Selector)
+
 // NewUserRewardSetting is the predicate function for newuserrewardsetting builders.
 type NewUserRewardSetting func(*sql.Selector)
 
@@ -29,3 +32,6 @@ type RegistrationInvitation func(*sql.Selector)
 
 // UserInvitationCode is the predicate function for userinvitationcode builders.
 type UserInvitationCode func(*sql.Selector)
+
+// UserKpiSetting is the predicate function for userkpisetting builders.
+type UserKpiSetting func(*sql.Selector)

@@ -7,11 +7,13 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/schema"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userkpisetting"
 	"github.com/google/uuid"
 )
 
@@ -115,6 +117,26 @@ func init() {
 	couponpoolDescID := couponpoolFields[0].Descriptor()
 	// couponpool.DefaultID holds the default value on creation for the id field.
 	couponpool.DefaultID = couponpoolDescID.Default.(func() uuid.UUID)
+	defaultkpisettingFields := schema.DefaultKpiSetting{}.Fields()
+	_ = defaultkpisettingFields
+	// defaultkpisettingDescCreateAt is the schema descriptor for create_at field.
+	defaultkpisettingDescCreateAt := defaultkpisettingFields[5].Descriptor()
+	// defaultkpisetting.DefaultCreateAt holds the default value on creation for the create_at field.
+	defaultkpisetting.DefaultCreateAt = defaultkpisettingDescCreateAt.Default.(func() uint32)
+	// defaultkpisettingDescUpdateAt is the schema descriptor for update_at field.
+	defaultkpisettingDescUpdateAt := defaultkpisettingFields[6].Descriptor()
+	// defaultkpisetting.DefaultUpdateAt holds the default value on creation for the update_at field.
+	defaultkpisetting.DefaultUpdateAt = defaultkpisettingDescUpdateAt.Default.(func() uint32)
+	// defaultkpisetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	defaultkpisetting.UpdateDefaultUpdateAt = defaultkpisettingDescUpdateAt.UpdateDefault.(func() uint32)
+	// defaultkpisettingDescDeleteAt is the schema descriptor for delete_at field.
+	defaultkpisettingDescDeleteAt := defaultkpisettingFields[7].Descriptor()
+	// defaultkpisetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	defaultkpisetting.DefaultDeleteAt = defaultkpisettingDescDeleteAt.Default.(func() uint32)
+	// defaultkpisettingDescID is the schema descriptor for id field.
+	defaultkpisettingDescID := defaultkpisettingFields[0].Descriptor()
+	// defaultkpisetting.DefaultID holds the default value on creation for the id field.
+	defaultkpisetting.DefaultID = defaultkpisettingDescID.Default.(func() uuid.UUID)
 	newuserrewardsettingFields := schema.NewUserRewardSetting{}.Fields()
 	_ = newuserrewardsettingFields
 	// newuserrewardsettingDescAutoGenerateInvitationCode is the schema descriptor for auto_generate_invitation_code field.
@@ -199,4 +221,24 @@ func init() {
 	userinvitationcodeDescID := userinvitationcodeFields[0].Descriptor()
 	// userinvitationcode.DefaultID holds the default value on creation for the id field.
 	userinvitationcode.DefaultID = userinvitationcodeDescID.Default.(func() uuid.UUID)
+	userkpisettingFields := schema.UserKpiSetting{}.Fields()
+	_ = userkpisettingFields
+	// userkpisettingDescCreateAt is the schema descriptor for create_at field.
+	userkpisettingDescCreateAt := userkpisettingFields[6].Descriptor()
+	// userkpisetting.DefaultCreateAt holds the default value on creation for the create_at field.
+	userkpisetting.DefaultCreateAt = userkpisettingDescCreateAt.Default.(func() uint32)
+	// userkpisettingDescUpdateAt is the schema descriptor for update_at field.
+	userkpisettingDescUpdateAt := userkpisettingFields[7].Descriptor()
+	// userkpisetting.DefaultUpdateAt holds the default value on creation for the update_at field.
+	userkpisetting.DefaultUpdateAt = userkpisettingDescUpdateAt.Default.(func() uint32)
+	// userkpisetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	userkpisetting.UpdateDefaultUpdateAt = userkpisettingDescUpdateAt.UpdateDefault.(func() uint32)
+	// userkpisettingDescDeleteAt is the schema descriptor for delete_at field.
+	userkpisettingDescDeleteAt := userkpisettingFields[8].Descriptor()
+	// userkpisetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	userkpisetting.DefaultDeleteAt = userkpisettingDescDeleteAt.Default.(func() uint32)
+	// userkpisettingDescID is the schema descriptor for id field.
+	userkpisettingDescID := userkpisettingFields[0].Descriptor()
+	// userkpisetting.DefaultID holds the default value on creation for the id field.
+	userkpisetting.DefaultID = userkpisettingDescID.Default.(func() uuid.UUID)
 }

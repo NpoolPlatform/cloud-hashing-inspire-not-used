@@ -28,10 +28,12 @@ type hooks struct {
 	AppCouponSetting       []ent.Hook
 	CouponAllocated        []ent.Hook
 	CouponPool             []ent.Hook
+	DefaultKpiSetting      []ent.Hook
 	NewUserRewardSetting   []ent.Hook
 	PurchaseInvitation     []ent.Hook
 	RegistrationInvitation []ent.Hook
 	UserInvitationCode     []ent.Hook
+	UserKpiSetting         []ent.Hook
 }
 
 // Options applies the options on the config object.

@@ -12,10 +12,12 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userkpisetting"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -40,10 +42,12 @@ func columnChecker(table string) func(string) error {
 		appcouponsetting.Table:       appcouponsetting.ValidColumn,
 		couponallocated.Table:        couponallocated.ValidColumn,
 		couponpool.Table:             couponpool.ValidColumn,
+		defaultkpisetting.Table:      defaultkpisetting.ValidColumn,
 		newuserrewardsetting.Table:   newuserrewardsetting.ValidColumn,
 		purchaseinvitation.Table:     purchaseinvitation.ValidColumn,
 		registrationinvitation.Table: registrationinvitation.ValidColumn,
 		userinvitationcode.Table:     userinvitationcode.ValidColumn,
+		userkpisetting.Table:         userkpisetting.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {
