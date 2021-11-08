@@ -44,4 +44,12 @@ func TestCRUD(t *testing.T) {
 		assert.NotEqual(t, resp.Info.ID, uuid.UUID{}.String())
 		assertNewUserRewardSetting(t, resp.Info, &setting)
 	}
+
+	resp1, err := Get(context.Background(), &npool.GetNewUserRewardSettingRequest{
+		ID: resp.Info.ID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp1.Info.ID, resp.Info.ID)
+		assertNewUserRewardSetting(t, resp1.Info, &setting)
+	}
 }

@@ -7,6 +7,7 @@ import (
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 
 	"github.com/google/uuid"
 
@@ -57,7 +58,30 @@ func Create(ctx context.Context, in *npool.CreateNewUserRewardSettingRequest) (*
 }
 
 func Get(ctx context.Context, in *npool.GetNewUserRewardSettingRequest) (*npool.GetNewUserRewardSettingResponse, error) {
-	return nil, nil
+	id, err := uuid.Parse(in.GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invlaid id: %v", err)
+	}
+
+	infos, err := db.Client().
+		NewUserRewardSetting.
+		Query().
+		Where(
+			newuserrewardsetting.And(
+				newuserrewardsetting.ID(id),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query new user reward setting: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty new user reward setting")
+	}
+
+	return &npool.GetNewUserRewardSettingResponse{
+		Info: dbRowToNewUserRewardSetting(infos[0]),
+	}, nil
 }
 
 func GetByApp(ctx context.Context, in *npool.GetNewUserRewardSettingByAppRequest) (*npool.GetNewUserRewardSettingByAppResponse, error) {
