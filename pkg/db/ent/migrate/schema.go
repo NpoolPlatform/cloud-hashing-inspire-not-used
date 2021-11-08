@@ -18,6 +18,36 @@ var (
 		Columns:    AgencySettingsColumns,
 		PrimaryKey: []*schema.Column{AgencySettingsColumns[0]},
 	}
+	// AppCouponSettingsColumns holds the columns for the "app_coupon_settings" table.
+	AppCouponSettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+	}
+	// AppCouponSettingsTable holds the schema information for the "app_coupon_settings" table.
+	AppCouponSettingsTable = &schema.Table{
+		Name:       "app_coupon_settings",
+		Columns:    AppCouponSettingsColumns,
+		PrimaryKey: []*schema.Column{AppCouponSettingsColumns[0]},
+	}
+	// CouponAllocatedsColumns holds the columns for the "coupon_allocateds" table.
+	CouponAllocatedsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+	}
+	// CouponAllocatedsTable holds the schema information for the "coupon_allocateds" table.
+	CouponAllocatedsTable = &schema.Table{
+		Name:       "coupon_allocateds",
+		Columns:    CouponAllocatedsColumns,
+		PrimaryKey: []*schema.Column{CouponAllocatedsColumns[0]},
+	}
+	// CouponPoolsColumns holds the columns for the "coupon_pools" table.
+	CouponPoolsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+	}
+	// CouponPoolsTable holds the schema information for the "coupon_pools" table.
+	CouponPoolsTable = &schema.Table{
+		Name:       "coupon_pools",
+		Columns:    CouponPoolsColumns,
+		PrimaryKey: []*schema.Column{CouponPoolsColumns[0]},
+	}
 	// NewUserRewardSettingsColumns holds the columns for the "new_user_reward_settings" table.
 	NewUserRewardSettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -67,6 +97,9 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		AgencySettingsTable,
+		AppCouponSettingsTable,
+		CouponAllocatedsTable,
+		CouponPoolsTable,
 		NewUserRewardSettingsTable,
 		PurchaseInvitationsTable,
 		RegistrationInvitationsTable,

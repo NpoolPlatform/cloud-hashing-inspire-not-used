@@ -14,6 +14,12 @@ type Tx struct {
 	config
 	// AgencySetting is the client for interacting with the AgencySetting builders.
 	AgencySetting *AgencySettingClient
+	// AppCouponSetting is the client for interacting with the AppCouponSetting builders.
+	AppCouponSetting *AppCouponSettingClient
+	// CouponAllocated is the client for interacting with the CouponAllocated builders.
+	CouponAllocated *CouponAllocatedClient
+	// CouponPool is the client for interacting with the CouponPool builders.
+	CouponPool *CouponPoolClient
 	// NewUserRewardSetting is the client for interacting with the NewUserRewardSetting builders.
 	NewUserRewardSetting *NewUserRewardSettingClient
 	// PurchaseInvitation is the client for interacting with the PurchaseInvitation builders.
@@ -158,6 +164,9 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.AgencySetting = NewAgencySettingClient(tx.config)
+	tx.AppCouponSetting = NewAppCouponSettingClient(tx.config)
+	tx.CouponAllocated = NewCouponAllocatedClient(tx.config)
+	tx.CouponPool = NewCouponPoolClient(tx.config)
 	tx.NewUserRewardSetting = NewNewUserRewardSettingClient(tx.config)
 	tx.PurchaseInvitation = NewPurchaseInvitationClient(tx.config)
 	tx.RegistrationInvitation = NewRegistrationInvitationClient(tx.config)

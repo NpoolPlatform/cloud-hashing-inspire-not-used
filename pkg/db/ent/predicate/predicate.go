@@ -9,6 +9,15 @@ import (
 // AgencySetting is the predicate function for agencysetting builders.
 type AgencySetting func(*sql.Selector)
 
+// AppCouponSetting is the predicate function for appcouponsetting builders.
+type AppCouponSetting func(*sql.Selector)
+
+// CouponAllocated is the predicate function for couponallocated builders.
+type CouponAllocated func(*sql.Selector)
+
+// CouponPool is the predicate function for couponpool builders.
+type CouponPool func(*sql.Selector)
+
 // NewUserRewardSetting is the predicate function for newuserrewardsetting builders.
 type NewUserRewardSetting func(*sql.Selector)
 

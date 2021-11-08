@@ -22,6 +22,45 @@ func (f AgencySettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Valu
 	return f(ctx, mv)
 }
 
+// The AppCouponSettingFunc type is an adapter to allow the use of ordinary
+// function as AppCouponSetting mutator.
+type AppCouponSettingFunc func(context.Context, *ent.AppCouponSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AppCouponSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.AppCouponSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AppCouponSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The CouponAllocatedFunc type is an adapter to allow the use of ordinary
+// function as CouponAllocated mutator.
+type CouponAllocatedFunc func(context.Context, *ent.CouponAllocatedMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CouponAllocatedFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.CouponAllocatedMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CouponAllocatedMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The CouponPoolFunc type is an adapter to allow the use of ordinary
+// function as CouponPool mutator.
+type CouponPoolFunc func(context.Context, *ent.CouponPoolMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CouponPoolFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.CouponPoolMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CouponPoolMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The NewUserRewardSettingFunc type is an adapter to allow the use of ordinary
 // function as NewUserRewardSetting mutator.
 type NewUserRewardSettingFunc func(context.Context, *ent.NewUserRewardSettingMutation) (ent.Value, error)

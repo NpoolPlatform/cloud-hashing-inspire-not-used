@@ -24,6 +24,9 @@ const (
 
 	// Node types.
 	TypeAgencySetting          = "AgencySetting"
+	TypeAppCouponSetting       = "AppCouponSetting"
+	TypeCouponAllocated        = "CouponAllocated"
+	TypeCouponPool             = "CouponPool"
 	TypeNewUserRewardSetting   = "NewUserRewardSetting"
 	TypePurchaseInvitation     = "PurchaseInvitation"
 	TypeRegistrationInvitation = "RegistrationInvitation"
@@ -258,6 +261,696 @@ func (m *AgencySettingMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *AgencySettingMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown AgencySetting edge %s", name)
+}
+
+// AppCouponSettingMutation represents an operation that mutates the AppCouponSetting nodes in the graph.
+type AppCouponSettingMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*AppCouponSetting, error)
+	predicates    []predicate.AppCouponSetting
+}
+
+var _ ent.Mutation = (*AppCouponSettingMutation)(nil)
+
+// appcouponsettingOption allows management of the mutation configuration using functional options.
+type appcouponsettingOption func(*AppCouponSettingMutation)
+
+// newAppCouponSettingMutation creates new mutation for the AppCouponSetting entity.
+func newAppCouponSettingMutation(c config, op Op, opts ...appcouponsettingOption) *AppCouponSettingMutation {
+	m := &AppCouponSettingMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeAppCouponSetting,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withAppCouponSettingID sets the ID field of the mutation.
+func withAppCouponSettingID(id int) appcouponsettingOption {
+	return func(m *AppCouponSettingMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *AppCouponSetting
+		)
+		m.oldValue = func(ctx context.Context) (*AppCouponSetting, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().AppCouponSetting.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withAppCouponSetting sets the old AppCouponSetting of the mutation.
+func withAppCouponSetting(node *AppCouponSetting) appcouponsettingOption {
+	return func(m *AppCouponSettingMutation) {
+		m.oldValue = func(context.Context) (*AppCouponSetting, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m AppCouponSettingMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m AppCouponSettingMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *AppCouponSettingMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// Where appends a list predicates to the AppCouponSettingMutation builder.
+func (m *AppCouponSettingMutation) Where(ps ...predicate.AppCouponSetting) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// Op returns the operation name.
+func (m *AppCouponSettingMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (AppCouponSetting).
+func (m *AppCouponSettingMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *AppCouponSettingMutation) Fields() []string {
+	fields := make([]string, 0, 0)
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *AppCouponSettingMutation) Field(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *AppCouponSettingMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	return nil, fmt.Errorf("unknown AppCouponSetting field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AppCouponSettingMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown AppCouponSetting field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *AppCouponSettingMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *AppCouponSettingMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AppCouponSettingMutation) AddField(name string, value ent.Value) error {
+	return fmt.Errorf("unknown AppCouponSetting numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *AppCouponSettingMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *AppCouponSettingMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *AppCouponSettingMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown AppCouponSetting nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *AppCouponSettingMutation) ResetField(name string) error {
+	return fmt.Errorf("unknown AppCouponSetting field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *AppCouponSettingMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *AppCouponSettingMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *AppCouponSettingMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *AppCouponSettingMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *AppCouponSettingMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *AppCouponSettingMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *AppCouponSettingMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown AppCouponSetting unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *AppCouponSettingMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown AppCouponSetting edge %s", name)
+}
+
+// CouponAllocatedMutation represents an operation that mutates the CouponAllocated nodes in the graph.
+type CouponAllocatedMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*CouponAllocated, error)
+	predicates    []predicate.CouponAllocated
+}
+
+var _ ent.Mutation = (*CouponAllocatedMutation)(nil)
+
+// couponallocatedOption allows management of the mutation configuration using functional options.
+type couponallocatedOption func(*CouponAllocatedMutation)
+
+// newCouponAllocatedMutation creates new mutation for the CouponAllocated entity.
+func newCouponAllocatedMutation(c config, op Op, opts ...couponallocatedOption) *CouponAllocatedMutation {
+	m := &CouponAllocatedMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeCouponAllocated,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withCouponAllocatedID sets the ID field of the mutation.
+func withCouponAllocatedID(id int) couponallocatedOption {
+	return func(m *CouponAllocatedMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *CouponAllocated
+		)
+		m.oldValue = func(ctx context.Context) (*CouponAllocated, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().CouponAllocated.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withCouponAllocated sets the old CouponAllocated of the mutation.
+func withCouponAllocated(node *CouponAllocated) couponallocatedOption {
+	return func(m *CouponAllocatedMutation) {
+		m.oldValue = func(context.Context) (*CouponAllocated, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m CouponAllocatedMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m CouponAllocatedMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *CouponAllocatedMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// Where appends a list predicates to the CouponAllocatedMutation builder.
+func (m *CouponAllocatedMutation) Where(ps ...predicate.CouponAllocated) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// Op returns the operation name.
+func (m *CouponAllocatedMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (CouponAllocated).
+func (m *CouponAllocatedMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *CouponAllocatedMutation) Fields() []string {
+	fields := make([]string, 0, 0)
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *CouponAllocatedMutation) Field(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *CouponAllocatedMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	return nil, fmt.Errorf("unknown CouponAllocated field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *CouponAllocatedMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown CouponAllocated field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *CouponAllocatedMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *CouponAllocatedMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *CouponAllocatedMutation) AddField(name string, value ent.Value) error {
+	return fmt.Errorf("unknown CouponAllocated numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *CouponAllocatedMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *CouponAllocatedMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *CouponAllocatedMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown CouponAllocated nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *CouponAllocatedMutation) ResetField(name string) error {
+	return fmt.Errorf("unknown CouponAllocated field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *CouponAllocatedMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *CouponAllocatedMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *CouponAllocatedMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *CouponAllocatedMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *CouponAllocatedMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *CouponAllocatedMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *CouponAllocatedMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown CouponAllocated unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *CouponAllocatedMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown CouponAllocated edge %s", name)
+}
+
+// CouponPoolMutation represents an operation that mutates the CouponPool nodes in the graph.
+type CouponPoolMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *int
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*CouponPool, error)
+	predicates    []predicate.CouponPool
+}
+
+var _ ent.Mutation = (*CouponPoolMutation)(nil)
+
+// couponpoolOption allows management of the mutation configuration using functional options.
+type couponpoolOption func(*CouponPoolMutation)
+
+// newCouponPoolMutation creates new mutation for the CouponPool entity.
+func newCouponPoolMutation(c config, op Op, opts ...couponpoolOption) *CouponPoolMutation {
+	m := &CouponPoolMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeCouponPool,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withCouponPoolID sets the ID field of the mutation.
+func withCouponPoolID(id int) couponpoolOption {
+	return func(m *CouponPoolMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *CouponPool
+		)
+		m.oldValue = func(ctx context.Context) (*CouponPool, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().CouponPool.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withCouponPool sets the old CouponPool of the mutation.
+func withCouponPool(node *CouponPool) couponpoolOption {
+	return func(m *CouponPoolMutation) {
+		m.oldValue = func(context.Context) (*CouponPool, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m CouponPoolMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m CouponPoolMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *CouponPoolMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// Where appends a list predicates to the CouponPoolMutation builder.
+func (m *CouponPoolMutation) Where(ps ...predicate.CouponPool) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// Op returns the operation name.
+func (m *CouponPoolMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (CouponPool).
+func (m *CouponPoolMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *CouponPoolMutation) Fields() []string {
+	fields := make([]string, 0, 0)
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *CouponPoolMutation) Field(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *CouponPoolMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	return nil, fmt.Errorf("unknown CouponPool field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *CouponPoolMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown CouponPool field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *CouponPoolMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *CouponPoolMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *CouponPoolMutation) AddField(name string, value ent.Value) error {
+	return fmt.Errorf("unknown CouponPool numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *CouponPoolMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *CouponPoolMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *CouponPoolMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown CouponPool nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *CouponPoolMutation) ResetField(name string) error {
+	return fmt.Errorf("unknown CouponPool field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *CouponPoolMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *CouponPoolMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *CouponPoolMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *CouponPoolMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *CouponPoolMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *CouponPoolMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *CouponPoolMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown CouponPool unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *CouponPoolMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown CouponPool edge %s", name)
 }
 
 // NewUserRewardSettingMutation represents an operation that mutates the NewUserRewardSetting nodes in the graph.
