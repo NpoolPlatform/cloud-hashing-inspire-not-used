@@ -60,4 +60,14 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, resp2.Info.ID, resp.Info.ID)
 		assertNewUserRewardSetting(t, resp2.Info, &setting)
 	}
+
+	setting.ID = resp.Info.ID
+
+	resp3, err := Update(context.Background(), &npool.UpdateNewUserRewardSettingRequest{
+		Info: &setting,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp3.Info.ID, resp.Info.ID)
+		assertNewUserRewardSetting(t, resp3.Info, &setting)
+	}
 }

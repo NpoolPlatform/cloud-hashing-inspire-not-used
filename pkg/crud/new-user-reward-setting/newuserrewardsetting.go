@@ -112,5 +112,26 @@ func GetByApp(ctx context.Context, in *npool.GetNewUserRewardSettingByAppRequest
 }
 
 func Update(ctx context.Context, in *npool.UpdateNewUserRewardSettingRequest) (*npool.UpdateNewUserRewardSettingResponse, error) {
-	return nil, nil
+	id, err := uuid.Parse(in.GetInfo().GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invlaid id: %v", err)
+	}
+
+	if err := validateNewUserRewardSetting(in.GetInfo()); err != nil {
+		return nil, xerrors.Errorf("invalid parameter: %v", err)
+	}
+
+	info, err := db.Client().
+		NewUserRewardSetting.
+		UpdateOneID(id).
+		SetRegistrationCouponID(uuid.MustParse(in.GetInfo().GetRegistrationCouponID())).
+		SetKycCouponID(uuid.MustParse(in.GetInfo().GetKycCouponID())).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail update new user reward setting: %v", err)
+	}
+
+	return &npool.UpdateNewUserRewardSettingResponse{
+		Info: dbRowToNewUserRewardSetting(info),
+	}, nil
 }
