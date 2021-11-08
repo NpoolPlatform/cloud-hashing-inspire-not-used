@@ -99,14 +99,14 @@ func AppID(v uuid.UUID) predicate.AppCouponSetting {
 }
 
 // DominationLimit applies equality check predicate on the "domination_limit" field. It's identical to DominationLimitEQ.
-func DominationLimit(v int) predicate.AppCouponSetting {
+func DominationLimit(v uint64) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldDominationLimit), v))
 	})
 }
 
 // TotalLimit applies equality check predicate on the "total_limit" field. It's identical to TotalLimitEQ.
-func TotalLimit(v int) predicate.AppCouponSetting {
+func TotalLimit(v int32) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldTotalLimit), v))
 	})
@@ -210,21 +210,21 @@ func AppIDLTE(v uuid.UUID) predicate.AppCouponSetting {
 }
 
 // DominationLimitEQ applies the EQ predicate on the "domination_limit" field.
-func DominationLimitEQ(v int) predicate.AppCouponSetting {
+func DominationLimitEQ(v uint64) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldDominationLimit), v))
 	})
 }
 
 // DominationLimitNEQ applies the NEQ predicate on the "domination_limit" field.
-func DominationLimitNEQ(v int) predicate.AppCouponSetting {
+func DominationLimitNEQ(v uint64) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldDominationLimit), v))
 	})
 }
 
 // DominationLimitIn applies the In predicate on the "domination_limit" field.
-func DominationLimitIn(vs ...int) predicate.AppCouponSetting {
+func DominationLimitIn(vs ...uint64) predicate.AppCouponSetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -241,7 +241,7 @@ func DominationLimitIn(vs ...int) predicate.AppCouponSetting {
 }
 
 // DominationLimitNotIn applies the NotIn predicate on the "domination_limit" field.
-func DominationLimitNotIn(vs ...int) predicate.AppCouponSetting {
+func DominationLimitNotIn(vs ...uint64) predicate.AppCouponSetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -258,49 +258,49 @@ func DominationLimitNotIn(vs ...int) predicate.AppCouponSetting {
 }
 
 // DominationLimitGT applies the GT predicate on the "domination_limit" field.
-func DominationLimitGT(v int) predicate.AppCouponSetting {
+func DominationLimitGT(v uint64) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldDominationLimit), v))
 	})
 }
 
 // DominationLimitGTE applies the GTE predicate on the "domination_limit" field.
-func DominationLimitGTE(v int) predicate.AppCouponSetting {
+func DominationLimitGTE(v uint64) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldDominationLimit), v))
 	})
 }
 
 // DominationLimitLT applies the LT predicate on the "domination_limit" field.
-func DominationLimitLT(v int) predicate.AppCouponSetting {
+func DominationLimitLT(v uint64) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldDominationLimit), v))
 	})
 }
 
 // DominationLimitLTE applies the LTE predicate on the "domination_limit" field.
-func DominationLimitLTE(v int) predicate.AppCouponSetting {
+func DominationLimitLTE(v uint64) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldDominationLimit), v))
 	})
 }
 
 // TotalLimitEQ applies the EQ predicate on the "total_limit" field.
-func TotalLimitEQ(v int) predicate.AppCouponSetting {
+func TotalLimitEQ(v int32) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldTotalLimit), v))
 	})
 }
 
 // TotalLimitNEQ applies the NEQ predicate on the "total_limit" field.
-func TotalLimitNEQ(v int) predicate.AppCouponSetting {
+func TotalLimitNEQ(v int32) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldTotalLimit), v))
 	})
 }
 
 // TotalLimitIn applies the In predicate on the "total_limit" field.
-func TotalLimitIn(vs ...int) predicate.AppCouponSetting {
+func TotalLimitIn(vs ...int32) predicate.AppCouponSetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -317,7 +317,7 @@ func TotalLimitIn(vs ...int) predicate.AppCouponSetting {
 }
 
 // TotalLimitNotIn applies the NotIn predicate on the "total_limit" field.
-func TotalLimitNotIn(vs ...int) predicate.AppCouponSetting {
+func TotalLimitNotIn(vs ...int32) predicate.AppCouponSetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -334,28 +334,28 @@ func TotalLimitNotIn(vs ...int) predicate.AppCouponSetting {
 }
 
 // TotalLimitGT applies the GT predicate on the "total_limit" field.
-func TotalLimitGT(v int) predicate.AppCouponSetting {
+func TotalLimitGT(v int32) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldTotalLimit), v))
 	})
 }
 
 // TotalLimitGTE applies the GTE predicate on the "total_limit" field.
-func TotalLimitGTE(v int) predicate.AppCouponSetting {
+func TotalLimitGTE(v int32) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldTotalLimit), v))
 	})
 }
 
 // TotalLimitLT applies the LT predicate on the "total_limit" field.
-func TotalLimitLT(v int) predicate.AppCouponSetting {
+func TotalLimitLT(v int32) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldTotalLimit), v))
 	})
 }
 
 // TotalLimitLTE applies the LTE predicate on the "total_limit" field.
-func TotalLimitLTE(v int) predicate.AppCouponSetting {
+func TotalLimitLTE(v int32) predicate.AppCouponSetting {
 	return predicate.AppCouponSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldTotalLimit), v))
 	})

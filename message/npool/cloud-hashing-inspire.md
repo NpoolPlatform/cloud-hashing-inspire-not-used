@@ -125,7 +125,7 @@
 | ----- | ---- | ----- | ----------- |
 | ID | [string](#string) |  |  |
 | AppID | [string](#string) |  |  |
-| DominationLimit | [int32](#int32) |  |  |
+| DominationLimit | [double](#double) |  |  |
 | TotalLimit | [int32](#int32) |  |  |
 
 

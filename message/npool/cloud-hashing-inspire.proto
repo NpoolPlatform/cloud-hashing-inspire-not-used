@@ -527,7 +527,7 @@ message GetCouponPoolsByAppReleaserResponse {
 message AppCouponSetting {
     string ID = 5500;
     string AppID = 5501;
-    int32 DominationLimit = 5502;
+    double DominationLimit = 5502;
     int32 TotalLimit = 5503;
 }
 

@@ -22,8 +22,8 @@ func (AppCouponSetting) Fields() []ent.Field {
 			Unique(),
 		field.UUID("app_id", uuid.UUID{}).
 			Unique(),
-		field.Int("domination_limit"),
-		field.Int("total_limit"),
+		field.Uint64("domination_limit"),
+		field.Int32("total_limit"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

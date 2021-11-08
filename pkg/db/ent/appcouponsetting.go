@@ -19,9 +19,9 @@ type AppCouponSetting struct {
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
 	// DominationLimit holds the value of the "domination_limit" field.
-	DominationLimit int `json:"domination_limit,omitempty"`
+	DominationLimit uint64 `json:"domination_limit,omitempty"`
 	// TotalLimit holds the value of the "total_limit" field.
-	TotalLimit int `json:"total_limit,omitempty"`
+	TotalLimit int32 `json:"total_limit,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -70,13 +70,13 @@ func (acs *AppCouponSetting) assignValues(columns []string, values []interface{}
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field domination_limit", values[i])
 			} else if value.Valid {
-				acs.DominationLimit = int(value.Int64)
+				acs.DominationLimit = uint64(value.Int64)
 			}
 		case appcouponsetting.FieldTotalLimit:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field total_limit", values[i])
 			} else if value.Valid {
-				acs.TotalLimit = int(value.Int64)
+				acs.TotalLimit = int32(value.Int64)
 			}
 		case appcouponsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {

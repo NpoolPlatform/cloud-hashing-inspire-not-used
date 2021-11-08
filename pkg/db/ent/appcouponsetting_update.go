@@ -34,27 +34,27 @@ func (acsu *AppCouponSettingUpdate) SetAppID(u uuid.UUID) *AppCouponSettingUpdat
 }
 
 // SetDominationLimit sets the "domination_limit" field.
-func (acsu *AppCouponSettingUpdate) SetDominationLimit(i int) *AppCouponSettingUpdate {
+func (acsu *AppCouponSettingUpdate) SetDominationLimit(u uint64) *AppCouponSettingUpdate {
 	acsu.mutation.ResetDominationLimit()
-	acsu.mutation.SetDominationLimit(i)
+	acsu.mutation.SetDominationLimit(u)
 	return acsu
 }
 
-// AddDominationLimit adds i to the "domination_limit" field.
-func (acsu *AppCouponSettingUpdate) AddDominationLimit(i int) *AppCouponSettingUpdate {
-	acsu.mutation.AddDominationLimit(i)
+// AddDominationLimit adds u to the "domination_limit" field.
+func (acsu *AppCouponSettingUpdate) AddDominationLimit(u uint64) *AppCouponSettingUpdate {
+	acsu.mutation.AddDominationLimit(u)
 	return acsu
 }
 
 // SetTotalLimit sets the "total_limit" field.
-func (acsu *AppCouponSettingUpdate) SetTotalLimit(i int) *AppCouponSettingUpdate {
+func (acsu *AppCouponSettingUpdate) SetTotalLimit(i int32) *AppCouponSettingUpdate {
 	acsu.mutation.ResetTotalLimit()
 	acsu.mutation.SetTotalLimit(i)
 	return acsu
 }
 
 // AddTotalLimit adds i to the "total_limit" field.
-func (acsu *AppCouponSettingUpdate) AddTotalLimit(i int) *AppCouponSettingUpdate {
+func (acsu *AppCouponSettingUpdate) AddTotalLimit(i int32) *AppCouponSettingUpdate {
 	acsu.mutation.AddTotalLimit(i)
 	return acsu
 }
@@ -209,28 +209,28 @@ func (acsu *AppCouponSettingUpdate) sqlSave(ctx context.Context) (n int, err err
 	}
 	if value, ok := acsu.mutation.DominationLimit(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUint64,
 			Value:  value,
 			Column: appcouponsetting.FieldDominationLimit,
 		})
 	}
 	if value, ok := acsu.mutation.AddedDominationLimit(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUint64,
 			Value:  value,
 			Column: appcouponsetting.FieldDominationLimit,
 		})
 	}
 	if value, ok := acsu.mutation.TotalLimit(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: appcouponsetting.FieldTotalLimit,
 		})
 	}
 	if value, ok := acsu.mutation.AddedTotalLimit(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: appcouponsetting.FieldTotalLimit,
 		})
@@ -303,27 +303,27 @@ func (acsuo *AppCouponSettingUpdateOne) SetAppID(u uuid.UUID) *AppCouponSettingU
 }
 
 // SetDominationLimit sets the "domination_limit" field.
-func (acsuo *AppCouponSettingUpdateOne) SetDominationLimit(i int) *AppCouponSettingUpdateOne {
+func (acsuo *AppCouponSettingUpdateOne) SetDominationLimit(u uint64) *AppCouponSettingUpdateOne {
 	acsuo.mutation.ResetDominationLimit()
-	acsuo.mutation.SetDominationLimit(i)
+	acsuo.mutation.SetDominationLimit(u)
 	return acsuo
 }
 
-// AddDominationLimit adds i to the "domination_limit" field.
-func (acsuo *AppCouponSettingUpdateOne) AddDominationLimit(i int) *AppCouponSettingUpdateOne {
-	acsuo.mutation.AddDominationLimit(i)
+// AddDominationLimit adds u to the "domination_limit" field.
+func (acsuo *AppCouponSettingUpdateOne) AddDominationLimit(u uint64) *AppCouponSettingUpdateOne {
+	acsuo.mutation.AddDominationLimit(u)
 	return acsuo
 }
 
 // SetTotalLimit sets the "total_limit" field.
-func (acsuo *AppCouponSettingUpdateOne) SetTotalLimit(i int) *AppCouponSettingUpdateOne {
+func (acsuo *AppCouponSettingUpdateOne) SetTotalLimit(i int32) *AppCouponSettingUpdateOne {
 	acsuo.mutation.ResetTotalLimit()
 	acsuo.mutation.SetTotalLimit(i)
 	return acsuo
 }
 
 // AddTotalLimit adds i to the "total_limit" field.
-func (acsuo *AppCouponSettingUpdateOne) AddTotalLimit(i int) *AppCouponSettingUpdateOne {
+func (acsuo *AppCouponSettingUpdateOne) AddTotalLimit(i int32) *AppCouponSettingUpdateOne {
 	acsuo.mutation.AddTotalLimit(i)
 	return acsuo
 }
@@ -502,28 +502,28 @@ func (acsuo *AppCouponSettingUpdateOne) sqlSave(ctx context.Context) (_node *App
 	}
 	if value, ok := acsuo.mutation.DominationLimit(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUint64,
 			Value:  value,
 			Column: appcouponsetting.FieldDominationLimit,
 		})
 	}
 	if value, ok := acsuo.mutation.AddedDominationLimit(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUint64,
 			Value:  value,
 			Column: appcouponsetting.FieldDominationLimit,
 		})
 	}
 	if value, ok := acsuo.mutation.TotalLimit(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: appcouponsetting.FieldTotalLimit,
 		})
 	}
 	if value, ok := acsuo.mutation.AddedTotalLimit(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: appcouponsetting.FieldTotalLimit,
 		})

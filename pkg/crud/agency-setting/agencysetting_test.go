@@ -40,7 +40,7 @@ func TestCRUD(t *testing.T) {
 		RegistrationCouponID:        uuid.New().String(),
 		KycRewardThreshold:          5,
 		KycCouponID:                 uuid.New().String(),
-		PurchaseRewardPercent:       20,
+		PurchaseRewardPercent:       19,
 		PurchaseRewardChainLevels:   2,
 		AppID:                       uuid.New().String(),
 	}

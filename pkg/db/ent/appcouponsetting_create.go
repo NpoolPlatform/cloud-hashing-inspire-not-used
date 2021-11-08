@@ -30,13 +30,13 @@ func (acsc *AppCouponSettingCreate) SetAppID(u uuid.UUID) *AppCouponSettingCreat
 }
 
 // SetDominationLimit sets the "domination_limit" field.
-func (acsc *AppCouponSettingCreate) SetDominationLimit(i int) *AppCouponSettingCreate {
-	acsc.mutation.SetDominationLimit(i)
+func (acsc *AppCouponSettingCreate) SetDominationLimit(u uint64) *AppCouponSettingCreate {
+	acsc.mutation.SetDominationLimit(u)
 	return acsc
 }
 
 // SetTotalLimit sets the "total_limit" field.
-func (acsc *AppCouponSettingCreate) SetTotalLimit(i int) *AppCouponSettingCreate {
+func (acsc *AppCouponSettingCreate) SetTotalLimit(i int32) *AppCouponSettingCreate {
 	acsc.mutation.SetTotalLimit(i)
 	return acsc
 }
@@ -241,7 +241,7 @@ func (acsc *AppCouponSettingCreate) createSpec() (*AppCouponSetting, *sqlgraph.C
 	}
 	if value, ok := acsc.mutation.DominationLimit(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeUint64,
 			Value:  value,
 			Column: appcouponsetting.FieldDominationLimit,
 		})
@@ -249,7 +249,7 @@ func (acsc *AppCouponSettingCreate) createSpec() (*AppCouponSetting, *sqlgraph.C
 	}
 	if value, ok := acsc.mutation.TotalLimit(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: appcouponsetting.FieldTotalLimit,
 		})
@@ -346,7 +346,7 @@ func (u *AppCouponSettingUpsert) UpdateAppID() *AppCouponSettingUpsert {
 }
 
 // SetDominationLimit sets the "domination_limit" field.
-func (u *AppCouponSettingUpsert) SetDominationLimit(v int) *AppCouponSettingUpsert {
+func (u *AppCouponSettingUpsert) SetDominationLimit(v uint64) *AppCouponSettingUpsert {
 	u.Set(appcouponsetting.FieldDominationLimit, v)
 	return u
 }
@@ -358,7 +358,7 @@ func (u *AppCouponSettingUpsert) UpdateDominationLimit() *AppCouponSettingUpsert
 }
 
 // SetTotalLimit sets the "total_limit" field.
-func (u *AppCouponSettingUpsert) SetTotalLimit(v int) *AppCouponSettingUpsert {
+func (u *AppCouponSettingUpsert) SetTotalLimit(v int32) *AppCouponSettingUpsert {
 	u.Set(appcouponsetting.FieldTotalLimit, v)
 	return u
 }
@@ -470,7 +470,7 @@ func (u *AppCouponSettingUpsertOne) UpdateAppID() *AppCouponSettingUpsertOne {
 }
 
 // SetDominationLimit sets the "domination_limit" field.
-func (u *AppCouponSettingUpsertOne) SetDominationLimit(v int) *AppCouponSettingUpsertOne {
+func (u *AppCouponSettingUpsertOne) SetDominationLimit(v uint64) *AppCouponSettingUpsertOne {
 	return u.Update(func(s *AppCouponSettingUpsert) {
 		s.SetDominationLimit(v)
 	})
@@ -484,7 +484,7 @@ func (u *AppCouponSettingUpsertOne) UpdateDominationLimit() *AppCouponSettingUps
 }
 
 // SetTotalLimit sets the "total_limit" field.
-func (u *AppCouponSettingUpsertOne) SetTotalLimit(v int) *AppCouponSettingUpsertOne {
+func (u *AppCouponSettingUpsertOne) SetTotalLimit(v int32) *AppCouponSettingUpsertOne {
 	return u.Update(func(s *AppCouponSettingUpsert) {
 		s.SetTotalLimit(v)
 	})
@@ -770,7 +770,7 @@ func (u *AppCouponSettingUpsertBulk) UpdateAppID() *AppCouponSettingUpsertBulk {
 }
 
 // SetDominationLimit sets the "domination_limit" field.
-func (u *AppCouponSettingUpsertBulk) SetDominationLimit(v int) *AppCouponSettingUpsertBulk {
+func (u *AppCouponSettingUpsertBulk) SetDominationLimit(v uint64) *AppCouponSettingUpsertBulk {
 	return u.Update(func(s *AppCouponSettingUpsert) {
 		s.SetDominationLimit(v)
 	})
@@ -784,7 +784,7 @@ func (u *AppCouponSettingUpsertBulk) UpdateDominationLimit() *AppCouponSettingUp
 }
 
 // SetTotalLimit sets the "total_limit" field.
-func (u *AppCouponSettingUpsertBulk) SetTotalLimit(v int) *AppCouponSettingUpsertBulk {
+func (u *AppCouponSettingUpsertBulk) SetTotalLimit(v int32) *AppCouponSettingUpsertBulk {
 	return u.Update(func(s *AppCouponSettingUpsert) {
 		s.SetTotalLimit(v)
 	})

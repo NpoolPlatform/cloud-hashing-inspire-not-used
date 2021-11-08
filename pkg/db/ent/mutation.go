@@ -1065,10 +1065,10 @@ type AppCouponSettingMutation struct {
 	typ                 string
 	id                  *uuid.UUID
 	app_id              *uuid.UUID
-	domination_limit    *int
-	adddomination_limit *int
-	total_limit         *int
-	addtotal_limit      *int
+	domination_limit    *uint64
+	adddomination_limit *uint64
+	total_limit         *int32
+	addtotal_limit      *int32
 	create_at           *uint32
 	addcreate_at        *uint32
 	update_at           *uint32
@@ -1203,13 +1203,13 @@ func (m *AppCouponSettingMutation) ResetAppID() {
 }
 
 // SetDominationLimit sets the "domination_limit" field.
-func (m *AppCouponSettingMutation) SetDominationLimit(i int) {
-	m.domination_limit = &i
+func (m *AppCouponSettingMutation) SetDominationLimit(u uint64) {
+	m.domination_limit = &u
 	m.adddomination_limit = nil
 }
 
 // DominationLimit returns the value of the "domination_limit" field in the mutation.
-func (m *AppCouponSettingMutation) DominationLimit() (r int, exists bool) {
+func (m *AppCouponSettingMutation) DominationLimit() (r uint64, exists bool) {
 	v := m.domination_limit
 	if v == nil {
 		return
@@ -1220,7 +1220,7 @@ func (m *AppCouponSettingMutation) DominationLimit() (r int, exists bool) {
 // OldDominationLimit returns the old "domination_limit" field's value of the AppCouponSetting entity.
 // If the AppCouponSetting object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AppCouponSettingMutation) OldDominationLimit(ctx context.Context) (v int, err error) {
+func (m *AppCouponSettingMutation) OldDominationLimit(ctx context.Context) (v uint64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldDominationLimit is only allowed on UpdateOne operations")
 	}
@@ -1234,17 +1234,17 @@ func (m *AppCouponSettingMutation) OldDominationLimit(ctx context.Context) (v in
 	return oldValue.DominationLimit, nil
 }
 
-// AddDominationLimit adds i to the "domination_limit" field.
-func (m *AppCouponSettingMutation) AddDominationLimit(i int) {
+// AddDominationLimit adds u to the "domination_limit" field.
+func (m *AppCouponSettingMutation) AddDominationLimit(u uint64) {
 	if m.adddomination_limit != nil {
-		*m.adddomination_limit += i
+		*m.adddomination_limit += u
 	} else {
-		m.adddomination_limit = &i
+		m.adddomination_limit = &u
 	}
 }
 
 // AddedDominationLimit returns the value that was added to the "domination_limit" field in this mutation.
-func (m *AppCouponSettingMutation) AddedDominationLimit() (r int, exists bool) {
+func (m *AppCouponSettingMutation) AddedDominationLimit() (r uint64, exists bool) {
 	v := m.adddomination_limit
 	if v == nil {
 		return
@@ -1259,13 +1259,13 @@ func (m *AppCouponSettingMutation) ResetDominationLimit() {
 }
 
 // SetTotalLimit sets the "total_limit" field.
-func (m *AppCouponSettingMutation) SetTotalLimit(i int) {
+func (m *AppCouponSettingMutation) SetTotalLimit(i int32) {
 	m.total_limit = &i
 	m.addtotal_limit = nil
 }
 
 // TotalLimit returns the value of the "total_limit" field in the mutation.
-func (m *AppCouponSettingMutation) TotalLimit() (r int, exists bool) {
+func (m *AppCouponSettingMutation) TotalLimit() (r int32, exists bool) {
 	v := m.total_limit
 	if v == nil {
 		return
@@ -1276,7 +1276,7 @@ func (m *AppCouponSettingMutation) TotalLimit() (r int, exists bool) {
 // OldTotalLimit returns the old "total_limit" field's value of the AppCouponSetting entity.
 // If the AppCouponSetting object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AppCouponSettingMutation) OldTotalLimit(ctx context.Context) (v int, err error) {
+func (m *AppCouponSettingMutation) OldTotalLimit(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldTotalLimit is only allowed on UpdateOne operations")
 	}
@@ -1291,7 +1291,7 @@ func (m *AppCouponSettingMutation) OldTotalLimit(ctx context.Context) (v int, er
 }
 
 // AddTotalLimit adds i to the "total_limit" field.
-func (m *AppCouponSettingMutation) AddTotalLimit(i int) {
+func (m *AppCouponSettingMutation) AddTotalLimit(i int32) {
 	if m.addtotal_limit != nil {
 		*m.addtotal_limit += i
 	} else {
@@ -1300,7 +1300,7 @@ func (m *AppCouponSettingMutation) AddTotalLimit(i int) {
 }
 
 // AddedTotalLimit returns the value that was added to the "total_limit" field in this mutation.
-func (m *AppCouponSettingMutation) AddedTotalLimit() (r int, exists bool) {
+func (m *AppCouponSettingMutation) AddedTotalLimit() (r int32, exists bool) {
 	v := m.addtotal_limit
 	if v == nil {
 		return
@@ -1578,14 +1578,14 @@ func (m *AppCouponSettingMutation) SetField(name string, value ent.Value) error 
 		m.SetAppID(v)
 		return nil
 	case appcouponsetting.FieldDominationLimit:
-		v, ok := value.(int)
+		v, ok := value.(uint64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDominationLimit(v)
 		return nil
 	case appcouponsetting.FieldTotalLimit:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1663,14 +1663,14 @@ func (m *AppCouponSettingMutation) AddedField(name string) (ent.Value, bool) {
 func (m *AppCouponSettingMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case appcouponsetting.FieldDominationLimit:
-		v, ok := value.(int)
+		v, ok := value.(uint64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddDominationLimit(v)
 		return nil
 	case appcouponsetting.FieldTotalLimit:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
