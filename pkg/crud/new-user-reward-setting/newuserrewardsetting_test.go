@@ -31,6 +31,10 @@ func assertNewUserRewardSetting(t *testing.T, actual, expected *npool.NewUserRew
 }
 
 func TestCRUD(t *testing.T) {
+	if runByGithubAction, err := strconv.ParseBool(os.Getenv("RUN_BY_GITHUB_ACTION")); err == nil && runByGithubAction {
+		return
+	}
+
 	setting := npool.NewUserRewardSetting{
 		RegistrationCouponID: uuid.New().String(),
 		KycCouponID:          uuid.New().String(),

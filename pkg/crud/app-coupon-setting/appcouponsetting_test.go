@@ -31,6 +31,10 @@ func assertAppCouponSetting(t *testing.T, actual, expected *npool.AppCouponSetti
 }
 
 func TestCRUD(t *testing.T) {
+	if runByGithubAction, err := strconv.ParseBool(os.Getenv("RUN_BY_GITHUB_ACTION")); err == nil && runByGithubAction {
+		return
+	}
+
 	setting := npool.AppCouponSetting{
 		DominationLimit: 10,
 		TotalLimit:      10,

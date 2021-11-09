@@ -36,6 +36,10 @@ func assertAgencySetting(t *testing.T, actual, expected *npool.AgencySetting) {
 }
 
 func TestCRUD(t *testing.T) {
+	if runByGithubAction, err := strconv.ParseBool(os.Getenv("RUN_BY_GITHUB_ACTION")); err == nil && runByGithubAction {
+		return
+	}
+
 	setting := npool.AgencySetting{
 		RegistrationRewardThreshold: 30,
 		RegistrationCouponID:        uuid.New().String(),
