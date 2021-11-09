@@ -29,23 +29,9 @@ func (cpc *CouponPoolCreate) SetDenomination(u uint64) *CouponPoolCreate {
 	return cpc
 }
 
-// SetCiculation sets the "ciculation" field.
-func (cpc *CouponPoolCreate) SetCiculation(i int) *CouponPoolCreate {
-	cpc.mutation.SetCiculation(i)
-	return cpc
-}
-
-// SetUsed sets the "used" field.
-func (cpc *CouponPoolCreate) SetUsed(i int) *CouponPoolCreate {
-	cpc.mutation.SetUsed(i)
-	return cpc
-}
-
-// SetNillableUsed sets the "used" field if the given value is not nil.
-func (cpc *CouponPoolCreate) SetNillableUsed(i *int) *CouponPoolCreate {
-	if i != nil {
-		cpc.SetUsed(*i)
-	}
+// SetCirculation sets the "circulation" field.
+func (cpc *CouponPoolCreate) SetCirculation(i int32) *CouponPoolCreate {
+	cpc.mutation.SetCirculation(i)
 	return cpc
 }
 
@@ -62,7 +48,7 @@ func (cpc *CouponPoolCreate) SetStart(u uint32) *CouponPoolCreate {
 }
 
 // SetDurationDays sets the "duration_days" field.
-func (cpc *CouponPoolCreate) SetDurationDays(i int) *CouponPoolCreate {
+func (cpc *CouponPoolCreate) SetDurationDays(i int32) *CouponPoolCreate {
 	cpc.mutation.SetDurationDays(i)
 	return cpc
 }
@@ -204,10 +190,6 @@ func (cpc *CouponPoolCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (cpc *CouponPoolCreate) defaults() {
-	if _, ok := cpc.mutation.Used(); !ok {
-		v := couponpool.DefaultUsed
-		cpc.mutation.SetUsed(v)
-	}
 	if _, ok := cpc.mutation.CreateAt(); !ok {
 		v := couponpool.DefaultCreateAt()
 		cpc.mutation.SetCreateAt(v)
@@ -231,11 +213,8 @@ func (cpc *CouponPoolCreate) check() error {
 	if _, ok := cpc.mutation.Denomination(); !ok {
 		return &ValidationError{Name: "denomination", err: errors.New(`ent: missing required field "denomination"`)}
 	}
-	if _, ok := cpc.mutation.Ciculation(); !ok {
-		return &ValidationError{Name: "ciculation", err: errors.New(`ent: missing required field "ciculation"`)}
-	}
-	if _, ok := cpc.mutation.Used(); !ok {
-		return &ValidationError{Name: "used", err: errors.New(`ent: missing required field "used"`)}
+	if _, ok := cpc.mutation.Circulation(); !ok {
+		return &ValidationError{Name: "circulation", err: errors.New(`ent: missing required field "circulation"`)}
 	}
 	if _, ok := cpc.mutation.ReleaseByUserID(); !ok {
 		return &ValidationError{Name: "release_by_user_id", err: errors.New(`ent: missing required field "release_by_user_id"`)}
@@ -315,21 +294,13 @@ func (cpc *CouponPoolCreate) createSpec() (*CouponPool, *sqlgraph.CreateSpec) {
 		})
 		_node.Denomination = value
 	}
-	if value, ok := cpc.mutation.Ciculation(); ok {
+	if value, ok := cpc.mutation.Circulation(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
-			Column: couponpool.FieldCiculation,
+			Column: couponpool.FieldCirculation,
 		})
-		_node.Ciculation = value
-	}
-	if value, ok := cpc.mutation.Used(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: couponpool.FieldUsed,
-		})
-		_node.Used = value
+		_node.Circulation = value
 	}
 	if value, ok := cpc.mutation.ReleaseByUserID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -349,7 +320,7 @@ func (cpc *CouponPoolCreate) createSpec() (*CouponPool, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := cpc.mutation.DurationDays(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: couponpool.FieldDurationDays,
 		})
@@ -469,27 +440,15 @@ func (u *CouponPoolUpsert) UpdateDenomination() *CouponPoolUpsert {
 	return u
 }
 
-// SetCiculation sets the "ciculation" field.
-func (u *CouponPoolUpsert) SetCiculation(v int) *CouponPoolUpsert {
-	u.Set(couponpool.FieldCiculation, v)
+// SetCirculation sets the "circulation" field.
+func (u *CouponPoolUpsert) SetCirculation(v int32) *CouponPoolUpsert {
+	u.Set(couponpool.FieldCirculation, v)
 	return u
 }
 
-// UpdateCiculation sets the "ciculation" field to the value that was provided on create.
-func (u *CouponPoolUpsert) UpdateCiculation() *CouponPoolUpsert {
-	u.SetExcluded(couponpool.FieldCiculation)
-	return u
-}
-
-// SetUsed sets the "used" field.
-func (u *CouponPoolUpsert) SetUsed(v int) *CouponPoolUpsert {
-	u.Set(couponpool.FieldUsed, v)
-	return u
-}
-
-// UpdateUsed sets the "used" field to the value that was provided on create.
-func (u *CouponPoolUpsert) UpdateUsed() *CouponPoolUpsert {
-	u.SetExcluded(couponpool.FieldUsed)
+// UpdateCirculation sets the "circulation" field to the value that was provided on create.
+func (u *CouponPoolUpsert) UpdateCirculation() *CouponPoolUpsert {
+	u.SetExcluded(couponpool.FieldCirculation)
 	return u
 }
 
@@ -518,7 +477,7 @@ func (u *CouponPoolUpsert) UpdateStart() *CouponPoolUpsert {
 }
 
 // SetDurationDays sets the "duration_days" field.
-func (u *CouponPoolUpsert) SetDurationDays(v int) *CouponPoolUpsert {
+func (u *CouponPoolUpsert) SetDurationDays(v int32) *CouponPoolUpsert {
 	u.Set(couponpool.FieldDurationDays, v)
 	return u
 }
@@ -665,31 +624,17 @@ func (u *CouponPoolUpsertOne) UpdateDenomination() *CouponPoolUpsertOne {
 	})
 }
 
-// SetCiculation sets the "ciculation" field.
-func (u *CouponPoolUpsertOne) SetCiculation(v int) *CouponPoolUpsertOne {
+// SetCirculation sets the "circulation" field.
+func (u *CouponPoolUpsertOne) SetCirculation(v int32) *CouponPoolUpsertOne {
 	return u.Update(func(s *CouponPoolUpsert) {
-		s.SetCiculation(v)
+		s.SetCirculation(v)
 	})
 }
 
-// UpdateCiculation sets the "ciculation" field to the value that was provided on create.
-func (u *CouponPoolUpsertOne) UpdateCiculation() *CouponPoolUpsertOne {
+// UpdateCirculation sets the "circulation" field to the value that was provided on create.
+func (u *CouponPoolUpsertOne) UpdateCirculation() *CouponPoolUpsertOne {
 	return u.Update(func(s *CouponPoolUpsert) {
-		s.UpdateCiculation()
-	})
-}
-
-// SetUsed sets the "used" field.
-func (u *CouponPoolUpsertOne) SetUsed(v int) *CouponPoolUpsertOne {
-	return u.Update(func(s *CouponPoolUpsert) {
-		s.SetUsed(v)
-	})
-}
-
-// UpdateUsed sets the "used" field to the value that was provided on create.
-func (u *CouponPoolUpsertOne) UpdateUsed() *CouponPoolUpsertOne {
-	return u.Update(func(s *CouponPoolUpsert) {
-		s.UpdateUsed()
+		s.UpdateCirculation()
 	})
 }
 
@@ -722,7 +667,7 @@ func (u *CouponPoolUpsertOne) UpdateStart() *CouponPoolUpsertOne {
 }
 
 // SetDurationDays sets the "duration_days" field.
-func (u *CouponPoolUpsertOne) SetDurationDays(v int) *CouponPoolUpsertOne {
+func (u *CouponPoolUpsertOne) SetDurationDays(v int32) *CouponPoolUpsertOne {
 	return u.Update(func(s *CouponPoolUpsert) {
 		s.SetDurationDays(v)
 	})
@@ -1049,31 +994,17 @@ func (u *CouponPoolUpsertBulk) UpdateDenomination() *CouponPoolUpsertBulk {
 	})
 }
 
-// SetCiculation sets the "ciculation" field.
-func (u *CouponPoolUpsertBulk) SetCiculation(v int) *CouponPoolUpsertBulk {
+// SetCirculation sets the "circulation" field.
+func (u *CouponPoolUpsertBulk) SetCirculation(v int32) *CouponPoolUpsertBulk {
 	return u.Update(func(s *CouponPoolUpsert) {
-		s.SetCiculation(v)
+		s.SetCirculation(v)
 	})
 }
 
-// UpdateCiculation sets the "ciculation" field to the value that was provided on create.
-func (u *CouponPoolUpsertBulk) UpdateCiculation() *CouponPoolUpsertBulk {
+// UpdateCirculation sets the "circulation" field to the value that was provided on create.
+func (u *CouponPoolUpsertBulk) UpdateCirculation() *CouponPoolUpsertBulk {
 	return u.Update(func(s *CouponPoolUpsert) {
-		s.UpdateCiculation()
-	})
-}
-
-// SetUsed sets the "used" field.
-func (u *CouponPoolUpsertBulk) SetUsed(v int) *CouponPoolUpsertBulk {
-	return u.Update(func(s *CouponPoolUpsert) {
-		s.SetUsed(v)
-	})
-}
-
-// UpdateUsed sets the "used" field to the value that was provided on create.
-func (u *CouponPoolUpsertBulk) UpdateUsed() *CouponPoolUpsertBulk {
-	return u.Update(func(s *CouponPoolUpsert) {
-		s.UpdateUsed()
+		s.UpdateCirculation()
 	})
 }
 
@@ -1106,7 +1037,7 @@ func (u *CouponPoolUpsertBulk) UpdateStart() *CouponPoolUpsertBulk {
 }
 
 // SetDurationDays sets the "duration_days" field.
-func (u *CouponPoolUpsertBulk) SetDurationDays(v int) *CouponPoolUpsertBulk {
+func (u *CouponPoolUpsertBulk) SetDurationDays(v int32) *CouponPoolUpsertBulk {
 	return u.Update(func(s *CouponPoolUpsert) {
 		s.SetDurationDays(v)
 	})

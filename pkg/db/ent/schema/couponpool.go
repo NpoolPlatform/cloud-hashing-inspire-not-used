@@ -21,12 +21,10 @@ func (CouponPool) Fields() []ent.Field {
 			Default(uuid.New).
 			Unique(),
 		field.Uint64("denomination"),
-		field.Int("ciculation"),
-		field.Int("used").
-			Default(0),
+		field.Int32("circulation"),
 		field.UUID("release_by_user_id", uuid.UUID{}),
 		field.Uint32("start"),
-		field.Int("duration_days"),
+		field.Int32("duration_days"),
 		field.UUID("app_id", uuid.UUID{}),
 		field.String("message").
 			MaxLen(512),

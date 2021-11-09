@@ -66,11 +66,10 @@ var (
 	CouponPoolsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "denomination", Type: field.TypeUint64},
-		{Name: "ciculation", Type: field.TypeInt},
-		{Name: "used", Type: field.TypeInt, Default: 0},
+		{Name: "circulation", Type: field.TypeInt32},
 		{Name: "release_by_user_id", Type: field.TypeUUID},
 		{Name: "start", Type: field.TypeUint32},
-		{Name: "duration_days", Type: field.TypeInt},
+		{Name: "duration_days", Type: field.TypeInt32},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "message", Type: field.TypeString, Size: 512},
 		{Name: "name", Type: field.TypeString, Unique: true, Size: 64},

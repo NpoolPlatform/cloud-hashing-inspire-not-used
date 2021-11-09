@@ -13,10 +13,8 @@ const (
 	FieldID = "id"
 	// FieldDenomination holds the string denoting the denomination field in the database.
 	FieldDenomination = "denomination"
-	// FieldCiculation holds the string denoting the ciculation field in the database.
-	FieldCiculation = "ciculation"
-	// FieldUsed holds the string denoting the used field in the database.
-	FieldUsed = "used"
+	// FieldCirculation holds the string denoting the circulation field in the database.
+	FieldCirculation = "circulation"
 	// FieldReleaseByUserID holds the string denoting the release_by_user_id field in the database.
 	FieldReleaseByUserID = "release_by_user_id"
 	// FieldStart holds the string denoting the start field in the database.
@@ -43,8 +41,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldDenomination,
-	FieldCiculation,
-	FieldUsed,
+	FieldCirculation,
 	FieldReleaseByUserID,
 	FieldStart,
 	FieldDurationDays,
@@ -67,8 +64,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultUsed holds the default value on creation for the "used" field.
-	DefaultUsed int
 	// MessageValidator is a validator for the "message" field. It is called by the builders before save.
 	MessageValidator func(string) error
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.

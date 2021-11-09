@@ -195,7 +195,7 @@
 | Circulation | [int32](#int32) |  |  |
 | Start | [uint32](#uint32) |  |  |
 | DurationDays | [int32](#int32) |  |  |
-| Messge | [string](#string) |  |  |
+| Message | [string](#string) |  |  |
 | Name | [string](#string) |  |  |
 
 

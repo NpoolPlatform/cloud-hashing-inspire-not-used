@@ -2617,15 +2617,13 @@ type CouponPoolMutation struct {
 	id                 *uuid.UUID
 	denomination       *uint64
 	adddenomination    *uint64
-	ciculation         *int
-	addciculation      *int
-	used               *int
-	addused            *int
+	circulation        *int32
+	addcirculation     *int32
 	release_by_user_id *uuid.UUID
 	start              *uint32
 	addstart           *uint32
-	duration_days      *int
-	addduration_days   *int
+	duration_days      *int32
+	addduration_days   *int32
 	app_id             *uuid.UUID
 	message            *string
 	name               *string
@@ -2782,116 +2780,60 @@ func (m *CouponPoolMutation) ResetDenomination() {
 	m.adddenomination = nil
 }
 
-// SetCiculation sets the "ciculation" field.
-func (m *CouponPoolMutation) SetCiculation(i int) {
-	m.ciculation = &i
-	m.addciculation = nil
+// SetCirculation sets the "circulation" field.
+func (m *CouponPoolMutation) SetCirculation(i int32) {
+	m.circulation = &i
+	m.addcirculation = nil
 }
 
-// Ciculation returns the value of the "ciculation" field in the mutation.
-func (m *CouponPoolMutation) Ciculation() (r int, exists bool) {
-	v := m.ciculation
+// Circulation returns the value of the "circulation" field in the mutation.
+func (m *CouponPoolMutation) Circulation() (r int32, exists bool) {
+	v := m.circulation
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldCiculation returns the old "ciculation" field's value of the CouponPool entity.
+// OldCirculation returns the old "circulation" field's value of the CouponPool entity.
 // If the CouponPool object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CouponPoolMutation) OldCiculation(ctx context.Context) (v int, err error) {
+func (m *CouponPoolMutation) OldCirculation(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCiculation is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldCirculation is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCiculation requires an ID field in the mutation")
+		return v, fmt.Errorf("OldCirculation requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCiculation: %w", err)
+		return v, fmt.Errorf("querying old value for OldCirculation: %w", err)
 	}
-	return oldValue.Ciculation, nil
+	return oldValue.Circulation, nil
 }
 
-// AddCiculation adds i to the "ciculation" field.
-func (m *CouponPoolMutation) AddCiculation(i int) {
-	if m.addciculation != nil {
-		*m.addciculation += i
+// AddCirculation adds i to the "circulation" field.
+func (m *CouponPoolMutation) AddCirculation(i int32) {
+	if m.addcirculation != nil {
+		*m.addcirculation += i
 	} else {
-		m.addciculation = &i
+		m.addcirculation = &i
 	}
 }
 
-// AddedCiculation returns the value that was added to the "ciculation" field in this mutation.
-func (m *CouponPoolMutation) AddedCiculation() (r int, exists bool) {
-	v := m.addciculation
+// AddedCirculation returns the value that was added to the "circulation" field in this mutation.
+func (m *CouponPoolMutation) AddedCirculation() (r int32, exists bool) {
+	v := m.addcirculation
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetCiculation resets all changes to the "ciculation" field.
-func (m *CouponPoolMutation) ResetCiculation() {
-	m.ciculation = nil
-	m.addciculation = nil
-}
-
-// SetUsed sets the "used" field.
-func (m *CouponPoolMutation) SetUsed(i int) {
-	m.used = &i
-	m.addused = nil
-}
-
-// Used returns the value of the "used" field in the mutation.
-func (m *CouponPoolMutation) Used() (r int, exists bool) {
-	v := m.used
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUsed returns the old "used" field's value of the CouponPool entity.
-// If the CouponPool object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CouponPoolMutation) OldUsed(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUsed is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUsed requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUsed: %w", err)
-	}
-	return oldValue.Used, nil
-}
-
-// AddUsed adds i to the "used" field.
-func (m *CouponPoolMutation) AddUsed(i int) {
-	if m.addused != nil {
-		*m.addused += i
-	} else {
-		m.addused = &i
-	}
-}
-
-// AddedUsed returns the value that was added to the "used" field in this mutation.
-func (m *CouponPoolMutation) AddedUsed() (r int, exists bool) {
-	v := m.addused
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetUsed resets all changes to the "used" field.
-func (m *CouponPoolMutation) ResetUsed() {
-	m.used = nil
-	m.addused = nil
+// ResetCirculation resets all changes to the "circulation" field.
+func (m *CouponPoolMutation) ResetCirculation() {
+	m.circulation = nil
+	m.addcirculation = nil
 }
 
 // SetReleaseByUserID sets the "release_by_user_id" field.
@@ -2987,13 +2929,13 @@ func (m *CouponPoolMutation) ResetStart() {
 }
 
 // SetDurationDays sets the "duration_days" field.
-func (m *CouponPoolMutation) SetDurationDays(i int) {
+func (m *CouponPoolMutation) SetDurationDays(i int32) {
 	m.duration_days = &i
 	m.addduration_days = nil
 }
 
 // DurationDays returns the value of the "duration_days" field in the mutation.
-func (m *CouponPoolMutation) DurationDays() (r int, exists bool) {
+func (m *CouponPoolMutation) DurationDays() (r int32, exists bool) {
 	v := m.duration_days
 	if v == nil {
 		return
@@ -3004,7 +2946,7 @@ func (m *CouponPoolMutation) DurationDays() (r int, exists bool) {
 // OldDurationDays returns the old "duration_days" field's value of the CouponPool entity.
 // If the CouponPool object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CouponPoolMutation) OldDurationDays(ctx context.Context) (v int, err error) {
+func (m *CouponPoolMutation) OldDurationDays(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldDurationDays is only allowed on UpdateOne operations")
 	}
@@ -3019,7 +2961,7 @@ func (m *CouponPoolMutation) OldDurationDays(ctx context.Context) (v int, err er
 }
 
 // AddDurationDays adds i to the "duration_days" field.
-func (m *CouponPoolMutation) AddDurationDays(i int) {
+func (m *CouponPoolMutation) AddDurationDays(i int32) {
 	if m.addduration_days != nil {
 		*m.addduration_days += i
 	} else {
@@ -3028,7 +2970,7 @@ func (m *CouponPoolMutation) AddDurationDays(i int) {
 }
 
 // AddedDurationDays returns the value that was added to the "duration_days" field in this mutation.
-func (m *CouponPoolMutation) AddedDurationDays() (r int, exists bool) {
+func (m *CouponPoolMutation) AddedDurationDays() (r int32, exists bool) {
 	v := m.addduration_days
 	if v == nil {
 		return
@@ -3337,15 +3279,12 @@ func (m *CouponPoolMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CouponPoolMutation) Fields() []string {
-	fields := make([]string, 0, 12)
+	fields := make([]string, 0, 11)
 	if m.denomination != nil {
 		fields = append(fields, couponpool.FieldDenomination)
 	}
-	if m.ciculation != nil {
-		fields = append(fields, couponpool.FieldCiculation)
-	}
-	if m.used != nil {
-		fields = append(fields, couponpool.FieldUsed)
+	if m.circulation != nil {
+		fields = append(fields, couponpool.FieldCirculation)
 	}
 	if m.release_by_user_id != nil {
 		fields = append(fields, couponpool.FieldReleaseByUserID)
@@ -3384,10 +3323,8 @@ func (m *CouponPoolMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case couponpool.FieldDenomination:
 		return m.Denomination()
-	case couponpool.FieldCiculation:
-		return m.Ciculation()
-	case couponpool.FieldUsed:
-		return m.Used()
+	case couponpool.FieldCirculation:
+		return m.Circulation()
 	case couponpool.FieldReleaseByUserID:
 		return m.ReleaseByUserID()
 	case couponpool.FieldStart:
@@ -3417,10 +3354,8 @@ func (m *CouponPoolMutation) OldField(ctx context.Context, name string) (ent.Val
 	switch name {
 	case couponpool.FieldDenomination:
 		return m.OldDenomination(ctx)
-	case couponpool.FieldCiculation:
-		return m.OldCiculation(ctx)
-	case couponpool.FieldUsed:
-		return m.OldUsed(ctx)
+	case couponpool.FieldCirculation:
+		return m.OldCirculation(ctx)
 	case couponpool.FieldReleaseByUserID:
 		return m.OldReleaseByUserID(ctx)
 	case couponpool.FieldStart:
@@ -3455,19 +3390,12 @@ func (m *CouponPoolMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetDenomination(v)
 		return nil
-	case couponpool.FieldCiculation:
-		v, ok := value.(int)
+	case couponpool.FieldCirculation:
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetCiculation(v)
-		return nil
-	case couponpool.FieldUsed:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUsed(v)
+		m.SetCirculation(v)
 		return nil
 	case couponpool.FieldReleaseByUserID:
 		v, ok := value.(uuid.UUID)
@@ -3484,7 +3412,7 @@ func (m *CouponPoolMutation) SetField(name string, value ent.Value) error {
 		m.SetStart(v)
 		return nil
 	case couponpool.FieldDurationDays:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3543,11 +3471,8 @@ func (m *CouponPoolMutation) AddedFields() []string {
 	if m.adddenomination != nil {
 		fields = append(fields, couponpool.FieldDenomination)
 	}
-	if m.addciculation != nil {
-		fields = append(fields, couponpool.FieldCiculation)
-	}
-	if m.addused != nil {
-		fields = append(fields, couponpool.FieldUsed)
+	if m.addcirculation != nil {
+		fields = append(fields, couponpool.FieldCirculation)
 	}
 	if m.addstart != nil {
 		fields = append(fields, couponpool.FieldStart)
@@ -3574,10 +3499,8 @@ func (m *CouponPoolMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case couponpool.FieldDenomination:
 		return m.AddedDenomination()
-	case couponpool.FieldCiculation:
-		return m.AddedCiculation()
-	case couponpool.FieldUsed:
-		return m.AddedUsed()
+	case couponpool.FieldCirculation:
+		return m.AddedCirculation()
 	case couponpool.FieldStart:
 		return m.AddedStart()
 	case couponpool.FieldDurationDays:
@@ -3604,19 +3527,12 @@ func (m *CouponPoolMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddDenomination(v)
 		return nil
-	case couponpool.FieldCiculation:
-		v, ok := value.(int)
+	case couponpool.FieldCirculation:
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddCiculation(v)
-		return nil
-	case couponpool.FieldUsed:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddUsed(v)
+		m.AddCirculation(v)
 		return nil
 	case couponpool.FieldStart:
 		v, ok := value.(uint32)
@@ -3626,7 +3542,7 @@ func (m *CouponPoolMutation) AddField(name string, value ent.Value) error {
 		m.AddStart(v)
 		return nil
 	case couponpool.FieldDurationDays:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3683,11 +3599,8 @@ func (m *CouponPoolMutation) ResetField(name string) error {
 	case couponpool.FieldDenomination:
 		m.ResetDenomination()
 		return nil
-	case couponpool.FieldCiculation:
-		m.ResetCiculation()
-		return nil
-	case couponpool.FieldUsed:
-		m.ResetUsed()
+	case couponpool.FieldCirculation:
+		m.ResetCirculation()
 		return nil
 	case couponpool.FieldReleaseByUserID:
 		m.ResetReleaseByUserID()

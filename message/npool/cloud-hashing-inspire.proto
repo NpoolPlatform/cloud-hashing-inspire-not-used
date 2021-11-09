@@ -593,7 +593,7 @@ message CouponPool {
     int32 Circulation = 4604;
     uint32 Start = 4605;
     int32 DurationDays = 4606;
-    string Messge = 4607;
+    string Message = 4607;
     string Name = 4608;
 }
 

@@ -87,30 +87,26 @@ func init() {
 	couponallocated.DefaultID = couponallocatedDescID.Default.(func() uuid.UUID)
 	couponpoolFields := schema.CouponPool{}.Fields()
 	_ = couponpoolFields
-	// couponpoolDescUsed is the schema descriptor for used field.
-	couponpoolDescUsed := couponpoolFields[3].Descriptor()
-	// couponpool.DefaultUsed holds the default value on creation for the used field.
-	couponpool.DefaultUsed = couponpoolDescUsed.Default.(int)
 	// couponpoolDescMessage is the schema descriptor for message field.
-	couponpoolDescMessage := couponpoolFields[8].Descriptor()
+	couponpoolDescMessage := couponpoolFields[7].Descriptor()
 	// couponpool.MessageValidator is a validator for the "message" field. It is called by the builders before save.
 	couponpool.MessageValidator = couponpoolDescMessage.Validators[0].(func(string) error)
 	// couponpoolDescName is the schema descriptor for name field.
-	couponpoolDescName := couponpoolFields[9].Descriptor()
+	couponpoolDescName := couponpoolFields[8].Descriptor()
 	// couponpool.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	couponpool.NameValidator = couponpoolDescName.Validators[0].(func(string) error)
 	// couponpoolDescCreateAt is the schema descriptor for create_at field.
-	couponpoolDescCreateAt := couponpoolFields[10].Descriptor()
+	couponpoolDescCreateAt := couponpoolFields[9].Descriptor()
 	// couponpool.DefaultCreateAt holds the default value on creation for the create_at field.
 	couponpool.DefaultCreateAt = couponpoolDescCreateAt.Default.(func() uint32)
 	// couponpoolDescUpdateAt is the schema descriptor for update_at field.
-	couponpoolDescUpdateAt := couponpoolFields[11].Descriptor()
+	couponpoolDescUpdateAt := couponpoolFields[10].Descriptor()
 	// couponpool.DefaultUpdateAt holds the default value on creation for the update_at field.
 	couponpool.DefaultUpdateAt = couponpoolDescUpdateAt.Default.(func() uint32)
 	// couponpool.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	couponpool.UpdateDefaultUpdateAt = couponpoolDescUpdateAt.UpdateDefault.(func() uint32)
 	// couponpoolDescDeleteAt is the schema descriptor for delete_at field.
-	couponpoolDescDeleteAt := couponpoolFields[12].Descriptor()
+	couponpoolDescDeleteAt := couponpoolFields[11].Descriptor()
 	// couponpool.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	couponpool.DefaultDeleteAt = couponpoolDescDeleteAt.Default.(func() uint32)
 	// couponpoolDescID is the schema descriptor for id field.

@@ -40,37 +40,16 @@ func (cpu *CouponPoolUpdate) AddDenomination(u uint64) *CouponPoolUpdate {
 	return cpu
 }
 
-// SetCiculation sets the "ciculation" field.
-func (cpu *CouponPoolUpdate) SetCiculation(i int) *CouponPoolUpdate {
-	cpu.mutation.ResetCiculation()
-	cpu.mutation.SetCiculation(i)
+// SetCirculation sets the "circulation" field.
+func (cpu *CouponPoolUpdate) SetCirculation(i int32) *CouponPoolUpdate {
+	cpu.mutation.ResetCirculation()
+	cpu.mutation.SetCirculation(i)
 	return cpu
 }
 
-// AddCiculation adds i to the "ciculation" field.
-func (cpu *CouponPoolUpdate) AddCiculation(i int) *CouponPoolUpdate {
-	cpu.mutation.AddCiculation(i)
-	return cpu
-}
-
-// SetUsed sets the "used" field.
-func (cpu *CouponPoolUpdate) SetUsed(i int) *CouponPoolUpdate {
-	cpu.mutation.ResetUsed()
-	cpu.mutation.SetUsed(i)
-	return cpu
-}
-
-// SetNillableUsed sets the "used" field if the given value is not nil.
-func (cpu *CouponPoolUpdate) SetNillableUsed(i *int) *CouponPoolUpdate {
-	if i != nil {
-		cpu.SetUsed(*i)
-	}
-	return cpu
-}
-
-// AddUsed adds i to the "used" field.
-func (cpu *CouponPoolUpdate) AddUsed(i int) *CouponPoolUpdate {
-	cpu.mutation.AddUsed(i)
+// AddCirculation adds i to the "circulation" field.
+func (cpu *CouponPoolUpdate) AddCirculation(i int32) *CouponPoolUpdate {
+	cpu.mutation.AddCirculation(i)
 	return cpu
 }
 
@@ -94,14 +73,14 @@ func (cpu *CouponPoolUpdate) AddStart(u uint32) *CouponPoolUpdate {
 }
 
 // SetDurationDays sets the "duration_days" field.
-func (cpu *CouponPoolUpdate) SetDurationDays(i int) *CouponPoolUpdate {
+func (cpu *CouponPoolUpdate) SetDurationDays(i int32) *CouponPoolUpdate {
 	cpu.mutation.ResetDurationDays()
 	cpu.mutation.SetDurationDays(i)
 	return cpu
 }
 
 // AddDurationDays adds i to the "duration_days" field.
-func (cpu *CouponPoolUpdate) AddDurationDays(i int) *CouponPoolUpdate {
+func (cpu *CouponPoolUpdate) AddDurationDays(i int32) *CouponPoolUpdate {
 	cpu.mutation.AddDurationDays(i)
 	return cpu
 }
@@ -300,32 +279,18 @@ func (cpu *CouponPoolUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: couponpool.FieldDenomination,
 		})
 	}
-	if value, ok := cpu.mutation.Ciculation(); ok {
+	if value, ok := cpu.mutation.Circulation(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
-			Column: couponpool.FieldCiculation,
+			Column: couponpool.FieldCirculation,
 		})
 	}
-	if value, ok := cpu.mutation.AddedCiculation(); ok {
+	if value, ok := cpu.mutation.AddedCirculation(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
-			Column: couponpool.FieldCiculation,
-		})
-	}
-	if value, ok := cpu.mutation.Used(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: couponpool.FieldUsed,
-		})
-	}
-	if value, ok := cpu.mutation.AddedUsed(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: couponpool.FieldUsed,
+			Column: couponpool.FieldCirculation,
 		})
 	}
 	if value, ok := cpu.mutation.ReleaseByUserID(); ok {
@@ -351,14 +316,14 @@ func (cpu *CouponPoolUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := cpu.mutation.DurationDays(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: couponpool.FieldDurationDays,
 		})
 	}
 	if value, ok := cpu.mutation.AddedDurationDays(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: couponpool.FieldDurationDays,
 		})
@@ -458,37 +423,16 @@ func (cpuo *CouponPoolUpdateOne) AddDenomination(u uint64) *CouponPoolUpdateOne 
 	return cpuo
 }
 
-// SetCiculation sets the "ciculation" field.
-func (cpuo *CouponPoolUpdateOne) SetCiculation(i int) *CouponPoolUpdateOne {
-	cpuo.mutation.ResetCiculation()
-	cpuo.mutation.SetCiculation(i)
+// SetCirculation sets the "circulation" field.
+func (cpuo *CouponPoolUpdateOne) SetCirculation(i int32) *CouponPoolUpdateOne {
+	cpuo.mutation.ResetCirculation()
+	cpuo.mutation.SetCirculation(i)
 	return cpuo
 }
 
-// AddCiculation adds i to the "ciculation" field.
-func (cpuo *CouponPoolUpdateOne) AddCiculation(i int) *CouponPoolUpdateOne {
-	cpuo.mutation.AddCiculation(i)
-	return cpuo
-}
-
-// SetUsed sets the "used" field.
-func (cpuo *CouponPoolUpdateOne) SetUsed(i int) *CouponPoolUpdateOne {
-	cpuo.mutation.ResetUsed()
-	cpuo.mutation.SetUsed(i)
-	return cpuo
-}
-
-// SetNillableUsed sets the "used" field if the given value is not nil.
-func (cpuo *CouponPoolUpdateOne) SetNillableUsed(i *int) *CouponPoolUpdateOne {
-	if i != nil {
-		cpuo.SetUsed(*i)
-	}
-	return cpuo
-}
-
-// AddUsed adds i to the "used" field.
-func (cpuo *CouponPoolUpdateOne) AddUsed(i int) *CouponPoolUpdateOne {
-	cpuo.mutation.AddUsed(i)
+// AddCirculation adds i to the "circulation" field.
+func (cpuo *CouponPoolUpdateOne) AddCirculation(i int32) *CouponPoolUpdateOne {
+	cpuo.mutation.AddCirculation(i)
 	return cpuo
 }
 
@@ -512,14 +456,14 @@ func (cpuo *CouponPoolUpdateOne) AddStart(u uint32) *CouponPoolUpdateOne {
 }
 
 // SetDurationDays sets the "duration_days" field.
-func (cpuo *CouponPoolUpdateOne) SetDurationDays(i int) *CouponPoolUpdateOne {
+func (cpuo *CouponPoolUpdateOne) SetDurationDays(i int32) *CouponPoolUpdateOne {
 	cpuo.mutation.ResetDurationDays()
 	cpuo.mutation.SetDurationDays(i)
 	return cpuo
 }
 
 // AddDurationDays adds i to the "duration_days" field.
-func (cpuo *CouponPoolUpdateOne) AddDurationDays(i int) *CouponPoolUpdateOne {
+func (cpuo *CouponPoolUpdateOne) AddDurationDays(i int32) *CouponPoolUpdateOne {
 	cpuo.mutation.AddDurationDays(i)
 	return cpuo
 }
@@ -742,32 +686,18 @@ func (cpuo *CouponPoolUpdateOne) sqlSave(ctx context.Context) (_node *CouponPool
 			Column: couponpool.FieldDenomination,
 		})
 	}
-	if value, ok := cpuo.mutation.Ciculation(); ok {
+	if value, ok := cpuo.mutation.Circulation(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
-			Column: couponpool.FieldCiculation,
+			Column: couponpool.FieldCirculation,
 		})
 	}
-	if value, ok := cpuo.mutation.AddedCiculation(); ok {
+	if value, ok := cpuo.mutation.AddedCirculation(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
-			Column: couponpool.FieldCiculation,
-		})
-	}
-	if value, ok := cpuo.mutation.Used(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: couponpool.FieldUsed,
-		})
-	}
-	if value, ok := cpuo.mutation.AddedUsed(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: couponpool.FieldUsed,
+			Column: couponpool.FieldCirculation,
 		})
 	}
 	if value, ok := cpuo.mutation.ReleaseByUserID(); ok {
@@ -793,14 +723,14 @@ func (cpuo *CouponPoolUpdateOne) sqlSave(ctx context.Context) (_node *CouponPool
 	}
 	if value, ok := cpuo.mutation.DurationDays(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: couponpool.FieldDurationDays,
 		})
 	}
 	if value, ok := cpuo.mutation.AddedDurationDays(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt32,
 			Value:  value,
 			Column: couponpool.FieldDurationDays,
 		})

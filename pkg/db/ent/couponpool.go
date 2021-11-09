@@ -18,16 +18,14 @@ type CouponPool struct {
 	ID uuid.UUID `json:"id,omitempty"`
 	// Denomination holds the value of the "denomination" field.
 	Denomination uint64 `json:"denomination,omitempty"`
-	// Ciculation holds the value of the "ciculation" field.
-	Ciculation int `json:"ciculation,omitempty"`
-	// Used holds the value of the "used" field.
-	Used int `json:"used,omitempty"`
+	// Circulation holds the value of the "circulation" field.
+	Circulation int32 `json:"circulation,omitempty"`
 	// ReleaseByUserID holds the value of the "release_by_user_id" field.
 	ReleaseByUserID uuid.UUID `json:"release_by_user_id,omitempty"`
 	// Start holds the value of the "start" field.
 	Start uint32 `json:"start,omitempty"`
 	// DurationDays holds the value of the "duration_days" field.
-	DurationDays int `json:"duration_days,omitempty"`
+	DurationDays int32 `json:"duration_days,omitempty"`
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
 	// Message holds the value of the "message" field.
@@ -47,7 +45,7 @@ func (*CouponPool) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case couponpool.FieldDenomination, couponpool.FieldCiculation, couponpool.FieldUsed, couponpool.FieldStart, couponpool.FieldDurationDays, couponpool.FieldCreateAt, couponpool.FieldUpdateAt, couponpool.FieldDeleteAt:
+		case couponpool.FieldDenomination, couponpool.FieldCirculation, couponpool.FieldStart, couponpool.FieldDurationDays, couponpool.FieldCreateAt, couponpool.FieldUpdateAt, couponpool.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case couponpool.FieldMessage, couponpool.FieldName:
 			values[i] = new(sql.NullString)
@@ -80,17 +78,11 @@ func (cp *CouponPool) assignValues(columns []string, values []interface{}) error
 			} else if value.Valid {
 				cp.Denomination = uint64(value.Int64)
 			}
-		case couponpool.FieldCiculation:
+		case couponpool.FieldCirculation:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field ciculation", values[i])
+				return fmt.Errorf("unexpected type %T for field circulation", values[i])
 			} else if value.Valid {
-				cp.Ciculation = int(value.Int64)
-			}
-		case couponpool.FieldUsed:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field used", values[i])
-			} else if value.Valid {
-				cp.Used = int(value.Int64)
+				cp.Circulation = int32(value.Int64)
 			}
 		case couponpool.FieldReleaseByUserID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -108,7 +100,7 @@ func (cp *CouponPool) assignValues(columns []string, values []interface{}) error
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field duration_days", values[i])
 			} else if value.Valid {
-				cp.DurationDays = int(value.Int64)
+				cp.DurationDays = int32(value.Int64)
 			}
 		case couponpool.FieldAppID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -176,10 +168,8 @@ func (cp *CouponPool) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", cp.ID))
 	builder.WriteString(", denomination=")
 	builder.WriteString(fmt.Sprintf("%v", cp.Denomination))
-	builder.WriteString(", ciculation=")
-	builder.WriteString(fmt.Sprintf("%v", cp.Ciculation))
-	builder.WriteString(", used=")
-	builder.WriteString(fmt.Sprintf("%v", cp.Used))
+	builder.WriteString(", circulation=")
+	builder.WriteString(fmt.Sprintf("%v", cp.Circulation))
 	builder.WriteString(", release_by_user_id=")
 	builder.WriteString(fmt.Sprintf("%v", cp.ReleaseByUserID))
 	builder.WriteString(", start=")

@@ -98,17 +98,10 @@ func Denomination(v uint64) predicate.CouponPool {
 	})
 }
 
-// Ciculation applies equality check predicate on the "ciculation" field. It's identical to CiculationEQ.
-func Ciculation(v int) predicate.CouponPool {
+// Circulation applies equality check predicate on the "circulation" field. It's identical to CirculationEQ.
+func Circulation(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldCiculation), v))
-	})
-}
-
-// Used applies equality check predicate on the "used" field. It's identical to UsedEQ.
-func Used(v int) predicate.CouponPool {
-	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUsed), v))
+		s.Where(sql.EQ(s.C(FieldCirculation), v))
 	})
 }
 
@@ -127,7 +120,7 @@ func Start(v uint32) predicate.CouponPool {
 }
 
 // DurationDays applies equality check predicate on the "duration_days" field. It's identical to DurationDaysEQ.
-func DurationDays(v int) predicate.CouponPool {
+func DurationDays(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldDurationDays), v))
 	})
@@ -251,22 +244,22 @@ func DenominationLTE(v uint64) predicate.CouponPool {
 	})
 }
 
-// CiculationEQ applies the EQ predicate on the "ciculation" field.
-func CiculationEQ(v int) predicate.CouponPool {
+// CirculationEQ applies the EQ predicate on the "circulation" field.
+func CirculationEQ(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldCiculation), v))
+		s.Where(sql.EQ(s.C(FieldCirculation), v))
 	})
 }
 
-// CiculationNEQ applies the NEQ predicate on the "ciculation" field.
-func CiculationNEQ(v int) predicate.CouponPool {
+// CirculationNEQ applies the NEQ predicate on the "circulation" field.
+func CirculationNEQ(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldCiculation), v))
+		s.Where(sql.NEQ(s.C(FieldCirculation), v))
 	})
 }
 
-// CiculationIn applies the In predicate on the "ciculation" field.
-func CiculationIn(vs ...int) predicate.CouponPool {
+// CirculationIn applies the In predicate on the "circulation" field.
+func CirculationIn(vs ...int32) predicate.CouponPool {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -278,12 +271,12 @@ func CiculationIn(vs ...int) predicate.CouponPool {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldCiculation), v...))
+		s.Where(sql.In(s.C(FieldCirculation), v...))
 	})
 }
 
-// CiculationNotIn applies the NotIn predicate on the "ciculation" field.
-func CiculationNotIn(vs ...int) predicate.CouponPool {
+// CirculationNotIn applies the NotIn predicate on the "circulation" field.
+func CirculationNotIn(vs ...int32) predicate.CouponPool {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -295,111 +288,35 @@ func CiculationNotIn(vs ...int) predicate.CouponPool {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldCiculation), v...))
+		s.Where(sql.NotIn(s.C(FieldCirculation), v...))
 	})
 }
 
-// CiculationGT applies the GT predicate on the "ciculation" field.
-func CiculationGT(v int) predicate.CouponPool {
+// CirculationGT applies the GT predicate on the "circulation" field.
+func CirculationGT(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldCiculation), v))
+		s.Where(sql.GT(s.C(FieldCirculation), v))
 	})
 }
 
-// CiculationGTE applies the GTE predicate on the "ciculation" field.
-func CiculationGTE(v int) predicate.CouponPool {
+// CirculationGTE applies the GTE predicate on the "circulation" field.
+func CirculationGTE(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldCiculation), v))
+		s.Where(sql.GTE(s.C(FieldCirculation), v))
 	})
 }
 
-// CiculationLT applies the LT predicate on the "ciculation" field.
-func CiculationLT(v int) predicate.CouponPool {
+// CirculationLT applies the LT predicate on the "circulation" field.
+func CirculationLT(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldCiculation), v))
+		s.Where(sql.LT(s.C(FieldCirculation), v))
 	})
 }
 
-// CiculationLTE applies the LTE predicate on the "ciculation" field.
-func CiculationLTE(v int) predicate.CouponPool {
+// CirculationLTE applies the LTE predicate on the "circulation" field.
+func CirculationLTE(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldCiculation), v))
-	})
-}
-
-// UsedEQ applies the EQ predicate on the "used" field.
-func UsedEQ(v int) predicate.CouponPool {
-	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUsed), v))
-	})
-}
-
-// UsedNEQ applies the NEQ predicate on the "used" field.
-func UsedNEQ(v int) predicate.CouponPool {
-	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldUsed), v))
-	})
-}
-
-// UsedIn applies the In predicate on the "used" field.
-func UsedIn(vs ...int) predicate.CouponPool {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.CouponPool(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldUsed), v...))
-	})
-}
-
-// UsedNotIn applies the NotIn predicate on the "used" field.
-func UsedNotIn(vs ...int) predicate.CouponPool {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.CouponPool(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldUsed), v...))
-	})
-}
-
-// UsedGT applies the GT predicate on the "used" field.
-func UsedGT(v int) predicate.CouponPool {
-	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldUsed), v))
-	})
-}
-
-// UsedGTE applies the GTE predicate on the "used" field.
-func UsedGTE(v int) predicate.CouponPool {
-	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldUsed), v))
-	})
-}
-
-// UsedLT applies the LT predicate on the "used" field.
-func UsedLT(v int) predicate.CouponPool {
-	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldUsed), v))
-	})
-}
-
-// UsedLTE applies the LTE predicate on the "used" field.
-func UsedLTE(v int) predicate.CouponPool {
-	return predicate.CouponPool(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldUsed), v))
+		s.Where(sql.LTE(s.C(FieldCirculation), v))
 	})
 }
 
@@ -556,21 +473,21 @@ func StartLTE(v uint32) predicate.CouponPool {
 }
 
 // DurationDaysEQ applies the EQ predicate on the "duration_days" field.
-func DurationDaysEQ(v int) predicate.CouponPool {
+func DurationDaysEQ(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldDurationDays), v))
 	})
 }
 
 // DurationDaysNEQ applies the NEQ predicate on the "duration_days" field.
-func DurationDaysNEQ(v int) predicate.CouponPool {
+func DurationDaysNEQ(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldDurationDays), v))
 	})
 }
 
 // DurationDaysIn applies the In predicate on the "duration_days" field.
-func DurationDaysIn(vs ...int) predicate.CouponPool {
+func DurationDaysIn(vs ...int32) predicate.CouponPool {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -587,7 +504,7 @@ func DurationDaysIn(vs ...int) predicate.CouponPool {
 }
 
 // DurationDaysNotIn applies the NotIn predicate on the "duration_days" field.
-func DurationDaysNotIn(vs ...int) predicate.CouponPool {
+func DurationDaysNotIn(vs ...int32) predicate.CouponPool {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -604,28 +521,28 @@ func DurationDaysNotIn(vs ...int) predicate.CouponPool {
 }
 
 // DurationDaysGT applies the GT predicate on the "duration_days" field.
-func DurationDaysGT(v int) predicate.CouponPool {
+func DurationDaysGT(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldDurationDays), v))
 	})
 }
 
 // DurationDaysGTE applies the GTE predicate on the "duration_days" field.
-func DurationDaysGTE(v int) predicate.CouponPool {
+func DurationDaysGTE(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldDurationDays), v))
 	})
 }
 
 // DurationDaysLT applies the LT predicate on the "duration_days" field.
-func DurationDaysLT(v int) predicate.CouponPool {
+func DurationDaysLT(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldDurationDays), v))
 	})
 }
 
 // DurationDaysLTE applies the LTE predicate on the "duration_days" field.
-func DurationDaysLTE(v int) predicate.CouponPool {
+func DurationDaysLTE(v int32) predicate.CouponPool {
 	return predicate.CouponPool(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldDurationDays), v))
 	})
