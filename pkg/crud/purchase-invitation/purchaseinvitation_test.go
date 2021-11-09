@@ -75,4 +75,14 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, resp3.Info.ID, resp.Info.ID)
 		assertPurchaseInvitation(t, resp3.Info, &invitation)
 	}
+
+	invitation.Fulfilled = true
+
+	resp4, err := Update(context.Background(), &npool.UpdatePurchaseInvitationRequest{
+		Info: &invitation,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp4.Info.ID, resp.Info.ID)
+		assertPurchaseInvitation(t, resp4.Info, &invitation)
+	}
 }

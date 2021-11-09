@@ -59,6 +59,30 @@ func Create(ctx context.Context, in *npool.CreatePurchaseInvitationRequest) (*np
 	}, nil
 }
 
+func Update(ctx context.Context, in *npool.UpdatePurchaseInvitationRequest) (*npool.UpdatePurchaseInvitationResponse, error) {
+	if err := validatePurchaseInvitation(in.GetInfo()); err != nil {
+		return nil, xerrors.Errorf("invalid parameter: %v", err)
+	}
+
+	id, err := uuid.Parse(in.GetInfo().GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	info, err := db.Client().
+		PurchaseInvitation.
+		UpdateOneID(id).
+		SetFulfilled(in.GetInfo().GetFulfilled()).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail update purchase invitation: %v", err)
+	}
+
+	return &npool.UpdatePurchaseInvitationResponse{
+		Info: dbRowToPurchaseInvitation(info),
+	}, nil
+}
+
 func Get(ctx context.Context, in *npool.GetPurchaseInvitationRequest) (*npool.GetPurchaseInvitationResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
