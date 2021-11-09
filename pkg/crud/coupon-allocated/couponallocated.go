@@ -38,7 +38,7 @@ func dbRowToCouponAllocated(row *ent.CouponAllocated) *npool.CouponAllocated {
 
 func Create(ctx context.Context, in *npool.CreateCouponAllocatedRequest) (*npool.CreateCouponAllocatedResponse, error) {
 	if err := validateCouponAllocated(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
 	info, err := db.Client().
@@ -59,7 +59,27 @@ func Create(ctx context.Context, in *npool.CreateCouponAllocatedRequest) (*npool
 }
 
 func Update(ctx context.Context, in *npool.UpdateCouponAllocatedRequest) (*npool.UpdateCouponAllocatedResponse, error) {
-	return nil, nil
+	if err := validateCouponAllocated(in.GetInfo()); err != nil {
+		return nil, xerrors.Errorf("invalid parameter: %v", err)
+	}
+
+	id, err := uuid.Parse(in.GetInfo().GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	info, err := db.Client().
+		CouponAllocated.
+		UpdateOneID(id).
+		SetUsed(in.GetInfo().GetUsed()).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail update coupon allocated: %v", err)
+	}
+
+	return &npool.UpdateCouponAllocatedResponse{
+		Info: dbRowToCouponAllocated(info),
+	}, nil
 }
 
 func Get(ctx context.Context, in *npool.GetCouponAllocatedRequest) (*npool.GetCouponAllocatedResponse, error) {
