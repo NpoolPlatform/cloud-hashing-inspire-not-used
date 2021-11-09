@@ -49,7 +49,7 @@ func TestCRUD(t *testing.T) {
 		Start:           uint32(time.Now().Unix()),
 		DurationDays:    10,
 		Message:         "For test coupon",
-		Name:            "Test Coupon",
+		Name:            fmt.Sprintf("Test Coupon-%v", uuid.New().String()),
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateCouponPoolRequest{
