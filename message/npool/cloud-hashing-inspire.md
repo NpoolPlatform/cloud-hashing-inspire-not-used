@@ -92,6 +92,8 @@
     - [UpdateDefaultKpiSettingResponse](#cloud.hashing.inspire.v1.UpdateDefaultKpiSettingResponse)
     - [UpdateNewUserRewardSettingRequest](#cloud.hashing.inspire.v1.UpdateNewUserRewardSettingRequest)
     - [UpdateNewUserRewardSettingResponse](#cloud.hashing.inspire.v1.UpdateNewUserRewardSettingResponse)
+    - [UpdatePurchaseInvitationRequest](#cloud.hashing.inspire.v1.UpdatePurchaseInvitationRequest)
+    - [UpdatePurchaseInvitationResponse](#cloud.hashing.inspire.v1.UpdatePurchaseInvitationResponse)
     - [UpdateUserKpiSettingRequest](#cloud.hashing.inspire.v1.UpdateUserKpiSettingRequest)
     - [UpdateUserKpiSettingResponse](#cloud.hashing.inspire.v1.UpdateUserKpiSettingResponse)
     - [UserInvitationCode](#cloud.hashing.inspire.v1.UserInvitationCode)
@@ -1021,7 +1023,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Info | [PurchaseInvitation](#cloud.hashing.inspire.v1.PurchaseInvitation) |  |  |
+| Infos | [PurchaseInvitation](#cloud.hashing.inspire.v1.PurchaseInvitation) | repeated |  |
 
 
 
@@ -1476,6 +1478,36 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.UpdatePurchaseInvitationRequest"></a>
+
+### UpdatePurchaseInvitationRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [PurchaseInvitation](#cloud.hashing.inspire.v1.PurchaseInvitation) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.UpdatePurchaseInvitationResponse"></a>
+
+### UpdatePurchaseInvitationResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [PurchaseInvitation](#cloud.hashing.inspire.v1.PurchaseInvitation) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.UpdateUserKpiSettingRequest"></a>
 
 ### UpdateUserKpiSettingRequest
@@ -1582,6 +1614,7 @@ Service Name
 | GetAgencySettingByApp | [GetAgencySettingByAppRequest](#cloud.hashing.inspire.v1.GetAgencySettingByAppRequest) | [GetAgencySettingByAppResponse](#cloud.hashing.inspire.v1.GetAgencySettingByAppResponse) |  |
 | UpdateAgencySetting | [UpdateAgencySettingRequest](#cloud.hashing.inspire.v1.UpdateAgencySettingRequest) | [UpdateAgencySettingResponse](#cloud.hashing.inspire.v1.UpdateAgencySettingResponse) |  |
 | CreatePurchaseInvitation | [CreatePurchaseInvitationRequest](#cloud.hashing.inspire.v1.CreatePurchaseInvitationRequest) | [CreatePurchaseInvitationResponse](#cloud.hashing.inspire.v1.CreatePurchaseInvitationResponse) |  |
+| UpdatePurchaseInvitation | [UpdatePurchaseInvitationRequest](#cloud.hashing.inspire.v1.UpdatePurchaseInvitationRequest) | [UpdatePurchaseInvitationResponse](#cloud.hashing.inspire.v1.UpdatePurchaseInvitationResponse) |  |
 | GetPurchaseInvitation | [GetPurchaseInvitationRequest](#cloud.hashing.inspire.v1.GetPurchaseInvitationRequest) | [GetPurchaseInvitationResponse](#cloud.hashing.inspire.v1.GetPurchaseInvitationResponse) |  |
 | GetPurchaseInvitationsByApp | [GetPurchaseInvitationsByAppRequest](#cloud.hashing.inspire.v1.GetPurchaseInvitationsByAppRequest) | [GetPurchaseInvitationsByAppResponse](#cloud.hashing.inspire.v1.GetPurchaseInvitationsByAppResponse) |  |
 | GetPurchaseInvitationByAppOrder | [GetPurchaseInvitationByAppOrderRequest](#cloud.hashing.inspire.v1.GetPurchaseInvitationByAppOrderRequest) | [GetPurchaseInvitationByAppOrderResponse](#cloud.hashing.inspire.v1.GetPurchaseInvitationByAppOrderResponse) |  |

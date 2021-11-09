@@ -73,6 +73,12 @@ service CloudHashingInspire {
             body: "*"
         };
     }
+    rpc UpdatePurchaseInvitation(UpdatePurchaseInvitationRequest) returns (UpdatePurchaseInvitationResponse) {
+        option (google.api.http) = {
+            post: "/v1/update/purchase/invitation"
+            body: "*"
+        };
+    }
     rpc GetPurchaseInvitation(GetPurchaseInvitationRequest) returns (GetPurchaseInvitationResponse) {
         option (google.api.http) = {
             post: "/v1/get/purchase/invitation"
@@ -381,6 +387,14 @@ message CreatePurchaseInvitationResponse {
     PurchaseInvitation Info = 2200;
 }
 
+message UpdatePurchaseInvitationRequest {
+    PurchaseInvitation Info = 2210;
+}
+
+message UpdatePurchaseInvitationResponse {
+    PurchaseInvitation Info = 2220;
+}
+
 message GetPurchaseInvitationRequest {
     string ID = 2300;
 }
@@ -394,7 +408,7 @@ message GetPurchaseInvitationsByAppRequest {
 }
 
 message GetPurchaseInvitationsByAppResponse {
-    PurchaseInvitation Info = 2600;
+    repeated PurchaseInvitation Infos = 2600;
 }
 
 message GetPurchaseInvitationByAppOrderRequest {

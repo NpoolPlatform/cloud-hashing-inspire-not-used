@@ -59,4 +59,20 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, resp1.Info.ID, resp.Info.ID)
 		assertPurchaseInvitation(t, resp1.Info, &invitation)
 	}
+
+	resp2, err := GetByApp(context.Background(), &npool.GetPurchaseInvitationsByAppRequest{
+		AppID: resp.Info.AppID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, len(resp2.Infos), 1)
+	}
+
+	resp3, err := GetByAppOrder(context.Background(), &npool.GetPurchaseInvitationByAppOrderRequest{
+		AppID:   resp.Info.AppID,
+		OrderID: resp.Info.OrderID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp3.Info.ID, resp.Info.ID)
+		assertPurchaseInvitation(t, resp3.Info, &invitation)
+	}
 }

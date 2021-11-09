@@ -30,6 +30,7 @@ type CloudHashingInspireClient interface {
 	GetAgencySettingByApp(ctx context.Context, in *GetAgencySettingByAppRequest, opts ...grpc.CallOption) (*GetAgencySettingByAppResponse, error)
 	UpdateAgencySetting(ctx context.Context, in *UpdateAgencySettingRequest, opts ...grpc.CallOption) (*UpdateAgencySettingResponse, error)
 	CreatePurchaseInvitation(ctx context.Context, in *CreatePurchaseInvitationRequest, opts ...grpc.CallOption) (*CreatePurchaseInvitationResponse, error)
+	UpdatePurchaseInvitation(ctx context.Context, in *UpdatePurchaseInvitationRequest, opts ...grpc.CallOption) (*UpdatePurchaseInvitationResponse, error)
 	GetPurchaseInvitation(ctx context.Context, in *GetPurchaseInvitationRequest, opts ...grpc.CallOption) (*GetPurchaseInvitationResponse, error)
 	GetPurchaseInvitationsByApp(ctx context.Context, in *GetPurchaseInvitationsByAppRequest, opts ...grpc.CallOption) (*GetPurchaseInvitationsByAppResponse, error)
 	GetPurchaseInvitationByAppOrder(ctx context.Context, in *GetPurchaseInvitationByAppOrderRequest, opts ...grpc.CallOption) (*GetPurchaseInvitationByAppOrderResponse, error)
@@ -156,6 +157,15 @@ func (c *cloudHashingInspireClient) UpdateAgencySetting(ctx context.Context, in 
 func (c *cloudHashingInspireClient) CreatePurchaseInvitation(ctx context.Context, in *CreatePurchaseInvitationRequest, opts ...grpc.CallOption) (*CreatePurchaseInvitationResponse, error) {
 	out := new(CreatePurchaseInvitationResponse)
 	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreatePurchaseInvitation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) UpdatePurchaseInvitation(ctx context.Context, in *UpdatePurchaseInvitationRequest, opts ...grpc.CallOption) (*UpdatePurchaseInvitationResponse, error) {
+	out := new(UpdatePurchaseInvitationResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdatePurchaseInvitation", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -465,6 +475,7 @@ type CloudHashingInspireServer interface {
 	GetAgencySettingByApp(context.Context, *GetAgencySettingByAppRequest) (*GetAgencySettingByAppResponse, error)
 	UpdateAgencySetting(context.Context, *UpdateAgencySettingRequest) (*UpdateAgencySettingResponse, error)
 	CreatePurchaseInvitation(context.Context, *CreatePurchaseInvitationRequest) (*CreatePurchaseInvitationResponse, error)
+	UpdatePurchaseInvitation(context.Context, *UpdatePurchaseInvitationRequest) (*UpdatePurchaseInvitationResponse, error)
 	GetPurchaseInvitation(context.Context, *GetPurchaseInvitationRequest) (*GetPurchaseInvitationResponse, error)
 	GetPurchaseInvitationsByApp(context.Context, *GetPurchaseInvitationsByAppRequest) (*GetPurchaseInvitationsByAppResponse, error)
 	GetPurchaseInvitationByAppOrder(context.Context, *GetPurchaseInvitationByAppOrderRequest) (*GetPurchaseInvitationByAppOrderResponse, error)
@@ -533,6 +544,9 @@ func (UnimplementedCloudHashingInspireServer) UpdateAgencySetting(context.Contex
 }
 func (UnimplementedCloudHashingInspireServer) CreatePurchaseInvitation(context.Context, *CreatePurchaseInvitationRequest) (*CreatePurchaseInvitationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePurchaseInvitation not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) UpdatePurchaseInvitation(context.Context, *UpdatePurchaseInvitationRequest) (*UpdatePurchaseInvitationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePurchaseInvitation not implemented")
 }
 func (UnimplementedCloudHashingInspireServer) GetPurchaseInvitation(context.Context, *GetPurchaseInvitationRequest) (*GetPurchaseInvitationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPurchaseInvitation not implemented")
@@ -819,6 +833,24 @@ func _CloudHashingInspire_CreatePurchaseInvitation_Handler(srv interface{}, ctx 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CloudHashingInspireServer).CreatePurchaseInvitation(ctx, req.(*CreatePurchaseInvitationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_UpdatePurchaseInvitation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePurchaseInvitationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).UpdatePurchaseInvitation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdatePurchaseInvitation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).UpdatePurchaseInvitation(ctx, req.(*UpdatePurchaseInvitationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1445,6 +1477,10 @@ var CloudHashingInspire_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreatePurchaseInvitation",
 			Handler:    _CloudHashingInspire_CreatePurchaseInvitation_Handler,
+		},
+		{
+			MethodName: "UpdatePurchaseInvitation",
+			Handler:    _CloudHashingInspire_UpdatePurchaseInvitation_Handler,
 		},
 		{
 			MethodName: "GetPurchaseInvitation",

@@ -87,9 +87,66 @@ func Get(ctx context.Context, in *npool.GetPurchaseInvitationRequest) (*npool.Ge
 }
 
 func GetByApp(ctx context.Context, in *npool.GetPurchaseInvitationsByAppRequest) (*npool.GetPurchaseInvitationsByAppResponse, error) {
-	return nil, nil
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	infos, err := db.Client().
+		PurchaseInvitation.
+		Query().
+		Where(
+			purchaseinvitation.And(
+				purchaseinvitation.AppID(appID),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query purchase invitation: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty purchase invitation")
+	}
+
+	invitations := []*npool.PurchaseInvitation{}
+	for _, info := range infos {
+		invitations = append(invitations, dbRowToPurchaseInvitation(info))
+	}
+
+	return &npool.GetPurchaseInvitationsByAppResponse{
+		Infos: invitations,
+	}, nil
 }
 
 func GetByAppOrder(ctx context.Context, in *npool.GetPurchaseInvitationByAppOrderRequest) (*npool.GetPurchaseInvitationByAppOrderResponse, error) {
-	return nil, nil
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	orderID, err := uuid.Parse(in.GetOrderID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid order id: %v", err)
+	}
+
+	infos, err := db.Client().
+		PurchaseInvitation.
+		Query().
+		Where(
+			purchaseinvitation.And(
+				purchaseinvitation.AppID(appID),
+				purchaseinvitation.OrderID(orderID),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query purchase invitation: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty purchase invitation")
+	}
+
+	return &npool.GetPurchaseInvitationByAppOrderResponse{
+		Info: dbRowToPurchaseInvitation(infos[0]),
+	}, nil
 }
