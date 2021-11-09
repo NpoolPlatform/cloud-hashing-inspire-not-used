@@ -67,4 +67,19 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, resp2.Info.ID, resp.Info.ID)
 		assertCouponAllocated(t, resp2.Info, &coupon)
 	}
+
+	resp3, err := GetByApp(context.Background(), &npool.GetCouponsAllocatedByAppRequest{
+		AppID: resp.Info.AppID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, len(resp3.Infos), 1)
+	}
+
+	resp4, err := GetByAppUser(context.Background(), &npool.GetCouponsAllocatedByAppUserRequest{
+		AppID:  resp.Info.AppID,
+		UserID: resp.Info.UserID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, len(resp4.Infos), 1)
+	}
 }

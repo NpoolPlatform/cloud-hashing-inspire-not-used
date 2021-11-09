@@ -111,9 +111,71 @@ func Get(ctx context.Context, in *npool.GetCouponAllocatedRequest) (*npool.GetCo
 }
 
 func GetByApp(ctx context.Context, in *npool.GetCouponsAllocatedByAppRequest) (*npool.GetCouponsAllocatedByAppResponse, error) {
-	return nil, nil
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	infos, err := db.Client().
+		CouponAllocated.
+		Query().
+		Where(
+			couponallocated.And(
+				couponallocated.AppID(appID),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coupon allocated: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty coupon allocated")
+	}
+
+	coupons := []*npool.CouponAllocated{}
+	for _, info := range infos {
+		coupons = append(coupons, dbRowToCouponAllocated(info))
+	}
+
+	return &npool.GetCouponsAllocatedByAppResponse{
+		Infos: coupons,
+	}, nil
 }
 
 func GetByAppUser(ctx context.Context, in *npool.GetCouponsAllocatedByAppUserRequest) (*npool.GetCouponsAllocatedByAppUserResponse, error) {
-	return nil, nil
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	userID, err := uuid.Parse(in.GetUserID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid user id: %v", err)
+	}
+
+	infos, err := db.Client().
+		CouponAllocated.
+		Query().
+		Where(
+			couponallocated.And(
+				couponallocated.AppID(appID),
+				couponallocated.UserID(userID),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coupon allocated: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty coupon allocated")
+	}
+
+	coupons := []*npool.CouponAllocated{}
+	for _, info := range infos {
+		coupons = append(coupons, dbRowToCouponAllocated(info))
+	}
+
+	return &npool.GetCouponsAllocatedByAppUserResponse{
+		Infos: coupons,
+	}, nil
 }
