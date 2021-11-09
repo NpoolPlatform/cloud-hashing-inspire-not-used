@@ -59,4 +59,12 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, resp1.Info.ID, resp.Info.ID)
 		assertCouponAllocated(t, resp1.Info, &coupon)
 	}
+
+	resp2, err := Get(context.Background(), &npool.GetCouponAllocatedRequest{
+		ID: resp.Info.ID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, resp2.Info.ID, resp.Info.ID)
+		assertCouponAllocated(t, resp2.Info, &coupon)
+	}
 }

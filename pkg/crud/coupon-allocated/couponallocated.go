@@ -7,6 +7,7 @@ import (
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 
 	"github.com/google/uuid"
 
@@ -83,7 +84,30 @@ func Update(ctx context.Context, in *npool.UpdateCouponAllocatedRequest) (*npool
 }
 
 func Get(ctx context.Context, in *npool.GetCouponAllocatedRequest) (*npool.GetCouponAllocatedResponse, error) {
-	return nil, nil
+	id, err := uuid.Parse(in.GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	infos, err := db.Client().
+		CouponAllocated.
+		Query().
+		Where(
+			couponallocated.And(
+				couponallocated.ID(id),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query coupon allocated: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty coupon allocated")
+	}
+
+	return &npool.GetCouponAllocatedResponse{
+		Info: dbRowToCouponAllocated(infos[0]),
+	}, nil
 }
 
 func GetByApp(ctx context.Context, in *npool.GetCouponsAllocatedByAppRequest) (*npool.GetCouponsAllocatedByAppResponse, error) {
