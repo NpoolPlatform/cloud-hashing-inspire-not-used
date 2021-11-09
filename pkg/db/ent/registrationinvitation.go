@@ -28,6 +28,8 @@ type RegistrationInvitation struct {
 	InviteeID uuid.UUID `json:"invitee_id,omitempty"`
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
+	// Fulfilled holds the value of the "fulfilled" field.
+	Fulfilled bool `json:"fulfilled,omitempty"`
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -35,6 +37,8 @@ func (*RegistrationInvitation) scanValues(columns []string) ([]interface{}, erro
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case registrationinvitation.FieldFulfilled:
+			values[i] = new(sql.NullBool)
 		case registrationinvitation.FieldCreateAt, registrationinvitation.FieldUpdateAt, registrationinvitation.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case registrationinvitation.FieldID, registrationinvitation.FieldInviterID, registrationinvitation.FieldInviteeID, registrationinvitation.FieldAppID:
@@ -96,6 +100,12 @@ func (ri *RegistrationInvitation) assignValues(columns []string, values []interf
 			} else if value != nil {
 				ri.AppID = *value
 			}
+		case registrationinvitation.FieldFulfilled:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field fulfilled", values[i])
+			} else if value.Valid {
+				ri.Fulfilled = value.Bool
+			}
 		}
 	}
 	return nil
@@ -136,6 +146,8 @@ func (ri *RegistrationInvitation) String() string {
 	builder.WriteString(fmt.Sprintf("%v", ri.InviteeID))
 	builder.WriteString(", app_id=")
 	builder.WriteString(fmt.Sprintf("%v", ri.AppID))
+	builder.WriteString(", fulfilled=")
+	builder.WriteString(fmt.Sprintf("%v", ri.Fulfilled))
 	builder.WriteByte(')')
 	return builder.String()
 }

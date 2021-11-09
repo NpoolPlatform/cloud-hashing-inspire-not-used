@@ -39,6 +39,8 @@ func (RegistrationInvitation) Fields() []ent.Field {
 		field.UUID("inviter_id", uuid.UUID{}),
 		field.UUID("invitee_id", uuid.UUID{}),
 		field.UUID("app_id", uuid.UUID{}),
+		field.Bool("fulfilled").
+			Default(false),
 	}
 }
 

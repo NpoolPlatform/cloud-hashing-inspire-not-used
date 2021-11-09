@@ -83,6 +83,20 @@ func (ric *RegistrationInvitationCreate) SetAppID(u uuid.UUID) *RegistrationInvi
 	return ric
 }
 
+// SetFulfilled sets the "fulfilled" field.
+func (ric *RegistrationInvitationCreate) SetFulfilled(b bool) *RegistrationInvitationCreate {
+	ric.mutation.SetFulfilled(b)
+	return ric
+}
+
+// SetNillableFulfilled sets the "fulfilled" field if the given value is not nil.
+func (ric *RegistrationInvitationCreate) SetNillableFulfilled(b *bool) *RegistrationInvitationCreate {
+	if b != nil {
+		ric.SetFulfilled(*b)
+	}
+	return ric
+}
+
 // SetID sets the "id" field.
 func (ric *RegistrationInvitationCreate) SetID(u uuid.UUID) *RegistrationInvitationCreate {
 	ric.mutation.SetID(u)
@@ -172,6 +186,10 @@ func (ric *RegistrationInvitationCreate) defaults() {
 		v := registrationinvitation.DefaultDeleteAt()
 		ric.mutation.SetDeleteAt(v)
 	}
+	if _, ok := ric.mutation.Fulfilled(); !ok {
+		v := registrationinvitation.DefaultFulfilled
+		ric.mutation.SetFulfilled(v)
+	}
 	if _, ok := ric.mutation.ID(); !ok {
 		v := registrationinvitation.DefaultID()
 		ric.mutation.SetID(v)
@@ -197,6 +215,9 @@ func (ric *RegistrationInvitationCreate) check() error {
 	}
 	if _, ok := ric.mutation.AppID(); !ok {
 		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+	}
+	if _, ok := ric.mutation.Fulfilled(); !ok {
+		return &ValidationError{Name: "fulfilled", err: errors.New(`ent: missing required field "fulfilled"`)}
 	}
 	return nil
 }
@@ -278,6 +299,14 @@ func (ric *RegistrationInvitationCreate) createSpec() (*RegistrationInvitation, 
 			Column: registrationinvitation.FieldAppID,
 		})
 		_node.AppID = value
+	}
+	if value, ok := ric.mutation.Fulfilled(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: registrationinvitation.FieldFulfilled,
+		})
+		_node.Fulfilled = value
 	}
 	return _node, _spec
 }
@@ -402,6 +431,18 @@ func (u *RegistrationInvitationUpsert) SetAppID(v uuid.UUID) *RegistrationInvita
 // UpdateAppID sets the "app_id" field to the value that was provided on create.
 func (u *RegistrationInvitationUpsert) UpdateAppID() *RegistrationInvitationUpsert {
 	u.SetExcluded(registrationinvitation.FieldAppID)
+	return u
+}
+
+// SetFulfilled sets the "fulfilled" field.
+func (u *RegistrationInvitationUpsert) SetFulfilled(v bool) *RegistrationInvitationUpsert {
+	u.Set(registrationinvitation.FieldFulfilled, v)
+	return u
+}
+
+// UpdateFulfilled sets the "fulfilled" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsert) UpdateFulfilled() *RegistrationInvitationUpsert {
+	u.SetExcluded(registrationinvitation.FieldFulfilled)
 	return u
 }
 
@@ -536,6 +577,20 @@ func (u *RegistrationInvitationUpsertOne) SetAppID(v uuid.UUID) *RegistrationInv
 func (u *RegistrationInvitationUpsertOne) UpdateAppID() *RegistrationInvitationUpsertOne {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
 		s.UpdateAppID()
+	})
+}
+
+// SetFulfilled sets the "fulfilled" field.
+func (u *RegistrationInvitationUpsertOne) SetFulfilled(v bool) *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.SetFulfilled(v)
+	})
+}
+
+// UpdateFulfilled sets the "fulfilled" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsertOne) UpdateFulfilled() *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.UpdateFulfilled()
 	})
 }
 
@@ -836,6 +891,20 @@ func (u *RegistrationInvitationUpsertBulk) SetAppID(v uuid.UUID) *RegistrationIn
 func (u *RegistrationInvitationUpsertBulk) UpdateAppID() *RegistrationInvitationUpsertBulk {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
 		s.UpdateAppID()
+	})
+}
+
+// SetFulfilled sets the "fulfilled" field.
+func (u *RegistrationInvitationUpsertBulk) SetFulfilled(v bool) *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.SetFulfilled(v)
+	})
+}
+
+// UpdateFulfilled sets the "fulfilled" field to the value that was provided on create.
+func (u *RegistrationInvitationUpsertBulk) UpdateFulfilled() *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.UpdateFulfilled()
 	})
 }
 

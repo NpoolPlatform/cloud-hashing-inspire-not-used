@@ -144,6 +144,7 @@ var (
 		{Name: "inviter_id", Type: field.TypeUUID},
 		{Name: "invitee_id", Type: field.TypeUUID},
 		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "fulfilled", Type: field.TypeBool, Default: false},
 	}
 	// RegistrationInvitationsTable holds the schema information for the "registration_invitations" table.
 	RegistrationInvitationsTable = &schema.Table{

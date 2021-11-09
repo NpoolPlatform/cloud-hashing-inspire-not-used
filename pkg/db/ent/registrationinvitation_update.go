@@ -100,6 +100,20 @@ func (riu *RegistrationInvitationUpdate) SetAppID(u uuid.UUID) *RegistrationInvi
 	return riu
 }
 
+// SetFulfilled sets the "fulfilled" field.
+func (riu *RegistrationInvitationUpdate) SetFulfilled(b bool) *RegistrationInvitationUpdate {
+	riu.mutation.SetFulfilled(b)
+	return riu
+}
+
+// SetNillableFulfilled sets the "fulfilled" field if the given value is not nil.
+func (riu *RegistrationInvitationUpdate) SetNillableFulfilled(b *bool) *RegistrationInvitationUpdate {
+	if b != nil {
+		riu.SetFulfilled(*b)
+	}
+	return riu
+}
+
 // Mutation returns the RegistrationInvitationMutation object of the builder.
 func (riu *RegistrationInvitationUpdate) Mutation() *RegistrationInvitationMutation {
 	return riu.mutation
@@ -249,6 +263,13 @@ func (riu *RegistrationInvitationUpdate) sqlSave(ctx context.Context) (n int, er
 			Column: registrationinvitation.FieldAppID,
 		})
 	}
+	if value, ok := riu.mutation.Fulfilled(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: registrationinvitation.FieldFulfilled,
+		})
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, riu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{registrationinvitation.Label}
@@ -338,6 +359,20 @@ func (riuo *RegistrationInvitationUpdateOne) SetInviteeID(u uuid.UUID) *Registra
 // SetAppID sets the "app_id" field.
 func (riuo *RegistrationInvitationUpdateOne) SetAppID(u uuid.UUID) *RegistrationInvitationUpdateOne {
 	riuo.mutation.SetAppID(u)
+	return riuo
+}
+
+// SetFulfilled sets the "fulfilled" field.
+func (riuo *RegistrationInvitationUpdateOne) SetFulfilled(b bool) *RegistrationInvitationUpdateOne {
+	riuo.mutation.SetFulfilled(b)
+	return riuo
+}
+
+// SetNillableFulfilled sets the "fulfilled" field if the given value is not nil.
+func (riuo *RegistrationInvitationUpdateOne) SetNillableFulfilled(b *bool) *RegistrationInvitationUpdateOne {
+	if b != nil {
+		riuo.SetFulfilled(*b)
+	}
 	return riuo
 }
 
@@ -512,6 +547,13 @@ func (riuo *RegistrationInvitationUpdateOne) sqlSave(ctx context.Context) (_node
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: registrationinvitation.FieldAppID,
+		})
+	}
+	if value, ok := riuo.mutation.Fulfilled(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: registrationinvitation.FieldFulfilled,
 		})
 	}
 	_node = &RegistrationInvitation{config: riuo.config}

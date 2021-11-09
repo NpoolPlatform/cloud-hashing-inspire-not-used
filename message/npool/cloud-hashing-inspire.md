@@ -63,6 +63,8 @@
     - [GetPurchaseInvitationResponse](#cloud.hashing.inspire.v1.GetPurchaseInvitationResponse)
     - [GetPurchaseInvitationsByAppRequest](#cloud.hashing.inspire.v1.GetPurchaseInvitationsByAppRequest)
     - [GetPurchaseInvitationsByAppResponse](#cloud.hashing.inspire.v1.GetPurchaseInvitationsByAppResponse)
+    - [GetRegistrationInvitationByAppInviteeRequest](#cloud.hashing.inspire.v1.GetRegistrationInvitationByAppInviteeRequest)
+    - [GetRegistrationInvitationByAppInviteeResponse](#cloud.hashing.inspire.v1.GetRegistrationInvitationByAppInviteeResponse)
     - [GetRegistrationInvitationRequest](#cloud.hashing.inspire.v1.GetRegistrationInvitationRequest)
     - [GetRegistrationInvitationResponse](#cloud.hashing.inspire.v1.GetRegistrationInvitationResponse)
     - [GetRegistrationInvitationsByAppInviterRequest](#cloud.hashing.inspire.v1.GetRegistrationInvitationsByAppInviterRequest)
@@ -94,6 +96,8 @@
     - [UpdateNewUserRewardSettingResponse](#cloud.hashing.inspire.v1.UpdateNewUserRewardSettingResponse)
     - [UpdatePurchaseInvitationRequest](#cloud.hashing.inspire.v1.UpdatePurchaseInvitationRequest)
     - [UpdatePurchaseInvitationResponse](#cloud.hashing.inspire.v1.UpdatePurchaseInvitationResponse)
+    - [UpdateRegistrationInvitationRequest](#cloud.hashing.inspire.v1.UpdateRegistrationInvitationRequest)
+    - [UpdateRegistrationInvitationResponse](#cloud.hashing.inspire.v1.UpdateRegistrationInvitationResponse)
     - [UpdateUserKpiSettingRequest](#cloud.hashing.inspire.v1.UpdateUserKpiSettingRequest)
     - [UpdateUserKpiSettingResponse](#cloud.hashing.inspire.v1.UpdateUserKpiSettingResponse)
     - [UserInvitationCode](#cloud.hashing.inspire.v1.UserInvitationCode)
@@ -1030,6 +1034,37 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.GetRegistrationInvitationByAppInviteeRequest"></a>
+
+### GetRegistrationInvitationByAppInviteeRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| AppID | [string](#string) |  |  |
+| InviteeID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetRegistrationInvitationByAppInviteeResponse"></a>
+
+### GetRegistrationInvitationByAppInviteeResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.GetRegistrationInvitationRequest"></a>
 
 ### GetRegistrationInvitationRequest
@@ -1038,7 +1073,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Info | [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation) |  |  |
+| ID | [string](#string) |  |  |
 
 
 
@@ -1068,7 +1103,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Info | [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation) |  |  |
+| AppID | [string](#string) |  |  |
+| InviterID | [string](#string) |  |  |
 
 
 
@@ -1083,7 +1119,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Info | [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation) |  |  |
+| Infos | [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation) | repeated |  |
 
 
 
@@ -1098,7 +1134,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Info | [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation) |  |  |
+| AppID | [string](#string) |  |  |
 
 
 
@@ -1113,7 +1149,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Info | [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation) |  |  |
+| Infos | [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation) | repeated |  |
 
 
 
@@ -1322,6 +1358,7 @@
 | AppID | [string](#string) |  |  |
 | InviterID | [string](#string) |  |  |
 | InviteeID | [string](#string) |  |  |
+| Fulfilled | [bool](#bool) |  |  |
 
 
 
@@ -1508,6 +1545,36 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.UpdateRegistrationInvitationRequest"></a>
+
+### UpdateRegistrationInvitationRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.UpdateRegistrationInvitationResponse"></a>
+
+### UpdateRegistrationInvitationResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.UpdateUserKpiSettingRequest"></a>
 
 ### UpdateUserKpiSettingRequest
@@ -1619,9 +1686,11 @@ Service Name
 | GetPurchaseInvitationsByApp | [GetPurchaseInvitationsByAppRequest](#cloud.hashing.inspire.v1.GetPurchaseInvitationsByAppRequest) | [GetPurchaseInvitationsByAppResponse](#cloud.hashing.inspire.v1.GetPurchaseInvitationsByAppResponse) |  |
 | GetPurchaseInvitationByAppOrder | [GetPurchaseInvitationByAppOrderRequest](#cloud.hashing.inspire.v1.GetPurchaseInvitationByAppOrderRequest) | [GetPurchaseInvitationByAppOrderResponse](#cloud.hashing.inspire.v1.GetPurchaseInvitationByAppOrderResponse) |  |
 | CreateRegistrationInvitation | [CreateRegistrationInvitationRequest](#cloud.hashing.inspire.v1.CreateRegistrationInvitationRequest) | [CreateRegistrationInvitationResponse](#cloud.hashing.inspire.v1.CreateRegistrationInvitationResponse) |  |
+| UpdateRegistrationInvitation | [UpdateRegistrationInvitationRequest](#cloud.hashing.inspire.v1.UpdateRegistrationInvitationRequest) | [UpdateRegistrationInvitationResponse](#cloud.hashing.inspire.v1.UpdateRegistrationInvitationResponse) |  |
 | GetRegistrationInvitation | [GetRegistrationInvitationRequest](#cloud.hashing.inspire.v1.GetRegistrationInvitationRequest) | [GetRegistrationInvitationResponse](#cloud.hashing.inspire.v1.GetRegistrationInvitationResponse) |  |
 | GetRegistrationInvitationsByApp | [GetRegistrationInvitationsByAppRequest](#cloud.hashing.inspire.v1.GetRegistrationInvitationsByAppRequest) | [GetRegistrationInvitationsByAppResponse](#cloud.hashing.inspire.v1.GetRegistrationInvitationsByAppResponse) |  |
 | GetRegistrationInvitationsByAppInviter | [GetRegistrationInvitationsByAppInviterRequest](#cloud.hashing.inspire.v1.GetRegistrationInvitationsByAppInviterRequest) | [GetRegistrationInvitationsByAppInviterResponse](#cloud.hashing.inspire.v1.GetRegistrationInvitationsByAppInviterResponse) |  |
+| GetRegistrationInvitationByAppInvitee | [GetRegistrationInvitationByAppInviteeRequest](#cloud.hashing.inspire.v1.GetRegistrationInvitationByAppInviteeRequest) | [GetRegistrationInvitationByAppInviteeResponse](#cloud.hashing.inspire.v1.GetRegistrationInvitationByAppInviteeResponse) |  |
 | CreateUserInvitationCode | [CreateUserInvitationCodeRequest](#cloud.hashing.inspire.v1.CreateUserInvitationCodeRequest) | [CreateUserInvitationCodeResponse](#cloud.hashing.inspire.v1.CreateUserInvitationCodeResponse) |  |
 | GetUserInvitationCode | [GetUserInvitationCodeRequest](#cloud.hashing.inspire.v1.GetUserInvitationCodeRequest) | [GetUserInvitationCodeResponse](#cloud.hashing.inspire.v1.GetUserInvitationCodeResponse) |  |
 | GetUserInvitationCodeByAppUser | [GetUserInvitationCodeByAppUserRequest](#cloud.hashing.inspire.v1.GetUserInvitationCodeByAppUserRequest) | [GetUserInvitationCodeByAppUserResponse](#cloud.hashing.inspire.v1.GetUserInvitationCodeByAppUserResponse) |  |

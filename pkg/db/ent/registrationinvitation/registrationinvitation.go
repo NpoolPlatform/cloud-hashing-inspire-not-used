@@ -23,6 +23,8 @@ const (
 	FieldInviteeID = "invitee_id"
 	// FieldAppID holds the string denoting the app_id field in the database.
 	FieldAppID = "app_id"
+	// FieldFulfilled holds the string denoting the fulfilled field in the database.
+	FieldFulfilled = "fulfilled"
 	// Table holds the table name of the registrationinvitation in the database.
 	Table = "registration_invitations"
 )
@@ -36,6 +38,7 @@ var Columns = []string{
 	FieldInviterID,
 	FieldInviteeID,
 	FieldAppID,
+	FieldFulfilled,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -57,6 +60,8 @@ var (
 	UpdateDefaultUpdateAt func() uint32
 	// DefaultDeleteAt holds the default value on creation for the "delete_at" field.
 	DefaultDeleteAt func() uint32
+	// DefaultFulfilled holds the default value on creation for the "fulfilled" field.
+	DefaultFulfilled bool
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() uuid.UUID
 )

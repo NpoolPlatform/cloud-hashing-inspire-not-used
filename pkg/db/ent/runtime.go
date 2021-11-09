@@ -201,6 +201,10 @@ func init() {
 	registrationinvitationDescDeleteAt := registrationinvitationFields[3].Descriptor()
 	// registrationinvitation.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	registrationinvitation.DefaultDeleteAt = registrationinvitationDescDeleteAt.Default.(func() uint32)
+	// registrationinvitationDescFulfilled is the schema descriptor for fulfilled field.
+	registrationinvitationDescFulfilled := registrationinvitationFields[7].Descriptor()
+	// registrationinvitation.DefaultFulfilled holds the default value on creation for the fulfilled field.
+	registrationinvitation.DefaultFulfilled = registrationinvitationDescFulfilled.Default.(bool)
 	// registrationinvitationDescID is the schema descriptor for id field.
 	registrationinvitationDescID := registrationinvitationFields[0].Descriptor()
 	// registrationinvitation.DefaultID holds the default value on creation for the id field.

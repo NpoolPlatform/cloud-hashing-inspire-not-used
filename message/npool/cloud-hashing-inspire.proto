@@ -104,6 +104,12 @@ service CloudHashingInspire {
             body: "*"
         };
     }
+    rpc UpdateRegistrationInvitation(UpdateRegistrationInvitationRequest) returns (UpdateRegistrationInvitationResponse) {
+        option (google.api.http) = {
+            post: "/v1/update/registration/invitation"
+            body: "*"
+        };
+    }
     rpc GetRegistrationInvitation(GetRegistrationInvitationRequest) returns (GetRegistrationInvitationResponse) {
         option (google.api.http) = {
             post: "/v1/get/registration/invitation"
@@ -119,6 +125,12 @@ service CloudHashingInspire {
     rpc GetRegistrationInvitationsByAppInviter(GetRegistrationInvitationsByAppInviterRequest) returns (GetRegistrationInvitationsByAppInviterResponse) {
         option (google.api.http) = {
             post: "/v1/get/registration/invitations/by/app/inviter"
+            body: "*"
+        };
+    }
+    rpc GetRegistrationInvitationByAppInvitee(GetRegistrationInvitationByAppInviteeRequest) returns (GetRegistrationInvitationByAppInviteeResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/registration/invitations/by/app/invitee"
             body: "*"
         };
     }
@@ -425,6 +437,7 @@ message RegistrationInvitation {
     string AppID = 2901;
     string InviterID = 2902;
     string InviteeID = 2903;
+    bool Fulfilled = 2904;
 }
 
 message CreateRegistrationInvitationRequest {
@@ -435,8 +448,16 @@ message CreateRegistrationInvitationResponse {
     RegistrationInvitation Info = 2200;
 }
 
+message UpdateRegistrationInvitationRequest {
+    RegistrationInvitation Info = 2210;
+}
+
+message UpdateRegistrationInvitationResponse {
+    RegistrationInvitation Info = 2220;
+}
+
 message GetRegistrationInvitationRequest {
-    RegistrationInvitation Info = 2300;
+    string ID = 2300;
 }
 
 message GetRegistrationInvitationResponse {
@@ -444,18 +465,28 @@ message GetRegistrationInvitationResponse {
 }
 
 message GetRegistrationInvitationsByAppRequest {
-    RegistrationInvitation Info = 2500;
+    string AppID = 2500;
 }
 
 message GetRegistrationInvitationsByAppResponse {
-    RegistrationInvitation Info = 2600;
+    repeated RegistrationInvitation Infos = 2600;
 }
 
 message GetRegistrationInvitationsByAppInviterRequest {
-    RegistrationInvitation Info = 2700;
+    string AppID = 2700;
+    string InviterID = 2701;
 }
 
 message GetRegistrationInvitationsByAppInviterResponse {
+    repeated RegistrationInvitation Infos = 2800;
+}
+
+message GetRegistrationInvitationByAppInviteeRequest {
+    string AppID = 2700;
+    string InviteeID = 2701;
+}
+
+message GetRegistrationInvitationByAppInviteeResponse {
     RegistrationInvitation Info = 2800;
 }
 
