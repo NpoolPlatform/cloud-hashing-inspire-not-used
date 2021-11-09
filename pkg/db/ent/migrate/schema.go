@@ -124,7 +124,7 @@ var (
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "order_id", Type: field.TypeUUID},
 		{Name: "invitation_code_id", Type: field.TypeUUID},
-		{Name: "fullfilled", Type: field.TypeBool, Default: false},
+		{Name: "fulfilled", Type: field.TypeBool, Default: false},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

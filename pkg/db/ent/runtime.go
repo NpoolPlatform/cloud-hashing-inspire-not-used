@@ -163,10 +163,10 @@ func init() {
 	newuserrewardsetting.DefaultID = newuserrewardsettingDescID.Default.(func() uuid.UUID)
 	purchaseinvitationFields := schema.PurchaseInvitation{}.Fields()
 	_ = purchaseinvitationFields
-	// purchaseinvitationDescFullfilled is the schema descriptor for fullfilled field.
-	purchaseinvitationDescFullfilled := purchaseinvitationFields[4].Descriptor()
-	// purchaseinvitation.DefaultFullfilled holds the default value on creation for the fullfilled field.
-	purchaseinvitation.DefaultFullfilled = purchaseinvitationDescFullfilled.Default.(bool)
+	// purchaseinvitationDescFulfilled is the schema descriptor for fulfilled field.
+	purchaseinvitationDescFulfilled := purchaseinvitationFields[4].Descriptor()
+	// purchaseinvitation.DefaultFulfilled holds the default value on creation for the fulfilled field.
+	purchaseinvitation.DefaultFulfilled = purchaseinvitationDescFulfilled.Default.(bool)
 	// purchaseinvitationDescCreateAt is the schema descriptor for create_at field.
 	purchaseinvitationDescCreateAt := purchaseinvitationFields[5].Descriptor()
 	// purchaseinvitation.DefaultCreateAt holds the default value on creation for the create_at field.

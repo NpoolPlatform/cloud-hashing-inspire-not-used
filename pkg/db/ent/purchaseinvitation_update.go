@@ -45,16 +45,16 @@ func (piu *PurchaseInvitationUpdate) SetInvitationCodeID(u uuid.UUID) *PurchaseI
 	return piu
 }
 
-// SetFullfilled sets the "fullfilled" field.
-func (piu *PurchaseInvitationUpdate) SetFullfilled(b bool) *PurchaseInvitationUpdate {
-	piu.mutation.SetFullfilled(b)
+// SetFulfilled sets the "fulfilled" field.
+func (piu *PurchaseInvitationUpdate) SetFulfilled(b bool) *PurchaseInvitationUpdate {
+	piu.mutation.SetFulfilled(b)
 	return piu
 }
 
-// SetNillableFullfilled sets the "fullfilled" field if the given value is not nil.
-func (piu *PurchaseInvitationUpdate) SetNillableFullfilled(b *bool) *PurchaseInvitationUpdate {
+// SetNillableFulfilled sets the "fulfilled" field if the given value is not nil.
+func (piu *PurchaseInvitationUpdate) SetNillableFulfilled(b *bool) *PurchaseInvitationUpdate {
 	if b != nil {
-		piu.SetFullfilled(*b)
+		piu.SetFulfilled(*b)
 	}
 	return piu
 }
@@ -221,11 +221,11 @@ func (piu *PurchaseInvitationUpdate) sqlSave(ctx context.Context) (n int, err er
 			Column: purchaseinvitation.FieldInvitationCodeID,
 		})
 	}
-	if value, ok := piu.mutation.Fullfilled(); ok {
+	if value, ok := piu.mutation.Fulfilled(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeBool,
 			Value:  value,
-			Column: purchaseinvitation.FieldFullfilled,
+			Column: purchaseinvitation.FieldFulfilled,
 		})
 	}
 	if value, ok := piu.mutation.CreateAt(); ok {
@@ -307,16 +307,16 @@ func (piuo *PurchaseInvitationUpdateOne) SetInvitationCodeID(u uuid.UUID) *Purch
 	return piuo
 }
 
-// SetFullfilled sets the "fullfilled" field.
-func (piuo *PurchaseInvitationUpdateOne) SetFullfilled(b bool) *PurchaseInvitationUpdateOne {
-	piuo.mutation.SetFullfilled(b)
+// SetFulfilled sets the "fulfilled" field.
+func (piuo *PurchaseInvitationUpdateOne) SetFulfilled(b bool) *PurchaseInvitationUpdateOne {
+	piuo.mutation.SetFulfilled(b)
 	return piuo
 }
 
-// SetNillableFullfilled sets the "fullfilled" field if the given value is not nil.
-func (piuo *PurchaseInvitationUpdateOne) SetNillableFullfilled(b *bool) *PurchaseInvitationUpdateOne {
+// SetNillableFulfilled sets the "fulfilled" field if the given value is not nil.
+func (piuo *PurchaseInvitationUpdateOne) SetNillableFulfilled(b *bool) *PurchaseInvitationUpdateOne {
 	if b != nil {
-		piuo.SetFullfilled(*b)
+		piuo.SetFulfilled(*b)
 	}
 	return piuo
 }
@@ -507,11 +507,11 @@ func (piuo *PurchaseInvitationUpdateOne) sqlSave(ctx context.Context) (_node *Pu
 			Column: purchaseinvitation.FieldInvitationCodeID,
 		})
 	}
-	if value, ok := piuo.mutation.Fullfilled(); ok {
+	if value, ok := piuo.mutation.Fulfilled(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeBool,
 			Value:  value,
-			Column: purchaseinvitation.FieldFullfilled,
+			Column: purchaseinvitation.FieldFulfilled,
 		})
 	}
 	if value, ok := piuo.mutation.CreateAt(); ok {

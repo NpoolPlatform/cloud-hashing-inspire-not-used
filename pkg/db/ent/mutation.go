@@ -5291,7 +5291,7 @@ type PurchaseInvitationMutation struct {
 	app_id             *uuid.UUID
 	order_id           *uuid.UUID
 	invitation_code_id *uuid.UUID
-	fullfilled         *bool
+	fulfilled          *bool
 	create_at          *uint32
 	addcreate_at       *uint32
 	update_at          *uint32
@@ -5497,40 +5497,40 @@ func (m *PurchaseInvitationMutation) ResetInvitationCodeID() {
 	m.invitation_code_id = nil
 }
 
-// SetFullfilled sets the "fullfilled" field.
-func (m *PurchaseInvitationMutation) SetFullfilled(b bool) {
-	m.fullfilled = &b
+// SetFulfilled sets the "fulfilled" field.
+func (m *PurchaseInvitationMutation) SetFulfilled(b bool) {
+	m.fulfilled = &b
 }
 
-// Fullfilled returns the value of the "fullfilled" field in the mutation.
-func (m *PurchaseInvitationMutation) Fullfilled() (r bool, exists bool) {
-	v := m.fullfilled
+// Fulfilled returns the value of the "fulfilled" field in the mutation.
+func (m *PurchaseInvitationMutation) Fulfilled() (r bool, exists bool) {
+	v := m.fulfilled
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldFullfilled returns the old "fullfilled" field's value of the PurchaseInvitation entity.
+// OldFulfilled returns the old "fulfilled" field's value of the PurchaseInvitation entity.
 // If the PurchaseInvitation object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PurchaseInvitationMutation) OldFullfilled(ctx context.Context) (v bool, err error) {
+func (m *PurchaseInvitationMutation) OldFulfilled(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldFullfilled is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldFulfilled is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldFullfilled requires an ID field in the mutation")
+		return v, fmt.Errorf("OldFulfilled requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldFullfilled: %w", err)
+		return v, fmt.Errorf("querying old value for OldFulfilled: %w", err)
 	}
-	return oldValue.Fullfilled, nil
+	return oldValue.Fulfilled, nil
 }
 
-// ResetFullfilled resets all changes to the "fullfilled" field.
-func (m *PurchaseInvitationMutation) ResetFullfilled() {
-	m.fullfilled = nil
+// ResetFulfilled resets all changes to the "fulfilled" field.
+func (m *PurchaseInvitationMutation) ResetFulfilled() {
+	m.fulfilled = nil
 }
 
 // SetCreateAt sets the "create_at" field.
@@ -5730,8 +5730,8 @@ func (m *PurchaseInvitationMutation) Fields() []string {
 	if m.invitation_code_id != nil {
 		fields = append(fields, purchaseinvitation.FieldInvitationCodeID)
 	}
-	if m.fullfilled != nil {
-		fields = append(fields, purchaseinvitation.FieldFullfilled)
+	if m.fulfilled != nil {
+		fields = append(fields, purchaseinvitation.FieldFulfilled)
 	}
 	if m.create_at != nil {
 		fields = append(fields, purchaseinvitation.FieldCreateAt)
@@ -5756,8 +5756,8 @@ func (m *PurchaseInvitationMutation) Field(name string) (ent.Value, bool) {
 		return m.OrderID()
 	case purchaseinvitation.FieldInvitationCodeID:
 		return m.InvitationCodeID()
-	case purchaseinvitation.FieldFullfilled:
-		return m.Fullfilled()
+	case purchaseinvitation.FieldFulfilled:
+		return m.Fulfilled()
 	case purchaseinvitation.FieldCreateAt:
 		return m.CreateAt()
 	case purchaseinvitation.FieldUpdateAt:
@@ -5779,8 +5779,8 @@ func (m *PurchaseInvitationMutation) OldField(ctx context.Context, name string) 
 		return m.OldOrderID(ctx)
 	case purchaseinvitation.FieldInvitationCodeID:
 		return m.OldInvitationCodeID(ctx)
-	case purchaseinvitation.FieldFullfilled:
-		return m.OldFullfilled(ctx)
+	case purchaseinvitation.FieldFulfilled:
+		return m.OldFulfilled(ctx)
 	case purchaseinvitation.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case purchaseinvitation.FieldUpdateAt:
@@ -5817,12 +5817,12 @@ func (m *PurchaseInvitationMutation) SetField(name string, value ent.Value) erro
 		}
 		m.SetInvitationCodeID(v)
 		return nil
-	case purchaseinvitation.FieldFullfilled:
+	case purchaseinvitation.FieldFulfilled:
 		v, ok := value.(bool)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetFullfilled(v)
+		m.SetFulfilled(v)
 		return nil
 	case purchaseinvitation.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -5942,8 +5942,8 @@ func (m *PurchaseInvitationMutation) ResetField(name string) error {
 	case purchaseinvitation.FieldInvitationCodeID:
 		m.ResetInvitationCodeID()
 		return nil
-	case purchaseinvitation.FieldFullfilled:
-		m.ResetFullfilled()
+	case purchaseinvitation.FieldFulfilled:
+		m.ResetFulfilled()
 		return nil
 	case purchaseinvitation.FieldCreateAt:
 		m.ResetCreateAt()

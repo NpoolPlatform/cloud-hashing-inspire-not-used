@@ -4,10 +4,58 @@ import (
 	"context"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/message/npool"
+
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"
+
+	"github.com/google/uuid"
+
+	"golang.org/x/xerrors"
 )
 
+func validatePurchaseInvitation(info *npool.PurchaseInvitation) error {
+	if _, err := uuid.Parse(info.GetAppID()); err != nil {
+		return xerrors.Errorf("invalid app id: %v", err)
+	}
+	if _, err := uuid.Parse(info.GetOrderID()); err != nil {
+		return xerrors.Errorf("invalid order id: %v", err)
+	}
+	if _, err := uuid.Parse(info.GetInvitationCodeID()); err != nil {
+		return xerrors.Errorf("invalid invitation code id: %v", err)
+	}
+	return nil
+}
+
+func dbRowToPurchaseInvitation(row *ent.PurchaseInvitation) *npool.PurchaseInvitation {
+	return &npool.PurchaseInvitation{
+		ID:               row.ID.String(),
+		AppID:            row.AppID.String(),
+		OrderID:          row.OrderID.String(),
+		InvitationCodeID: row.InvitationCodeID.String(),
+		Fulfilled:        row.Fulfilled,
+	}
+}
+
 func Create(ctx context.Context, in *npool.CreatePurchaseInvitationRequest) (*npool.CreatePurchaseInvitationResponse, error) {
-	return nil, nil
+	if err := validatePurchaseInvitation(in.GetInfo()); err != nil {
+		return nil, xerrors.Errorf("invalid parameter: %v", err)
+	}
+
+	info, err := db.Client().
+		PurchaseInvitation.
+		Create().
+		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
+		SetOrderID(uuid.MustParse(in.GetInfo().GetOrderID())).
+		SetInvitationCodeID(uuid.MustParse(in.GetInfo().GetInvitationCodeID())).
+		SetFulfilled(false).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail create purchase invitation: %v", err)
+	}
+
+	return &npool.CreatePurchaseInvitationResponse{
+		Info: dbRowToPurchaseInvitation(info),
+	}, nil
 }
 
 func Get(ctx context.Context, in *npool.GetPurchaseInvitationRequest) (*npool.GetPurchaseInvitationResponse, error) {

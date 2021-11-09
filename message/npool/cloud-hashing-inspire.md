@@ -1301,7 +1301,7 @@
 | AppID | [string](#string) |  |  |
 | OrderID | [string](#string) |  |  |
 | InvitationCodeID | [string](#string) |  |  |
-| Fullfilled | [bool](#bool) |  |  |
+| Fulfilled | [bool](#bool) |  |  |
 
 
 
@@ -1320,7 +1320,7 @@
 | AppID | [string](#string) |  |  |
 | InviterID | [string](#string) |  |  |
 | InviteeID | [string](#string) |  |  |
-| Fullfilled | [bool](#bool) |  |  |
+| Fulfilled | [bool](#bool) |  |  |
 
 
 

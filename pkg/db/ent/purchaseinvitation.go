@@ -22,8 +22,8 @@ type PurchaseInvitation struct {
 	OrderID uuid.UUID `json:"order_id,omitempty"`
 	// InvitationCodeID holds the value of the "invitation_code_id" field.
 	InvitationCodeID uuid.UUID `json:"invitation_code_id,omitempty"`
-	// Fullfilled holds the value of the "fullfilled" field.
-	Fullfilled bool `json:"fullfilled,omitempty"`
+	// Fulfilled holds the value of the "fulfilled" field.
+	Fulfilled bool `json:"fulfilled,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -37,7 +37,7 @@ func (*PurchaseInvitation) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case purchaseinvitation.FieldFullfilled:
+		case purchaseinvitation.FieldFulfilled:
 			values[i] = new(sql.NullBool)
 		case purchaseinvitation.FieldCreateAt, purchaseinvitation.FieldUpdateAt, purchaseinvitation.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
@@ -82,11 +82,11 @@ func (pi *PurchaseInvitation) assignValues(columns []string, values []interface{
 			} else if value != nil {
 				pi.InvitationCodeID = *value
 			}
-		case purchaseinvitation.FieldFullfilled:
+		case purchaseinvitation.FieldFulfilled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
-				return fmt.Errorf("unexpected type %T for field fullfilled", values[i])
+				return fmt.Errorf("unexpected type %T for field fulfilled", values[i])
 			} else if value.Valid {
-				pi.Fullfilled = value.Bool
+				pi.Fulfilled = value.Bool
 			}
 		case purchaseinvitation.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -140,8 +140,8 @@ func (pi *PurchaseInvitation) String() string {
 	builder.WriteString(fmt.Sprintf("%v", pi.OrderID))
 	builder.WriteString(", invitation_code_id=")
 	builder.WriteString(fmt.Sprintf("%v", pi.InvitationCodeID))
-	builder.WriteString(", fullfilled=")
-	builder.WriteString(fmt.Sprintf("%v", pi.Fullfilled))
+	builder.WriteString(", fulfilled=")
+	builder.WriteString(fmt.Sprintf("%v", pi.Fulfilled))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", pi.CreateAt))
 	builder.WriteString(", update_at=")
