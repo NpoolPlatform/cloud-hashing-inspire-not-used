@@ -197,6 +197,12 @@ service CloudHashingInspire {
             body: "*"
         };
     }
+    rpc UpdateCouponPool(UpdateCouponPoolRequest) returns (UpdateCouponPoolResponse) {
+        option (google.api.http) = {
+            post: "/v1/update/coupon/pool"
+            body: "*"
+        };
+    }
     rpc GetCouponPool(GetCouponPoolRequest) returns (GetCouponPoolResponse) {
         option (google.api.http) = {
             post: "/v1/get/coupon/pool"
@@ -597,6 +603,14 @@ message CreateCouponPoolRequest {
 
 message CreateCouponPoolResponse {
     CouponPool Info = 4800;
+}
+
+message UpdateCouponPoolRequest {
+    CouponPool Info = 4810;
+}
+
+message UpdateCouponPoolResponse {
+    CouponPool Info = 4820;
 }
 
 message GetCouponPoolRequest {

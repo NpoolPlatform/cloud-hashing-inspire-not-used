@@ -50,6 +50,7 @@ type CloudHashingInspireClient interface {
 	GetCouponsAllocatedByAppUser(ctx context.Context, in *GetCouponsAllocatedByAppUserRequest, opts ...grpc.CallOption) (*GetCouponsAllocatedByAppUserResponse, error)
 	UpdateCouponAllocated(ctx context.Context, in *UpdateCouponAllocatedRequest, opts ...grpc.CallOption) (*UpdateCouponAllocatedResponse, error)
 	CreateCouponPool(ctx context.Context, in *CreateCouponPoolRequest, opts ...grpc.CallOption) (*CreateCouponPoolResponse, error)
+	UpdateCouponPool(ctx context.Context, in *UpdateCouponPoolRequest, opts ...grpc.CallOption) (*UpdateCouponPoolResponse, error)
 	GetCouponPool(ctx context.Context, in *GetCouponPoolRequest, opts ...grpc.CallOption) (*GetCouponPoolResponse, error)
 	GetCouponPoolsByApp(ctx context.Context, in *GetCouponPoolsByAppRequest, opts ...grpc.CallOption) (*GetCouponPoolsByAppResponse, error)
 	GetCouponPoolsByAppReleaser(ctx context.Context, in *GetCouponPoolsByAppReleaserRequest, opts ...grpc.CallOption) (*GetCouponPoolsByAppReleaserResponse, error)
@@ -345,6 +346,15 @@ func (c *cloudHashingInspireClient) CreateCouponPool(ctx context.Context, in *Cr
 	return out, nil
 }
 
+func (c *cloudHashingInspireClient) UpdateCouponPool(ctx context.Context, in *UpdateCouponPoolRequest, opts ...grpc.CallOption) (*UpdateCouponPoolResponse, error) {
+	out := new(UpdateCouponPoolResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateCouponPool", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *cloudHashingInspireClient) GetCouponPool(ctx context.Context, in *GetCouponPoolRequest, opts ...grpc.CallOption) (*GetCouponPoolResponse, error) {
 	out := new(GetCouponPoolResponse)
 	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetCouponPool", in, out, opts...)
@@ -515,6 +525,7 @@ type CloudHashingInspireServer interface {
 	GetCouponsAllocatedByAppUser(context.Context, *GetCouponsAllocatedByAppUserRequest) (*GetCouponsAllocatedByAppUserResponse, error)
 	UpdateCouponAllocated(context.Context, *UpdateCouponAllocatedRequest) (*UpdateCouponAllocatedResponse, error)
 	CreateCouponPool(context.Context, *CreateCouponPoolRequest) (*CreateCouponPoolResponse, error)
+	UpdateCouponPool(context.Context, *UpdateCouponPoolRequest) (*UpdateCouponPoolResponse, error)
 	GetCouponPool(context.Context, *GetCouponPoolRequest) (*GetCouponPoolResponse, error)
 	GetCouponPoolsByApp(context.Context, *GetCouponPoolsByAppRequest) (*GetCouponPoolsByAppResponse, error)
 	GetCouponPoolsByAppReleaser(context.Context, *GetCouponPoolsByAppReleaserRequest) (*GetCouponPoolsByAppReleaserResponse, error)
@@ -626,6 +637,9 @@ func (UnimplementedCloudHashingInspireServer) UpdateCouponAllocated(context.Cont
 }
 func (UnimplementedCloudHashingInspireServer) CreateCouponPool(context.Context, *CreateCouponPoolRequest) (*CreateCouponPoolResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCouponPool not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) UpdateCouponPool(context.Context, *UpdateCouponPoolRequest) (*UpdateCouponPoolResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCouponPool not implemented")
 }
 func (UnimplementedCloudHashingInspireServer) GetCouponPool(context.Context, *GetCouponPoolRequest) (*GetCouponPoolResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCouponPool not implemented")
@@ -1225,6 +1239,24 @@ func _CloudHashingInspire_CreateCouponPool_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CloudHashingInspire_UpdateCouponPool_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCouponPoolRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).UpdateCouponPool(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/UpdateCouponPool",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).UpdateCouponPool(ctx, req.(*UpdateCouponPoolRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CloudHashingInspire_GetCouponPool_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetCouponPoolRequest)
 	if err := dec(in); err != nil {
@@ -1621,6 +1653,10 @@ var CloudHashingInspire_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateCouponPool",
 			Handler:    _CloudHashingInspire_CreateCouponPool_Handler,
+		},
+		{
+			MethodName: "UpdateCouponPool",
+			Handler:    _CloudHashingInspire_UpdateCouponPool_Handler,
 		},
 		{
 			MethodName: "GetCouponPool",
