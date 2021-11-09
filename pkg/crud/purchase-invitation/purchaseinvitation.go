@@ -7,6 +7,7 @@ import (
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 
 	"github.com/google/uuid"
 
@@ -59,7 +60,30 @@ func Create(ctx context.Context, in *npool.CreatePurchaseInvitationRequest) (*np
 }
 
 func Get(ctx context.Context, in *npool.GetPurchaseInvitationRequest) (*npool.GetPurchaseInvitationResponse, error) {
-	return nil, nil
+	id, err := uuid.Parse(in.GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	infos, err := db.Client().
+		PurchaseInvitation.
+		Query().
+		Where(
+			purchaseinvitation.And(
+				purchaseinvitation.ID(id),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query purchase invitation: %v", err)
+	}
+	if len(infos) == 0 {
+		return nil, xerrors.Errorf("empty purchase invitation")
+	}
+
+	return &npool.GetPurchaseInvitationResponse{
+		Info: dbRowToPurchaseInvitation(infos[0]),
+	}, nil
 }
 
 func GetByApp(ctx context.Context, in *npool.GetPurchaseInvitationsByAppRequest) (*npool.GetPurchaseInvitationsByAppResponse, error) {
