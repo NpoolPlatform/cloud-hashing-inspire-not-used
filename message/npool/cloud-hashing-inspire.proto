@@ -411,7 +411,6 @@ message RegistrationInvitation {
     string AppID = 2901;
     string InviterID = 2902;
     string InviteeID = 2903;
-    bool Fulfilled = 2904;
 }
 
 message CreateRegistrationInvitationRequest {

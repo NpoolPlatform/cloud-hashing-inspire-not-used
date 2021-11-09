@@ -1320,7 +1320,6 @@
 | AppID | [string](#string) |  |  |
 | InviterID | [string](#string) |  |  |
 | InviteeID | [string](#string) |  |  |
-| Fulfilled | [bool](#bool) |  |  |
 
 
 
