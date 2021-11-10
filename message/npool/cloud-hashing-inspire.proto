@@ -208,6 +208,24 @@ service CloudHashingInspire {
             body: "*"
         };
     }
+    rpc GetCouponAllocatedDetail(GetCouponAllocatedDetailRequest) returns (GetCouponAllocatedDetailResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/coupon/allocated/detail"
+            body: "*"
+        };
+    }
+    rpc GetCouponsAllocatedDetailByApp(GetCouponsAllocatedDetailByAppRequest) returns (GetCouponsAllocatedDetailByAppResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/coupons/allocated/detail/by/app"
+            body: "*"
+        };
+    }
+    rpc GetCouponsAllocatedDetailByAppUser(GetCouponsAllocatedDetailByAppUserRequest) returns (GetCouponsAllocatedDetailByAppUserResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/coupons/allocated/detail/by/app/user"
+            body: "*"
+        };
+    }
 
     rpc CreateCouponPool(CreateCouponPoolRequest) returns (CreateCouponPoolResponse) {
         option (google.api.http) = {
@@ -820,4 +838,36 @@ message GetAgencySettingDetailByAppRequest {
 
 message GetAgencySettingDetailByAppResponse {
     AgencySettingDetail Info = 9400;
+}
+
+message CouponAllocatedDetail {
+    string ID = 9500;
+    string UserID = 9501;
+    string AppID = 9502;
+    bool Used = 9503;
+    CouponPool Coupon = 9504;
+}
+
+message GetCouponAllocatedDetailRequest {
+    string ID = 9600;
+}
+
+message GetCouponAllocatedDetailResponse {
+    CouponAllocatedDetail Info = 9700;
+}
+
+message GetCouponsAllocatedDetailByAppRequest {
+    string ID = 9800;
+}
+
+message GetCouponsAllocatedDetailByAppResponse {
+    repeated CouponAllocatedDetail Infos = 9900;
+}
+
+message GetCouponsAllocatedDetailByAppUserRequest {
+    string ID = 10000;
+}
+
+message GetCouponsAllocatedDetailByAppUserResponse {
+    repeated CouponAllocatedDetail Infos = 10100;
 }

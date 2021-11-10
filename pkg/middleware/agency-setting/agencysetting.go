@@ -11,6 +11,21 @@ import (
 	"golang.org/x/xerrors"
 )
 
+func constructDetail(setting *npool.AgencySetting, regCouponPool *npool.CouponPool, kycCouponPool *npool.CouponPool) *npool.AgencySettingDetail {
+	return &npool.AgencySettingDetail{
+		ID:                          setting.ID,
+		AppID:                       setting.AppID,
+		GoodID:                      setting.GoodID,
+		RegistrationRewardThreshold: setting.RegistrationRewardThreshold,
+		KycRewardThreshold:          setting.KycRewardThreshold,
+		RegistrationCoupon:          regCouponPool,
+		KycCoupon:                   kycCouponPool,
+		TotalPurchaseRewardPercent:  setting.TotalPurchaseRewardPercent,
+		PurchaseRewardChainLevels:   setting.PurchaseRewardChainLevels,
+		LevelPurchaseRewardPercent:  setting.LevelPurchaseRewardPercent,
+	}
+}
+
 func Get(ctx context.Context, in *npool.GetAgencySettingDetailRequest) (*npool.GetAgencySettingDetailResponse, error) {
 	info, err := agencysetting.Get(ctx, &npool.GetAgencySettingRequest{
 		ID: in.GetID(),
@@ -34,18 +49,7 @@ func Get(ctx context.Context, in *npool.GetAgencySettingDetailRequest) (*npool.G
 	}
 
 	return &npool.GetAgencySettingDetailResponse{
-		Info: &npool.AgencySettingDetail{
-			ID:                          info.Info.ID,
-			AppID:                       info.Info.AppID,
-			GoodID:                      info.Info.GoodID,
-			RegistrationRewardThreshold: info.Info.RegistrationRewardThreshold,
-			KycRewardThreshold:          info.Info.KycRewardThreshold,
-			RegistrationCoupon:          registrationCouponPool.Info,
-			KycCoupon:                   kycCouponPool.Info,
-			TotalPurchaseRewardPercent:  info.Info.TotalPurchaseRewardPercent,
-			PurchaseRewardChainLevels:   info.Info.PurchaseRewardChainLevels,
-			LevelPurchaseRewardPercent:  info.Info.LevelPurchaseRewardPercent,
-		},
+		Info: constructDetail(info.Info, registrationCouponPool.Info, kycCouponPool.Info),
 	}, nil
 }
 
@@ -72,17 +76,6 @@ func GetByApp(ctx context.Context, in *npool.GetAgencySettingDetailByAppRequest)
 	}
 
 	return &npool.GetAgencySettingDetailByAppResponse{
-		Info: &npool.AgencySettingDetail{
-			ID:                          info.Info.ID,
-			AppID:                       info.Info.AppID,
-			GoodID:                      info.Info.GoodID,
-			RegistrationRewardThreshold: info.Info.RegistrationRewardThreshold,
-			KycRewardThreshold:          info.Info.KycRewardThreshold,
-			RegistrationCoupon:          registrationCouponPool.Info,
-			KycCoupon:                   kycCouponPool.Info,
-			TotalPurchaseRewardPercent:  info.Info.TotalPurchaseRewardPercent,
-			PurchaseRewardChainLevels:   info.Info.PurchaseRewardChainLevels,
-			LevelPurchaseRewardPercent:  info.Info.LevelPurchaseRewardPercent,
-		},
+		Info: constructDetail(info.Info, registrationCouponPool.Info, kycCouponPool.Info),
 	}, nil
 }

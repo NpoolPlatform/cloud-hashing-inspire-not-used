@@ -8,6 +8,7 @@
     - [AgencySettingDetail](#cloud.hashing.inspire.v1.AgencySettingDetail)
     - [AppCouponSetting](#cloud.hashing.inspire.v1.AppCouponSetting)
     - [CouponAllocated](#cloud.hashing.inspire.v1.CouponAllocated)
+    - [CouponAllocatedDetail](#cloud.hashing.inspire.v1.CouponAllocatedDetail)
     - [CouponPool](#cloud.hashing.inspire.v1.CouponPool)
     - [CreateAgencySettingRequest](#cloud.hashing.inspire.v1.CreateAgencySettingRequest)
     - [CreateAgencySettingResponse](#cloud.hashing.inspire.v1.CreateAgencySettingResponse)
@@ -42,6 +43,8 @@
     - [GetAppCouponSettingByAppResponse](#cloud.hashing.inspire.v1.GetAppCouponSettingByAppResponse)
     - [GetAppCouponSettingRequest](#cloud.hashing.inspire.v1.GetAppCouponSettingRequest)
     - [GetAppCouponSettingResponse](#cloud.hashing.inspire.v1.GetAppCouponSettingResponse)
+    - [GetCouponAllocatedDetailRequest](#cloud.hashing.inspire.v1.GetCouponAllocatedDetailRequest)
+    - [GetCouponAllocatedDetailResponse](#cloud.hashing.inspire.v1.GetCouponAllocatedDetailResponse)
     - [GetCouponAllocatedRequest](#cloud.hashing.inspire.v1.GetCouponAllocatedRequest)
     - [GetCouponAllocatedResponse](#cloud.hashing.inspire.v1.GetCouponAllocatedResponse)
     - [GetCouponPoolRequest](#cloud.hashing.inspire.v1.GetCouponPoolRequest)
@@ -54,6 +57,10 @@
     - [GetCouponsAllocatedByAppResponse](#cloud.hashing.inspire.v1.GetCouponsAllocatedByAppResponse)
     - [GetCouponsAllocatedByAppUserRequest](#cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserRequest)
     - [GetCouponsAllocatedByAppUserResponse](#cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserResponse)
+    - [GetCouponsAllocatedDetailByAppRequest](#cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppRequest)
+    - [GetCouponsAllocatedDetailByAppResponse](#cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppResponse)
+    - [GetCouponsAllocatedDetailByAppUserRequest](#cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppUserRequest)
+    - [GetCouponsAllocatedDetailByAppUserResponse](#cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppUserResponse)
     - [GetDefaultKpiSettingByAppGoodRequest](#cloud.hashing.inspire.v1.GetDefaultKpiSettingByAppGoodRequest)
     - [GetDefaultKpiSettingByAppGoodResponse](#cloud.hashing.inspire.v1.GetDefaultKpiSettingByAppGoodResponse)
     - [GetDefaultKpiSettingRequest](#cloud.hashing.inspire.v1.GetDefaultKpiSettingRequest)
@@ -206,6 +213,25 @@
 | AppID | [string](#string) |  |  |
 | Used | [bool](#bool) |  |  |
 | CouponID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.CouponAllocatedDetail"></a>
+
+### CouponAllocatedDetail
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+| UserID | [string](#string) |  |  |
+| AppID | [string](#string) |  |  |
+| Used | [bool](#bool) |  |  |
+| Coupon | [CouponPool](#cloud.hashing.inspire.v1.CouponPool) |  |  |
 
 
 
@@ -734,6 +760,36 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.GetCouponAllocatedDetailRequest"></a>
+
+### GetCouponAllocatedDetailRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetCouponAllocatedDetailResponse"></a>
+
+### GetCouponAllocatedDetailResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [CouponAllocatedDetail](#cloud.hashing.inspire.v1.CouponAllocatedDetail) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.GetCouponAllocatedRequest"></a>
 
 ### GetCouponAllocatedRequest
@@ -910,6 +966,66 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | Infos | [CouponAllocated](#cloud.hashing.inspire.v1.CouponAllocated) | repeated |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppRequest"></a>
+
+### GetCouponsAllocatedDetailByAppRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppResponse"></a>
+
+### GetCouponsAllocatedDetailByAppResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Infos | [CouponAllocatedDetail](#cloud.hashing.inspire.v1.CouponAllocatedDetail) | repeated |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppUserRequest"></a>
+
+### GetCouponsAllocatedDetailByAppUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppUserResponse"></a>
+
+### GetCouponsAllocatedDetailByAppUserResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Infos | [CouponAllocatedDetail](#cloud.hashing.inspire.v1.CouponAllocatedDetail) | repeated |  |
 
 
 
@@ -1876,6 +1992,9 @@ Service Name
 | GetCouponsAllocatedByApp | [GetCouponsAllocatedByAppRequest](#cloud.hashing.inspire.v1.GetCouponsAllocatedByAppRequest) | [GetCouponsAllocatedByAppResponse](#cloud.hashing.inspire.v1.GetCouponsAllocatedByAppResponse) |  |
 | GetCouponsAllocatedByAppUser | [GetCouponsAllocatedByAppUserRequest](#cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserRequest) | [GetCouponsAllocatedByAppUserResponse](#cloud.hashing.inspire.v1.GetCouponsAllocatedByAppUserResponse) |  |
 | UpdateCouponAllocated | [UpdateCouponAllocatedRequest](#cloud.hashing.inspire.v1.UpdateCouponAllocatedRequest) | [UpdateCouponAllocatedResponse](#cloud.hashing.inspire.v1.UpdateCouponAllocatedResponse) |  |
+| GetCouponAllocatedDetail | [GetCouponAllocatedDetailRequest](#cloud.hashing.inspire.v1.GetCouponAllocatedDetailRequest) | [GetCouponAllocatedDetailResponse](#cloud.hashing.inspire.v1.GetCouponAllocatedDetailResponse) |  |
+| GetCouponsAllocatedDetailByApp | [GetCouponsAllocatedDetailByAppRequest](#cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppRequest) | [GetCouponsAllocatedDetailByAppResponse](#cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppResponse) |  |
+| GetCouponsAllocatedDetailByAppUser | [GetCouponsAllocatedDetailByAppUserRequest](#cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppUserRequest) | [GetCouponsAllocatedDetailByAppUserResponse](#cloud.hashing.inspire.v1.GetCouponsAllocatedDetailByAppUserResponse) |  |
 | CreateCouponPool | [CreateCouponPoolRequest](#cloud.hashing.inspire.v1.CreateCouponPoolRequest) | [CreateCouponPoolResponse](#cloud.hashing.inspire.v1.CreateCouponPoolResponse) |  |
 | UpdateCouponPool | [UpdateCouponPoolRequest](#cloud.hashing.inspire.v1.UpdateCouponPoolRequest) | [UpdateCouponPoolResponse](#cloud.hashing.inspire.v1.UpdateCouponPoolResponse) |  |
 | GetCouponPool | [GetCouponPoolRequest](#cloud.hashing.inspire.v1.GetCouponPoolRequest) | [GetCouponPoolResponse](#cloud.hashing.inspire.v1.GetCouponPoolResponse) |  |
