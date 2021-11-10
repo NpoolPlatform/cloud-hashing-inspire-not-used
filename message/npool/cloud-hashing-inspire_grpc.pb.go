@@ -23,6 +23,7 @@ type CloudHashingInspireClient interface {
 	Version(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VersionResponse, error)
 	CreateNewUserRewardSetting(ctx context.Context, in *CreateNewUserRewardSettingRequest, opts ...grpc.CallOption) (*CreateNewUserRewardSettingResponse, error)
 	GetNewUserRewardSetting(ctx context.Context, in *GetNewUserRewardSettingRequest, opts ...grpc.CallOption) (*GetNewUserRewardSettingResponse, error)
+	GetNewUserRewardSettingDetail(ctx context.Context, in *GetNewUserRewardSettingDetailRequest, opts ...grpc.CallOption) (*GetNewUserRewardSettingDetailResponse, error)
 	GetNewUserRewardSettingByApp(ctx context.Context, in *GetNewUserRewardSettingByAppRequest, opts ...grpc.CallOption) (*GetNewUserRewardSettingByAppResponse, error)
 	UpdateNewUserRewardSetting(ctx context.Context, in *UpdateNewUserRewardSettingRequest, opts ...grpc.CallOption) (*UpdateNewUserRewardSettingResponse, error)
 	CreateAgencySetting(ctx context.Context, in *CreateAgencySettingRequest, opts ...grpc.CallOption) (*CreateAgencySettingResponse, error)
@@ -97,6 +98,15 @@ func (c *cloudHashingInspireClient) CreateNewUserRewardSetting(ctx context.Conte
 func (c *cloudHashingInspireClient) GetNewUserRewardSetting(ctx context.Context, in *GetNewUserRewardSettingRequest, opts ...grpc.CallOption) (*GetNewUserRewardSettingResponse, error) {
 	out := new(GetNewUserRewardSettingResponse)
 	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetNewUserRewardSetting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudHashingInspireClient) GetNewUserRewardSettingDetail(ctx context.Context, in *GetNewUserRewardSettingDetailRequest, opts ...grpc.CallOption) (*GetNewUserRewardSettingDetailResponse, error) {
+	out := new(GetNewUserRewardSettingDetailResponse)
+	err := c.cc.Invoke(ctx, "/cloud.hashing.inspire.v1.CloudHashingInspire/GetNewUserRewardSettingDetail", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -498,6 +508,7 @@ type CloudHashingInspireServer interface {
 	Version(context.Context, *emptypb.Empty) (*VersionResponse, error)
 	CreateNewUserRewardSetting(context.Context, *CreateNewUserRewardSettingRequest) (*CreateNewUserRewardSettingResponse, error)
 	GetNewUserRewardSetting(context.Context, *GetNewUserRewardSettingRequest) (*GetNewUserRewardSettingResponse, error)
+	GetNewUserRewardSettingDetail(context.Context, *GetNewUserRewardSettingDetailRequest) (*GetNewUserRewardSettingDetailResponse, error)
 	GetNewUserRewardSettingByApp(context.Context, *GetNewUserRewardSettingByAppRequest) (*GetNewUserRewardSettingByAppResponse, error)
 	UpdateNewUserRewardSetting(context.Context, *UpdateNewUserRewardSettingRequest) (*UpdateNewUserRewardSettingResponse, error)
 	CreateAgencySetting(context.Context, *CreateAgencySettingRequest) (*CreateAgencySettingResponse, error)
@@ -556,6 +567,9 @@ func (UnimplementedCloudHashingInspireServer) CreateNewUserRewardSetting(context
 }
 func (UnimplementedCloudHashingInspireServer) GetNewUserRewardSetting(context.Context, *GetNewUserRewardSettingRequest) (*GetNewUserRewardSettingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNewUserRewardSetting not implemented")
+}
+func (UnimplementedCloudHashingInspireServer) GetNewUserRewardSettingDetail(context.Context, *GetNewUserRewardSettingDetailRequest) (*GetNewUserRewardSettingDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNewUserRewardSettingDetail not implemented")
 }
 func (UnimplementedCloudHashingInspireServer) GetNewUserRewardSettingByApp(context.Context, *GetNewUserRewardSettingByAppRequest) (*GetNewUserRewardSettingByAppResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNewUserRewardSettingByApp not implemented")
@@ -749,6 +763,24 @@ func _CloudHashingInspire_GetNewUserRewardSetting_Handler(srv interface{}, ctx c
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CloudHashingInspireServer).GetNewUserRewardSetting(ctx, req.(*GetNewUserRewardSettingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudHashingInspire_GetNewUserRewardSettingDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNewUserRewardSettingDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudHashingInspireServer).GetNewUserRewardSettingDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cloud.hashing.inspire.v1.CloudHashingInspire/GetNewUserRewardSettingDetail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudHashingInspireServer).GetNewUserRewardSettingDetail(ctx, req.(*GetNewUserRewardSettingDetailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1545,6 +1577,10 @@ var CloudHashingInspire_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetNewUserRewardSetting",
 			Handler:    _CloudHashingInspire_GetNewUserRewardSetting_Handler,
+		},
+		{
+			MethodName: "GetNewUserRewardSettingDetail",
+			Handler:    _CloudHashingInspire_GetNewUserRewardSettingDetail_Handler,
 		},
 		{
 			MethodName: "GetNewUserRewardSettingByApp",

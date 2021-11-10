@@ -29,6 +29,12 @@ service CloudHashingInspire {
             body: "*"
         };
     }
+    rpc GetNewUserRewardSettingDetail(GetNewUserRewardSettingDetailRequest) returns (GetNewUserRewardSettingDetailResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/new/user/reward/setting/detail"
+            body: "*"
+        };
+    }
     rpc GetNewUserRewardSettingByApp(GetNewUserRewardSettingByAppRequest) returns (GetNewUserRewardSettingByAppResponse) {
         option (google.api.http) = {
             post: "/v1/get/new/user/reward/setting/by/app"
@@ -637,6 +643,23 @@ message GetCouponPoolsByAppReleaserRequest {
 message GetCouponPoolsByAppReleaserResponse {
     repeated CouponPool Infos = 5400;
 }
+
+message NewUserRewardSettingDetail {
+    string ID = 5410;
+    string AppID = 5411;
+    bool AutoGenerateInvitationCode = 5412;
+    CouponPool RegistrationCoupon = 5413;
+    CouponPool KycCoupon = 5414;
+}
+
+message GetNewUserRewardSettingDetailRequest {
+    string ID = 5420;
+}
+
+message GetNewUserRewardSettingDetailResponse {
+    NewUserRewardSettingDetail Info = 5430;
+}
+
 
 message AppCouponSetting {
     string ID = 5500;

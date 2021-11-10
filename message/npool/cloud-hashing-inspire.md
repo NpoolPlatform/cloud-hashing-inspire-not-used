@@ -55,6 +55,8 @@
     - [GetDefaultKpiSettingResponse](#cloud.hashing.inspire.v1.GetDefaultKpiSettingResponse)
     - [GetNewUserRewardSettingByAppRequest](#cloud.hashing.inspire.v1.GetNewUserRewardSettingByAppRequest)
     - [GetNewUserRewardSettingByAppResponse](#cloud.hashing.inspire.v1.GetNewUserRewardSettingByAppResponse)
+    - [GetNewUserRewardSettingDetailRequest](#cloud.hashing.inspire.v1.GetNewUserRewardSettingDetailRequest)
+    - [GetNewUserRewardSettingDetailResponse](#cloud.hashing.inspire.v1.GetNewUserRewardSettingDetailResponse)
     - [GetNewUserRewardSettingRequest](#cloud.hashing.inspire.v1.GetNewUserRewardSettingRequest)
     - [GetNewUserRewardSettingResponse](#cloud.hashing.inspire.v1.GetNewUserRewardSettingResponse)
     - [GetPurchaseInvitationByAppOrderRequest](#cloud.hashing.inspire.v1.GetPurchaseInvitationByAppOrderRequest)
@@ -82,6 +84,7 @@
     - [GetUserKpiSettingRequest](#cloud.hashing.inspire.v1.GetUserKpiSettingRequest)
     - [GetUserKpiSettingResponse](#cloud.hashing.inspire.v1.GetUserKpiSettingResponse)
     - [NewUserRewardSetting](#cloud.hashing.inspire.v1.NewUserRewardSetting)
+    - [NewUserRewardSettingDetail](#cloud.hashing.inspire.v1.NewUserRewardSettingDetail)
     - [PurchaseInvitation](#cloud.hashing.inspire.v1.PurchaseInvitation)
     - [RegistrationInvitation](#cloud.hashing.inspire.v1.RegistrationInvitation)
     - [UpdateAgencySettingRequest](#cloud.hashing.inspire.v1.UpdateAgencySettingRequest)
@@ -915,6 +918,36 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.GetNewUserRewardSettingDetailRequest"></a>
+
+### GetNewUserRewardSettingDetailRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetNewUserRewardSettingDetailResponse"></a>
+
+### GetNewUserRewardSettingDetailResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [NewUserRewardSettingDetail](#cloud.hashing.inspire.v1.NewUserRewardSettingDetail) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.GetNewUserRewardSettingRequest"></a>
 
 ### GetNewUserRewardSettingRequest
@@ -1329,6 +1362,25 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.NewUserRewardSettingDetail"></a>
+
+### NewUserRewardSettingDetail
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+| AppID | [string](#string) |  |  |
+| AutoGenerateInvitationCode | [bool](#bool) |  |  |
+| RegistrationCoupon | [CouponPool](#cloud.hashing.inspire.v1.CouponPool) |  |  |
+| KycCoupon | [CouponPool](#cloud.hashing.inspire.v1.CouponPool) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.PurchaseInvitation"></a>
 
 ### PurchaseInvitation
@@ -1706,6 +1758,7 @@ Service Name
 | Version | [.google.protobuf.Empty](#google.protobuf.Empty) | [VersionResponse](#cloud.hashing.inspire.v1.VersionResponse) | Method Version |
 | CreateNewUserRewardSetting | [CreateNewUserRewardSettingRequest](#cloud.hashing.inspire.v1.CreateNewUserRewardSettingRequest) | [CreateNewUserRewardSettingResponse](#cloud.hashing.inspire.v1.CreateNewUserRewardSettingResponse) |  |
 | GetNewUserRewardSetting | [GetNewUserRewardSettingRequest](#cloud.hashing.inspire.v1.GetNewUserRewardSettingRequest) | [GetNewUserRewardSettingResponse](#cloud.hashing.inspire.v1.GetNewUserRewardSettingResponse) |  |
+| GetNewUserRewardSettingDetail | [GetNewUserRewardSettingDetailRequest](#cloud.hashing.inspire.v1.GetNewUserRewardSettingDetailRequest) | [GetNewUserRewardSettingDetailResponse](#cloud.hashing.inspire.v1.GetNewUserRewardSettingDetailResponse) |  |
 | GetNewUserRewardSettingByApp | [GetNewUserRewardSettingByAppRequest](#cloud.hashing.inspire.v1.GetNewUserRewardSettingByAppRequest) | [GetNewUserRewardSettingByAppResponse](#cloud.hashing.inspire.v1.GetNewUserRewardSettingByAppResponse) |  |
 | UpdateNewUserRewardSetting | [UpdateNewUserRewardSettingRequest](#cloud.hashing.inspire.v1.UpdateNewUserRewardSettingRequest) | [UpdateNewUserRewardSettingResponse](#cloud.hashing.inspire.v1.UpdateNewUserRewardSettingResponse) |  |
 | CreateAgencySetting | [CreateAgencySettingRequest](#cloud.hashing.inspire.v1.CreateAgencySettingRequest) | [CreateAgencySettingResponse](#cloud.hashing.inspire.v1.CreateAgencySettingResponse) |  |
