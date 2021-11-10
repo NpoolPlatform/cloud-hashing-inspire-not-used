@@ -980,7 +980,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| ID | [string](#string) |  |  |
+| AppID | [string](#string) |  |  |
 
 
 
@@ -1010,7 +1010,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| ID | [string](#string) |  |  |
+| AppID | [string](#string) |  |  |
+| UserID | [string](#string) |  |  |
 
 
 

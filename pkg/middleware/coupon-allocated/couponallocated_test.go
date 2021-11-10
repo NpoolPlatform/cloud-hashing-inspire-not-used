@@ -81,4 +81,19 @@ func TestGetDetail(t *testing.T) {
 		assert.NotEqual(t, resp.Info.ID, uuid.UUID{}.String())
 		assertCouponAllocatedDetail(t, resp.Info, allocatedResp.Info, couponResp.Info)
 	}
+
+	resp1, err := GetByApp(context.Background(), &npool.GetCouponsAllocatedDetailByAppRequest{
+		AppID: allocatedResp.Info.AppID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, len(resp1.Infos), 1)
+	}
+
+	resp2, err := GetByAppUser(context.Background(), &npool.GetCouponsAllocatedDetailByAppUserRequest{
+		AppID:  allocatedResp.Info.AppID,
+		UserID: allocatedResp.Info.UserID,
+	})
+	if assert.Nil(t, err) {
+		assert.Equal(t, len(resp2.Infos), 1)
+	}
 }

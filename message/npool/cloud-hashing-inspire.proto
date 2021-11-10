@@ -857,7 +857,7 @@ message GetCouponAllocatedDetailResponse {
 }
 
 message GetCouponsAllocatedDetailByAppRequest {
-    string ID = 9800;
+    string AppID = 9800;
 }
 
 message GetCouponsAllocatedDetailByAppResponse {
@@ -865,7 +865,8 @@ message GetCouponsAllocatedDetailByAppResponse {
 }
 
 message GetCouponsAllocatedDetailByAppUserRequest {
-    string ID = 10000;
+    string AppID = 10000;
+    string UserID = 10001;
 }
 
 message GetCouponsAllocatedDetailByAppUserResponse {
