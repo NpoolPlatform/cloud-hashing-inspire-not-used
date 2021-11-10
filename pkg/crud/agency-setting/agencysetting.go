@@ -18,7 +18,7 @@ func validateAgencySetting(info *npool.AgencySetting) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
 		return xerrors.Errorf("invalid app id: %v", err)
 	}
-	if info.GetTotalPurchaseRewardPercent() >= 20 {
+	if info.GetTotalPurchaseRewardPercent() >= 100 {
 		return xerrors.Errorf("too much purchase reward")
 	}
 	return nil

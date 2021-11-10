@@ -72,6 +72,18 @@ service CloudHashingInspire {
             body: "*"
         };
     }
+    rpc GetAgencySettingDetail(GetAgencySettingDetailRequest) returns (GetAgencySettingDetailResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/agency/setting/detail"
+            body: "*"
+        };
+    }
+    rpc GetAgencySettingDetailByApp(GetAgencySettingDetailByAppRequest) returns (GetAgencySettingDetailByAppResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/agency/setting/detail/by/app"
+            body: "*"
+        };
+    }
 
     rpc CreatePurchaseInvitation(CreatePurchaseInvitationRequest) returns (CreatePurchaseInvitationResponse) {
         option (google.api.http) = {
@@ -360,7 +372,6 @@ message AgencySetting {
     int32 TotalPurchaseRewardPercent = 1107;
     int32 PurchaseRewardChainLevels = 1108;
     int32 LevelPurchaseRewardPercent = 1109;
-
 }
 
 message CreateAgencySettingRequest {
@@ -660,7 +671,6 @@ message GetNewUserRewardSettingDetailResponse {
     NewUserRewardSettingDetail Info = 5430;
 }
 
-
 message AppCouponSetting {
     string ID = 5500;
     string AppID = 5501;
@@ -781,4 +791,33 @@ message UpdateUserKpiSettingRequest {
 
 message UpdateUserKpiSettingResponse {
     UserKpiSetting Info = 8000;
+}
+
+message AgencySettingDetail {
+    string ID = 9000;
+    string AppID = 9001;
+    string GoodID = 9002;
+    int32 RegistrationRewardThreshold = 9003;
+    CouponPool RegistrationCoupon = 9004;
+    int32 KycRewardThreshold = 9005;
+    CouponPool KycCoupon = 9006;
+    int32 TotalPurchaseRewardPercent = 9007;
+    int32 PurchaseRewardChainLevels = 9008;
+    int32 LevelPurchaseRewardPercent = 9009;
+}
+
+message GetAgencySettingDetailRequest {
+    string ID = 9100;
+}
+
+message GetAgencySettingDetailResponse {
+    AgencySettingDetail Info = 9200;
+}
+
+message GetAgencySettingDetailByAppRequest {
+    string AppID = 9300;
+}
+
+message GetAgencySettingDetailByAppResponse {
+    AgencySettingDetail Info = 9400;
 }

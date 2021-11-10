@@ -5,6 +5,7 @@
 
 - [npool/cloud-hashing-inspire.proto](#npool/cloud-hashing-inspire.proto)
     - [AgencySetting](#cloud.hashing.inspire.v1.AgencySetting)
+    - [AgencySettingDetail](#cloud.hashing.inspire.v1.AgencySettingDetail)
     - [AppCouponSetting](#cloud.hashing.inspire.v1.AppCouponSetting)
     - [CouponAllocated](#cloud.hashing.inspire.v1.CouponAllocated)
     - [CouponPool](#cloud.hashing.inspire.v1.CouponPool)
@@ -31,6 +32,10 @@
     - [DefaultKpiSetting](#cloud.hashing.inspire.v1.DefaultKpiSetting)
     - [GetAgencySettingByAppRequest](#cloud.hashing.inspire.v1.GetAgencySettingByAppRequest)
     - [GetAgencySettingByAppResponse](#cloud.hashing.inspire.v1.GetAgencySettingByAppResponse)
+    - [GetAgencySettingDetailByAppRequest](#cloud.hashing.inspire.v1.GetAgencySettingDetailByAppRequest)
+    - [GetAgencySettingDetailByAppResponse](#cloud.hashing.inspire.v1.GetAgencySettingDetailByAppResponse)
+    - [GetAgencySettingDetailRequest](#cloud.hashing.inspire.v1.GetAgencySettingDetailRequest)
+    - [GetAgencySettingDetailResponse](#cloud.hashing.inspire.v1.GetAgencySettingDetailResponse)
     - [GetAgencySettingRequest](#cloud.hashing.inspire.v1.GetAgencySettingRequest)
     - [GetAgencySettingResponse](#cloud.hashing.inspire.v1.GetAgencySettingResponse)
     - [GetAppCouponSettingByAppRequest](#cloud.hashing.inspire.v1.GetAppCouponSettingByAppRequest)
@@ -137,6 +142,30 @@
 | RegistrationCouponID | [string](#string) |  |  |
 | KycRewardThreshold | [int32](#int32) |  |  |
 | KycCouponID | [string](#string) |  |  |
+| TotalPurchaseRewardPercent | [int32](#int32) |  |  |
+| PurchaseRewardChainLevels | [int32](#int32) |  |  |
+| LevelPurchaseRewardPercent | [int32](#int32) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.AgencySettingDetail"></a>
+
+### AgencySettingDetail
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+| AppID | [string](#string) |  |  |
+| GoodID | [string](#string) |  |  |
+| RegistrationRewardThreshold | [int32](#int32) |  |  |
+| RegistrationCoupon | [CouponPool](#cloud.hashing.inspire.v1.CouponPool) |  |  |
+| KycRewardThreshold | [int32](#int32) |  |  |
+| KycCoupon | [CouponPool](#cloud.hashing.inspire.v1.CouponPool) |  |  |
 | TotalPurchaseRewardPercent | [int32](#int32) |  |  |
 | PurchaseRewardChainLevels | [int32](#int32) |  |  |
 | LevelPurchaseRewardPercent | [int32](#int32) |  |  |
@@ -549,6 +578,66 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | Info | [AgencySetting](#cloud.hashing.inspire.v1.AgencySetting) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetAgencySettingDetailByAppRequest"></a>
+
+### GetAgencySettingDetailByAppRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| AppID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetAgencySettingDetailByAppResponse"></a>
+
+### GetAgencySettingDetailByAppResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [AgencySettingDetail](#cloud.hashing.inspire.v1.AgencySettingDetail) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetAgencySettingDetailRequest"></a>
+
+### GetAgencySettingDetailRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetAgencySettingDetailResponse"></a>
+
+### GetAgencySettingDetailResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [AgencySettingDetail](#cloud.hashing.inspire.v1.AgencySettingDetail) |  |  |
 
 
 
@@ -1765,6 +1854,8 @@ Service Name
 | GetAgencySetting | [GetAgencySettingRequest](#cloud.hashing.inspire.v1.GetAgencySettingRequest) | [GetAgencySettingResponse](#cloud.hashing.inspire.v1.GetAgencySettingResponse) |  |
 | GetAgencySettingByApp | [GetAgencySettingByAppRequest](#cloud.hashing.inspire.v1.GetAgencySettingByAppRequest) | [GetAgencySettingByAppResponse](#cloud.hashing.inspire.v1.GetAgencySettingByAppResponse) |  |
 | UpdateAgencySetting | [UpdateAgencySettingRequest](#cloud.hashing.inspire.v1.UpdateAgencySettingRequest) | [UpdateAgencySettingResponse](#cloud.hashing.inspire.v1.UpdateAgencySettingResponse) |  |
+| GetAgencySettingDetail | [GetAgencySettingDetailRequest](#cloud.hashing.inspire.v1.GetAgencySettingDetailRequest) | [GetAgencySettingDetailResponse](#cloud.hashing.inspire.v1.GetAgencySettingDetailResponse) |  |
+| GetAgencySettingDetailByApp | [GetAgencySettingDetailByAppRequest](#cloud.hashing.inspire.v1.GetAgencySettingDetailByAppRequest) | [GetAgencySettingDetailByAppResponse](#cloud.hashing.inspire.v1.GetAgencySettingDetailByAppResponse) |  |
 | CreatePurchaseInvitation | [CreatePurchaseInvitationRequest](#cloud.hashing.inspire.v1.CreatePurchaseInvitationRequest) | [CreatePurchaseInvitationResponse](#cloud.hashing.inspire.v1.CreatePurchaseInvitationResponse) |  |
 | UpdatePurchaseInvitation | [UpdatePurchaseInvitationRequest](#cloud.hashing.inspire.v1.UpdatePurchaseInvitationRequest) | [UpdatePurchaseInvitationResponse](#cloud.hashing.inspire.v1.UpdatePurchaseInvitationResponse) |  |
 | GetPurchaseInvitation | [GetPurchaseInvitationRequest](#cloud.hashing.inspire.v1.GetPurchaseInvitationRequest) | [GetPurchaseInvitationResponse](#cloud.hashing.inspire.v1.GetPurchaseInvitationResponse) |  |
