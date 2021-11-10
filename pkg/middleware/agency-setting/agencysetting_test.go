@@ -27,7 +27,7 @@ func init() {
 	}
 }
 
-func assertAgencySettingDetail(t *testing.T, info *npool.AgencySettingDetail, setting *npool.AgencySetting, regCoupon *npool.CouponPool, kycCoupon *npool.CouponPool) {
+func assertAgencySettingDetail(t *testing.T, info *npool.AgencySettingDetail, setting *npool.AgencySetting, regCoupon, kycCoupon *npool.CouponPool) {
 	assert.Equal(t, info.AppID, setting.AppID)
 	assert.Equal(t, info.GoodID, setting.GoodID)
 	assert.Equal(t, info.RegistrationRewardThreshold, setting.RegistrationRewardThreshold)

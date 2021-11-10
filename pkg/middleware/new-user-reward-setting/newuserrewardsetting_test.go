@@ -27,7 +27,7 @@ func init() {
 	}
 }
 
-func assertNewUserRewardSettingDetail(t *testing.T, info *npool.NewUserRewardSettingDetail, setting *npool.NewUserRewardSetting, regCoupon *npool.CouponPool, kycCoupon *npool.CouponPool) {
+func assertNewUserRewardSettingDetail(t *testing.T, info *npool.NewUserRewardSettingDetail, setting *npool.NewUserRewardSetting, regCoupon, kycCoupon *npool.CouponPool) {
 	assert.Equal(t, info.AppID, setting.AppID)
 	assert.Equal(t, info.AutoGenerateInvitationCode, setting.AutoGenerateInvitationCode)
 

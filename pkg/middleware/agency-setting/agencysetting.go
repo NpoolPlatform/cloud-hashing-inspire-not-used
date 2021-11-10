@@ -11,7 +11,7 @@ import (
 	"golang.org/x/xerrors"
 )
 
-func constructDetail(setting *npool.AgencySetting, regCouponPool *npool.CouponPool, kycCouponPool *npool.CouponPool) *npool.AgencySettingDetail {
+func constructDetail(setting *npool.AgencySetting, regCouponPool, kycCouponPool *npool.CouponPool) *npool.AgencySettingDetail {
 	return &npool.AgencySettingDetail{
 		ID:                          setting.ID,
 		AppID:                       setting.AppID,
