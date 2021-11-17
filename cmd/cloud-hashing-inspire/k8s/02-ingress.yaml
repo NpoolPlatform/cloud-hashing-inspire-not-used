@@ -1,39 +1,57 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: cloud-hashing-inspire-npool-top-ingress
   namespace: kube-system
   annotations:
-    k8s.kuboard.cn/displayName: cloud-hashing-inspire
-    k8s.kuboard.cn/workload: cloud-hashing-inspire
+    k8s.kuboard.cn/displayName: cloud-hashing-inspire-npool
+    k8s.kuboard.cn/workload: cloud-hashing-inspire-npool
     kubernetes.io/ingress.class: "traefik-internet"
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-inspire-prefix@kubernetescrd
+
 spec:
   rules:
-  - host: api.npool.top
-    http:
-      paths:
-      - path: /cloud-hashing-inspire
-        backend:
-          serviceName: cloud-hashing-inspire
-          servicePort: http
+    - host: api.npool.top
+      http:
+        paths:
+          - path: /cloud-hashing-inspire
+            backend:
+              serviceName: cloud-hashing-inspire
+              servicePort: 50130
 
 ---
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: cloud-hashing-inspire-xpool-top-ingress
   namespace: kube-system
   annotations:
-    k8s.kuboard.cn/displayName: cloud-hashing-inspire
-    k8s.kuboard.cn/workload: cloud-hashing-inspire
+    k8s.kuboard.cn/displayName: cloud-hashing-inspire-xpool
+    k8s.kuboard.cn/workload: cloud-hashing-inspire-xpool
     kubernetes.io/ingress.class: "traefik-internet"
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-inspire-prefix@kubernetescrd
+
 spec:
   rules:
-  - host: api.xpool.top
-    http:
-      paths:
-      - path: /cloud-hashing-inspire
-        backend:
-          serviceName: cloud-hashing-inspire
-          servicePort: http
+    - host: api.xpool.top
+      http:
+        paths:
+          - path: /cloud-hashing-inspire
+            backend:
+              serviceName: cloud-hashing-inspire
+              servicePort: 50130
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-cloud-hashing-inspire-prefix
+  namespace: kube-system
+spec:
+  stripPrefix:
+    prefixes:
+      - /cloud-hashing-inspire
