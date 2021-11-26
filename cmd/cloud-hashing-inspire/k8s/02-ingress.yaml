@@ -15,7 +15,7 @@ spec:
     - host: api.npool.top
       http:
         paths:
-          - path: /cloud-hashing-inspire
+          - path: /api/cloud-hashing-inspire
             backend:
               serviceName: cloud-hashing-inspire
               servicePort: 50130
@@ -39,7 +39,7 @@ spec:
     - host: api.xpool.top
       http:
         paths:
-          - path: /cloud-hashing-inspire
+          - path: /api/cloud-hashing-inspire
             backend:
               serviceName: cloud-hashing-inspire
               servicePort: 50130
@@ -54,4 +54,4 @@ metadata:
 spec:
   stripPrefix:
     prefixes:
-      - /cloud-hashing-inspire
+      - /api/cloud-hashing-inspire
