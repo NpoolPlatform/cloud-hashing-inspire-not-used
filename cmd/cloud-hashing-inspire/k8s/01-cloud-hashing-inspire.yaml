@@ -46,8 +46,14 @@ metadata:
   namespace: kube-system
 spec:
   ports:
-  - name: api
+  - name: http
     port: 50130
     targetPort: 50130
+  - name: grpc
+    port: 50131
+    targetPort: 50131
+  - name: healthz
+    port: 50132
+    targetPort: 50132
   selector:
     app: cloud-hashing-inspire
