@@ -8,7 +8,7 @@ metadata:
     k8s.kuboard.cn/workload: cloud-hashing-inspire-npool
     kubernetes.io/ingress.class: "traefik-internet"
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-inspire-prefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-inspire-prefix@kubernetescrd,kube-system-common-headers@kubernetescrd
 
 spec:
   rules:
@@ -19,6 +19,12 @@ spec:
             backend:
               serviceName: cloud-hashing-inspire
               servicePort: 50130
+    - host: api.xpool.top
+      http: *http_rules
+    - host: www.npool.top
+      http: *http_rules
+    - host: www.xpool.top
+      http: *http_rules
 
 ---
 
@@ -32,7 +38,7 @@ metadata:
     k8s.kuboard.cn/workload: cloud-hashing-inspire-xpool
     kubernetes.io/ingress.class: "traefik-internet"
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-inspire-prefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-inspire-prefix@kubernetescrd,kube-system-common-headers@kubernetescrd
 
 spec:
   rules:
@@ -43,6 +49,12 @@ spec:
             backend:
               serviceName: cloud-hashing-inspire
               servicePort: 50130
+    - host: api.xpool.top
+      http: *http_rules
+    - host: www.npool.top
+      http: *http_rules
+    - host: www.xpool.top
+      http: *http_rules
 
 ---
 
