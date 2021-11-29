@@ -22,6 +22,8 @@ type Tx struct {
 	CouponPool *CouponPoolClient
 	// DefaultKpiSetting is the client for interacting with the DefaultKpiSetting builders.
 	DefaultKpiSetting *DefaultKpiSettingClient
+	// DiscountPool is the client for interacting with the DiscountPool builders.
+	DiscountPool *DiscountPoolClient
 	// NewUserRewardSetting is the client for interacting with the NewUserRewardSetting builders.
 	NewUserRewardSetting *NewUserRewardSettingClient
 	// PurchaseInvitation is the client for interacting with the PurchaseInvitation builders.
@@ -172,6 +174,7 @@ func (tx *Tx) init() {
 	tx.CouponAllocated = NewCouponAllocatedClient(tx.config)
 	tx.CouponPool = NewCouponPoolClient(tx.config)
 	tx.DefaultKpiSetting = NewDefaultKpiSettingClient(tx.config)
+	tx.DiscountPool = NewDiscountPoolClient(tx.config)
 	tx.NewUserRewardSetting = NewNewUserRewardSettingClient(tx.config)
 	tx.PurchaseInvitation = NewPurchaseInvitationClient(tx.config)
 	tx.RegistrationInvitation = NewRegistrationInvitationClient(tx.config)

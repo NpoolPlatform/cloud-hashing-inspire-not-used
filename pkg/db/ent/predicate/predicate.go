@@ -21,6 +21,9 @@ type CouponPool func(*sql.Selector)
 // DefaultKpiSetting is the predicate function for defaultkpisetting builders.
 type DefaultKpiSetting func(*sql.Selector)
 
+// DiscountPool is the predicate function for discountpool builders.
+type DiscountPool func(*sql.Selector)
+
 // NewUserRewardSetting is the predicate function for newuserrewardsetting builders.
 type NewUserRewardSetting func(*sql.Selector)
 

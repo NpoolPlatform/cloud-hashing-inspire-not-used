@@ -8,6 +8,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/discountpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
@@ -133,6 +134,34 @@ func init() {
 	defaultkpisettingDescID := defaultkpisettingFields[0].Descriptor()
 	// defaultkpisetting.DefaultID holds the default value on creation for the id field.
 	defaultkpisetting.DefaultID = defaultkpisettingDescID.Default.(func() uuid.UUID)
+	discountpoolFields := schema.DiscountPool{}.Fields()
+	_ = discountpoolFields
+	// discountpoolDescMessage is the schema descriptor for message field.
+	discountpoolDescMessage := discountpoolFields[6].Descriptor()
+	// discountpool.MessageValidator is a validator for the "message" field. It is called by the builders before save.
+	discountpool.MessageValidator = discountpoolDescMessage.Validators[0].(func(string) error)
+	// discountpoolDescName is the schema descriptor for name field.
+	discountpoolDescName := discountpoolFields[7].Descriptor()
+	// discountpool.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	discountpool.NameValidator = discountpoolDescName.Validators[0].(func(string) error)
+	// discountpoolDescCreateAt is the schema descriptor for create_at field.
+	discountpoolDescCreateAt := discountpoolFields[8].Descriptor()
+	// discountpool.DefaultCreateAt holds the default value on creation for the create_at field.
+	discountpool.DefaultCreateAt = discountpoolDescCreateAt.Default.(func() uint32)
+	// discountpoolDescUpdateAt is the schema descriptor for update_at field.
+	discountpoolDescUpdateAt := discountpoolFields[9].Descriptor()
+	// discountpool.DefaultUpdateAt holds the default value on creation for the update_at field.
+	discountpool.DefaultUpdateAt = discountpoolDescUpdateAt.Default.(func() uint32)
+	// discountpool.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	discountpool.UpdateDefaultUpdateAt = discountpoolDescUpdateAt.UpdateDefault.(func() uint32)
+	// discountpoolDescDeleteAt is the schema descriptor for delete_at field.
+	discountpoolDescDeleteAt := discountpoolFields[10].Descriptor()
+	// discountpool.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	discountpool.DefaultDeleteAt = discountpoolDescDeleteAt.Default.(func() uint32)
+	// discountpoolDescID is the schema descriptor for id field.
+	discountpoolDescID := discountpoolFields[0].Descriptor()
+	// discountpool.DefaultID holds the default value on creation for the id field.
+	discountpool.DefaultID = discountpoolDescID.Default.(func() uuid.UUID)
 	newuserrewardsettingFields := schema.NewUserRewardSetting{}.Fields()
 	_ = newuserrewardsettingFields
 	// newuserrewardsettingDescAutoGenerateInvitationCode is the schema descriptor for auto_generate_invitation_code field.

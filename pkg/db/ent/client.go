@@ -15,6 +15,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/discountpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
@@ -40,6 +41,8 @@ type Client struct {
 	CouponPool *CouponPoolClient
 	// DefaultKpiSetting is the client for interacting with the DefaultKpiSetting builders.
 	DefaultKpiSetting *DefaultKpiSettingClient
+	// DiscountPool is the client for interacting with the DiscountPool builders.
+	DiscountPool *DiscountPoolClient
 	// NewUserRewardSetting is the client for interacting with the NewUserRewardSetting builders.
 	NewUserRewardSetting *NewUserRewardSettingClient
 	// PurchaseInvitation is the client for interacting with the PurchaseInvitation builders.
@@ -68,6 +71,7 @@ func (c *Client) init() {
 	c.CouponAllocated = NewCouponAllocatedClient(c.config)
 	c.CouponPool = NewCouponPoolClient(c.config)
 	c.DefaultKpiSetting = NewDefaultKpiSettingClient(c.config)
+	c.DiscountPool = NewDiscountPoolClient(c.config)
 	c.NewUserRewardSetting = NewNewUserRewardSettingClient(c.config)
 	c.PurchaseInvitation = NewPurchaseInvitationClient(c.config)
 	c.RegistrationInvitation = NewRegistrationInvitationClient(c.config)
@@ -111,6 +115,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		CouponAllocated:        NewCouponAllocatedClient(cfg),
 		CouponPool:             NewCouponPoolClient(cfg),
 		DefaultKpiSetting:      NewDefaultKpiSettingClient(cfg),
+		DiscountPool:           NewDiscountPoolClient(cfg),
 		NewUserRewardSetting:   NewNewUserRewardSettingClient(cfg),
 		PurchaseInvitation:     NewPurchaseInvitationClient(cfg),
 		RegistrationInvitation: NewRegistrationInvitationClient(cfg),
@@ -139,6 +144,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		CouponAllocated:        NewCouponAllocatedClient(cfg),
 		CouponPool:             NewCouponPoolClient(cfg),
 		DefaultKpiSetting:      NewDefaultKpiSettingClient(cfg),
+		DiscountPool:           NewDiscountPoolClient(cfg),
 		NewUserRewardSetting:   NewNewUserRewardSettingClient(cfg),
 		PurchaseInvitation:     NewPurchaseInvitationClient(cfg),
 		RegistrationInvitation: NewRegistrationInvitationClient(cfg),
@@ -178,6 +184,7 @@ func (c *Client) Use(hooks ...Hook) {
 	c.CouponAllocated.Use(hooks...)
 	c.CouponPool.Use(hooks...)
 	c.DefaultKpiSetting.Use(hooks...)
+	c.DiscountPool.Use(hooks...)
 	c.NewUserRewardSetting.Use(hooks...)
 	c.PurchaseInvitation.Use(hooks...)
 	c.RegistrationInvitation.Use(hooks...)
@@ -633,6 +640,96 @@ func (c *DefaultKpiSettingClient) GetX(ctx context.Context, id uuid.UUID) *Defau
 // Hooks returns the client hooks.
 func (c *DefaultKpiSettingClient) Hooks() []Hook {
 	return c.hooks.DefaultKpiSetting
+}
+
+// DiscountPoolClient is a client for the DiscountPool schema.
+type DiscountPoolClient struct {
+	config
+}
+
+// NewDiscountPoolClient returns a client for the DiscountPool from the given config.
+func NewDiscountPoolClient(c config) *DiscountPoolClient {
+	return &DiscountPoolClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `discountpool.Hooks(f(g(h())))`.
+func (c *DiscountPoolClient) Use(hooks ...Hook) {
+	c.hooks.DiscountPool = append(c.hooks.DiscountPool, hooks...)
+}
+
+// Create returns a create builder for DiscountPool.
+func (c *DiscountPoolClient) Create() *DiscountPoolCreate {
+	mutation := newDiscountPoolMutation(c.config, OpCreate)
+	return &DiscountPoolCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of DiscountPool entities.
+func (c *DiscountPoolClient) CreateBulk(builders ...*DiscountPoolCreate) *DiscountPoolCreateBulk {
+	return &DiscountPoolCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for DiscountPool.
+func (c *DiscountPoolClient) Update() *DiscountPoolUpdate {
+	mutation := newDiscountPoolMutation(c.config, OpUpdate)
+	return &DiscountPoolUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *DiscountPoolClient) UpdateOne(dp *DiscountPool) *DiscountPoolUpdateOne {
+	mutation := newDiscountPoolMutation(c.config, OpUpdateOne, withDiscountPool(dp))
+	return &DiscountPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *DiscountPoolClient) UpdateOneID(id uuid.UUID) *DiscountPoolUpdateOne {
+	mutation := newDiscountPoolMutation(c.config, OpUpdateOne, withDiscountPoolID(id))
+	return &DiscountPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for DiscountPool.
+func (c *DiscountPoolClient) Delete() *DiscountPoolDelete {
+	mutation := newDiscountPoolMutation(c.config, OpDelete)
+	return &DiscountPoolDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *DiscountPoolClient) DeleteOne(dp *DiscountPool) *DiscountPoolDeleteOne {
+	return c.DeleteOneID(dp.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *DiscountPoolClient) DeleteOneID(id uuid.UUID) *DiscountPoolDeleteOne {
+	builder := c.Delete().Where(discountpool.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &DiscountPoolDeleteOne{builder}
+}
+
+// Query returns a query builder for DiscountPool.
+func (c *DiscountPoolClient) Query() *DiscountPoolQuery {
+	return &DiscountPoolQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a DiscountPool entity by its id.
+func (c *DiscountPoolClient) Get(ctx context.Context, id uuid.UUID) (*DiscountPool, error) {
+	return c.Query().Where(discountpool.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *DiscountPoolClient) GetX(ctx context.Context, id uuid.UUID) *DiscountPool {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *DiscountPoolClient) Hooks() []Hook {
+	return c.hooks.DiscountPool
 }
 
 // NewUserRewardSettingClient is a client for the NewUserRewardSetting schema.

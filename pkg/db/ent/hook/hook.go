@@ -74,6 +74,19 @@ func (f DefaultKpiSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.
 	return f(ctx, mv)
 }
 
+// The DiscountPoolFunc type is an adapter to allow the use of ordinary
+// function as DiscountPool mutator.
+type DiscountPoolFunc func(context.Context, *ent.DiscountPoolMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f DiscountPoolFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.DiscountPoolMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DiscountPoolMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The NewUserRewardSettingFunc type is an adapter to allow the use of ordinary
 // function as NewUserRewardSetting mutator.
 type NewUserRewardSettingFunc func(context.Context, *ent.NewUserRewardSettingMutation) (ent.Value, error)

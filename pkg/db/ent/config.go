@@ -29,6 +29,7 @@ type hooks struct {
 	CouponAllocated        []ent.Hook
 	CouponPool             []ent.Hook
 	DefaultKpiSetting      []ent.Hook
+	DiscountPool           []ent.Hook
 	NewUserRewardSetting   []ent.Hook
 	PurchaseInvitation     []ent.Hook
 	RegistrationInvitation []ent.Hook

@@ -100,6 +100,26 @@ var (
 		Columns:    DefaultKpiSettingsColumns,
 		PrimaryKey: []*schema.Column{DefaultKpiSettingsColumns[0]},
 	}
+	// DiscountPoolsColumns holds the columns for the "discount_pools" table.
+	DiscountPoolsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "value", Type: field.TypeUint64},
+		{Name: "release_by_user_id", Type: field.TypeUUID},
+		{Name: "start", Type: field.TypeUint32},
+		{Name: "duration_days", Type: field.TypeInt32},
+		{Name: "message", Type: field.TypeString, Size: 512},
+		{Name: "name", Type: field.TypeString, Unique: true, Size: 64},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// DiscountPoolsTable holds the schema information for the "discount_pools" table.
+	DiscountPoolsTable = &schema.Table{
+		Name:       "discount_pools",
+		Columns:    DiscountPoolsColumns,
+		PrimaryKey: []*schema.Column{DiscountPoolsColumns[0]},
+	}
 	// NewUserRewardSettingsColumns holds the columns for the "new_user_reward_settings" table.
 	NewUserRewardSettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -192,6 +212,7 @@ var (
 		CouponAllocatedsTable,
 		CouponPoolsTable,
 		DefaultKpiSettingsTable,
+		DiscountPoolsTable,
 		NewUserRewardSettingsTable,
 		PurchaseInvitationsTable,
 		RegistrationInvitationsTable,
