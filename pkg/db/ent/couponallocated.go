@@ -20,6 +20,8 @@ type CouponAllocated struct {
 	UserID uuid.UUID `json:"user_id,omitempty"`
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
+	// Type holds the value of the "type" field.
+	Type couponallocated.Type `json:"type,omitempty"`
 	// Used holds the value of the "used" field.
 	Used bool `json:"used,omitempty"`
 	// CouponID holds the value of the "coupon_id" field.
@@ -41,6 +43,8 @@ func (*CouponAllocated) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullBool)
 		case couponallocated.FieldCreateAt, couponallocated.FieldUpdateAt, couponallocated.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
+		case couponallocated.FieldType:
+			values[i] = new(sql.NullString)
 		case couponallocated.FieldID, couponallocated.FieldUserID, couponallocated.FieldAppID, couponallocated.FieldCouponID:
 			values[i] = new(uuid.UUID)
 		default:
@@ -75,6 +79,12 @@ func (ca *CouponAllocated) assignValues(columns []string, values []interface{}) 
 				return fmt.Errorf("unexpected type %T for field app_id", values[i])
 			} else if value != nil {
 				ca.AppID = *value
+			}
+		case couponallocated.FieldType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field type", values[i])
+			} else if value.Valid {
+				ca.Type = couponallocated.Type(value.String)
 			}
 		case couponallocated.FieldUsed:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -138,6 +148,8 @@ func (ca *CouponAllocated) String() string {
 	builder.WriteString(fmt.Sprintf("%v", ca.UserID))
 	builder.WriteString(", app_id=")
 	builder.WriteString(fmt.Sprintf("%v", ca.AppID))
+	builder.WriteString(", type=")
+	builder.WriteString(fmt.Sprintf("%v", ca.Type))
 	builder.WriteString(", used=")
 	builder.WriteString(fmt.Sprintf("%v", ca.Used))
 	builder.WriteString(", coupon_id=")

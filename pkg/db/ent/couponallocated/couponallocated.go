@@ -3,6 +3,8 @@
 package couponallocated
 
 import (
+	"fmt"
+
 	"github.com/google/uuid"
 )
 
@@ -15,6 +17,8 @@ const (
 	FieldUserID = "user_id"
 	// FieldAppID holds the string denoting the app_id field in the database.
 	FieldAppID = "app_id"
+	// FieldType holds the string denoting the type field in the database.
+	FieldType = "type"
 	// FieldUsed holds the string denoting the used field in the database.
 	FieldUsed = "used"
 	// FieldCouponID holds the string denoting the coupon_id field in the database.
@@ -34,6 +38,7 @@ var Columns = []string{
 	FieldID,
 	FieldUserID,
 	FieldAppID,
+	FieldType,
 	FieldUsed,
 	FieldCouponID,
 	FieldCreateAt,
@@ -65,3 +70,26 @@ var (
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() uuid.UUID
 )
+
+// Type defines the type for the "type" enum field.
+type Type string
+
+// Type values.
+const (
+	TypeDiscount Type = "discount"
+	TypeCoupon   Type = "coupon"
+)
+
+func (_type Type) String() string {
+	return string(_type)
+}
+
+// TypeValidator is a validator for the "type" field enum values. It is called by the builders before save.
+func TypeValidator(_type Type) error {
+	switch _type {
+	case TypeDiscount, TypeCoupon:
+		return nil
+	default:
+		return fmt.Errorf("couponallocated: invalid enum value for type field: %q", _type)
+	}
+}

@@ -98,10 +98,10 @@ func AppID(v uuid.UUID) predicate.DiscountPool {
 	})
 }
 
-// Value applies equality check predicate on the "value" field. It's identical to ValueEQ.
-func Value(v uint64) predicate.DiscountPool {
+// Discount applies equality check predicate on the "discount" field. It's identical to DiscountEQ.
+func Discount(v uint32) predicate.DiscountPool {
 	return predicate.DiscountPool(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldValue), v))
+		s.Where(sql.EQ(s.C(FieldDiscount), v))
 	})
 }
 
@@ -237,22 +237,22 @@ func AppIDLTE(v uuid.UUID) predicate.DiscountPool {
 	})
 }
 
-// ValueEQ applies the EQ predicate on the "value" field.
-func ValueEQ(v uint64) predicate.DiscountPool {
+// DiscountEQ applies the EQ predicate on the "discount" field.
+func DiscountEQ(v uint32) predicate.DiscountPool {
 	return predicate.DiscountPool(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldValue), v))
+		s.Where(sql.EQ(s.C(FieldDiscount), v))
 	})
 }
 
-// ValueNEQ applies the NEQ predicate on the "value" field.
-func ValueNEQ(v uint64) predicate.DiscountPool {
+// DiscountNEQ applies the NEQ predicate on the "discount" field.
+func DiscountNEQ(v uint32) predicate.DiscountPool {
 	return predicate.DiscountPool(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldValue), v))
+		s.Where(sql.NEQ(s.C(FieldDiscount), v))
 	})
 }
 
-// ValueIn applies the In predicate on the "value" field.
-func ValueIn(vs ...uint64) predicate.DiscountPool {
+// DiscountIn applies the In predicate on the "discount" field.
+func DiscountIn(vs ...uint32) predicate.DiscountPool {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -264,12 +264,12 @@ func ValueIn(vs ...uint64) predicate.DiscountPool {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldValue), v...))
+		s.Where(sql.In(s.C(FieldDiscount), v...))
 	})
 }
 
-// ValueNotIn applies the NotIn predicate on the "value" field.
-func ValueNotIn(vs ...uint64) predicate.DiscountPool {
+// DiscountNotIn applies the NotIn predicate on the "discount" field.
+func DiscountNotIn(vs ...uint32) predicate.DiscountPool {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -281,35 +281,35 @@ func ValueNotIn(vs ...uint64) predicate.DiscountPool {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldValue), v...))
+		s.Where(sql.NotIn(s.C(FieldDiscount), v...))
 	})
 }
 
-// ValueGT applies the GT predicate on the "value" field.
-func ValueGT(v uint64) predicate.DiscountPool {
+// DiscountGT applies the GT predicate on the "discount" field.
+func DiscountGT(v uint32) predicate.DiscountPool {
 	return predicate.DiscountPool(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldValue), v))
+		s.Where(sql.GT(s.C(FieldDiscount), v))
 	})
 }
 
-// ValueGTE applies the GTE predicate on the "value" field.
-func ValueGTE(v uint64) predicate.DiscountPool {
+// DiscountGTE applies the GTE predicate on the "discount" field.
+func DiscountGTE(v uint32) predicate.DiscountPool {
 	return predicate.DiscountPool(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldValue), v))
+		s.Where(sql.GTE(s.C(FieldDiscount), v))
 	})
 }
 
-// ValueLT applies the LT predicate on the "value" field.
-func ValueLT(v uint64) predicate.DiscountPool {
+// DiscountLT applies the LT predicate on the "discount" field.
+func DiscountLT(v uint32) predicate.DiscountPool {
 	return predicate.DiscountPool(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldValue), v))
+		s.Where(sql.LT(s.C(FieldDiscount), v))
 	})
 }
 
-// ValueLTE applies the LTE predicate on the "value" field.
-func ValueLTE(v uint64) predicate.DiscountPool {
+// DiscountLTE applies the LTE predicate on the "discount" field.
+func DiscountLTE(v uint32) predicate.DiscountPool {
 	return predicate.DiscountPool(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldValue), v))
+		s.Where(sql.LTE(s.C(FieldDiscount), v))
 	})
 }
 

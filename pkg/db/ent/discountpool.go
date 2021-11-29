@@ -18,8 +18,8 @@ type DiscountPool struct {
 	ID uuid.UUID `json:"id,omitempty"`
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
-	// Value holds the value of the "value" field.
-	Value uint64 `json:"value,omitempty"`
+	// Discount holds the value of the "discount" field.
+	Discount uint32 `json:"discount,omitempty"`
 	// ReleaseByUserID holds the value of the "release_by_user_id" field.
 	ReleaseByUserID uuid.UUID `json:"release_by_user_id,omitempty"`
 	// Start holds the value of the "start" field.
@@ -43,7 +43,7 @@ func (*DiscountPool) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case discountpool.FieldValue, discountpool.FieldStart, discountpool.FieldDurationDays, discountpool.FieldCreateAt, discountpool.FieldUpdateAt, discountpool.FieldDeleteAt:
+		case discountpool.FieldDiscount, discountpool.FieldStart, discountpool.FieldDurationDays, discountpool.FieldCreateAt, discountpool.FieldUpdateAt, discountpool.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case discountpool.FieldMessage, discountpool.FieldName:
 			values[i] = new(sql.NullString)
@@ -76,11 +76,11 @@ func (dp *DiscountPool) assignValues(columns []string, values []interface{}) err
 			} else if value != nil {
 				dp.AppID = *value
 			}
-		case discountpool.FieldValue:
+		case discountpool.FieldDiscount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field value", values[i])
+				return fmt.Errorf("unexpected type %T for field discount", values[i])
 			} else if value.Valid {
-				dp.Value = uint64(value.Int64)
+				dp.Discount = uint32(value.Int64)
 			}
 		case discountpool.FieldReleaseByUserID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -160,8 +160,8 @@ func (dp *DiscountPool) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", dp.ID))
 	builder.WriteString(", app_id=")
 	builder.WriteString(fmt.Sprintf("%v", dp.AppID))
-	builder.WriteString(", value=")
-	builder.WriteString(fmt.Sprintf("%v", dp.Value))
+	builder.WriteString(", discount=")
+	builder.WriteString(fmt.Sprintf("%v", dp.Discount))
 	builder.WriteString(", release_by_user_id=")
 	builder.WriteString(fmt.Sprintf("%v", dp.ReleaseByUserID))
 	builder.WriteString(", start=")

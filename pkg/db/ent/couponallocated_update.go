@@ -39,6 +39,12 @@ func (cau *CouponAllocatedUpdate) SetAppID(u uuid.UUID) *CouponAllocatedUpdate {
 	return cau
 }
 
+// SetType sets the "type" field.
+func (cau *CouponAllocatedUpdate) SetType(c couponallocated.Type) *CouponAllocatedUpdate {
+	cau.mutation.SetType(c)
+	return cau
+}
+
 // SetUsed sets the "used" field.
 func (cau *CouponAllocatedUpdate) SetUsed(b bool) *CouponAllocatedUpdate {
 	cau.mutation.SetUsed(b)
@@ -127,12 +133,18 @@ func (cau *CouponAllocatedUpdate) Save(ctx context.Context) (int, error) {
 	)
 	cau.defaults()
 	if len(cau.hooks) == 0 {
+		if err = cau.check(); err != nil {
+			return 0, err
+		}
 		affected, err = cau.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*CouponAllocatedMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = cau.check(); err != nil {
+				return 0, err
 			}
 			cau.mutation = mutation
 			affected, err = cau.sqlSave(ctx)
@@ -182,6 +194,16 @@ func (cau *CouponAllocatedUpdate) defaults() {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (cau *CouponAllocatedUpdate) check() error {
+	if v, ok := cau.mutation.GetType(); ok {
+		if err := couponallocated.TypeValidator(v); err != nil {
+			return &ValidationError{Name: "type", err: fmt.Errorf("ent: validator failed for field \"type\": %w", err)}
+		}
+	}
+	return nil
+}
+
 func (cau *CouponAllocatedUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -212,6 +234,13 @@ func (cau *CouponAllocatedUpdate) sqlSave(ctx context.Context) (n int, err error
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: couponallocated.FieldAppID,
+		})
+	}
+	if value, ok := cau.mutation.GetType(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeEnum,
+			Value:  value,
+			Column: couponallocated.FieldType,
 		})
 	}
 	if value, ok := cau.mutation.Used(); ok {
@@ -298,6 +327,12 @@ func (cauo *CouponAllocatedUpdateOne) SetUserID(u uuid.UUID) *CouponAllocatedUpd
 // SetAppID sets the "app_id" field.
 func (cauo *CouponAllocatedUpdateOne) SetAppID(u uuid.UUID) *CouponAllocatedUpdateOne {
 	cauo.mutation.SetAppID(u)
+	return cauo
+}
+
+// SetType sets the "type" field.
+func (cauo *CouponAllocatedUpdateOne) SetType(c couponallocated.Type) *CouponAllocatedUpdateOne {
+	cauo.mutation.SetType(c)
 	return cauo
 }
 
@@ -396,12 +431,18 @@ func (cauo *CouponAllocatedUpdateOne) Save(ctx context.Context) (*CouponAllocate
 	)
 	cauo.defaults()
 	if len(cauo.hooks) == 0 {
+		if err = cauo.check(); err != nil {
+			return nil, err
+		}
 		node, err = cauo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*CouponAllocatedMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = cauo.check(); err != nil {
+				return nil, err
 			}
 			cauo.mutation = mutation
 			node, err = cauo.sqlSave(ctx)
@@ -451,6 +492,16 @@ func (cauo *CouponAllocatedUpdateOne) defaults() {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (cauo *CouponAllocatedUpdateOne) check() error {
+	if v, ok := cauo.mutation.GetType(); ok {
+		if err := couponallocated.TypeValidator(v); err != nil {
+			return &ValidationError{Name: "type", err: fmt.Errorf("ent: validator failed for field \"type\": %w", err)}
+		}
+	}
+	return nil
+}
+
 func (cauo *CouponAllocatedUpdateOne) sqlSave(ctx context.Context) (_node *CouponAllocated, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -498,6 +549,13 @@ func (cauo *CouponAllocatedUpdateOne) sqlSave(ctx context.Context) (_node *Coupo
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: couponallocated.FieldAppID,
+		})
+	}
+	if value, ok := cauo.mutation.GetType(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeEnum,
+			Value:  value,
+			Column: couponallocated.FieldType,
 		})
 	}
 	if value, ok := cauo.mutation.Used(); ok {

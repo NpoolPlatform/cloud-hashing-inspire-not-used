@@ -35,6 +35,12 @@ func (cac *CouponAllocatedCreate) SetAppID(u uuid.UUID) *CouponAllocatedCreate {
 	return cac
 }
 
+// SetType sets the "type" field.
+func (cac *CouponAllocatedCreate) SetType(c couponallocated.Type) *CouponAllocatedCreate {
+	cac.mutation.SetType(c)
+	return cac
+}
+
 // SetUsed sets the "used" field.
 func (cac *CouponAllocatedCreate) SetUsed(b bool) *CouponAllocatedCreate {
 	cac.mutation.SetUsed(b)
@@ -204,6 +210,14 @@ func (cac *CouponAllocatedCreate) check() error {
 	if _, ok := cac.mutation.AppID(); !ok {
 		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
 	}
+	if _, ok := cac.mutation.GetType(); !ok {
+		return &ValidationError{Name: "type", err: errors.New(`ent: missing required field "type"`)}
+	}
+	if v, ok := cac.mutation.GetType(); ok {
+		if err := couponallocated.TypeValidator(v); err != nil {
+			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "type": %w`, err)}
+		}
+	}
 	if _, ok := cac.mutation.Used(); !ok {
 		return &ValidationError{Name: "used", err: errors.New(`ent: missing required field "used"`)}
 	}
@@ -267,6 +281,14 @@ func (cac *CouponAllocatedCreate) createSpec() (*CouponAllocated, *sqlgraph.Crea
 			Column: couponallocated.FieldAppID,
 		})
 		_node.AppID = value
+	}
+	if value, ok := cac.mutation.GetType(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeEnum,
+			Value:  value,
+			Column: couponallocated.FieldType,
+		})
+		_node.Type = value
 	}
 	if value, ok := cac.mutation.Used(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -383,6 +405,18 @@ func (u *CouponAllocatedUpsert) SetAppID(v uuid.UUID) *CouponAllocatedUpsert {
 // UpdateAppID sets the "app_id" field to the value that was provided on create.
 func (u *CouponAllocatedUpsert) UpdateAppID() *CouponAllocatedUpsert {
 	u.SetExcluded(couponallocated.FieldAppID)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *CouponAllocatedUpsert) SetType(v couponallocated.Type) *CouponAllocatedUpsert {
+	u.Set(couponallocated.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *CouponAllocatedUpsert) UpdateType() *CouponAllocatedUpsert {
+	u.SetExcluded(couponallocated.FieldType)
 	return u
 }
 
@@ -521,6 +555,20 @@ func (u *CouponAllocatedUpsertOne) SetAppID(v uuid.UUID) *CouponAllocatedUpsertO
 func (u *CouponAllocatedUpsertOne) UpdateAppID() *CouponAllocatedUpsertOne {
 	return u.Update(func(s *CouponAllocatedUpsert) {
 		s.UpdateAppID()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *CouponAllocatedUpsertOne) SetType(v couponallocated.Type) *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertOne) UpdateType() *CouponAllocatedUpsertOne {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateType()
 	})
 }
 
@@ -835,6 +883,20 @@ func (u *CouponAllocatedUpsertBulk) SetAppID(v uuid.UUID) *CouponAllocatedUpsert
 func (u *CouponAllocatedUpsertBulk) UpdateAppID() *CouponAllocatedUpsertBulk {
 	return u.Update(func(s *CouponAllocatedUpsert) {
 		s.UpdateAppID()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *CouponAllocatedUpsertBulk) SetType(v couponallocated.Type) *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *CouponAllocatedUpsertBulk) UpdateType() *CouponAllocatedUpsertBulk {
+	return u.Update(func(s *CouponAllocatedUpsert) {
+		s.UpdateType()
 	})
 }
 

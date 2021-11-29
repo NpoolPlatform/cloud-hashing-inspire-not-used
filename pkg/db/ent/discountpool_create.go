@@ -29,9 +29,9 @@ func (dpc *DiscountPoolCreate) SetAppID(u uuid.UUID) *DiscountPoolCreate {
 	return dpc
 }
 
-// SetValue sets the "value" field.
-func (dpc *DiscountPoolCreate) SetValue(u uint64) *DiscountPoolCreate {
-	dpc.mutation.SetValue(u)
+// SetDiscount sets the "discount" field.
+func (dpc *DiscountPoolCreate) SetDiscount(u uint32) *DiscountPoolCreate {
+	dpc.mutation.SetDiscount(u)
 	return dpc
 }
 
@@ -207,8 +207,8 @@ func (dpc *DiscountPoolCreate) check() error {
 	if _, ok := dpc.mutation.AppID(); !ok {
 		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
 	}
-	if _, ok := dpc.mutation.Value(); !ok {
-		return &ValidationError{Name: "value", err: errors.New(`ent: missing required field "value"`)}
+	if _, ok := dpc.mutation.Discount(); !ok {
+		return &ValidationError{Name: "discount", err: errors.New(`ent: missing required field "discount"`)}
 	}
 	if _, ok := dpc.mutation.ReleaseByUserID(); !ok {
 		return &ValidationError{Name: "release_by_user_id", err: errors.New(`ent: missing required field "release_by_user_id"`)}
@@ -285,13 +285,13 @@ func (dpc *DiscountPoolCreate) createSpec() (*DiscountPool, *sqlgraph.CreateSpec
 		})
 		_node.AppID = value
 	}
-	if value, ok := dpc.mutation.Value(); ok {
+	if value, ok := dpc.mutation.Discount(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUint64,
+			Type:   field.TypeUint32,
 			Value:  value,
-			Column: discountpool.FieldValue,
+			Column: discountpool.FieldDiscount,
 		})
-		_node.Value = value
+		_node.Discount = value
 	}
 	if value, ok := dpc.mutation.ReleaseByUserID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -423,15 +423,15 @@ func (u *DiscountPoolUpsert) UpdateAppID() *DiscountPoolUpsert {
 	return u
 }
 
-// SetValue sets the "value" field.
-func (u *DiscountPoolUpsert) SetValue(v uint64) *DiscountPoolUpsert {
-	u.Set(discountpool.FieldValue, v)
+// SetDiscount sets the "discount" field.
+func (u *DiscountPoolUpsert) SetDiscount(v uint32) *DiscountPoolUpsert {
+	u.Set(discountpool.FieldDiscount, v)
 	return u
 }
 
-// UpdateValue sets the "value" field to the value that was provided on create.
-func (u *DiscountPoolUpsert) UpdateValue() *DiscountPoolUpsert {
-	u.SetExcluded(discountpool.FieldValue)
+// UpdateDiscount sets the "discount" field to the value that was provided on create.
+func (u *DiscountPoolUpsert) UpdateDiscount() *DiscountPoolUpsert {
+	u.SetExcluded(discountpool.FieldDiscount)
 	return u
 }
 
@@ -595,17 +595,17 @@ func (u *DiscountPoolUpsertOne) UpdateAppID() *DiscountPoolUpsertOne {
 	})
 }
 
-// SetValue sets the "value" field.
-func (u *DiscountPoolUpsertOne) SetValue(v uint64) *DiscountPoolUpsertOne {
+// SetDiscount sets the "discount" field.
+func (u *DiscountPoolUpsertOne) SetDiscount(v uint32) *DiscountPoolUpsertOne {
 	return u.Update(func(s *DiscountPoolUpsert) {
-		s.SetValue(v)
+		s.SetDiscount(v)
 	})
 }
 
-// UpdateValue sets the "value" field to the value that was provided on create.
-func (u *DiscountPoolUpsertOne) UpdateValue() *DiscountPoolUpsertOne {
+// UpdateDiscount sets the "discount" field to the value that was provided on create.
+func (u *DiscountPoolUpsertOne) UpdateDiscount() *DiscountPoolUpsertOne {
 	return u.Update(func(s *DiscountPoolUpsert) {
-		s.UpdateValue()
+		s.UpdateDiscount()
 	})
 }
 
@@ -951,17 +951,17 @@ func (u *DiscountPoolUpsertBulk) UpdateAppID() *DiscountPoolUpsertBulk {
 	})
 }
 
-// SetValue sets the "value" field.
-func (u *DiscountPoolUpsertBulk) SetValue(v uint64) *DiscountPoolUpsertBulk {
+// SetDiscount sets the "discount" field.
+func (u *DiscountPoolUpsertBulk) SetDiscount(v uint32) *DiscountPoolUpsertBulk {
 	return u.Update(func(s *DiscountPoolUpsert) {
-		s.SetValue(v)
+		s.SetDiscount(v)
 	})
 }
 
-// UpdateValue sets the "value" field to the value that was provided on create.
-func (u *DiscountPoolUpsertBulk) UpdateValue() *DiscountPoolUpsertBulk {
+// UpdateDiscount sets the "discount" field to the value that was provided on create.
+func (u *DiscountPoolUpsertBulk) UpdateDiscount() *DiscountPoolUpsertBulk {
 	return u.Update(func(s *DiscountPoolUpsert) {
-		s.UpdateValue()
+		s.UpdateDiscount()
 	})
 }
 

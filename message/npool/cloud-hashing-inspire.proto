@@ -258,6 +258,37 @@ service CloudHashingInspire {
         };
     }
 
+    rpc CreateDiscountPool(CreateDiscountPoolRequest) returns (CreateDiscountPoolResponse) {
+        option (google.api.http) = {
+            post: "/v1/create/discount/pool"
+            body: "*"
+        };
+    }
+    rpc UpdateDiscountPool(UpdateDiscountPoolRequest) returns (UpdateDiscountPoolResponse) {
+        option (google.api.http) = {
+            post: "/v1/update/discount/pool"
+            body: "*"
+        };
+    }
+    rpc GetDiscountPool(GetDiscountPoolRequest) returns (GetDiscountPoolResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/discount/pool"
+            body: "*"
+        };
+    }
+    rpc GetDiscountPoolsByApp(GetDiscountPoolsByAppRequest) returns (GetDiscountPoolsByAppResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/discount/pools/by/app"
+            body: "*"
+        };
+    }
+    rpc GetDiscountPoolsByAppReleaser(GetDiscountPoolsByAppReleaserRequest) returns (GetDiscountPoolsByAppReleaserResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/discount/pools/by/app/releaser"
+            body: "*"
+        };
+    }
+
     rpc CreateAppCouponSetting(CreateAppCouponSettingRequest) returns (CreateAppCouponSettingResponse) {
         option (google.api.http) = {
             post: "/v1/create/app/coupon/setting"
@@ -575,8 +606,9 @@ message CouponAllocated {
     string ID = 3600;
     string UserID = 3601;
     string AppID = 3602;
-    bool Used = 3603;
-    string CouponID = 3604;
+    string Type = 3603;
+    bool Used = 3604;
+    string CouponID = 3605;
 }
 
 message CreateCouponAllocatedRequest {
@@ -872,3 +904,56 @@ message GetCouponsAllocatedDetailByAppUserRequest {
 message GetCouponsAllocatedDetailByAppUserResponse {
     repeated CouponAllocatedDetail Infos = 10100;
 }
+
+message DiscountPool {
+    string ID = 4600;
+    string AppID = 4601;
+    string ReleaseByUserID = 4602;
+    uint32 Discount = 4604;
+    uint32 Start = 4605;
+    int32 DurationDays = 4606;
+    string Message = 4607;
+    string Name = 4608;
+}
+
+message CreateDiscountPoolRequest {
+    DiscountPool Info = 4700;
+}
+
+message CreateDiscountPoolResponse {
+    DiscountPool Info = 4800;
+}
+
+message UpdateDiscountPoolRequest {
+    DiscountPool Info = 4810;
+}
+
+message UpdateDiscountPoolResponse {
+    DiscountPool Info = 4820;
+}
+
+message GetDiscountPoolRequest {
+    string ID = 4900;
+}
+
+message GetDiscountPoolResponse {
+    DiscountPool Info = 5000;
+}
+
+message GetDiscountPoolsByAppRequest {
+    string AppID = 5100;
+}
+
+message GetDiscountPoolsByAppResponse {
+    repeated DiscountPool Infos = 5200;
+}
+
+message GetDiscountPoolsByAppReleaserRequest {
+    string AppID = 5300;
+    string UserID = 5301;
+}
+
+message GetDiscountPoolsByAppReleaserResponse {
+    repeated DiscountPool Infos = 5400;
+}
+

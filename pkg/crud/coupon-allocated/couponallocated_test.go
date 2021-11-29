@@ -39,6 +39,7 @@ func TestCRUD(t *testing.T) {
 	coupon := npool.CouponAllocated{
 		AppID:    uuid.New().String(),
 		UserID:   uuid.New().String(),
+		Type:     "discount",
 		CouponID: uuid.New().String(),
 	}
 

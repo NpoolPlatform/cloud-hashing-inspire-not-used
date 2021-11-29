@@ -32,6 +32,7 @@ func dbRowToCouponAllocated(row *ent.CouponAllocated) *npool.CouponAllocated {
 		ID:       row.ID.String(),
 		UserID:   row.UserID.String(),
 		AppID:    row.AppID.String(),
+		Type:     string(row.Type),
 		Used:     row.Used,
 		CouponID: row.CouponID.String(),
 	}
@@ -47,6 +48,7 @@ func Create(ctx context.Context, in *npool.CreateCouponAllocatedRequest) (*npool
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
 		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
+		SetType(couponallocated.Type(in.GetInfo().GetType())).
 		SetCouponID(uuid.MustParse(in.GetInfo().GetCouponID())).
 		SetUsed(false).
 		Save(ctx)

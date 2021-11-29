@@ -21,7 +21,7 @@ func (DiscountPool) Fields() []ent.Field {
 			Default(uuid.New).
 			Unique(),
 		field.UUID("app_id", uuid.UUID{}),
-		field.Uint64("value"),
+		field.Uint32("discount"),
 		field.UUID("release_by_user_id", uuid.UUID{}),
 		field.Uint32("start"),
 		field.Int32("duration_days"),

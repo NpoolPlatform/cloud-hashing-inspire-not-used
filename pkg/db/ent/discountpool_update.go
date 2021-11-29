@@ -33,16 +33,16 @@ func (dpu *DiscountPoolUpdate) SetAppID(u uuid.UUID) *DiscountPoolUpdate {
 	return dpu
 }
 
-// SetValue sets the "value" field.
-func (dpu *DiscountPoolUpdate) SetValue(u uint64) *DiscountPoolUpdate {
-	dpu.mutation.ResetValue()
-	dpu.mutation.SetValue(u)
+// SetDiscount sets the "discount" field.
+func (dpu *DiscountPoolUpdate) SetDiscount(u uint32) *DiscountPoolUpdate {
+	dpu.mutation.ResetDiscount()
+	dpu.mutation.SetDiscount(u)
 	return dpu
 }
 
-// AddValue adds u to the "value" field.
-func (dpu *DiscountPoolUpdate) AddValue(u uint64) *DiscountPoolUpdate {
-	dpu.mutation.AddValue(u)
+// AddDiscount adds u to the "discount" field.
+func (dpu *DiscountPoolUpdate) AddDiscount(u uint32) *DiscountPoolUpdate {
+	dpu.mutation.AddDiscount(u)
 	return dpu
 }
 
@@ -259,18 +259,18 @@ func (dpu *DiscountPoolUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: discountpool.FieldAppID,
 		})
 	}
-	if value, ok := dpu.mutation.Value(); ok {
+	if value, ok := dpu.mutation.Discount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUint64,
+			Type:   field.TypeUint32,
 			Value:  value,
-			Column: discountpool.FieldValue,
+			Column: discountpool.FieldDiscount,
 		})
 	}
-	if value, ok := dpu.mutation.AddedValue(); ok {
+	if value, ok := dpu.mutation.AddedDiscount(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeUint64,
+			Type:   field.TypeUint32,
 			Value:  value,
-			Column: discountpool.FieldValue,
+			Column: discountpool.FieldDiscount,
 		})
 	}
 	if value, ok := dpu.mutation.ReleaseByUserID(); ok {
@@ -389,16 +389,16 @@ func (dpuo *DiscountPoolUpdateOne) SetAppID(u uuid.UUID) *DiscountPoolUpdateOne 
 	return dpuo
 }
 
-// SetValue sets the "value" field.
-func (dpuo *DiscountPoolUpdateOne) SetValue(u uint64) *DiscountPoolUpdateOne {
-	dpuo.mutation.ResetValue()
-	dpuo.mutation.SetValue(u)
+// SetDiscount sets the "discount" field.
+func (dpuo *DiscountPoolUpdateOne) SetDiscount(u uint32) *DiscountPoolUpdateOne {
+	dpuo.mutation.ResetDiscount()
+	dpuo.mutation.SetDiscount(u)
 	return dpuo
 }
 
-// AddValue adds u to the "value" field.
-func (dpuo *DiscountPoolUpdateOne) AddValue(u uint64) *DiscountPoolUpdateOne {
-	dpuo.mutation.AddValue(u)
+// AddDiscount adds u to the "discount" field.
+func (dpuo *DiscountPoolUpdateOne) AddDiscount(u uint32) *DiscountPoolUpdateOne {
+	dpuo.mutation.AddDiscount(u)
 	return dpuo
 }
 
@@ -639,18 +639,18 @@ func (dpuo *DiscountPoolUpdateOne) sqlSave(ctx context.Context) (_node *Discount
 			Column: discountpool.FieldAppID,
 		})
 	}
-	if value, ok := dpuo.mutation.Value(); ok {
+	if value, ok := dpuo.mutation.Discount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUint64,
+			Type:   field.TypeUint32,
 			Value:  value,
-			Column: discountpool.FieldValue,
+			Column: discountpool.FieldDiscount,
 		})
 	}
-	if value, ok := dpuo.mutation.AddedValue(); ok {
+	if value, ok := dpuo.mutation.AddedDiscount(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeUint64,
+			Type:   field.TypeUint32,
 			Value:  value,
-			Column: discountpool.FieldValue,
+			Column: discountpool.FieldDiscount,
 		})
 	}
 	if value, ok := dpuo.mutation.ReleaseByUserID(); ok {

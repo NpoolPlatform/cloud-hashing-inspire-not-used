@@ -13,8 +13,8 @@ const (
 	FieldID = "id"
 	// FieldAppID holds the string denoting the app_id field in the database.
 	FieldAppID = "app_id"
-	// FieldValue holds the string denoting the value field in the database.
-	FieldValue = "value"
+	// FieldDiscount holds the string denoting the discount field in the database.
+	FieldDiscount = "discount"
 	// FieldReleaseByUserID holds the string denoting the release_by_user_id field in the database.
 	FieldReleaseByUserID = "release_by_user_id"
 	// FieldStart holds the string denoting the start field in the database.
@@ -39,7 +39,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldAppID,
-	FieldValue,
+	FieldDiscount,
 	FieldReleaseByUserID,
 	FieldStart,
 	FieldDurationDays,

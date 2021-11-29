@@ -50,6 +50,7 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "type", Type: field.TypeEnum, Enums: []string{"discount", "coupon"}},
 		{Name: "used", Type: field.TypeBool, Default: false},
 		{Name: "coupon_id", Type: field.TypeUUID},
 		{Name: "create_at", Type: field.TypeUint32},
@@ -104,7 +105,7 @@ var (
 	DiscountPoolsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "app_id", Type: field.TypeUUID},
-		{Name: "value", Type: field.TypeUint64},
+		{Name: "discount", Type: field.TypeUint32},
 		{Name: "release_by_user_id", Type: field.TypeUUID},
 		{Name: "start", Type: field.TypeUint32},
 		{Name: "duration_days", Type: field.TypeInt32},

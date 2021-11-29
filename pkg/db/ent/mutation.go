@@ -1895,6 +1895,7 @@ type CouponAllocatedMutation struct {
 	id            *uuid.UUID
 	user_id       *uuid.UUID
 	app_id        *uuid.UUID
+	_type         *couponallocated.Type
 	used          *bool
 	coupon_id     *uuid.UUID
 	create_at     *uint32
@@ -2064,6 +2065,42 @@ func (m *CouponAllocatedMutation) OldAppID(ctx context.Context) (v uuid.UUID, er
 // ResetAppID resets all changes to the "app_id" field.
 func (m *CouponAllocatedMutation) ResetAppID() {
 	m.app_id = nil
+}
+
+// SetType sets the "type" field.
+func (m *CouponAllocatedMutation) SetType(c couponallocated.Type) {
+	m._type = &c
+}
+
+// GetType returns the value of the "type" field in the mutation.
+func (m *CouponAllocatedMutation) GetType() (r couponallocated.Type, exists bool) {
+	v := m._type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldType returns the old "type" field's value of the CouponAllocated entity.
+// If the CouponAllocated object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CouponAllocatedMutation) OldType(ctx context.Context) (v couponallocated.Type, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldType: %w", err)
+	}
+	return oldValue.Type, nil
+}
+
+// ResetType resets all changes to the "type" field.
+func (m *CouponAllocatedMutation) ResetType() {
+	m._type = nil
 }
 
 // SetUsed sets the "used" field.
@@ -2325,12 +2362,15 @@ func (m *CouponAllocatedMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CouponAllocatedMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 8)
 	if m.user_id != nil {
 		fields = append(fields, couponallocated.FieldUserID)
 	}
 	if m.app_id != nil {
 		fields = append(fields, couponallocated.FieldAppID)
+	}
+	if m._type != nil {
+		fields = append(fields, couponallocated.FieldType)
 	}
 	if m.used != nil {
 		fields = append(fields, couponallocated.FieldUsed)
@@ -2359,6 +2399,8 @@ func (m *CouponAllocatedMutation) Field(name string) (ent.Value, bool) {
 		return m.UserID()
 	case couponallocated.FieldAppID:
 		return m.AppID()
+	case couponallocated.FieldType:
+		return m.GetType()
 	case couponallocated.FieldUsed:
 		return m.Used()
 	case couponallocated.FieldCouponID:
@@ -2382,6 +2424,8 @@ func (m *CouponAllocatedMutation) OldField(ctx context.Context, name string) (en
 		return m.OldUserID(ctx)
 	case couponallocated.FieldAppID:
 		return m.OldAppID(ctx)
+	case couponallocated.FieldType:
+		return m.OldType(ctx)
 	case couponallocated.FieldUsed:
 		return m.OldUsed(ctx)
 	case couponallocated.FieldCouponID:
@@ -2414,6 +2458,13 @@ func (m *CouponAllocatedMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAppID(v)
+		return nil
+	case couponallocated.FieldType:
+		v, ok := value.(couponallocated.Type)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetType(v)
 		return nil
 	case couponallocated.FieldUsed:
 		v, ok := value.(bool)
@@ -2543,6 +2594,9 @@ func (m *CouponAllocatedMutation) ResetField(name string) error {
 		return nil
 	case couponallocated.FieldAppID:
 		m.ResetAppID()
+		return nil
+	case couponallocated.FieldType:
+		m.ResetType()
 		return nil
 	case couponallocated.FieldUsed:
 		m.ResetUsed()
@@ -4480,8 +4534,8 @@ type DiscountPoolMutation struct {
 	typ                string
 	id                 *uuid.UUID
 	app_id             *uuid.UUID
-	value              *uint64
-	addvalue           *uint64
+	discount           *uint32
+	adddiscount        *uint32
 	release_by_user_id *uuid.UUID
 	start              *uint32
 	addstart           *uint32
@@ -4622,60 +4676,60 @@ func (m *DiscountPoolMutation) ResetAppID() {
 	m.app_id = nil
 }
 
-// SetValue sets the "value" field.
-func (m *DiscountPoolMutation) SetValue(u uint64) {
-	m.value = &u
-	m.addvalue = nil
+// SetDiscount sets the "discount" field.
+func (m *DiscountPoolMutation) SetDiscount(u uint32) {
+	m.discount = &u
+	m.adddiscount = nil
 }
 
-// Value returns the value of the "value" field in the mutation.
-func (m *DiscountPoolMutation) Value() (r uint64, exists bool) {
-	v := m.value
+// Discount returns the value of the "discount" field in the mutation.
+func (m *DiscountPoolMutation) Discount() (r uint32, exists bool) {
+	v := m.discount
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldValue returns the old "value" field's value of the DiscountPool entity.
+// OldDiscount returns the old "discount" field's value of the DiscountPool entity.
 // If the DiscountPool object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DiscountPoolMutation) OldValue(ctx context.Context) (v uint64, err error) {
+func (m *DiscountPoolMutation) OldDiscount(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldValue is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldDiscount is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldValue requires an ID field in the mutation")
+		return v, fmt.Errorf("OldDiscount requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldValue: %w", err)
+		return v, fmt.Errorf("querying old value for OldDiscount: %w", err)
 	}
-	return oldValue.Value, nil
+	return oldValue.Discount, nil
 }
 
-// AddValue adds u to the "value" field.
-func (m *DiscountPoolMutation) AddValue(u uint64) {
-	if m.addvalue != nil {
-		*m.addvalue += u
+// AddDiscount adds u to the "discount" field.
+func (m *DiscountPoolMutation) AddDiscount(u uint32) {
+	if m.adddiscount != nil {
+		*m.adddiscount += u
 	} else {
-		m.addvalue = &u
+		m.adddiscount = &u
 	}
 }
 
-// AddedValue returns the value that was added to the "value" field in this mutation.
-func (m *DiscountPoolMutation) AddedValue() (r uint64, exists bool) {
-	v := m.addvalue
+// AddedDiscount returns the value that was added to the "discount" field in this mutation.
+func (m *DiscountPoolMutation) AddedDiscount() (r uint32, exists bool) {
+	v := m.adddiscount
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetValue resets all changes to the "value" field.
-func (m *DiscountPoolMutation) ResetValue() {
-	m.value = nil
-	m.addvalue = nil
+// ResetDiscount resets all changes to the "discount" field.
+func (m *DiscountPoolMutation) ResetDiscount() {
+	m.discount = nil
+	m.adddiscount = nil
 }
 
 // SetReleaseByUserID sets the "release_by_user_id" field.
@@ -5089,8 +5143,8 @@ func (m *DiscountPoolMutation) Fields() []string {
 	if m.app_id != nil {
 		fields = append(fields, discountpool.FieldAppID)
 	}
-	if m.value != nil {
-		fields = append(fields, discountpool.FieldValue)
+	if m.discount != nil {
+		fields = append(fields, discountpool.FieldDiscount)
 	}
 	if m.release_by_user_id != nil {
 		fields = append(fields, discountpool.FieldReleaseByUserID)
@@ -5126,8 +5180,8 @@ func (m *DiscountPoolMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case discountpool.FieldAppID:
 		return m.AppID()
-	case discountpool.FieldValue:
-		return m.Value()
+	case discountpool.FieldDiscount:
+		return m.Discount()
 	case discountpool.FieldReleaseByUserID:
 		return m.ReleaseByUserID()
 	case discountpool.FieldStart:
@@ -5155,8 +5209,8 @@ func (m *DiscountPoolMutation) OldField(ctx context.Context, name string) (ent.V
 	switch name {
 	case discountpool.FieldAppID:
 		return m.OldAppID(ctx)
-	case discountpool.FieldValue:
-		return m.OldValue(ctx)
+	case discountpool.FieldDiscount:
+		return m.OldDiscount(ctx)
 	case discountpool.FieldReleaseByUserID:
 		return m.OldReleaseByUserID(ctx)
 	case discountpool.FieldStart:
@@ -5189,12 +5243,12 @@ func (m *DiscountPoolMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetAppID(v)
 		return nil
-	case discountpool.FieldValue:
-		v, ok := value.(uint64)
+	case discountpool.FieldDiscount:
+		v, ok := value.(uint32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetValue(v)
+		m.SetDiscount(v)
 		return nil
 	case discountpool.FieldReleaseByUserID:
 		v, ok := value.(uuid.UUID)
@@ -5260,8 +5314,8 @@ func (m *DiscountPoolMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *DiscountPoolMutation) AddedFields() []string {
 	var fields []string
-	if m.addvalue != nil {
-		fields = append(fields, discountpool.FieldValue)
+	if m.adddiscount != nil {
+		fields = append(fields, discountpool.FieldDiscount)
 	}
 	if m.addstart != nil {
 		fields = append(fields, discountpool.FieldStart)
@@ -5286,8 +5340,8 @@ func (m *DiscountPoolMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *DiscountPoolMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case discountpool.FieldValue:
-		return m.AddedValue()
+	case discountpool.FieldDiscount:
+		return m.AddedDiscount()
 	case discountpool.FieldStart:
 		return m.AddedStart()
 	case discountpool.FieldDurationDays:
@@ -5307,12 +5361,12 @@ func (m *DiscountPoolMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *DiscountPoolMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case discountpool.FieldValue:
-		v, ok := value.(uint64)
+	case discountpool.FieldDiscount:
+		v, ok := value.(uint32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddValue(v)
+		m.AddDiscount(v)
 		return nil
 	case discountpool.FieldStart:
 		v, ok := value.(uint32)
@@ -5379,8 +5433,8 @@ func (m *DiscountPoolMutation) ResetField(name string) error {
 	case discountpool.FieldAppID:
 		m.ResetAppID()
 		return nil
-	case discountpool.FieldValue:
-		m.ResetValue()
+	case discountpool.FieldDiscount:
+		m.ResetDiscount()
 		return nil
 	case discountpool.FieldReleaseByUserID:
 		m.ResetReleaseByUserID()
