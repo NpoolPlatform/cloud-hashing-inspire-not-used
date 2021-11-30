@@ -1,11 +1,11 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: cloud-hashing-inspire-ingress
+  name: cloud-hashing-inspire-traefik-ingress
   namespace: kube-system
   annotations:
-    k8s.kuboard.cn/displayName: cloud-hashing-inspire
-    k8s.kuboard.cn/workload: cloud-hashing-inspire
+    k8s.kuboard.cn/displayName: cloud-hashing-inspire-traefik
+    k8s.kuboard.cn/workload: cloud-hashing-inspire-traefik
     kubernetes.io/ingress.class: "traefik-internet"
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-inspire-prefix@kubernetescrd,kube-system-common-headers@kubernetescrd,kube-system-common-headers@kubernetescrd
@@ -15,7 +15,7 @@ spec:
     - host: api.npool.top
       http: &http_rules
         paths:
-          - path: /api/cloud-hashing-inspire
+          - path: /api/cloud-hashing-inspire/version
             backend:
               serviceName: cloud-hashing-inspire
               servicePort: 50130
