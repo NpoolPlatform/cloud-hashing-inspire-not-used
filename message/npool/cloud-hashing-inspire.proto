@@ -363,6 +363,43 @@ service CloudHashingInspire {
             body: "*"
         };
     }
+
+    rpc CreateUserSpecialReduction(CreateUserSpecialReductionRequest) returns (CreateUserSpecialReductionResponse) {
+        option (google.api.http) = {
+            post: "/v1/create/user/special/reduction"
+            body: "*"
+        };
+    }
+    rpc GetUserSpecialReduction(GetUserSpecialReductionRequest) returns (GetUserSpecialReductionResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/user/special/reduction"
+            body: "*"
+        };
+    }
+    rpc GetUserSpecialReductionsByApp(GetUserSpecialReductionsByAppRequest) returns (GetUserSpecialReductionsByAppResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/user/special/reductions/by/app"
+            body: "*"
+        };
+    }
+    rpc GetUserSpecialReductionsByAppReleaser(GetUserSpecialReductionsByAppReleaserRequest) returns (GetUserSpecialReductionsByAppReleaserResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/user/special/reductions/by/app/releaser"
+            body: "*"
+        };
+    }
+    rpc GetUserSpecialReductionsByAppUser(GetUserSpecialReductionsByAppUserRequest) returns (GetUserSpecialReductionsByAppUserResponse) {
+        option (google.api.http) = {
+            post: "/v1/get/user/special/reductions/by/app/user"
+            body: "*"
+        };
+    }
+    rpc UpdateUserSpecialReduction(UpdateUserSpecialReductionRequest) returns (UpdateUserSpecialReductionResponse) {
+        option (google.api.http) = {
+            post: "/v1/update/user/special/reduction"
+            body: "*"
+        };
+    }
 }
 
 // request body and response
@@ -956,3 +993,63 @@ message GetDiscountPoolsByAppReleaserResponse {
     repeated DiscountPool Infos = 5400;
 }
 
+message UserSpecialReduction {
+    string ID = 1;
+    string AppID = 2;
+    string UserID = 3;
+    double Amount = 4;
+    string ReleaseByUserID = 5;
+    uint32 Start = 6;
+    int32 DurationDays = 7;
+    string Message = 8;
+}
+
+message CreateUserSpecialReductionRequest {
+    UserSpecialReduction Info = 1;
+}
+
+message CreateUserSpecialReductionResponse {
+    UserSpecialReduction Info = 1;
+}
+
+message GetUserSpecialReductionRequest {
+    string ID = 1;
+}
+
+message GetUserSpecialReductionResponse {
+    UserSpecialReduction Info = 1;
+}
+
+message GetUserSpecialReductionsByAppRequest {
+    string AppID = 1;
+}
+
+message GetUserSpecialReductionsByAppResponse {
+    repeated UserSpecialReduction Infos = 1;
+}
+
+message GetUserSpecialReductionsByAppUserRequest {
+    string AppID = 1;
+    string UserID = 2;
+}
+
+message GetUserSpecialReductionsByAppUserResponse {
+    repeated UserSpecialReduction Infos = 1;
+}
+
+message UpdateUserSpecialReductionRequest {
+    UserSpecialReduction Info = 1;
+}
+
+message UpdateUserSpecialReductionResponse {
+    UserSpecialReduction Info = 1;
+}
+
+message GetUserSpecialReductionsByAppReleaserRequest {
+    string AppID = 1;
+    string UserID = 2;
+}
+
+message GetUserSpecialReductionsByAppReleaserResponse {
+    repeated UserSpecialReduction Infos = 1;
+}

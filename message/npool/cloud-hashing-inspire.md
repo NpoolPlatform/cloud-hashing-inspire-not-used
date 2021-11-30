@@ -32,6 +32,8 @@
     - [CreateUserInvitationCodeResponse](#cloud.hashing.inspire.v1.CreateUserInvitationCodeResponse)
     - [CreateUserKpiSettingRequest](#cloud.hashing.inspire.v1.CreateUserKpiSettingRequest)
     - [CreateUserKpiSettingResponse](#cloud.hashing.inspire.v1.CreateUserKpiSettingResponse)
+    - [CreateUserSpecialReductionRequest](#cloud.hashing.inspire.v1.CreateUserSpecialReductionRequest)
+    - [CreateUserSpecialReductionResponse](#cloud.hashing.inspire.v1.CreateUserSpecialReductionResponse)
     - [DefaultKpiSetting](#cloud.hashing.inspire.v1.DefaultKpiSetting)
     - [DiscountPool](#cloud.hashing.inspire.v1.DiscountPool)
     - [GetAgencySettingByAppRequest](#cloud.hashing.inspire.v1.GetAgencySettingByAppRequest)
@@ -104,6 +106,14 @@
     - [GetUserKpiSettingByAppGoodResponse](#cloud.hashing.inspire.v1.GetUserKpiSettingByAppGoodResponse)
     - [GetUserKpiSettingRequest](#cloud.hashing.inspire.v1.GetUserKpiSettingRequest)
     - [GetUserKpiSettingResponse](#cloud.hashing.inspire.v1.GetUserKpiSettingResponse)
+    - [GetUserSpecialReductionRequest](#cloud.hashing.inspire.v1.GetUserSpecialReductionRequest)
+    - [GetUserSpecialReductionResponse](#cloud.hashing.inspire.v1.GetUserSpecialReductionResponse)
+    - [GetUserSpecialReductionsByAppReleaserRequest](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppReleaserRequest)
+    - [GetUserSpecialReductionsByAppReleaserResponse](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppReleaserResponse)
+    - [GetUserSpecialReductionsByAppRequest](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppRequest)
+    - [GetUserSpecialReductionsByAppResponse](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppResponse)
+    - [GetUserSpecialReductionsByAppUserRequest](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppUserRequest)
+    - [GetUserSpecialReductionsByAppUserResponse](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppUserResponse)
     - [NewUserRewardSetting](#cloud.hashing.inspire.v1.NewUserRewardSetting)
     - [NewUserRewardSettingDetail](#cloud.hashing.inspire.v1.NewUserRewardSettingDetail)
     - [PurchaseInvitation](#cloud.hashing.inspire.v1.PurchaseInvitation)
@@ -128,8 +138,11 @@
     - [UpdateRegistrationInvitationResponse](#cloud.hashing.inspire.v1.UpdateRegistrationInvitationResponse)
     - [UpdateUserKpiSettingRequest](#cloud.hashing.inspire.v1.UpdateUserKpiSettingRequest)
     - [UpdateUserKpiSettingResponse](#cloud.hashing.inspire.v1.UpdateUserKpiSettingResponse)
+    - [UpdateUserSpecialReductionRequest](#cloud.hashing.inspire.v1.UpdateUserSpecialReductionRequest)
+    - [UpdateUserSpecialReductionResponse](#cloud.hashing.inspire.v1.UpdateUserSpecialReductionResponse)
     - [UserInvitationCode](#cloud.hashing.inspire.v1.UserInvitationCode)
     - [UserKpiSetting](#cloud.hashing.inspire.v1.UserKpiSetting)
+    - [UserSpecialReduction](#cloud.hashing.inspire.v1.UserSpecialReduction)
     - [VersionResponse](#cloud.hashing.inspire.v1.VersionResponse)
   
     - [CloudHashingInspire](#cloud.hashing.inspire.v1.CloudHashingInspire)
@@ -596,6 +609,36 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | Info | [UserKpiSetting](#cloud.hashing.inspire.v1.UserKpiSetting) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.CreateUserSpecialReductionRequest"></a>
+
+### CreateUserSpecialReductionRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserSpecialReduction](#cloud.hashing.inspire.v1.UserSpecialReduction) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.CreateUserSpecialReductionResponse"></a>
+
+### CreateUserSpecialReductionResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserSpecialReduction](#cloud.hashing.inspire.v1.UserSpecialReduction) |  |  |
 
 
 
@@ -1703,6 +1746,128 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.GetUserSpecialReductionRequest"></a>
+
+### GetUserSpecialReductionRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetUserSpecialReductionResponse"></a>
+
+### GetUserSpecialReductionResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserSpecialReduction](#cloud.hashing.inspire.v1.UserSpecialReduction) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppReleaserRequest"></a>
+
+### GetUserSpecialReductionsByAppReleaserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| AppID | [string](#string) |  |  |
+| UserID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppReleaserResponse"></a>
+
+### GetUserSpecialReductionsByAppReleaserResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Infos | [UserSpecialReduction](#cloud.hashing.inspire.v1.UserSpecialReduction) | repeated |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppRequest"></a>
+
+### GetUserSpecialReductionsByAppRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| AppID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppResponse"></a>
+
+### GetUserSpecialReductionsByAppResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Infos | [UserSpecialReduction](#cloud.hashing.inspire.v1.UserSpecialReduction) | repeated |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppUserRequest"></a>
+
+### GetUserSpecialReductionsByAppUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| AppID | [string](#string) |  |  |
+| UserID | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppUserResponse"></a>
+
+### GetUserSpecialReductionsByAppUserResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Infos | [UserSpecialReduction](#cloud.hashing.inspire.v1.UserSpecialReduction) | repeated |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.NewUserRewardSetting"></a>
 
 ### NewUserRewardSetting
@@ -2079,6 +2244,36 @@
 
 
 
+<a name="cloud.hashing.inspire.v1.UpdateUserSpecialReductionRequest"></a>
+
+### UpdateUserSpecialReductionRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserSpecialReduction](#cloud.hashing.inspire.v1.UserSpecialReduction) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.UpdateUserSpecialReductionResponse"></a>
+
+### UpdateUserSpecialReductionResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| Info | [UserSpecialReduction](#cloud.hashing.inspire.v1.UserSpecialReduction) |  |  |
+
+
+
+
+
+
 <a name="cloud.hashing.inspire.v1.UserInvitationCode"></a>
 
 ### UserInvitationCode
@@ -2111,6 +2306,28 @@
 | GoodID | [string](#string) |  |  |
 | Amount | [double](#double) |  |  |
 | Percent | [int32](#int32) |  |  |
+
+
+
+
+
+
+<a name="cloud.hashing.inspire.v1.UserSpecialReduction"></a>
+
+### UserSpecialReduction
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ID | [string](#string) |  |  |
+| AppID | [string](#string) |  |  |
+| UserID | [string](#string) |  |  |
+| Amount | [double](#double) |  |  |
+| ReleaseByUserID | [string](#string) |  |  |
+| Start | [uint32](#uint32) |  |  |
+| DurationDays | [int32](#int32) |  |  |
+| Message | [string](#string) |  |  |
 
 
 
@@ -2202,6 +2419,12 @@ Service Name
 | GetUserKpiSetting | [GetUserKpiSettingRequest](#cloud.hashing.inspire.v1.GetUserKpiSettingRequest) | [GetUserKpiSettingResponse](#cloud.hashing.inspire.v1.GetUserKpiSettingResponse) |  |
 | GetUserKpiSettingByAppGood | [GetUserKpiSettingByAppGoodRequest](#cloud.hashing.inspire.v1.GetUserKpiSettingByAppGoodRequest) | [GetUserKpiSettingByAppGoodResponse](#cloud.hashing.inspire.v1.GetUserKpiSettingByAppGoodResponse) |  |
 | UpdateUserKpiSetting | [UpdateUserKpiSettingRequest](#cloud.hashing.inspire.v1.UpdateUserKpiSettingRequest) | [UpdateUserKpiSettingResponse](#cloud.hashing.inspire.v1.UpdateUserKpiSettingResponse) |  |
+| CreateUserSpecialReduction | [CreateUserSpecialReductionRequest](#cloud.hashing.inspire.v1.CreateUserSpecialReductionRequest) | [CreateUserSpecialReductionResponse](#cloud.hashing.inspire.v1.CreateUserSpecialReductionResponse) |  |
+| GetUserSpecialReduction | [GetUserSpecialReductionRequest](#cloud.hashing.inspire.v1.GetUserSpecialReductionRequest) | [GetUserSpecialReductionResponse](#cloud.hashing.inspire.v1.GetUserSpecialReductionResponse) |  |
+| GetUserSpecialReductionsByApp | [GetUserSpecialReductionsByAppRequest](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppRequest) | [GetUserSpecialReductionsByAppResponse](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppResponse) |  |
+| GetUserSpecialReductionsByAppReleaser | [GetUserSpecialReductionsByAppReleaserRequest](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppReleaserRequest) | [GetUserSpecialReductionsByAppReleaserResponse](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppReleaserResponse) |  |
+| GetUserSpecialReductionsByAppUser | [GetUserSpecialReductionsByAppUserRequest](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppUserRequest) | [GetUserSpecialReductionsByAppUserResponse](#cloud.hashing.inspire.v1.GetUserSpecialReductionsByAppUserResponse) |  |
+| UpdateUserSpecialReduction | [UpdateUserSpecialReductionRequest](#cloud.hashing.inspire.v1.UpdateUserSpecialReductionRequest) | [UpdateUserSpecialReductionResponse](#cloud.hashing.inspire.v1.UpdateUserSpecialReductionResponse) |  |
 
  
 
