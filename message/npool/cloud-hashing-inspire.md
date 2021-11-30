@@ -241,6 +241,7 @@
 | ID | [string](#string) |  |  |
 | UserID | [string](#string) |  |  |
 | AppID | [string](#string) |  |  |
+| Type | [string](#string) |  |  |
 | Coupon | [CouponPool](#cloud.hashing.inspire.v1.CouponPool) |  |  |
 
 

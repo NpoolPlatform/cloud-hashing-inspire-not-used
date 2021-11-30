@@ -875,6 +875,7 @@ message CouponAllocatedDetail {
     string ID = 9500;
     string UserID = 9501;
     string AppID = 9502;
+    string Type = 9503;
     CouponPool Coupon = 9504;
 }
 
