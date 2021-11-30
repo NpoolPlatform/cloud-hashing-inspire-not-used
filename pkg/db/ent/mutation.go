@@ -1896,7 +1896,6 @@ type CouponAllocatedMutation struct {
 	user_id       *uuid.UUID
 	app_id        *uuid.UUID
 	_type         *couponallocated.Type
-	used          *bool
 	coupon_id     *uuid.UUID
 	create_at     *uint32
 	addcreate_at  *uint32
@@ -2101,42 +2100,6 @@ func (m *CouponAllocatedMutation) OldType(ctx context.Context) (v couponallocate
 // ResetType resets all changes to the "type" field.
 func (m *CouponAllocatedMutation) ResetType() {
 	m._type = nil
-}
-
-// SetUsed sets the "used" field.
-func (m *CouponAllocatedMutation) SetUsed(b bool) {
-	m.used = &b
-}
-
-// Used returns the value of the "used" field in the mutation.
-func (m *CouponAllocatedMutation) Used() (r bool, exists bool) {
-	v := m.used
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUsed returns the old "used" field's value of the CouponAllocated entity.
-// If the CouponAllocated object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CouponAllocatedMutation) OldUsed(ctx context.Context) (v bool, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUsed is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUsed requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUsed: %w", err)
-	}
-	return oldValue.Used, nil
-}
-
-// ResetUsed resets all changes to the "used" field.
-func (m *CouponAllocatedMutation) ResetUsed() {
-	m.used = nil
 }
 
 // SetCouponID sets the "coupon_id" field.
@@ -2362,7 +2325,7 @@ func (m *CouponAllocatedMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CouponAllocatedMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 7)
 	if m.user_id != nil {
 		fields = append(fields, couponallocated.FieldUserID)
 	}
@@ -2371,9 +2334,6 @@ func (m *CouponAllocatedMutation) Fields() []string {
 	}
 	if m._type != nil {
 		fields = append(fields, couponallocated.FieldType)
-	}
-	if m.used != nil {
-		fields = append(fields, couponallocated.FieldUsed)
 	}
 	if m.coupon_id != nil {
 		fields = append(fields, couponallocated.FieldCouponID)
@@ -2401,8 +2361,6 @@ func (m *CouponAllocatedMutation) Field(name string) (ent.Value, bool) {
 		return m.AppID()
 	case couponallocated.FieldType:
 		return m.GetType()
-	case couponallocated.FieldUsed:
-		return m.Used()
 	case couponallocated.FieldCouponID:
 		return m.CouponID()
 	case couponallocated.FieldCreateAt:
@@ -2426,8 +2384,6 @@ func (m *CouponAllocatedMutation) OldField(ctx context.Context, name string) (en
 		return m.OldAppID(ctx)
 	case couponallocated.FieldType:
 		return m.OldType(ctx)
-	case couponallocated.FieldUsed:
-		return m.OldUsed(ctx)
 	case couponallocated.FieldCouponID:
 		return m.OldCouponID(ctx)
 	case couponallocated.FieldCreateAt:
@@ -2465,13 +2421,6 @@ func (m *CouponAllocatedMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetType(v)
-		return nil
-	case couponallocated.FieldUsed:
-		v, ok := value.(bool)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUsed(v)
 		return nil
 	case couponallocated.FieldCouponID:
 		v, ok := value.(uuid.UUID)
@@ -2597,9 +2546,6 @@ func (m *CouponAllocatedMutation) ResetField(name string) error {
 		return nil
 	case couponallocated.FieldType:
 		m.ResetType()
-		return nil
-	case couponallocated.FieldUsed:
-		m.ResetUsed()
 		return nil
 	case couponallocated.FieldCouponID:
 		m.ResetCouponID()

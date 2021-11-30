@@ -51,7 +51,6 @@ var (
 		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "type", Type: field.TypeEnum, Enums: []string{"discount", "coupon"}},
-		{Name: "used", Type: field.TypeBool, Default: false},
 		{Name: "coupon_id", Type: field.TypeUUID},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},

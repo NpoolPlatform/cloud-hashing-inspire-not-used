@@ -33,7 +33,6 @@ func dbRowToCouponAllocated(row *ent.CouponAllocated) *npool.CouponAllocated {
 		UserID:   row.UserID.String(),
 		AppID:    row.AppID.String(),
 		Type:     string(row.Type),
-		Used:     row.Used,
 		CouponID: row.CouponID.String(),
 	}
 }
@@ -50,7 +49,6 @@ func Create(ctx context.Context, in *npool.CreateCouponAllocatedRequest) (*npool
 		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
 		SetType(couponallocated.Type(in.GetInfo().GetType())).
 		SetCouponID(uuid.MustParse(in.GetInfo().GetCouponID())).
-		SetUsed(false).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create coupon allocated: %v", err)
@@ -74,7 +72,6 @@ func Update(ctx context.Context, in *npool.UpdateCouponAllocatedRequest) (*npool
 	info, err := db.Client().
 		CouponAllocated.
 		UpdateOneID(id).
-		SetUsed(in.GetInfo().GetUsed()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update coupon allocated: %v", err)
@@ -130,9 +127,6 @@ func GetByApp(ctx context.Context, in *npool.GetCouponsAllocatedByAppRequest) (*
 	if err != nil {
 		return nil, xerrors.Errorf("fail query coupon allocated: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty coupon allocated")
-	}
 
 	coupons := []*npool.CouponAllocated{}
 	for _, info := range infos {
@@ -167,9 +161,6 @@ func GetByAppUser(ctx context.Context, in *npool.GetCouponsAllocatedByAppUserReq
 		All(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail query coupon allocated: %v", err)
-	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty coupon allocated")
 	}
 
 	coupons := []*npool.CouponAllocated{}

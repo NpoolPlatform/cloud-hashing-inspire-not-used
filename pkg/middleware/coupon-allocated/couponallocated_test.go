@@ -30,7 +30,6 @@ func init() {
 func assertCouponAllocatedDetail(t *testing.T, info *npool.CouponAllocatedDetail, coupon *npool.CouponAllocated, couponPool *npool.CouponPool) {
 	assert.Equal(t, info.AppID, coupon.AppID)
 	assert.Equal(t, info.UserID, coupon.UserID)
-	assert.Equal(t, info.Used, coupon.Used)
 
 	assert.Equal(t, info.Coupon.ID, couponPool.ID)
 	assert.Equal(t, info.Coupon.Denomination, couponPool.Denomination)

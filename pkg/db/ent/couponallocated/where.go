@@ -105,13 +105,6 @@ func AppID(v uuid.UUID) predicate.CouponAllocated {
 	})
 }
 
-// Used applies equality check predicate on the "used" field. It's identical to UsedEQ.
-func Used(v bool) predicate.CouponAllocated {
-	return predicate.CouponAllocated(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUsed), v))
-	})
-}
-
 // CouponID applies equality check predicate on the "coupon_id" field. It's identical to CouponIDEQ.
 func CouponID(v uuid.UUID) predicate.CouponAllocated {
 	return predicate.CouponAllocated(func(s *sql.Selector) {
@@ -337,20 +330,6 @@ func TypeNotIn(vs ...Type) predicate.CouponAllocated {
 			return
 		}
 		s.Where(sql.NotIn(s.C(FieldType), v...))
-	})
-}
-
-// UsedEQ applies the EQ predicate on the "used" field.
-func UsedEQ(v bool) predicate.CouponAllocated {
-	return predicate.CouponAllocated(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldUsed), v))
-	})
-}
-
-// UsedNEQ applies the NEQ predicate on the "used" field.
-func UsedNEQ(v bool) predicate.CouponAllocated {
-	return predicate.CouponAllocated(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldUsed), v))
 	})
 }
 

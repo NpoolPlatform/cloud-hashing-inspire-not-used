@@ -16,7 +16,6 @@ func constructDetail(allocated *npool.CouponAllocated, pool *npool.CouponPool) *
 		ID:     allocated.ID,
 		AppID:  allocated.AppID,
 		UserID: allocated.UserID,
-		Used:   allocated.Used,
 		Coupon: pool,
 	}
 }

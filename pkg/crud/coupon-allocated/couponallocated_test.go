@@ -28,7 +28,6 @@ func assertCouponAllocated(t *testing.T, actual, expected *npool.CouponAllocated
 	assert.Equal(t, actual.UserID, expected.UserID)
 	assert.Equal(t, actual.AppID, expected.AppID)
 	assert.Equal(t, actual.CouponID, expected.CouponID)
-	assert.Equal(t, actual.Used, expected.Used)
 }
 
 func TestCRUD(t *testing.T) {

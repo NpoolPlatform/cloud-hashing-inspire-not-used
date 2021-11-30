@@ -41,20 +41,6 @@ func (cac *CouponAllocatedCreate) SetType(c couponallocated.Type) *CouponAllocat
 	return cac
 }
 
-// SetUsed sets the "used" field.
-func (cac *CouponAllocatedCreate) SetUsed(b bool) *CouponAllocatedCreate {
-	cac.mutation.SetUsed(b)
-	return cac
-}
-
-// SetNillableUsed sets the "used" field if the given value is not nil.
-func (cac *CouponAllocatedCreate) SetNillableUsed(b *bool) *CouponAllocatedCreate {
-	if b != nil {
-		cac.SetUsed(*b)
-	}
-	return cac
-}
-
 // SetCouponID sets the "coupon_id" field.
 func (cac *CouponAllocatedCreate) SetCouponID(u uuid.UUID) *CouponAllocatedCreate {
 	cac.mutation.SetCouponID(u)
@@ -180,10 +166,6 @@ func (cac *CouponAllocatedCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (cac *CouponAllocatedCreate) defaults() {
-	if _, ok := cac.mutation.Used(); !ok {
-		v := couponallocated.DefaultUsed
-		cac.mutation.SetUsed(v)
-	}
 	if _, ok := cac.mutation.CreateAt(); !ok {
 		v := couponallocated.DefaultCreateAt()
 		cac.mutation.SetCreateAt(v)
@@ -217,9 +199,6 @@ func (cac *CouponAllocatedCreate) check() error {
 		if err := couponallocated.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "type": %w`, err)}
 		}
-	}
-	if _, ok := cac.mutation.Used(); !ok {
-		return &ValidationError{Name: "used", err: errors.New(`ent: missing required field "used"`)}
 	}
 	if _, ok := cac.mutation.CouponID(); !ok {
 		return &ValidationError{Name: "coupon_id", err: errors.New(`ent: missing required field "coupon_id"`)}
@@ -289,14 +268,6 @@ func (cac *CouponAllocatedCreate) createSpec() (*CouponAllocated, *sqlgraph.Crea
 			Column: couponallocated.FieldType,
 		})
 		_node.Type = value
-	}
-	if value, ok := cac.mutation.Used(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeBool,
-			Value:  value,
-			Column: couponallocated.FieldUsed,
-		})
-		_node.Used = value
 	}
 	if value, ok := cac.mutation.CouponID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -417,18 +388,6 @@ func (u *CouponAllocatedUpsert) SetType(v couponallocated.Type) *CouponAllocated
 // UpdateType sets the "type" field to the value that was provided on create.
 func (u *CouponAllocatedUpsert) UpdateType() *CouponAllocatedUpsert {
 	u.SetExcluded(couponallocated.FieldType)
-	return u
-}
-
-// SetUsed sets the "used" field.
-func (u *CouponAllocatedUpsert) SetUsed(v bool) *CouponAllocatedUpsert {
-	u.Set(couponallocated.FieldUsed, v)
-	return u
-}
-
-// UpdateUsed sets the "used" field to the value that was provided on create.
-func (u *CouponAllocatedUpsert) UpdateUsed() *CouponAllocatedUpsert {
-	u.SetExcluded(couponallocated.FieldUsed)
 	return u
 }
 
@@ -569,20 +528,6 @@ func (u *CouponAllocatedUpsertOne) SetType(v couponallocated.Type) *CouponAlloca
 func (u *CouponAllocatedUpsertOne) UpdateType() *CouponAllocatedUpsertOne {
 	return u.Update(func(s *CouponAllocatedUpsert) {
 		s.UpdateType()
-	})
-}
-
-// SetUsed sets the "used" field.
-func (u *CouponAllocatedUpsertOne) SetUsed(v bool) *CouponAllocatedUpsertOne {
-	return u.Update(func(s *CouponAllocatedUpsert) {
-		s.SetUsed(v)
-	})
-}
-
-// UpdateUsed sets the "used" field to the value that was provided on create.
-func (u *CouponAllocatedUpsertOne) UpdateUsed() *CouponAllocatedUpsertOne {
-	return u.Update(func(s *CouponAllocatedUpsert) {
-		s.UpdateUsed()
 	})
 }
 
@@ -897,20 +842,6 @@ func (u *CouponAllocatedUpsertBulk) SetType(v couponallocated.Type) *CouponAlloc
 func (u *CouponAllocatedUpsertBulk) UpdateType() *CouponAllocatedUpsertBulk {
 	return u.Update(func(s *CouponAllocatedUpsert) {
 		s.UpdateType()
-	})
-}
-
-// SetUsed sets the "used" field.
-func (u *CouponAllocatedUpsertBulk) SetUsed(v bool) *CouponAllocatedUpsertBulk {
-	return u.Update(func(s *CouponAllocatedUpsert) {
-		s.SetUsed(v)
-	})
-}
-
-// UpdateUsed sets the "used" field to the value that was provided on create.
-func (u *CouponAllocatedUpsertBulk) UpdateUsed() *CouponAllocatedUpsertBulk {
-	return u.Update(func(s *CouponAllocatedUpsert) {
-		s.UpdateUsed()
 	})
 }
 

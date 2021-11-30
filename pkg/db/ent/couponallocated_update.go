@@ -45,20 +45,6 @@ func (cau *CouponAllocatedUpdate) SetType(c couponallocated.Type) *CouponAllocat
 	return cau
 }
 
-// SetUsed sets the "used" field.
-func (cau *CouponAllocatedUpdate) SetUsed(b bool) *CouponAllocatedUpdate {
-	cau.mutation.SetUsed(b)
-	return cau
-}
-
-// SetNillableUsed sets the "used" field if the given value is not nil.
-func (cau *CouponAllocatedUpdate) SetNillableUsed(b *bool) *CouponAllocatedUpdate {
-	if b != nil {
-		cau.SetUsed(*b)
-	}
-	return cau
-}
-
 // SetCouponID sets the "coupon_id" field.
 func (cau *CouponAllocatedUpdate) SetCouponID(u uuid.UUID) *CouponAllocatedUpdate {
 	cau.mutation.SetCouponID(u)
@@ -243,13 +229,6 @@ func (cau *CouponAllocatedUpdate) sqlSave(ctx context.Context) (n int, err error
 			Column: couponallocated.FieldType,
 		})
 	}
-	if value, ok := cau.mutation.Used(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeBool,
-			Value:  value,
-			Column: couponallocated.FieldUsed,
-		})
-	}
 	if value, ok := cau.mutation.CouponID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -333,20 +312,6 @@ func (cauo *CouponAllocatedUpdateOne) SetAppID(u uuid.UUID) *CouponAllocatedUpda
 // SetType sets the "type" field.
 func (cauo *CouponAllocatedUpdateOne) SetType(c couponallocated.Type) *CouponAllocatedUpdateOne {
 	cauo.mutation.SetType(c)
-	return cauo
-}
-
-// SetUsed sets the "used" field.
-func (cauo *CouponAllocatedUpdateOne) SetUsed(b bool) *CouponAllocatedUpdateOne {
-	cauo.mutation.SetUsed(b)
-	return cauo
-}
-
-// SetNillableUsed sets the "used" field if the given value is not nil.
-func (cauo *CouponAllocatedUpdateOne) SetNillableUsed(b *bool) *CouponAllocatedUpdateOne {
-	if b != nil {
-		cauo.SetUsed(*b)
-	}
 	return cauo
 }
 
@@ -556,13 +521,6 @@ func (cauo *CouponAllocatedUpdateOne) sqlSave(ctx context.Context) (_node *Coupo
 			Type:   field.TypeEnum,
 			Value:  value,
 			Column: couponallocated.FieldType,
-		})
-	}
-	if value, ok := cauo.mutation.Used(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeBool,
-			Value:  value,
-			Column: couponallocated.FieldUsed,
 		})
 	}
 	if value, ok := cauo.mutation.CouponID(); ok {

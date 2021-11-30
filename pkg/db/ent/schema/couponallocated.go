@@ -24,8 +24,6 @@ func (CouponAllocated) Fields() []ent.Field {
 		field.UUID("app_id", uuid.UUID{}),
 		field.Enum("type").
 			Values("discount", "coupon"),
-		field.Bool("used").
-			Default(false),
 		field.UUID("coupon_id", uuid.UUID{}),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {

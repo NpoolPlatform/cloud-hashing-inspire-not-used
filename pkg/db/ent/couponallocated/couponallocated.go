@@ -19,8 +19,6 @@ const (
 	FieldAppID = "app_id"
 	// FieldType holds the string denoting the type field in the database.
 	FieldType = "type"
-	// FieldUsed holds the string denoting the used field in the database.
-	FieldUsed = "used"
 	// FieldCouponID holds the string denoting the coupon_id field in the database.
 	FieldCouponID = "coupon_id"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
@@ -39,7 +37,6 @@ var Columns = []string{
 	FieldUserID,
 	FieldAppID,
 	FieldType,
-	FieldUsed,
 	FieldCouponID,
 	FieldCreateAt,
 	FieldUpdateAt,
@@ -57,8 +54,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultUsed holds the default value on creation for the "used" field.
-	DefaultUsed bool
 	// DefaultCreateAt holds the default value on creation for the "create_at" field.
 	DefaultCreateAt func() uint32
 	// DefaultUpdateAt holds the default value on creation for the "update_at" field.

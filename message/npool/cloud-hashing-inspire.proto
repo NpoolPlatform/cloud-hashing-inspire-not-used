@@ -607,7 +607,6 @@ message CouponAllocated {
     string UserID = 3601;
     string AppID = 3602;
     string Type = 3603;
-    bool Used = 3604;
     string CouponID = 3605;
 }
 
@@ -876,7 +875,6 @@ message CouponAllocatedDetail {
     string ID = 9500;
     string UserID = 9501;
     string AppID = 9502;
-    bool Used = 9503;
     CouponPool Coupon = 9504;
 }
 
