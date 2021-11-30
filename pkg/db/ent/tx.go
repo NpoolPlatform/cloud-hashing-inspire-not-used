@@ -34,6 +34,8 @@ type Tx struct {
 	UserInvitationCode *UserInvitationCodeClient
 	// UserKpiSetting is the client for interacting with the UserKpiSetting builders.
 	UserKpiSetting *UserKpiSettingClient
+	// UserSpecialReduction is the client for interacting with the UserSpecialReduction builders.
+	UserSpecialReduction *UserSpecialReductionClient
 
 	// lazily loaded.
 	client     *Client
@@ -180,6 +182,7 @@ func (tx *Tx) init() {
 	tx.RegistrationInvitation = NewRegistrationInvitationClient(tx.config)
 	tx.UserInvitationCode = NewUserInvitationCodeClient(tx.config)
 	tx.UserKpiSetting = NewUserKpiSettingClient(tx.config)
+	tx.UserSpecialReduction = NewUserSpecialReductionClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

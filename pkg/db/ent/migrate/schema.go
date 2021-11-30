@@ -205,6 +205,26 @@ var (
 		Columns:    UserKpiSettingsColumns,
 		PrimaryKey: []*schema.Column{UserKpiSettingsColumns[0]},
 	}
+	// UserSpecialReductionsColumns holds the columns for the "user_special_reductions" table.
+	UserSpecialReductionsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "amount", Type: field.TypeUint64},
+		{Name: "release_by_user_id", Type: field.TypeUUID},
+		{Name: "start", Type: field.TypeUint32},
+		{Name: "duration_days", Type: field.TypeInt32},
+		{Name: "message", Type: field.TypeString, Size: 512},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// UserSpecialReductionsTable holds the schema information for the "user_special_reductions" table.
+	UserSpecialReductionsTable = &schema.Table{
+		Name:       "user_special_reductions",
+		Columns:    UserSpecialReductionsColumns,
+		PrimaryKey: []*schema.Column{UserSpecialReductionsColumns[0]},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		AgencySettingsTable,
@@ -218,6 +238,7 @@ var (
 		RegistrationInvitationsTable,
 		UserInvitationCodesTable,
 		UserKpiSettingsTable,
+		UserSpecialReductionsTable,
 	}
 )
 

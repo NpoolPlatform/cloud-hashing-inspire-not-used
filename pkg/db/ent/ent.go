@@ -19,6 +19,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userkpisetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userspecialreduction"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -50,6 +51,7 @@ func columnChecker(table string) func(string) error {
 		registrationinvitation.Table: registrationinvitation.ValidColumn,
 		userinvitationcode.Table:     userinvitationcode.ValidColumn,
 		userkpisetting.Table:         userkpisetting.ValidColumn,
+		userspecialreduction.Table:   userspecialreduction.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {

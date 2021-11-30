@@ -35,6 +35,7 @@ type hooks struct {
 	RegistrationInvitation []ent.Hook
 	UserInvitationCode     []ent.Hook
 	UserKpiSetting         []ent.Hook
+	UserSpecialReduction   []ent.Hook
 }
 
 // Options applies the options on the config object.

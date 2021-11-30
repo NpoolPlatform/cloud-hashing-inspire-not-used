@@ -38,3 +38,6 @@ type UserInvitationCode func(*sql.Selector)
 
 // UserKpiSetting is the predicate function for userkpisetting builders.
 type UserKpiSetting func(*sql.Selector)
+
+// UserSpecialReduction is the predicate function for userspecialreduction builders.
+type UserSpecialReduction func(*sql.Selector)

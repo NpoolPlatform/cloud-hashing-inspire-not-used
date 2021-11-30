@@ -15,6 +15,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/schema"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userkpisetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userspecialreduction"
 	"github.com/google/uuid"
 )
 
@@ -270,4 +271,28 @@ func init() {
 	userkpisettingDescID := userkpisettingFields[0].Descriptor()
 	// userkpisetting.DefaultID holds the default value on creation for the id field.
 	userkpisetting.DefaultID = userkpisettingDescID.Default.(func() uuid.UUID)
+	userspecialreductionFields := schema.UserSpecialReduction{}.Fields()
+	_ = userspecialreductionFields
+	// userspecialreductionDescMessage is the schema descriptor for message field.
+	userspecialreductionDescMessage := userspecialreductionFields[7].Descriptor()
+	// userspecialreduction.MessageValidator is a validator for the "message" field. It is called by the builders before save.
+	userspecialreduction.MessageValidator = userspecialreductionDescMessage.Validators[0].(func(string) error)
+	// userspecialreductionDescCreateAt is the schema descriptor for create_at field.
+	userspecialreductionDescCreateAt := userspecialreductionFields[8].Descriptor()
+	// userspecialreduction.DefaultCreateAt holds the default value on creation for the create_at field.
+	userspecialreduction.DefaultCreateAt = userspecialreductionDescCreateAt.Default.(func() uint32)
+	// userspecialreductionDescUpdateAt is the schema descriptor for update_at field.
+	userspecialreductionDescUpdateAt := userspecialreductionFields[9].Descriptor()
+	// userspecialreduction.DefaultUpdateAt holds the default value on creation for the update_at field.
+	userspecialreduction.DefaultUpdateAt = userspecialreductionDescUpdateAt.Default.(func() uint32)
+	// userspecialreduction.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	userspecialreduction.UpdateDefaultUpdateAt = userspecialreductionDescUpdateAt.UpdateDefault.(func() uint32)
+	// userspecialreductionDescDeleteAt is the schema descriptor for delete_at field.
+	userspecialreductionDescDeleteAt := userspecialreductionFields[10].Descriptor()
+	// userspecialreduction.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	userspecialreduction.DefaultDeleteAt = userspecialreductionDescDeleteAt.Default.(func() uint32)
+	// userspecialreductionDescID is the schema descriptor for id field.
+	userspecialreductionDescID := userspecialreductionFields[0].Descriptor()
+	// userspecialreduction.DefaultID holds the default value on creation for the id field.
+	userspecialreduction.DefaultID = userspecialreductionDescID.Default.(func() uuid.UUID)
 }

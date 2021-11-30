@@ -21,6 +21,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userkpisetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userspecialreduction"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
@@ -53,6 +54,8 @@ type Client struct {
 	UserInvitationCode *UserInvitationCodeClient
 	// UserKpiSetting is the client for interacting with the UserKpiSetting builders.
 	UserKpiSetting *UserKpiSettingClient
+	// UserSpecialReduction is the client for interacting with the UserSpecialReduction builders.
+	UserSpecialReduction *UserSpecialReductionClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -77,6 +80,7 @@ func (c *Client) init() {
 	c.RegistrationInvitation = NewRegistrationInvitationClient(c.config)
 	c.UserInvitationCode = NewUserInvitationCodeClient(c.config)
 	c.UserKpiSetting = NewUserKpiSettingClient(c.config)
+	c.UserSpecialReduction = NewUserSpecialReductionClient(c.config)
 }
 
 // Open opens a database/sql.DB specified by the driver name and
@@ -121,6 +125,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		RegistrationInvitation: NewRegistrationInvitationClient(cfg),
 		UserInvitationCode:     NewUserInvitationCodeClient(cfg),
 		UserKpiSetting:         NewUserKpiSettingClient(cfg),
+		UserSpecialReduction:   NewUserSpecialReductionClient(cfg),
 	}, nil
 }
 
@@ -150,6 +155,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		RegistrationInvitation: NewRegistrationInvitationClient(cfg),
 		UserInvitationCode:     NewUserInvitationCodeClient(cfg),
 		UserKpiSetting:         NewUserKpiSettingClient(cfg),
+		UserSpecialReduction:   NewUserSpecialReductionClient(cfg),
 	}, nil
 }
 
@@ -190,6 +196,7 @@ func (c *Client) Use(hooks ...Hook) {
 	c.RegistrationInvitation.Use(hooks...)
 	c.UserInvitationCode.Use(hooks...)
 	c.UserKpiSetting.Use(hooks...)
+	c.UserSpecialReduction.Use(hooks...)
 }
 
 // AgencySettingClient is a client for the AgencySetting schema.
@@ -1180,4 +1187,94 @@ func (c *UserKpiSettingClient) GetX(ctx context.Context, id uuid.UUID) *UserKpiS
 // Hooks returns the client hooks.
 func (c *UserKpiSettingClient) Hooks() []Hook {
 	return c.hooks.UserKpiSetting
+}
+
+// UserSpecialReductionClient is a client for the UserSpecialReduction schema.
+type UserSpecialReductionClient struct {
+	config
+}
+
+// NewUserSpecialReductionClient returns a client for the UserSpecialReduction from the given config.
+func NewUserSpecialReductionClient(c config) *UserSpecialReductionClient {
+	return &UserSpecialReductionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `userspecialreduction.Hooks(f(g(h())))`.
+func (c *UserSpecialReductionClient) Use(hooks ...Hook) {
+	c.hooks.UserSpecialReduction = append(c.hooks.UserSpecialReduction, hooks...)
+}
+
+// Create returns a create builder for UserSpecialReduction.
+func (c *UserSpecialReductionClient) Create() *UserSpecialReductionCreate {
+	mutation := newUserSpecialReductionMutation(c.config, OpCreate)
+	return &UserSpecialReductionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserSpecialReduction entities.
+func (c *UserSpecialReductionClient) CreateBulk(builders ...*UserSpecialReductionCreate) *UserSpecialReductionCreateBulk {
+	return &UserSpecialReductionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserSpecialReduction.
+func (c *UserSpecialReductionClient) Update() *UserSpecialReductionUpdate {
+	mutation := newUserSpecialReductionMutation(c.config, OpUpdate)
+	return &UserSpecialReductionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserSpecialReductionClient) UpdateOne(usr *UserSpecialReduction) *UserSpecialReductionUpdateOne {
+	mutation := newUserSpecialReductionMutation(c.config, OpUpdateOne, withUserSpecialReduction(usr))
+	return &UserSpecialReductionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserSpecialReductionClient) UpdateOneID(id uuid.UUID) *UserSpecialReductionUpdateOne {
+	mutation := newUserSpecialReductionMutation(c.config, OpUpdateOne, withUserSpecialReductionID(id))
+	return &UserSpecialReductionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserSpecialReduction.
+func (c *UserSpecialReductionClient) Delete() *UserSpecialReductionDelete {
+	mutation := newUserSpecialReductionMutation(c.config, OpDelete)
+	return &UserSpecialReductionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *UserSpecialReductionClient) DeleteOne(usr *UserSpecialReduction) *UserSpecialReductionDeleteOne {
+	return c.DeleteOneID(usr.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *UserSpecialReductionClient) DeleteOneID(id uuid.UUID) *UserSpecialReductionDeleteOne {
+	builder := c.Delete().Where(userspecialreduction.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserSpecialReductionDeleteOne{builder}
+}
+
+// Query returns a query builder for UserSpecialReduction.
+func (c *UserSpecialReductionClient) Query() *UserSpecialReductionQuery {
+	return &UserSpecialReductionQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a UserSpecialReduction entity by its id.
+func (c *UserSpecialReductionClient) Get(ctx context.Context, id uuid.UUID) (*UserSpecialReduction, error) {
+	return c.Query().Where(userspecialreduction.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserSpecialReductionClient) GetX(ctx context.Context, id uuid.UUID) *UserSpecialReduction {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserSpecialReductionClient) Hooks() []Hook {
+	return c.hooks.UserSpecialReduction
 }
