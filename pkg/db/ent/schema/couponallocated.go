@@ -3,7 +3,7 @@ package schema
 import (
 	"time"
 
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
+	constant "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
 
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"

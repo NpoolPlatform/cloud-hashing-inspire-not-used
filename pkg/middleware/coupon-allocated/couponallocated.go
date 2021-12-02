@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/message/npool"
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
+	constant "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-allocated" //nolint
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-pool"      //nolint
