@@ -67,7 +67,7 @@ func TestGetDetail(t *testing.T) {
 	couponAllocated := npool.CouponAllocated{
 		AppID:    coupon.AppID,
 		UserID:   uuid.New().String(),
-		Type:     "discount",
+		Type:     "coupon",
 		CouponID: couponResp.Info.ID,
 	}
 	allocatedResp, err := couponallocated.Create(context.Background(), &npool.CreateCouponAllocatedRequest{

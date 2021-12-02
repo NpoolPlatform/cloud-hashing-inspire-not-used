@@ -914,6 +914,7 @@ message CouponAllocatedDetail {
     string AppID = 9502;
     string Type = 9503;
     CouponPool Coupon = 9504;
+    DiscountPool Discount = 9505;
 }
 
 message GetCouponAllocatedDetailRequest {

@@ -256,6 +256,7 @@
 | AppID | [string](#string) |  |  |
 | Type | [string](#string) |  |  |
 | Coupon | [CouponPool](#cloud.hashing.inspire.v1.CouponPool) |  |  |
+| Discount | [DiscountPool](#cloud.hashing.inspire.v1.DiscountPool) |  |  |
 
 
 

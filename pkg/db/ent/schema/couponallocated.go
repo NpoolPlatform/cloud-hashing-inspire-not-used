@@ -7,6 +7,8 @@ import (
 	"entgo.io/ent/schema/field"
 
 	"github.com/google/uuid"
+
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
 )
 
 // CouponAllocated holds the schema definition for the CouponAllocated entity.
@@ -23,7 +25,7 @@ func (CouponAllocated) Fields() []ent.Field {
 		field.UUID("user_id", uuid.UUID{}),
 		field.UUID("app_id", uuid.UUID{}),
 		field.Enum("type").
-			Values("discount", "coupon"),
+			Values(constant.CouponTypeDiscount, constant.CouponTypeCoupon),
 		field.UUID("coupon_id", uuid.UUID{}),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
