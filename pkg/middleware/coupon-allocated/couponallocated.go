@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/message/npool"
-
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
+
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-allocated" //nolint
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-pool"      //nolint
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/discount-pool"    //nolint
@@ -52,7 +52,6 @@ func expandInfo(ctx context.Context, info *npool.CouponAllocated) (*npool.Coupon
 	}
 
 	return constructDetail(info, coupon, discount), nil
-
 }
 
 func Get(ctx context.Context, in *npool.GetCouponAllocatedDetailRequest) (*npool.GetCouponAllocatedDetailResponse, error) {

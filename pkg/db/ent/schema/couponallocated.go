@@ -3,12 +3,12 @@ package schema
 import (
 	"time"
 
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
+
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
 
 	"github.com/google/uuid"
-
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
 )
 
 // CouponAllocated holds the schema definition for the CouponAllocated entity.
