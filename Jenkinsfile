@@ -219,7 +219,7 @@ pipeline {
           revlist=`git rev-list --tags --max-count=1`
           tag=`git describe --tags $revlist`
           git checkout $tag
-          images=`docker images | grep entropypool | grep service-sample | grep $tag | awk '{ print $3 }'`
+          images=`docker images | grep entropypool | grep cloud-hashing-inspire | grep $tag | awk '{ print $3 }'`
           for image in $images; do
             docker rmi $image -f
           done
@@ -266,7 +266,7 @@ pipeline {
           revlist=`git rev-list --tags --max-count=1`
           tag=`git describe --tags $revlist`
           git checkout $tag
-          sed -i "s/service-sample:latest/service-sample:$tag/g" cmd/service-sample/k8s/01-service-sample.yaml
+          sed -i "s/cloud-hashing-inspire:latest/cloud-hashing-inspire:$tag/g" cmd/cloud-hashing-inspire/k8s/01-cloud-hashing-inspire.yaml
           TAG=$tag make deploy-to-k8s-cluster
         '''.stripIndent())
       }
@@ -287,7 +287,7 @@ pipeline {
           patch=$(( $patch - $patch % 2 ))
           tag=$major.$minor.$patch
           git checkout $tag
-          sed -i "s/service-sample:latest/service-sample:$tag/g" cmd/service-sample/k8s/01-service-sample.yaml
+          sed -i "s/cloud-hashing-inspire:latest/cloud-hashing-inspire:$tag/g" cmd/cloud-hashing-inspire/k8s/01-cloud-hashing-inspire.yaml
           TAG=$tag make deploy-to-k8s-cluster
         '''.stripIndent())
       }
