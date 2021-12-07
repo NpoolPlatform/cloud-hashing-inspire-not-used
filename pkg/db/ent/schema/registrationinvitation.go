@@ -50,7 +50,7 @@ func (RegistrationInvitation) Edges() []ent.Edge {
 // Indexs of the RegistrationInvitation.
 func (RegistrationInvitation) Indexs() []ent.Index {
 	return []ent.Index{
-		index.Fields("app_id", "inviter_id", "invitee_id").
+		index.Fields("app_id", "invitee_id").
 			Unique(),
 	}
 }
