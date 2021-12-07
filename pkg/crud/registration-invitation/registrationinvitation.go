@@ -125,9 +125,6 @@ func GetByApp(ctx context.Context, in *npool.GetRegistrationInvitationsByAppRequ
 	if err != nil {
 		return nil, xerrors.Errorf("fail query registration invitation: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty registration invitation")
-	}
 
 	invitations := []*npool.RegistrationInvitation{}
 	for _, info := range infos {
@@ -163,9 +160,6 @@ func GetByAppInviter(ctx context.Context, in *npool.GetRegistrationInvitationsBy
 	if err != nil {
 		return nil, xerrors.Errorf("fail query registration invitation: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty registration invitation")
-	}
 
 	invitations := []*npool.RegistrationInvitation{}
 	for _, info := range infos {
@@ -200,9 +194,6 @@ func GetByAppInvitee(ctx context.Context, in *npool.GetRegistrationInvitationByA
 		All(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail query registration invitation: %v", err)
-	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty registration invitation")
 	}
 
 	return &npool.GetRegistrationInvitationByAppInviteeResponse{
