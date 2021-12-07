@@ -155,12 +155,14 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserInvitationCodeByAppUserR
 	if err != nil {
 		return nil, xerrors.Errorf("fail query user invitation code: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty user invitation code")
+
+	var info *npool.UserInvitationCode
+	if len(infos) > 0 {
+		info = dbRowToUserInvitationCode(infos[0])
 	}
 
 	return &npool.GetUserInvitationCodeByAppUserResponse{
-		Info: dbRowToUserInvitationCode(infos[0]),
+		Info: info,
 	}, nil
 }
 
@@ -177,11 +179,13 @@ func GetByCode(ctx context.Context, in *npool.GetUserInvitationCodeByCodeRequest
 	if err != nil {
 		return nil, xerrors.Errorf("fail query user invitation code: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty user invitation code")
+
+	var info *npool.UserInvitationCode
+	if len(infos) > 0 {
+		info = dbRowToUserInvitationCode(infos[0])
 	}
 
 	return &npool.GetUserInvitationCodeByCodeResponse{
-		Info: dbRowToUserInvitationCode(infos[0]),
+		Info: info,
 	}, nil
 }
