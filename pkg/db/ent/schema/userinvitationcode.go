@@ -49,7 +49,7 @@ func (UserInvitationCode) Edges() []ent.Edge {
 }
 
 // Indexs of the UserInvitationCode.
-func (UserInvitationCode) Indexs() []ent.Index {
+func (UserInvitationCode) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("app_id", "user_id").
 			Unique(),

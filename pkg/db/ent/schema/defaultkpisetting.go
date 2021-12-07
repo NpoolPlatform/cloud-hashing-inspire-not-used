@@ -49,7 +49,7 @@ func (DefaultKpiSetting) Edges() []ent.Edge {
 }
 
 // Indexs of the DefaultKpiSetting.
-func (DefaultKpiSetting) Indexs() []ent.Index {
+func (DefaultKpiSetting) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("app_id", "good_id").
 			Unique(),

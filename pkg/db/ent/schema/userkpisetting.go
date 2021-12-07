@@ -50,7 +50,7 @@ func (UserKpiSetting) Edges() []ent.Edge {
 }
 
 // Indexs of the UserKpiSetting.
-func (UserKpiSetting) Indexs() []ent.Index {
+func (UserKpiSetting) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("app_id", "good_id", "user_id").
 			Unique(),

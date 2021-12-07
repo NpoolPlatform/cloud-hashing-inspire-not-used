@@ -48,7 +48,7 @@ func (PurchaseInvitation) Edges() []ent.Edge {
 }
 
 // Indexs of the PurchaseInvitation.
-func (PurchaseInvitation) Indexs() []ent.Index {
+func (PurchaseInvitation) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("app_id", "order_id").
 			Unique(),

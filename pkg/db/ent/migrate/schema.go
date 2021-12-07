@@ -99,6 +99,13 @@ var (
 		Name:       "default_kpi_settings",
 		Columns:    DefaultKpiSettingsColumns,
 		PrimaryKey: []*schema.Column{DefaultKpiSettingsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "defaultkpisetting_app_id_good_id",
+				Unique:  true,
+				Columns: []*schema.Column{DefaultKpiSettingsColumns[3], DefaultKpiSettingsColumns[4]},
+			},
+		},
 	}
 	// DiscountPoolsColumns holds the columns for the "discount_pools" table.
 	DiscountPoolsColumns = []*schema.Column{
@@ -152,6 +159,13 @@ var (
 		Name:       "purchase_invitations",
 		Columns:    PurchaseInvitationsColumns,
 		PrimaryKey: []*schema.Column{PurchaseInvitationsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "purchaseinvitation_app_id_order_id",
+				Unique:  true,
+				Columns: []*schema.Column{PurchaseInvitationsColumns[1], PurchaseInvitationsColumns[2]},
+			},
+		},
 	}
 	// RegistrationInvitationsColumns holds the columns for the "registration_invitations" table.
 	RegistrationInvitationsColumns = []*schema.Column{
@@ -168,6 +182,13 @@ var (
 		Name:       "registration_invitations",
 		Columns:    RegistrationInvitationsColumns,
 		PrimaryKey: []*schema.Column{RegistrationInvitationsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "registrationinvitation_app_id_invitee_id",
+				Unique:  true,
+				Columns: []*schema.Column{RegistrationInvitationsColumns[6], RegistrationInvitationsColumns[5]},
+			},
+		},
 	}
 	// UserInvitationCodesColumns holds the columns for the "user_invitation_codes" table.
 	UserInvitationCodesColumns = []*schema.Column{
@@ -184,6 +205,13 @@ var (
 		Name:       "user_invitation_codes",
 		Columns:    UserInvitationCodesColumns,
 		PrimaryKey: []*schema.Column{UserInvitationCodesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userinvitationcode_app_id_user_id",
+				Unique:  true,
+				Columns: []*schema.Column{UserInvitationCodesColumns[2], UserInvitationCodesColumns[1]},
+			},
+		},
 	}
 	// UserKpiSettingsColumns holds the columns for the "user_kpi_settings" table.
 	UserKpiSettingsColumns = []*schema.Column{
@@ -202,6 +230,13 @@ var (
 		Name:       "user_kpi_settings",
 		Columns:    UserKpiSettingsColumns,
 		PrimaryKey: []*schema.Column{UserKpiSettingsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userkpisetting_app_id_good_id_user_id",
+				Unique:  true,
+				Columns: []*schema.Column{UserKpiSettingsColumns[3], UserKpiSettingsColumns[4], UserKpiSettingsColumns[5]},
+			},
+		},
 	}
 	// UserSpecialReductionsColumns holds the columns for the "user_special_reductions" table.
 	UserSpecialReductionsColumns = []*schema.Column{
