@@ -7,6 +7,10 @@ import (
 
 	"github.com/NpoolPlatform/go-service-framework/pkg/app"
 
+	mysqlconst "github.com/NpoolPlatform/go-service-framework/pkg/mysql/const"
+	rabbitmqconst "github.com/NpoolPlatform/go-service-framework/pkg/rabbitmq/const"
+	redisconst "github.com/NpoolPlatform/go-service-framework/pkg/redis/const"
+
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/service-name" //nolint
 
@@ -22,7 +26,17 @@ func Init() error {
 	appName := path.Base(path.Dir(path.Dir(path.Dir(myPath))))
 	configPath := fmt.Sprintf("%s/../../cmd/%v", path.Dir(myPath), appName)
 
-	err := app.Init(servicename.ServiceName, "", "", "", configPath, nil, nil)
+	err := app.Init(
+		servicename.ServiceName,
+		"",
+		"",
+		"",
+		configPath,
+		nil,
+		nil,
+		mysqlconst.MysqlServiceName,
+		rabbitmqconst.RabbitMQServiceName,
+		redisconst.RedisServiceName)
 	if err != nil {
 		return xerrors.Errorf("cannot init app stub: %v", err)
 	}
