@@ -45,20 +45,6 @@ func (piu *PurchaseInvitationUpdate) SetInvitationCodeID(u uuid.UUID) *PurchaseI
 	return piu
 }
 
-// SetFulfilled sets the "fulfilled" field.
-func (piu *PurchaseInvitationUpdate) SetFulfilled(b bool) *PurchaseInvitationUpdate {
-	piu.mutation.SetFulfilled(b)
-	return piu
-}
-
-// SetNillableFulfilled sets the "fulfilled" field if the given value is not nil.
-func (piu *PurchaseInvitationUpdate) SetNillableFulfilled(b *bool) *PurchaseInvitationUpdate {
-	if b != nil {
-		piu.SetFulfilled(*b)
-	}
-	return piu
-}
-
 // SetCreateAt sets the "create_at" field.
 func (piu *PurchaseInvitationUpdate) SetCreateAt(u uint32) *PurchaseInvitationUpdate {
 	piu.mutation.ResetCreateAt()
@@ -221,13 +207,6 @@ func (piu *PurchaseInvitationUpdate) sqlSave(ctx context.Context) (n int, err er
 			Column: purchaseinvitation.FieldInvitationCodeID,
 		})
 	}
-	if value, ok := piu.mutation.Fulfilled(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeBool,
-			Value:  value,
-			Column: purchaseinvitation.FieldFulfilled,
-		})
-	}
 	if value, ok := piu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -304,20 +283,6 @@ func (piuo *PurchaseInvitationUpdateOne) SetOrderID(u uuid.UUID) *PurchaseInvita
 // SetInvitationCodeID sets the "invitation_code_id" field.
 func (piuo *PurchaseInvitationUpdateOne) SetInvitationCodeID(u uuid.UUID) *PurchaseInvitationUpdateOne {
 	piuo.mutation.SetInvitationCodeID(u)
-	return piuo
-}
-
-// SetFulfilled sets the "fulfilled" field.
-func (piuo *PurchaseInvitationUpdateOne) SetFulfilled(b bool) *PurchaseInvitationUpdateOne {
-	piuo.mutation.SetFulfilled(b)
-	return piuo
-}
-
-// SetNillableFulfilled sets the "fulfilled" field if the given value is not nil.
-func (piuo *PurchaseInvitationUpdateOne) SetNillableFulfilled(b *bool) *PurchaseInvitationUpdateOne {
-	if b != nil {
-		piuo.SetFulfilled(*b)
-	}
 	return piuo
 }
 
@@ -505,13 +470,6 @@ func (piuo *PurchaseInvitationUpdateOne) sqlSave(ctx context.Context) (_node *Pu
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: purchaseinvitation.FieldInvitationCodeID,
-		})
-	}
-	if value, ok := piuo.mutation.Fulfilled(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeBool,
-			Value:  value,
-			Column: purchaseinvitation.FieldFulfilled,
 		})
 	}
 	if value, ok := piuo.mutation.CreateAt(); ok {

@@ -185,22 +185,18 @@ func init() {
 	newuserrewardsetting.DefaultID = newuserrewardsettingDescID.Default.(func() uuid.UUID)
 	purchaseinvitationFields := schema.PurchaseInvitation{}.Fields()
 	_ = purchaseinvitationFields
-	// purchaseinvitationDescFulfilled is the schema descriptor for fulfilled field.
-	purchaseinvitationDescFulfilled := purchaseinvitationFields[4].Descriptor()
-	// purchaseinvitation.DefaultFulfilled holds the default value on creation for the fulfilled field.
-	purchaseinvitation.DefaultFulfilled = purchaseinvitationDescFulfilled.Default.(bool)
 	// purchaseinvitationDescCreateAt is the schema descriptor for create_at field.
-	purchaseinvitationDescCreateAt := purchaseinvitationFields[5].Descriptor()
+	purchaseinvitationDescCreateAt := purchaseinvitationFields[4].Descriptor()
 	// purchaseinvitation.DefaultCreateAt holds the default value on creation for the create_at field.
 	purchaseinvitation.DefaultCreateAt = purchaseinvitationDescCreateAt.Default.(func() uint32)
 	// purchaseinvitationDescUpdateAt is the schema descriptor for update_at field.
-	purchaseinvitationDescUpdateAt := purchaseinvitationFields[6].Descriptor()
+	purchaseinvitationDescUpdateAt := purchaseinvitationFields[5].Descriptor()
 	// purchaseinvitation.DefaultUpdateAt holds the default value on creation for the update_at field.
 	purchaseinvitation.DefaultUpdateAt = purchaseinvitationDescUpdateAt.Default.(func() uint32)
 	// purchaseinvitation.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	purchaseinvitation.UpdateDefaultUpdateAt = purchaseinvitationDescUpdateAt.UpdateDefault.(func() uint32)
 	// purchaseinvitationDescDeleteAt is the schema descriptor for delete_at field.
-	purchaseinvitationDescDeleteAt := purchaseinvitationFields[7].Descriptor()
+	purchaseinvitationDescDeleteAt := purchaseinvitationFields[6].Descriptor()
 	// purchaseinvitation.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	purchaseinvitation.DefaultDeleteAt = purchaseinvitationDescDeleteAt.Default.(func() uint32)
 	// purchaseinvitationDescID is the schema descriptor for id field.
@@ -223,10 +219,6 @@ func init() {
 	registrationinvitationDescDeleteAt := registrationinvitationFields[3].Descriptor()
 	// registrationinvitation.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	registrationinvitation.DefaultDeleteAt = registrationinvitationDescDeleteAt.Default.(func() uint32)
-	// registrationinvitationDescFulfilled is the schema descriptor for fulfilled field.
-	registrationinvitationDescFulfilled := registrationinvitationFields[7].Descriptor()
-	// registrationinvitation.DefaultFulfilled holds the default value on creation for the fulfilled field.
-	registrationinvitation.DefaultFulfilled = registrationinvitationDescFulfilled.Default.(bool)
 	// registrationinvitationDescID is the schema descriptor for id field.
 	registrationinvitationDescID := registrationinvitationFields[0].Descriptor()
 	// registrationinvitation.DefaultID holds the default value on creation for the id field.

@@ -133,13 +133,6 @@ func AppID(v uuid.UUID) predicate.RegistrationInvitation {
 	})
 }
 
-// Fulfilled applies equality check predicate on the "fulfilled" field. It's identical to FulfilledEQ.
-func Fulfilled(v bool) predicate.RegistrationInvitation {
-	return predicate.RegistrationInvitation(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldFulfilled), v))
-	})
-}
-
 // CreateAtEQ applies the EQ predicate on the "create_at" field.
 func CreateAtEQ(v uint32) predicate.RegistrationInvitation {
 	return predicate.RegistrationInvitation(func(s *sql.Selector) {
@@ -593,20 +586,6 @@ func AppIDLT(v uuid.UUID) predicate.RegistrationInvitation {
 func AppIDLTE(v uuid.UUID) predicate.RegistrationInvitation {
 	return predicate.RegistrationInvitation(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldAppID), v))
-	})
-}
-
-// FulfilledEQ applies the EQ predicate on the "fulfilled" field.
-func FulfilledEQ(v bool) predicate.RegistrationInvitation {
-	return predicate.RegistrationInvitation(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldFulfilled), v))
-	})
-}
-
-// FulfilledNEQ applies the NEQ predicate on the "fulfilled" field.
-func FulfilledNEQ(v bool) predicate.RegistrationInvitation {
-	return predicate.RegistrationInvitation(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldFulfilled), v))
 	})
 }
 

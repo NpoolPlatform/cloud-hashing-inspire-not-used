@@ -6193,7 +6193,6 @@ type PurchaseInvitationMutation struct {
 	app_id             *uuid.UUID
 	order_id           *uuid.UUID
 	invitation_code_id *uuid.UUID
-	fulfilled          *bool
 	create_at          *uint32
 	addcreate_at       *uint32
 	update_at          *uint32
@@ -6399,42 +6398,6 @@ func (m *PurchaseInvitationMutation) ResetInvitationCodeID() {
 	m.invitation_code_id = nil
 }
 
-// SetFulfilled sets the "fulfilled" field.
-func (m *PurchaseInvitationMutation) SetFulfilled(b bool) {
-	m.fulfilled = &b
-}
-
-// Fulfilled returns the value of the "fulfilled" field in the mutation.
-func (m *PurchaseInvitationMutation) Fulfilled() (r bool, exists bool) {
-	v := m.fulfilled
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldFulfilled returns the old "fulfilled" field's value of the PurchaseInvitation entity.
-// If the PurchaseInvitation object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PurchaseInvitationMutation) OldFulfilled(ctx context.Context) (v bool, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldFulfilled is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldFulfilled requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldFulfilled: %w", err)
-	}
-	return oldValue.Fulfilled, nil
-}
-
-// ResetFulfilled resets all changes to the "fulfilled" field.
-func (m *PurchaseInvitationMutation) ResetFulfilled() {
-	m.fulfilled = nil
-}
-
 // SetCreateAt sets the "create_at" field.
 func (m *PurchaseInvitationMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -6622,7 +6585,7 @@ func (m *PurchaseInvitationMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *PurchaseInvitationMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 6)
 	if m.app_id != nil {
 		fields = append(fields, purchaseinvitation.FieldAppID)
 	}
@@ -6631,9 +6594,6 @@ func (m *PurchaseInvitationMutation) Fields() []string {
 	}
 	if m.invitation_code_id != nil {
 		fields = append(fields, purchaseinvitation.FieldInvitationCodeID)
-	}
-	if m.fulfilled != nil {
-		fields = append(fields, purchaseinvitation.FieldFulfilled)
 	}
 	if m.create_at != nil {
 		fields = append(fields, purchaseinvitation.FieldCreateAt)
@@ -6658,8 +6618,6 @@ func (m *PurchaseInvitationMutation) Field(name string) (ent.Value, bool) {
 		return m.OrderID()
 	case purchaseinvitation.FieldInvitationCodeID:
 		return m.InvitationCodeID()
-	case purchaseinvitation.FieldFulfilled:
-		return m.Fulfilled()
 	case purchaseinvitation.FieldCreateAt:
 		return m.CreateAt()
 	case purchaseinvitation.FieldUpdateAt:
@@ -6681,8 +6639,6 @@ func (m *PurchaseInvitationMutation) OldField(ctx context.Context, name string) 
 		return m.OldOrderID(ctx)
 	case purchaseinvitation.FieldInvitationCodeID:
 		return m.OldInvitationCodeID(ctx)
-	case purchaseinvitation.FieldFulfilled:
-		return m.OldFulfilled(ctx)
 	case purchaseinvitation.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case purchaseinvitation.FieldUpdateAt:
@@ -6718,13 +6674,6 @@ func (m *PurchaseInvitationMutation) SetField(name string, value ent.Value) erro
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetInvitationCodeID(v)
-		return nil
-	case purchaseinvitation.FieldFulfilled:
-		v, ok := value.(bool)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetFulfilled(v)
 		return nil
 	case purchaseinvitation.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -6844,9 +6793,6 @@ func (m *PurchaseInvitationMutation) ResetField(name string) error {
 	case purchaseinvitation.FieldInvitationCodeID:
 		m.ResetInvitationCodeID()
 		return nil
-	case purchaseinvitation.FieldFulfilled:
-		m.ResetFulfilled()
-		return nil
 	case purchaseinvitation.FieldCreateAt:
 		m.ResetCreateAt()
 		return nil
@@ -6923,7 +6869,6 @@ type RegistrationInvitationMutation struct {
 	inviter_id    *uuid.UUID
 	invitee_id    *uuid.UUID
 	app_id        *uuid.UUID
-	fulfilled     *bool
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*RegistrationInvitation, error)
@@ -7291,42 +7236,6 @@ func (m *RegistrationInvitationMutation) ResetAppID() {
 	m.app_id = nil
 }
 
-// SetFulfilled sets the "fulfilled" field.
-func (m *RegistrationInvitationMutation) SetFulfilled(b bool) {
-	m.fulfilled = &b
-}
-
-// Fulfilled returns the value of the "fulfilled" field in the mutation.
-func (m *RegistrationInvitationMutation) Fulfilled() (r bool, exists bool) {
-	v := m.fulfilled
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldFulfilled returns the old "fulfilled" field's value of the RegistrationInvitation entity.
-// If the RegistrationInvitation object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RegistrationInvitationMutation) OldFulfilled(ctx context.Context) (v bool, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldFulfilled is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldFulfilled requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldFulfilled: %w", err)
-	}
-	return oldValue.Fulfilled, nil
-}
-
-// ResetFulfilled resets all changes to the "fulfilled" field.
-func (m *RegistrationInvitationMutation) ResetFulfilled() {
-	m.fulfilled = nil
-}
-
 // Where appends a list predicates to the RegistrationInvitationMutation builder.
 func (m *RegistrationInvitationMutation) Where(ps ...predicate.RegistrationInvitation) {
 	m.predicates = append(m.predicates, ps...)
@@ -7346,7 +7255,7 @@ func (m *RegistrationInvitationMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *RegistrationInvitationMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 6)
 	if m.create_at != nil {
 		fields = append(fields, registrationinvitation.FieldCreateAt)
 	}
@@ -7364,9 +7273,6 @@ func (m *RegistrationInvitationMutation) Fields() []string {
 	}
 	if m.app_id != nil {
 		fields = append(fields, registrationinvitation.FieldAppID)
-	}
-	if m.fulfilled != nil {
-		fields = append(fields, registrationinvitation.FieldFulfilled)
 	}
 	return fields
 }
@@ -7388,8 +7294,6 @@ func (m *RegistrationInvitationMutation) Field(name string) (ent.Value, bool) {
 		return m.InviteeID()
 	case registrationinvitation.FieldAppID:
 		return m.AppID()
-	case registrationinvitation.FieldFulfilled:
-		return m.Fulfilled()
 	}
 	return nil, false
 }
@@ -7411,8 +7315,6 @@ func (m *RegistrationInvitationMutation) OldField(ctx context.Context, name stri
 		return m.OldInviteeID(ctx)
 	case registrationinvitation.FieldAppID:
 		return m.OldAppID(ctx)
-	case registrationinvitation.FieldFulfilled:
-		return m.OldFulfilled(ctx)
 	}
 	return nil, fmt.Errorf("unknown RegistrationInvitation field %s", name)
 }
@@ -7463,13 +7365,6 @@ func (m *RegistrationInvitationMutation) SetField(name string, value ent.Value) 
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAppID(v)
-		return nil
-	case registrationinvitation.FieldFulfilled:
-		v, ok := value.(bool)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetFulfilled(v)
 		return nil
 	}
 	return fmt.Errorf("unknown RegistrationInvitation field %s", name)
@@ -7576,9 +7471,6 @@ func (m *RegistrationInvitationMutation) ResetField(name string) error {
 		return nil
 	case registrationinvitation.FieldAppID:
 		m.ResetAppID()
-		return nil
-	case registrationinvitation.FieldFulfilled:
-		m.ResetFulfilled()
 		return nil
 	}
 	return fmt.Errorf("unknown RegistrationInvitation field %s", name)

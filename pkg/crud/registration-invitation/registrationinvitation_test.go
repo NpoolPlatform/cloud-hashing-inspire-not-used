@@ -28,7 +28,6 @@ func assertRegistrationInvitation(t *testing.T, actual, expected *npool.Registra
 	assert.Equal(t, actual.AppID, expected.AppID)
 	assert.Equal(t, actual.InviterID, expected.InviterID)
 	assert.Equal(t, actual.InviteeID, expected.InviteeID)
-	assert.Equal(t, actual.Fulfilled, expected.Fulfilled)
 }
 
 func TestCRUD(t *testing.T) {
@@ -83,8 +82,6 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, resp4.Info.ID, resp.Info.ID)
 		assertRegistrationInvitation(t, resp4.Info, &invitation)
 	}
-
-	invitation.Fulfilled = true
 
 	resp5, err := Update(context.Background(), &npool.UpdateRegistrationInvitationRequest{
 		Info: &invitation,

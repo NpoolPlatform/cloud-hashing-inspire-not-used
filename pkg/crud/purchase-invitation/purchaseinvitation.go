@@ -33,7 +33,6 @@ func dbRowToPurchaseInvitation(row *ent.PurchaseInvitation) *npool.PurchaseInvit
 		AppID:            row.AppID.String(),
 		OrderID:          row.OrderID.String(),
 		InvitationCodeID: row.InvitationCodeID.String(),
-		Fulfilled:        row.Fulfilled,
 	}
 }
 
@@ -48,7 +47,6 @@ func Create(ctx context.Context, in *npool.CreatePurchaseInvitationRequest) (*np
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
 		SetOrderID(uuid.MustParse(in.GetInfo().GetOrderID())).
 		SetInvitationCodeID(uuid.MustParse(in.GetInfo().GetInvitationCodeID())).
-		SetFulfilled(false).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create purchase invitation: %v", err)
@@ -72,7 +70,6 @@ func Update(ctx context.Context, in *npool.UpdatePurchaseInvitationRequest) (*np
 	info, err := db.Client().
 		PurchaseInvitation.
 		UpdateOneID(id).
-		SetFulfilled(in.GetInfo().GetFulfilled()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update purchase invitation: %v", err)

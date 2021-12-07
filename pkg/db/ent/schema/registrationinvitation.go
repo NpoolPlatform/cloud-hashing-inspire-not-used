@@ -39,8 +39,6 @@ func (RegistrationInvitation) Fields() []ent.Field {
 		field.UUID("inviter_id", uuid.UUID{}),
 		field.UUID("invitee_id", uuid.UUID{}),
 		field.UUID("app_id", uuid.UUID{}),
-		field.Bool("fulfilled").
-			Default(false),
 	}
 }
 
@@ -52,9 +50,7 @@ func (RegistrationInvitation) Edges() []ent.Edge {
 // Indexs of the RegistrationInvitation.
 func (RegistrationInvitation) Indexs() []ent.Index {
 	return []ent.Index{
-		index.Fields("app_id", "inviter_id").
-			Unique(),
-		index.Fields("app_id", "invitee_id").
+		index.Fields("app_id", "inviter_id", "invitee_id").
 			Unique(),
 	}
 }

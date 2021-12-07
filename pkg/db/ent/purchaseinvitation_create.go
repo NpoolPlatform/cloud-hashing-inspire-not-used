@@ -41,20 +41,6 @@ func (pic *PurchaseInvitationCreate) SetInvitationCodeID(u uuid.UUID) *PurchaseI
 	return pic
 }
 
-// SetFulfilled sets the "fulfilled" field.
-func (pic *PurchaseInvitationCreate) SetFulfilled(b bool) *PurchaseInvitationCreate {
-	pic.mutation.SetFulfilled(b)
-	return pic
-}
-
-// SetNillableFulfilled sets the "fulfilled" field if the given value is not nil.
-func (pic *PurchaseInvitationCreate) SetNillableFulfilled(b *bool) *PurchaseInvitationCreate {
-	if b != nil {
-		pic.SetFulfilled(*b)
-	}
-	return pic
-}
-
 // SetCreateAt sets the "create_at" field.
 func (pic *PurchaseInvitationCreate) SetCreateAt(u uint32) *PurchaseInvitationCreate {
 	pic.mutation.SetCreateAt(u)
@@ -174,10 +160,6 @@ func (pic *PurchaseInvitationCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (pic *PurchaseInvitationCreate) defaults() {
-	if _, ok := pic.mutation.Fulfilled(); !ok {
-		v := purchaseinvitation.DefaultFulfilled
-		pic.mutation.SetFulfilled(v)
-	}
 	if _, ok := pic.mutation.CreateAt(); !ok {
 		v := purchaseinvitation.DefaultCreateAt()
 		pic.mutation.SetCreateAt(v)
@@ -206,9 +188,6 @@ func (pic *PurchaseInvitationCreate) check() error {
 	}
 	if _, ok := pic.mutation.InvitationCodeID(); !ok {
 		return &ValidationError{Name: "invitation_code_id", err: errors.New(`ent: missing required field "invitation_code_id"`)}
-	}
-	if _, ok := pic.mutation.Fulfilled(); !ok {
-		return &ValidationError{Name: "fulfilled", err: errors.New(`ent: missing required field "fulfilled"`)}
 	}
 	if _, ok := pic.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
@@ -275,14 +254,6 @@ func (pic *PurchaseInvitationCreate) createSpec() (*PurchaseInvitation, *sqlgrap
 			Column: purchaseinvitation.FieldInvitationCodeID,
 		})
 		_node.InvitationCodeID = value
-	}
-	if value, ok := pic.mutation.Fulfilled(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeBool,
-			Value:  value,
-			Column: purchaseinvitation.FieldFulfilled,
-		})
-		_node.Fulfilled = value
 	}
 	if value, ok := pic.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -395,18 +366,6 @@ func (u *PurchaseInvitationUpsert) SetInvitationCodeID(v uuid.UUID) *PurchaseInv
 // UpdateInvitationCodeID sets the "invitation_code_id" field to the value that was provided on create.
 func (u *PurchaseInvitationUpsert) UpdateInvitationCodeID() *PurchaseInvitationUpsert {
 	u.SetExcluded(purchaseinvitation.FieldInvitationCodeID)
-	return u
-}
-
-// SetFulfilled sets the "fulfilled" field.
-func (u *PurchaseInvitationUpsert) SetFulfilled(v bool) *PurchaseInvitationUpsert {
-	u.Set(purchaseinvitation.FieldFulfilled, v)
-	return u
-}
-
-// UpdateFulfilled sets the "fulfilled" field to the value that was provided on create.
-func (u *PurchaseInvitationUpsert) UpdateFulfilled() *PurchaseInvitationUpsert {
-	u.SetExcluded(purchaseinvitation.FieldFulfilled)
 	return u
 }
 
@@ -535,20 +494,6 @@ func (u *PurchaseInvitationUpsertOne) SetInvitationCodeID(v uuid.UUID) *Purchase
 func (u *PurchaseInvitationUpsertOne) UpdateInvitationCodeID() *PurchaseInvitationUpsertOne {
 	return u.Update(func(s *PurchaseInvitationUpsert) {
 		s.UpdateInvitationCodeID()
-	})
-}
-
-// SetFulfilled sets the "fulfilled" field.
-func (u *PurchaseInvitationUpsertOne) SetFulfilled(v bool) *PurchaseInvitationUpsertOne {
-	return u.Update(func(s *PurchaseInvitationUpsert) {
-		s.SetFulfilled(v)
-	})
-}
-
-// UpdateFulfilled sets the "fulfilled" field to the value that was provided on create.
-func (u *PurchaseInvitationUpsertOne) UpdateFulfilled() *PurchaseInvitationUpsertOne {
-	return u.Update(func(s *PurchaseInvitationUpsert) {
-		s.UpdateFulfilled()
 	})
 }
 
@@ -849,20 +794,6 @@ func (u *PurchaseInvitationUpsertBulk) SetInvitationCodeID(v uuid.UUID) *Purchas
 func (u *PurchaseInvitationUpsertBulk) UpdateInvitationCodeID() *PurchaseInvitationUpsertBulk {
 	return u.Update(func(s *PurchaseInvitationUpsert) {
 		s.UpdateInvitationCodeID()
-	})
-}
-
-// SetFulfilled sets the "fulfilled" field.
-func (u *PurchaseInvitationUpsertBulk) SetFulfilled(v bool) *PurchaseInvitationUpsertBulk {
-	return u.Update(func(s *PurchaseInvitationUpsert) {
-		s.SetFulfilled(v)
-	})
-}
-
-// UpdateFulfilled sets the "fulfilled" field to the value that was provided on create.
-func (u *PurchaseInvitationUpsertBulk) UpdateFulfilled() *PurchaseInvitationUpsertBulk {
-	return u.Update(func(s *PurchaseInvitationUpsert) {
-		s.UpdateFulfilled()
 	})
 }
 

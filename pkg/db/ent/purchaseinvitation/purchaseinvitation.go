@@ -17,8 +17,6 @@ const (
 	FieldOrderID = "order_id"
 	// FieldInvitationCodeID holds the string denoting the invitation_code_id field in the database.
 	FieldInvitationCodeID = "invitation_code_id"
-	// FieldFulfilled holds the string denoting the fulfilled field in the database.
-	FieldFulfilled = "fulfilled"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -35,7 +33,6 @@ var Columns = []string{
 	FieldAppID,
 	FieldOrderID,
 	FieldInvitationCodeID,
-	FieldFulfilled,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,
@@ -52,8 +49,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultFulfilled holds the default value on creation for the "fulfilled" field.
-	DefaultFulfilled bool
 	// DefaultCreateAt holds the default value on creation for the "create_at" field.
 	DefaultCreateAt func() uint32
 	// DefaultUpdateAt holds the default value on creation for the "update_at" field.

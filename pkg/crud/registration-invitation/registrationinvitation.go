@@ -33,7 +33,6 @@ func dbRowToRegistrationInvitation(row *ent.RegistrationInvitation) *npool.Regis
 		AppID:     row.AppID.String(),
 		InviterID: row.InviterID.String(),
 		InviteeID: row.InviteeID.String(),
-		Fulfilled: row.Fulfilled,
 	}
 }
 
@@ -48,7 +47,6 @@ func Create(ctx context.Context, in *npool.CreateRegistrationInvitationRequest) 
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
 		SetInviterID(uuid.MustParse(in.GetInfo().GetInviterID())).
 		SetInviteeID(uuid.MustParse(in.GetInfo().GetInviteeID())).
-		SetFulfilled(false).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create registration invitation: %v", err)
@@ -72,7 +70,6 @@ func Update(ctx context.Context, in *npool.UpdateRegistrationInvitationRequest) 
 	info, err := db.Client().
 		RegistrationInvitation.
 		UpdateOneID(id).
-		SetFulfilled(in.GetInfo().GetFulfilled()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update registration invitation: %v", err)

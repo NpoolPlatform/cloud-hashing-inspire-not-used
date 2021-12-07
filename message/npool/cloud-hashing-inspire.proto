@@ -497,7 +497,6 @@ message PurchaseInvitation {
     string AppID = 2001;
     string OrderID = 2002;
     string InvitationCodeID = 2003;
-    bool Fulfilled = 2004;
 }
 
 message CreatePurchaseInvitationRequest {
@@ -546,7 +545,6 @@ message RegistrationInvitation {
     string AppID = 2901;
     string InviterID = 2902;
     string InviteeID = 2903;
-    bool Fulfilled = 2904;
 }
 
 message CreateRegistrationInvitationRequest {

@@ -28,7 +28,6 @@ func assertPurchaseInvitation(t *testing.T, actual, expected *npool.PurchaseInvi
 	assert.Equal(t, actual.AppID, expected.AppID)
 	assert.Equal(t, actual.OrderID, expected.OrderID)
 	assert.Equal(t, actual.InvitationCodeID, expected.InvitationCodeID)
-	assert.Equal(t, actual.Fulfilled, expected.Fulfilled)
 }
 
 func TestCRUD(t *testing.T) {
@@ -75,8 +74,6 @@ func TestCRUD(t *testing.T) {
 		assert.Equal(t, resp3.Info.ID, resp.Info.ID)
 		assertPurchaseInvitation(t, resp3.Info, &invitation)
 	}
-
-	invitation.Fulfilled = true
 
 	resp4, err := Update(context.Background(), &npool.UpdatePurchaseInvitationRequest{
 		Info: &invitation,

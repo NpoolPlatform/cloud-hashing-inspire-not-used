@@ -143,7 +143,6 @@ var (
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "order_id", Type: field.TypeUUID},
 		{Name: "invitation_code_id", Type: field.TypeUUID},
-		{Name: "fulfilled", Type: field.TypeBool, Default: false},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -163,7 +162,6 @@ var (
 		{Name: "inviter_id", Type: field.TypeUUID},
 		{Name: "invitee_id", Type: field.TypeUUID},
 		{Name: "app_id", Type: field.TypeUUID},
-		{Name: "fulfilled", Type: field.TypeBool, Default: false},
 	}
 	// RegistrationInvitationsTable holds the schema information for the "registration_invitations" table.
 	RegistrationInvitationsTable = &schema.Table{
