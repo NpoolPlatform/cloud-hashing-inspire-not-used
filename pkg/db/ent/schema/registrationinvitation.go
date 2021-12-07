@@ -47,7 +47,7 @@ func (RegistrationInvitation) Edges() []ent.Edge {
 	return nil
 }
 
-// Indexs of the RegistrationInvitation.
+// Indexes of the RegistrationInvitation.
 func (RegistrationInvitation) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("app_id", "invitee_id").

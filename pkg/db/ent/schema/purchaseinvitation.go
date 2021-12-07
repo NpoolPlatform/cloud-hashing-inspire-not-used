@@ -47,7 +47,7 @@ func (PurchaseInvitation) Edges() []ent.Edge {
 	return nil
 }
 
-// Indexs of the PurchaseInvitation.
+// Indexes of the PurchaseInvitation.
 func (PurchaseInvitation) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("app_id", "order_id").

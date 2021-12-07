@@ -49,7 +49,7 @@ func (UserKpiSetting) Edges() []ent.Edge {
 	return nil
 }
 
-// Indexs of the UserKpiSetting.
+// Indexes of the UserKpiSetting.
 func (UserKpiSetting) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("app_id", "good_id", "user_id").

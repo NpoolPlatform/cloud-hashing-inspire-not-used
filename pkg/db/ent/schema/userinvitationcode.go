@@ -48,7 +48,7 @@ func (UserInvitationCode) Edges() []ent.Edge {
 	return nil
 }
 
-// Indexs of the UserInvitationCode.
+// Indexes of the UserInvitationCode.
 func (UserInvitationCode) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("app_id", "user_id").

@@ -48,7 +48,7 @@ func (DefaultKpiSetting) Edges() []ent.Edge {
 	return nil
 }
 
-// Indexs of the DefaultKpiSetting.
+// Indexes of the DefaultKpiSetting.
 func (DefaultKpiSetting) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("app_id", "good_id").
