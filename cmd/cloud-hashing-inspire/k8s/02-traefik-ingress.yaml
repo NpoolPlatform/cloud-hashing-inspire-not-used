@@ -12,7 +12,10 @@ metadata:
 
 spec:
   tls:
-    - secretName: procyon-vip-tls
+      - hosts:
+          - www.procyon.vip
+          - procyon.vip
+        secretName: procyon-vip-tls
   rules:
     - host: api.npool.top
       http: &http_rules
