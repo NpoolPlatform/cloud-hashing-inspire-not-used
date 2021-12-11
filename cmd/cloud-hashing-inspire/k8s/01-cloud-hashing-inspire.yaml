@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: cloud-hashing-inspire
-        image: entropypool/cloud-hashing-inspire:latest
+        image: uhub.service.ucloud.cn/entropypool/cloud-hashing-inspire:latest
         imagePullPolicy: Always
         env:
         - name: ENV_ENVIRONMENT_TARGET
