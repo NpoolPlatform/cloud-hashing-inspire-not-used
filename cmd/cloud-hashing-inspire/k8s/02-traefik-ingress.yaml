@@ -27,6 +27,10 @@ spec:
       http: *http_rules
     - host: www.xpool.top
       http: *http_rules
+    - host: www.procyon.vip
+      http: *http_rules
+    - host: procyon.vip
+      http: *http_rules
 
 ---
 
@@ -47,7 +51,7 @@ spec:
     - secretName: procyon-vip-tls
   rules:
     - host: api.npool.top
-      http: &http_rules
+      http: &http_appid_userid_rules
         paths:
           - path: /api/cloud-hashing-inspire/v1/get/user/invitation/code
             backend:
@@ -58,11 +62,15 @@ spec:
               serviceName: cloud-hashing-inspire
               servicePort: 50130
     - host: api.xpool.top
-      http: *http_rules
+      http: *http_appid_userid_rules
     - host: www.npool.top
-      http: *http_rules
+      http: *http_appid_userid_rules
     - host: www.xpool.top
-      http: *http_rules
+      http: *http_appid_userid_rules
+    - host: www.procyon.vip
+      http: *http_appid_userid_rules
+    - host: procyon.vip
+      http: *http_appid_userid_rules
 
 ---
 
