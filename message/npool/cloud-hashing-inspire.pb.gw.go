@@ -2715,7 +2715,7 @@ func RegisterCloudHashingInspireHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateUserInvitationCode", runtime.WithHTTPPathPattern("/v1/create/user/invitattion/code"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateUserInvitationCode", runtime.WithHTTPPathPattern("/v1/create/user/invitation/code"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4134,7 +4134,7 @@ func RegisterCloudHashingInspireHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateUserInvitationCode", runtime.WithHTTPPathPattern("/v1/create/user/invitattion/code"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/cloud.hashing.inspire.v1.CloudHashingInspire/CreateUserInvitationCode", runtime.WithHTTPPathPattern("/v1/create/user/invitation/code"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4980,7 +4980,7 @@ var (
 
 	pattern_CloudHashingInspire_GetRegistrationInvitationByAppInvitee_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 2, 5, 2, 6}, []string{"v1", "get", "registration", "invitations", "by", "app", "invitee"}, ""))
 
-	pattern_CloudHashingInspire_CreateUserInvitationCode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"v1", "create", "user", "invitattion", "code"}, ""))
+	pattern_CloudHashingInspire_CreateUserInvitationCode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"v1", "create", "user", "invitation", "code"}, ""))
 
 	pattern_CloudHashingInspire_GetUserInvitationCode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"v1", "get", "user", "invitation", "code"}, ""))
 
