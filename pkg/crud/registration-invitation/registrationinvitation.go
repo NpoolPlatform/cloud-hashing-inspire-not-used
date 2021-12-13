@@ -196,7 +196,13 @@ func GetByAppInvitee(ctx context.Context, in *npool.GetRegistrationInvitationByA
 		return nil, xerrors.Errorf("fail query registration invitation: %v", err)
 	}
 
+	var invitation *npool.RegistrationInvitation
+	for _, info := range infos {
+		invitation = dbRowToRegistrationInvitation(info)
+		break
+	}
+
 	return &npool.GetRegistrationInvitationByAppInviteeResponse{
-		Info: dbRowToRegistrationInvitation(infos[0]),
+		Info: invitation,
 	}, nil
 }
