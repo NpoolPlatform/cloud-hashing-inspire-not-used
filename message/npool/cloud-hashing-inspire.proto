@@ -155,7 +155,7 @@ service CloudHashingInspire {
 
     rpc CreateUserInvitationCode(CreateUserInvitationCodeRequest) returns (CreateUserInvitationCodeResponse) {
         option (google.api.http) = {
-            post: "/v1/create/user/invitattion/code"
+            post: "/v1/create/user/invitation/code"
             body: "*"
         };
     }
