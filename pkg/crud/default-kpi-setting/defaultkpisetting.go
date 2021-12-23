@@ -41,7 +41,12 @@ func Create(ctx context.Context, in *npool.CreateDefaultKpiSettingRequest) (*npo
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		DefaultKpiSetting.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
@@ -64,7 +69,12 @@ func Get(ctx context.Context, in *npool.GetDefaultKpiSettingRequest) (*npool.Get
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		DefaultKpiSetting.
 		Query().
 		Where(
@@ -96,7 +106,12 @@ func GetByAppGood(ctx context.Context, in *npool.GetDefaultKpiSettingByAppGoodRe
 		return nil, xerrors.Errorf("invalid good id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		DefaultKpiSetting.
 		Query().
 		Where(
@@ -128,7 +143,12 @@ func Update(ctx context.Context, in *npool.UpdateDefaultKpiSettingRequest) (*npo
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		DefaultKpiSetting.
 		UpdateOneID(id).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).

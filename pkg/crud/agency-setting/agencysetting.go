@@ -43,7 +43,12 @@ func Create(ctx context.Context, in *npool.CreateAgencySettingRequest) (*npool.C
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		AgencySetting.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
@@ -70,7 +75,12 @@ func Get(ctx context.Context, in *npool.GetAgencySettingRequest) (*npool.GetAgen
 		return nil, xerrors.Errorf("invlaid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		AgencySetting.
 		Query().
 		Where(
@@ -97,7 +107,12 @@ func GetByApp(ctx context.Context, in *npool.GetAgencySettingByAppRequest) (*npo
 		return nil, xerrors.Errorf("invalid app id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		AgencySetting.
 		Query().
 		Where(
@@ -128,7 +143,12 @@ func Update(ctx context.Context, in *npool.UpdateAgencySettingRequest) (*npool.U
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		AgencySetting.
 		UpdateOneID(id).
 		SetRegistrationRewardThreshold(in.GetInfo().GetRegistrationRewardThreshold()).

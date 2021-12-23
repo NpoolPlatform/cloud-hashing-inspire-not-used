@@ -40,7 +40,12 @@ func generateInvitationCode() (string, error) {
 }
 
 func codeExist(ctx context.Context, code string) (bool, error) {
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return false, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserInvitationCode.
 		Query().
 		Where(
@@ -91,7 +96,12 @@ func Create(ctx context.Context, in *npool.CreateUserInvitationCodeRequest) (*np
 		break
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		UserInvitationCode.
 		Create().
 		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
@@ -113,7 +123,12 @@ func Get(ctx context.Context, in *npool.GetUserInvitationCodeRequest) (*npool.Ge
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserInvitationCode.
 		Query().
 		Where(
@@ -142,7 +157,12 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserInvitationCodeByAppUserR
 		return nil, xerrors.Errorf("invlaid app id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserInvitationCode.
 		Query().
 		Where(
@@ -167,7 +187,12 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserInvitationCodeByAppUserR
 }
 
 func GetByCode(ctx context.Context, in *npool.GetUserInvitationCodeByCodeRequest) (*npool.GetUserInvitationCodeByCodeResponse, error) {
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserInvitationCode.
 		Query().
 		Where(

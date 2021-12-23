@@ -47,7 +47,12 @@ func Create(ctx context.Context, in *npool.CreateUserSpecialReductionRequest) (*
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		UserSpecialReduction.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
@@ -77,7 +82,12 @@ func Update(ctx context.Context, in *npool.UpdateUserSpecialReductionRequest) (*
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		UserSpecialReduction.
 		UpdateOneID(id).
 		SetMessage(in.GetInfo().GetMessage()).
@@ -97,7 +107,12 @@ func Get(ctx context.Context, in *npool.GetUserSpecialReductionRequest) (*npool.
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserSpecialReduction.
 		Query().
 		Where(
@@ -124,7 +139,12 @@ func GetByApp(ctx context.Context, in *npool.GetUserSpecialReductionsByAppReques
 		return nil, xerrors.Errorf("invalid app id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserSpecialReduction.
 		Query().
 		Where(
@@ -158,7 +178,12 @@ func GetByAppReleaser(ctx context.Context, in *npool.GetUserSpecialReductionsByA
 		return nil, xerrors.Errorf("invlaid releaser id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserSpecialReduction.
 		Query().
 		Where(
@@ -193,7 +218,12 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppUs
 		return nil, xerrors.Errorf("invlaid user id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		UserSpecialReduction.
 		Query().
 		Where(

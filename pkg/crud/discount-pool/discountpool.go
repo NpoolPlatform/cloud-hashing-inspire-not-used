@@ -42,7 +42,12 @@ func Create(ctx context.Context, in *npool.CreateDiscountPoolRequest) (*npool.Cr
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		DiscountPool.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
@@ -72,7 +77,12 @@ func Update(ctx context.Context, in *npool.UpdateDiscountPoolRequest) (*npool.Up
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		DiscountPool.
 		UpdateOneID(id).
 		SetMessage(in.GetInfo().GetMessage()).
@@ -93,7 +103,12 @@ func Get(ctx context.Context, in *npool.GetDiscountPoolRequest) (*npool.GetDisco
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		DiscountPool.
 		Query().
 		Where(
@@ -120,7 +135,12 @@ func GetByApp(ctx context.Context, in *npool.GetDiscountPoolsByAppRequest) (*npo
 		return nil, xerrors.Errorf("invalid app id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		DiscountPool.
 		Query().
 		Where(
@@ -157,7 +177,12 @@ func GetByAppReleaser(ctx context.Context, in *npool.GetDiscountPoolsByAppReleas
 		return nil, xerrors.Errorf("invlaid releaser id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		DiscountPool.
 		Query().
 		Where(

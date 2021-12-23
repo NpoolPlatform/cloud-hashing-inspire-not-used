@@ -41,7 +41,12 @@ func Create(ctx context.Context, in *npool.CreateRegistrationInvitationRequest) 
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		RegistrationInvitation.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
@@ -67,7 +72,12 @@ func Update(ctx context.Context, in *npool.UpdateRegistrationInvitationRequest) 
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		RegistrationInvitation.
 		UpdateOneID(id).
 		Save(ctx)
@@ -86,7 +96,12 @@ func Get(ctx context.Context, in *npool.GetRegistrationInvitationRequest) (*npoo
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		RegistrationInvitation.
 		Query().
 		Where(
@@ -113,7 +128,12 @@ func GetByApp(ctx context.Context, in *npool.GetRegistrationInvitationsByAppRequ
 		return nil, xerrors.Errorf("invalid app id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		RegistrationInvitation.
 		Query().
 		Where(
@@ -147,7 +167,12 @@ func GetByAppInviter(ctx context.Context, in *npool.GetRegistrationInvitationsBy
 		return nil, xerrors.Errorf("invalid inviter id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		RegistrationInvitation.
 		Query().
 		Where(
@@ -182,7 +207,12 @@ func GetByAppInvitee(ctx context.Context, in *npool.GetRegistrationInvitationByA
 		return nil, xerrors.Errorf("invalid invitee id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		RegistrationInvitation.
 		Query().
 		Where(

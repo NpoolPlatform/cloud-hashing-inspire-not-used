@@ -42,7 +42,12 @@ func Create(ctx context.Context, in *npool.CreateCouponAllocatedRequest) (*npool
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		CouponAllocated.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
@@ -69,7 +74,12 @@ func Update(ctx context.Context, in *npool.UpdateCouponAllocatedRequest) (*npool
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		CouponAllocated.
 		UpdateOneID(id).
 		Save(ctx)
@@ -88,7 +98,12 @@ func Get(ctx context.Context, in *npool.GetCouponAllocatedRequest) (*npool.GetCo
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		CouponAllocated.
 		Query().
 		Where(
@@ -115,7 +130,12 @@ func GetByApp(ctx context.Context, in *npool.GetCouponsAllocatedByAppRequest) (*
 		return nil, xerrors.Errorf("invalid app id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		CouponAllocated.
 		Query().
 		Where(
@@ -149,7 +169,12 @@ func GetByAppUser(ctx context.Context, in *npool.GetCouponsAllocatedByAppUserReq
 		return nil, xerrors.Errorf("invalid user id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		CouponAllocated.
 		Query().
 		Where(

@@ -37,7 +37,12 @@ func Create(ctx context.Context, in *npool.CreateAppCouponSettingRequest) (*npoo
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		AppCouponSetting.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
@@ -59,7 +64,12 @@ func Get(ctx context.Context, in *npool.GetAppCouponSettingRequest) (*npool.GetA
 		return nil, xerrors.Errorf("invlaid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		AppCouponSetting.
 		Query().
 		Where(
@@ -86,7 +96,12 @@ func GetByApp(ctx context.Context, in *npool.GetAppCouponSettingByAppRequest) (*
 		return nil, xerrors.Errorf("invalid app id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		AppCouponSetting.
 		Query().
 		Where(
@@ -117,7 +132,12 @@ func Update(ctx context.Context, in *npool.UpdateAppCouponSettingRequest) (*npoo
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		AppCouponSetting.
 		UpdateOneID(id).
 		SetDominationLimit(price.VisualPriceToDBPrice(in.GetInfo().GetDominationLimit())).

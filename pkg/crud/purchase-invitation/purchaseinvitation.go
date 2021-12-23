@@ -41,7 +41,12 @@ func Create(ctx context.Context, in *npool.CreatePurchaseInvitationRequest) (*np
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		PurchaseInvitation.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
@@ -67,7 +72,12 @@ func Update(ctx context.Context, in *npool.UpdatePurchaseInvitationRequest) (*np
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		PurchaseInvitation.
 		UpdateOneID(id).
 		Save(ctx)
@@ -86,7 +96,12 @@ func Get(ctx context.Context, in *npool.GetPurchaseInvitationRequest) (*npool.Ge
 		return nil, xerrors.Errorf("invalid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		PurchaseInvitation.
 		Query().
 		Where(
@@ -113,7 +128,12 @@ func GetByApp(ctx context.Context, in *npool.GetPurchaseInvitationsByAppRequest)
 		return nil, xerrors.Errorf("invalid app id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		PurchaseInvitation.
 		Query().
 		Where(
@@ -150,7 +170,12 @@ func GetByAppOrder(ctx context.Context, in *npool.GetPurchaseInvitationByAppOrde
 		return nil, xerrors.Errorf("invalid order id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		PurchaseInvitation.
 		Query().
 		Where(

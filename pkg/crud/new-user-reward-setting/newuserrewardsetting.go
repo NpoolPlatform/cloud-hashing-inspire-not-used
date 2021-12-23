@@ -42,7 +42,12 @@ func Create(ctx context.Context, in *npool.CreateNewUserRewardSettingRequest) (*
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		NewUserRewardSetting.
 		Create().
 		SetRegistrationCouponID(uuid.MustParse(in.GetInfo().GetRegistrationCouponID())).
@@ -64,7 +69,12 @@ func Get(ctx context.Context, in *npool.GetNewUserRewardSettingRequest) (*npool.
 		return nil, xerrors.Errorf("invlaid id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		NewUserRewardSetting.
 		Query().
 		Where(
@@ -91,7 +101,12 @@ func GetByApp(ctx context.Context, in *npool.GetNewUserRewardSettingByAppRequest
 		return nil, xerrors.Errorf("invalid app id: %v", err)
 	}
 
-	infos, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
 		NewUserRewardSetting.
 		Query().
 		Where(
@@ -122,7 +137,12 @@ func Update(ctx context.Context, in *npool.UpdateNewUserRewardSettingRequest) (*
 		return nil, xerrors.Errorf("invalid parameter: %v", err)
 	}
 
-	info, err := db.Client().
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
 		NewUserRewardSetting.
 		UpdateOneID(id).
 		SetRegistrationCouponID(uuid.MustParse(in.GetInfo().GetRegistrationCouponID())).
