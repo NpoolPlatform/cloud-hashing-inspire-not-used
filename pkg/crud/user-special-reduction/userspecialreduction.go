@@ -1,3 +1,5 @@
+// +build !codeanalysis
+
 package userspecialreduction
 
 import (
@@ -167,15 +169,23 @@ func GetByApp(ctx context.Context, in *npool.GetUserSpecialReductionsByAppReques
 	}, nil
 }
 
-func GetByAppReleaser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppReleaserRequest) (*npool.GetUserSpecialReductionsByAppReleaserResponse, error) {
-	appID, err := uuid.Parse(in.GetAppID())
+func validateAppUser(appID, userID string) error {
+	_, err := uuid.Parse(appID)
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return xerrors.Errorf("invalid app id: %v", err)
 	}
 
-	userID, err := uuid.Parse(in.GetUserID())
+	_, err = uuid.Parse(userID)
 	if err != nil {
-		return nil, xerrors.Errorf("invlaid releaser id: %v", err)
+		return xerrors.Errorf("invlaid user id: %v", err)
+	}
+
+	return nil
+}
+
+func GetByAppReleaser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppReleaserRequest) (*npool.GetUserSpecialReductionsByAppReleaserResponse, error) {
+	if err := validateAppUser(in.GetAppID(), in.GetUserID()); err != nil {
+		return nil, xerrors.Errorf("invalid appid or userid: %v", err)
 	}
 
 	cli, err := db.Client()
@@ -188,8 +198,8 @@ func GetByAppReleaser(ctx context.Context, in *npool.GetUserSpecialReductionsByA
 		Query().
 		Where(
 			userspecialreduction.And(
-				userspecialreduction.AppID(appID),
-				userspecialreduction.ReleaseByUserID(userID),
+				userspecialreduction.AppID(uuid.MustParse(in.GetAppID())),
+				userspecialreduction.ReleaseByUserID(uuid.MustParse(in.GetUserID())),
 			),
 		).
 		All(ctx)
@@ -208,14 +218,8 @@ func GetByAppReleaser(ctx context.Context, in *npool.GetUserSpecialReductionsByA
 }
 
 func GetByAppUser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppUserRequest) (*npool.GetUserSpecialReductionsByAppUserResponse, error) {
-	appID, err := uuid.Parse(in.GetAppID())
-	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
-	}
-
-	userID, err := uuid.Parse(in.GetUserID())
-	if err != nil {
-		return nil, xerrors.Errorf("invlaid user id: %v", err)
+	if err := validateAppUser(in.GetAppID(), in.GetUserID()); err != nil {
+		return nil, xerrors.Errorf("invalid appid or userid: %v", err)
 	}
 
 	cli, err := db.Client()
@@ -228,8 +232,8 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppUs
 		Query().
 		Where(
 			userspecialreduction.And(
-				userspecialreduction.AppID(appID),
-				userspecialreduction.UserID(userID),
+				userspecialreduction.AppID(uuid.MustParse(in.GetAppID())),
+				userspecialreduction.UserID(uuid.MustParse(in.GetUserID())),
 			),
 		).
 		All(ctx)
