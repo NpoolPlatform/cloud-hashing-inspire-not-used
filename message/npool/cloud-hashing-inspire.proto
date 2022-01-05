@@ -545,6 +545,7 @@ message RegistrationInvitation {
     string AppID = 2901;
     string InviterID = 2902;
     string InviteeID = 2903;
+    uint32 CreateAt = 2904;
 }
 
 message CreateRegistrationInvitationRequest {

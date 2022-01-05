@@ -3659,7 +3659,7 @@ func RegisterCloudHashingInspireHandlerFromEndpoint(ctx context.Context, mux *ru
 
 // RegisterCloudHashingInspireHandler registers the http handlers for service CloudHashingInspire to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterCloudHashingInspireHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+func RegisterCloudHashingInspireHandler(ctx context.Context, mux *runtime.ServeMux, conn grpc.ClientConnInterface) error {
 	return RegisterCloudHashingInspireHandlerClient(ctx, mux, NewCloudHashingInspireClient(conn))
 }
 

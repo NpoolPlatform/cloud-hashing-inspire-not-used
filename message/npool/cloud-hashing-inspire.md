@@ -1937,6 +1937,7 @@
 | AppID | [string](#string) |  |  |
 | InviterID | [string](#string) |  |  |
 | InviteeID | [string](#string) |  |  |
+| CreateAt | [uint32](#uint32) |  |  |
 
 
 

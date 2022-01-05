@@ -33,6 +33,7 @@ func dbRowToRegistrationInvitation(row *ent.RegistrationInvitation) *npool.Regis
 		AppID:     row.AppID.String(),
 		InviterID: row.InviterID.String(),
 		InviteeID: row.InviteeID.String(),
+		CreateAt:  row.CreateAt,
 	}
 }
 
