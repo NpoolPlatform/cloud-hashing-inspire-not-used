@@ -5,7 +5,7 @@ package userspecialreduction
 import (
 	"context"
 
-	"github.com/NpoolPlatform/cloud-hashing-inspire/message/npool"
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"

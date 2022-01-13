@@ -5,7 +5,7 @@ package api
 import (
 	"context"
 
-	"github.com/NpoolPlatform/cloud-hashing-inspire/message/npool"
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/app-coupon-setting" //nolint
 
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"

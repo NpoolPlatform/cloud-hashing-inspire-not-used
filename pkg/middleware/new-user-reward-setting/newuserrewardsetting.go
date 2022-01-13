@@ -3,7 +3,7 @@ package newuserrewardsetting
 import (
 	"context"
 
-	"github.com/NpoolPlatform/cloud-hashing-inspire/message/npool"
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-pool"             //nolint
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/new-user-reward-setting" //nolint
