@@ -5,8 +5,8 @@ package api
 import (
 	"context"
 
-	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 	crud "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/user-kpi-setting" //nolint
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
 

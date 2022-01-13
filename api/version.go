@@ -5,9 +5,9 @@ package api
 import (
 	"context"
 
-	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/version"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"

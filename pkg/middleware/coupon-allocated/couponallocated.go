@@ -3,8 +3,8 @@ package couponallocated
 import (
 	"context"
 
-	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 	constant "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-allocated" //nolint
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-pool"      //nolint
