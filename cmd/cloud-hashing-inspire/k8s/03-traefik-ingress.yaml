@@ -1,23 +1,21 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: cloud-hashing-inspire-traefik-appid-ingress
+  name: cloud-hashing-inspire-traefik-app-ingress
   namespace: kube-system
   annotations:
-    k8s.kuboard.cn/displayName: cloud-hashing-inspire-appid-traefik
-    k8s.kuboard.cn/workload: cloud-hashing-inspire-appid-traefik
+    k8s.kuboard.cn/displayName: cloud-hashing-inspire-traefik-app
+    k8s.kuboard.cn/workload: cloud-hashing-inspire-traefik-app
     kubernetes.io/ingress.class: "traefik-internet"
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-inspire-prefix@kubernetescrd,
+                                                      kube-system-common-headers@kubernetescrd,
                                                       kube-system-headers-appid-to-body@kubernetescrd,
-                                                      kube-system-common-headers@kubernetescrd
+                                                      kube-system-headers-appid-userid-to-body@kubernetescrd,
+                                                      kube-system-headers-app-login-token-to-body@kubernetescrd,
+                                                      kube-system-app-rbac-auth@kubernetescrd
 
 spec:
-  tls:
-      - hosts:
-          - www.procyon.vip
-          - procyon.vip
-        secretName: procyon-vip-tls
   rules:
     - host: api.npool.top
       http: &http_rules
@@ -26,15 +24,9 @@ spec:
             backend:
               serviceName: cloud-hashing-inspire
               servicePort: 50130
+    - host: api.procyon.vip
+      http: *http_rules
     - host: api.xpool.top
-      http: *http_rules
-    - host: www.npool.top
-      http: *http_rules
-    - host: www.xpool.top
-      http: *http_rules
-    - host: www.procyon.vip
-      http: *http_rules
-    - host: procyon.vip
       http: *http_rules
 
 ---
@@ -42,21 +34,21 @@ spec:
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: cloud-hashing-inspire-traefik-appid-userid-ingress
+  name: cloud-hashing-inspire-traefik-app-user-ingress
   namespace: kube-system
   annotations:
-    k8s.kuboard.cn/displayName: cloud-hashing-inspire-appid-userid-traefik
-    k8s.kuboard.cn/workload: cloud-hashing-inspire-appid-userid-traefik
+    k8s.kuboard.cn/displayName: cloud-hashing-inspire-traefik-app-user
+    k8s.kuboard.cn/workload: cloud-hashing-inspire-traefik-app-user
     kubernetes.io/ingress.class: "traefik-internet"
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-strip-cloud-hashing-inspire-prefix@kubernetescrd,
+                                                      kube-system-common-headers@kubernetescrd,
                                                       kube-system-headers-appid-to-body@kubernetescrd,
                                                       kube-system-headers-userid-to-body@kubernetescrd,
-                                                      kube-system-common-headers@kubernetescrd
+                                                      kube-system-headers-app-login-token-to-body@kubernetescrd,
+                                                      kube-system-app-user-role-rbac-auth@kubernetescrd
 
 spec:
-  tls:
-    - secretName: procyon-vip-tls
   rules:
     - host: api.npool.top
       http: &http_appid_userid_rules
@@ -69,25 +61,8 @@ spec:
             backend:
               serviceName: cloud-hashing-inspire
               servicePort: 50130
+    - host: api.procyon.vip
+      http: *http_rules
     - host: api.xpool.top
-      http: *http_appid_userid_rules
-    - host: www.npool.top
-      http: *http_appid_userid_rules
-    - host: www.xpool.top
-      http: *http_appid_userid_rules
-    - host: www.procyon.vip
-      http: *http_appid_userid_rules
-    - host: procyon.vip
-      http: *http_appid_userid_rules
+      http: *http_rules
 
----
-
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: strip-cloud-hashing-inspire-prefix
-  namespace: kube-system
-spec:
-  stripPrefix:
-    prefixes:
-      - /api/cloud-hashing-inspire
