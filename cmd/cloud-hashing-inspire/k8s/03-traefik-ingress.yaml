@@ -51,7 +51,7 @@ metadata:
 spec:
   rules:
     - host: api.npool.top
-      http: &http_appid_userid_rules
+      http: &http_rules
         paths:
           - path: /api/cloud-hashing-inspire/v1/get/user/invitation/code
             backend:
