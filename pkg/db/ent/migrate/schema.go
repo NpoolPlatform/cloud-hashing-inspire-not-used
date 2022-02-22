@@ -13,7 +13,7 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "created_by", Type: field.TypeUUID},
-		{Name: "name", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Unique: true},
 		{Name: "start", Type: field.TypeUint32},
 		{Name: "end", Type: field.TypeUint32},
 		{Name: "create_at", Type: field.TypeUint32},
@@ -150,8 +150,8 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "activity_id", Type: field.TypeUUID},
-		{Name: "event", Type: field.TypeString},
 		{Name: "coupon_id", Type: field.TypeUUID},
+		{Name: "event", Type: field.TypeString},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -161,6 +161,13 @@ var (
 		Name:       "event_coupons",
 		Columns:    EventCouponsColumns,
 		PrimaryKey: []*schema.Column{EventCouponsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "eventcoupon_app_id_activity_id_coupon_id_event",
+				Unique:  true,
+				Columns: []*schema.Column{EventCouponsColumns[1], EventCouponsColumns[2], EventCouponsColumns[3], EventCouponsColumns[4]},
+			},
+		},
 	}
 	// NewUserRewardSettingsColumns holds the columns for the "new_user_reward_settings" table.
 	NewUserRewardSettingsColumns = []*schema.Column{

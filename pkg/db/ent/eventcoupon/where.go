@@ -105,17 +105,17 @@ func ActivityID(v uuid.UUID) predicate.EventCoupon {
 	})
 }
 
-// Event applies equality check predicate on the "event" field. It's identical to EventEQ.
-func Event(v string) predicate.EventCoupon {
-	return predicate.EventCoupon(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldEvent), v))
-	})
-}
-
 // CouponID applies equality check predicate on the "coupon_id" field. It's identical to CouponIDEQ.
 func CouponID(v uuid.UUID) predicate.EventCoupon {
 	return predicate.EventCoupon(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldCouponID), v))
+	})
+}
+
+// Event applies equality check predicate on the "event" field. It's identical to EventEQ.
+func Event(v string) predicate.EventCoupon {
+	return predicate.EventCoupon(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEvent), v))
 	})
 }
 
@@ -292,6 +292,82 @@ func ActivityIDLTE(v uuid.UUID) predicate.EventCoupon {
 	})
 }
 
+// CouponIDEQ applies the EQ predicate on the "coupon_id" field.
+func CouponIDEQ(v uuid.UUID) predicate.EventCoupon {
+	return predicate.EventCoupon(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCouponID), v))
+	})
+}
+
+// CouponIDNEQ applies the NEQ predicate on the "coupon_id" field.
+func CouponIDNEQ(v uuid.UUID) predicate.EventCoupon {
+	return predicate.EventCoupon(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldCouponID), v))
+	})
+}
+
+// CouponIDIn applies the In predicate on the "coupon_id" field.
+func CouponIDIn(vs ...uuid.UUID) predicate.EventCoupon {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.EventCoupon(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldCouponID), v...))
+	})
+}
+
+// CouponIDNotIn applies the NotIn predicate on the "coupon_id" field.
+func CouponIDNotIn(vs ...uuid.UUID) predicate.EventCoupon {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.EventCoupon(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldCouponID), v...))
+	})
+}
+
+// CouponIDGT applies the GT predicate on the "coupon_id" field.
+func CouponIDGT(v uuid.UUID) predicate.EventCoupon {
+	return predicate.EventCoupon(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldCouponID), v))
+	})
+}
+
+// CouponIDGTE applies the GTE predicate on the "coupon_id" field.
+func CouponIDGTE(v uuid.UUID) predicate.EventCoupon {
+	return predicate.EventCoupon(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldCouponID), v))
+	})
+}
+
+// CouponIDLT applies the LT predicate on the "coupon_id" field.
+func CouponIDLT(v uuid.UUID) predicate.EventCoupon {
+	return predicate.EventCoupon(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldCouponID), v))
+	})
+}
+
+// CouponIDLTE applies the LTE predicate on the "coupon_id" field.
+func CouponIDLTE(v uuid.UUID) predicate.EventCoupon {
+	return predicate.EventCoupon(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldCouponID), v))
+	})
+}
+
 // EventEQ applies the EQ predicate on the "event" field.
 func EventEQ(v string) predicate.EventCoupon {
 	return predicate.EventCoupon(func(s *sql.Selector) {
@@ -400,82 +476,6 @@ func EventEqualFold(v string) predicate.EventCoupon {
 func EventContainsFold(v string) predicate.EventCoupon {
 	return predicate.EventCoupon(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldEvent), v))
-	})
-}
-
-// CouponIDEQ applies the EQ predicate on the "coupon_id" field.
-func CouponIDEQ(v uuid.UUID) predicate.EventCoupon {
-	return predicate.EventCoupon(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldCouponID), v))
-	})
-}
-
-// CouponIDNEQ applies the NEQ predicate on the "coupon_id" field.
-func CouponIDNEQ(v uuid.UUID) predicate.EventCoupon {
-	return predicate.EventCoupon(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldCouponID), v))
-	})
-}
-
-// CouponIDIn applies the In predicate on the "coupon_id" field.
-func CouponIDIn(vs ...uuid.UUID) predicate.EventCoupon {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.EventCoupon(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldCouponID), v...))
-	})
-}
-
-// CouponIDNotIn applies the NotIn predicate on the "coupon_id" field.
-func CouponIDNotIn(vs ...uuid.UUID) predicate.EventCoupon {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.EventCoupon(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldCouponID), v...))
-	})
-}
-
-// CouponIDGT applies the GT predicate on the "coupon_id" field.
-func CouponIDGT(v uuid.UUID) predicate.EventCoupon {
-	return predicate.EventCoupon(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldCouponID), v))
-	})
-}
-
-// CouponIDGTE applies the GTE predicate on the "coupon_id" field.
-func CouponIDGTE(v uuid.UUID) predicate.EventCoupon {
-	return predicate.EventCoupon(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldCouponID), v))
-	})
-}
-
-// CouponIDLT applies the LT predicate on the "coupon_id" field.
-func CouponIDLT(v uuid.UUID) predicate.EventCoupon {
-	return predicate.EventCoupon(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldCouponID), v))
-	})
-}
-
-// CouponIDLTE applies the LTE predicate on the "coupon_id" field.
-func CouponIDLTE(v uuid.UUID) predicate.EventCoupon {
-	return predicate.EventCoupon(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldCouponID), v))
 	})
 }
 

@@ -35,15 +35,15 @@ func (ecc *EventCouponCreate) SetActivityID(u uuid.UUID) *EventCouponCreate {
 	return ecc
 }
 
-// SetEvent sets the "event" field.
-func (ecc *EventCouponCreate) SetEvent(s string) *EventCouponCreate {
-	ecc.mutation.SetEvent(s)
-	return ecc
-}
-
 // SetCouponID sets the "coupon_id" field.
 func (ecc *EventCouponCreate) SetCouponID(u uuid.UUID) *EventCouponCreate {
 	ecc.mutation.SetCouponID(u)
+	return ecc
+}
+
+// SetEvent sets the "event" field.
+func (ecc *EventCouponCreate) SetEvent(s string) *EventCouponCreate {
+	ecc.mutation.SetEvent(s)
 	return ecc
 }
 
@@ -200,11 +200,11 @@ func (ecc *EventCouponCreate) check() error {
 	if _, ok := ecc.mutation.ActivityID(); !ok {
 		return &ValidationError{Name: "activity_id", err: errors.New(`ent: missing required field "EventCoupon.activity_id"`)}
 	}
-	if _, ok := ecc.mutation.Event(); !ok {
-		return &ValidationError{Name: "event", err: errors.New(`ent: missing required field "EventCoupon.event"`)}
-	}
 	if _, ok := ecc.mutation.CouponID(); !ok {
 		return &ValidationError{Name: "coupon_id", err: errors.New(`ent: missing required field "EventCoupon.coupon_id"`)}
+	}
+	if _, ok := ecc.mutation.Event(); !ok {
+		return &ValidationError{Name: "event", err: errors.New(`ent: missing required field "EventCoupon.event"`)}
 	}
 	if _, ok := ecc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "EventCoupon.create_at"`)}
@@ -268,14 +268,6 @@ func (ecc *EventCouponCreate) createSpec() (*EventCoupon, *sqlgraph.CreateSpec) 
 		})
 		_node.ActivityID = value
 	}
-	if value, ok := ecc.mutation.Event(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: eventcoupon.FieldEvent,
-		})
-		_node.Event = value
-	}
 	if value, ok := ecc.mutation.CouponID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -283,6 +275,14 @@ func (ecc *EventCouponCreate) createSpec() (*EventCoupon, *sqlgraph.CreateSpec) 
 			Column: eventcoupon.FieldCouponID,
 		})
 		_node.CouponID = value
+	}
+	if value, ok := ecc.mutation.Event(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: eventcoupon.FieldEvent,
+		})
+		_node.Event = value
 	}
 	if value, ok := ecc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -386,18 +386,6 @@ func (u *EventCouponUpsert) UpdateActivityID() *EventCouponUpsert {
 	return u
 }
 
-// SetEvent sets the "event" field.
-func (u *EventCouponUpsert) SetEvent(v string) *EventCouponUpsert {
-	u.Set(eventcoupon.FieldEvent, v)
-	return u
-}
-
-// UpdateEvent sets the "event" field to the value that was provided on create.
-func (u *EventCouponUpsert) UpdateEvent() *EventCouponUpsert {
-	u.SetExcluded(eventcoupon.FieldEvent)
-	return u
-}
-
 // SetCouponID sets the "coupon_id" field.
 func (u *EventCouponUpsert) SetCouponID(v uuid.UUID) *EventCouponUpsert {
 	u.Set(eventcoupon.FieldCouponID, v)
@@ -407,6 +395,18 @@ func (u *EventCouponUpsert) SetCouponID(v uuid.UUID) *EventCouponUpsert {
 // UpdateCouponID sets the "coupon_id" field to the value that was provided on create.
 func (u *EventCouponUpsert) UpdateCouponID() *EventCouponUpsert {
 	u.SetExcluded(eventcoupon.FieldCouponID)
+	return u
+}
+
+// SetEvent sets the "event" field.
+func (u *EventCouponUpsert) SetEvent(v string) *EventCouponUpsert {
+	u.Set(eventcoupon.FieldEvent, v)
+	return u
+}
+
+// UpdateEvent sets the "event" field to the value that was provided on create.
+func (u *EventCouponUpsert) UpdateEvent() *EventCouponUpsert {
+	u.SetExcluded(eventcoupon.FieldEvent)
 	return u
 }
 
@@ -542,20 +542,6 @@ func (u *EventCouponUpsertOne) UpdateActivityID() *EventCouponUpsertOne {
 	})
 }
 
-// SetEvent sets the "event" field.
-func (u *EventCouponUpsertOne) SetEvent(v string) *EventCouponUpsertOne {
-	return u.Update(func(s *EventCouponUpsert) {
-		s.SetEvent(v)
-	})
-}
-
-// UpdateEvent sets the "event" field to the value that was provided on create.
-func (u *EventCouponUpsertOne) UpdateEvent() *EventCouponUpsertOne {
-	return u.Update(func(s *EventCouponUpsert) {
-		s.UpdateEvent()
-	})
-}
-
 // SetCouponID sets the "coupon_id" field.
 func (u *EventCouponUpsertOne) SetCouponID(v uuid.UUID) *EventCouponUpsertOne {
 	return u.Update(func(s *EventCouponUpsert) {
@@ -567,6 +553,20 @@ func (u *EventCouponUpsertOne) SetCouponID(v uuid.UUID) *EventCouponUpsertOne {
 func (u *EventCouponUpsertOne) UpdateCouponID() *EventCouponUpsertOne {
 	return u.Update(func(s *EventCouponUpsert) {
 		s.UpdateCouponID()
+	})
+}
+
+// SetEvent sets the "event" field.
+func (u *EventCouponUpsertOne) SetEvent(v string) *EventCouponUpsertOne {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.SetEvent(v)
+	})
+}
+
+// UpdateEvent sets the "event" field to the value that was provided on create.
+func (u *EventCouponUpsertOne) UpdateEvent() *EventCouponUpsertOne {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.UpdateEvent()
 	})
 }
 
@@ -877,20 +877,6 @@ func (u *EventCouponUpsertBulk) UpdateActivityID() *EventCouponUpsertBulk {
 	})
 }
 
-// SetEvent sets the "event" field.
-func (u *EventCouponUpsertBulk) SetEvent(v string) *EventCouponUpsertBulk {
-	return u.Update(func(s *EventCouponUpsert) {
-		s.SetEvent(v)
-	})
-}
-
-// UpdateEvent sets the "event" field to the value that was provided on create.
-func (u *EventCouponUpsertBulk) UpdateEvent() *EventCouponUpsertBulk {
-	return u.Update(func(s *EventCouponUpsert) {
-		s.UpdateEvent()
-	})
-}
-
 // SetCouponID sets the "coupon_id" field.
 func (u *EventCouponUpsertBulk) SetCouponID(v uuid.UUID) *EventCouponUpsertBulk {
 	return u.Update(func(s *EventCouponUpsert) {
@@ -902,6 +888,20 @@ func (u *EventCouponUpsertBulk) SetCouponID(v uuid.UUID) *EventCouponUpsertBulk 
 func (u *EventCouponUpsertBulk) UpdateCouponID() *EventCouponUpsertBulk {
 	return u.Update(func(s *EventCouponUpsert) {
 		s.UpdateCouponID()
+	})
+}
+
+// SetEvent sets the "event" field.
+func (u *EventCouponUpsertBulk) SetEvent(v string) *EventCouponUpsertBulk {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.SetEvent(v)
+	})
+}
+
+// UpdateEvent sets the "event" field to the value that was provided on create.
+func (u *EventCouponUpsertBulk) UpdateEvent() *EventCouponUpsertBulk {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.UpdateEvent()
 	})
 }
 

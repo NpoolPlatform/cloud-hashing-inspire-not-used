@@ -15,10 +15,10 @@ const (
 	FieldAppID = "app_id"
 	// FieldActivityID holds the string denoting the activity_id field in the database.
 	FieldActivityID = "activity_id"
-	// FieldEvent holds the string denoting the event field in the database.
-	FieldEvent = "event"
 	// FieldCouponID holds the string denoting the coupon_id field in the database.
 	FieldCouponID = "coupon_id"
+	// FieldEvent holds the string denoting the event field in the database.
+	FieldEvent = "event"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -34,8 +34,8 @@ var Columns = []string{
 	FieldID,
 	FieldAppID,
 	FieldActivityID,
-	FieldEvent,
 	FieldCouponID,
+	FieldEvent,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

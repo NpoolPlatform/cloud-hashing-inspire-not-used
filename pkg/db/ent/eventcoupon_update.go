@@ -40,15 +40,15 @@ func (ecu *EventCouponUpdate) SetActivityID(u uuid.UUID) *EventCouponUpdate {
 	return ecu
 }
 
-// SetEvent sets the "event" field.
-func (ecu *EventCouponUpdate) SetEvent(s string) *EventCouponUpdate {
-	ecu.mutation.SetEvent(s)
-	return ecu
-}
-
 // SetCouponID sets the "coupon_id" field.
 func (ecu *EventCouponUpdate) SetCouponID(u uuid.UUID) *EventCouponUpdate {
 	ecu.mutation.SetCouponID(u)
+	return ecu
+}
+
+// SetEvent sets the "event" field.
+func (ecu *EventCouponUpdate) SetEvent(s string) *EventCouponUpdate {
+	ecu.mutation.SetEvent(s)
 	return ecu
 }
 
@@ -207,18 +207,18 @@ func (ecu *EventCouponUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: eventcoupon.FieldActivityID,
 		})
 	}
-	if value, ok := ecu.mutation.Event(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: eventcoupon.FieldEvent,
-		})
-	}
 	if value, ok := ecu.mutation.CouponID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: eventcoupon.FieldCouponID,
+		})
+	}
+	if value, ok := ecu.mutation.Event(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: eventcoupon.FieldEvent,
 		})
 	}
 	if value, ok := ecu.mutation.CreateAt(); ok {
@@ -294,15 +294,15 @@ func (ecuo *EventCouponUpdateOne) SetActivityID(u uuid.UUID) *EventCouponUpdateO
 	return ecuo
 }
 
-// SetEvent sets the "event" field.
-func (ecuo *EventCouponUpdateOne) SetEvent(s string) *EventCouponUpdateOne {
-	ecuo.mutation.SetEvent(s)
-	return ecuo
-}
-
 // SetCouponID sets the "coupon_id" field.
 func (ecuo *EventCouponUpdateOne) SetCouponID(u uuid.UUID) *EventCouponUpdateOne {
 	ecuo.mutation.SetCouponID(u)
+	return ecuo
+}
+
+// SetEvent sets the "event" field.
+func (ecuo *EventCouponUpdateOne) SetEvent(s string) *EventCouponUpdateOne {
+	ecuo.mutation.SetEvent(s)
 	return ecuo
 }
 
@@ -485,18 +485,18 @@ func (ecuo *EventCouponUpdateOne) sqlSave(ctx context.Context) (_node *EventCoup
 			Column: eventcoupon.FieldActivityID,
 		})
 	}
-	if value, ok := ecuo.mutation.Event(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: eventcoupon.FieldEvent,
-		})
-	}
 	if value, ok := ecuo.mutation.CouponID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: eventcoupon.FieldCouponID,
+		})
+	}
+	if value, ok := ecuo.mutation.Event(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: eventcoupon.FieldEvent,
 		})
 	}
 	if value, ok := ecuo.mutation.CreateAt(); ok {

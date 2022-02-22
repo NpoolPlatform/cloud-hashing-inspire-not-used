@@ -22,7 +22,7 @@ func (Activity) Fields() []ent.Field {
 			Unique(),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("created_by", uuid.UUID{}),
-		field.String("name"),
+		field.String("name").Unique(),
 		field.Uint32("start"),
 		field.Uint32("end"),
 		field.Uint32("create_at").

@@ -20,10 +20,10 @@ type EventCoupon struct {
 	AppID uuid.UUID `json:"app_id,omitempty"`
 	// ActivityID holds the value of the "activity_id" field.
 	ActivityID uuid.UUID `json:"activity_id,omitempty"`
-	// Event holds the value of the "event" field.
-	Event string `json:"event,omitempty"`
 	// CouponID holds the value of the "coupon_id" field.
 	CouponID uuid.UUID `json:"coupon_id,omitempty"`
+	// Event holds the value of the "event" field.
+	Event string `json:"event,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -76,17 +76,17 @@ func (ec *EventCoupon) assignValues(columns []string, values []interface{}) erro
 			} else if value != nil {
 				ec.ActivityID = *value
 			}
-		case eventcoupon.FieldEvent:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field event", values[i])
-			} else if value.Valid {
-				ec.Event = value.String
-			}
 		case eventcoupon.FieldCouponID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
 				return fmt.Errorf("unexpected type %T for field coupon_id", values[i])
 			} else if value != nil {
 				ec.CouponID = *value
+			}
+		case eventcoupon.FieldEvent:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field event", values[i])
+			} else if value.Valid {
+				ec.Event = value.String
 			}
 		case eventcoupon.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -138,10 +138,10 @@ func (ec *EventCoupon) String() string {
 	builder.WriteString(fmt.Sprintf("%v", ec.AppID))
 	builder.WriteString(", activity_id=")
 	builder.WriteString(fmt.Sprintf("%v", ec.ActivityID))
-	builder.WriteString(", event=")
-	builder.WriteString(ec.Event)
 	builder.WriteString(", coupon_id=")
 	builder.WriteString(fmt.Sprintf("%v", ec.CouponID))
+	builder.WriteString(", event=")
+	builder.WriteString(ec.Event)
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", ec.CreateAt))
 	builder.WriteString(", update_at=")

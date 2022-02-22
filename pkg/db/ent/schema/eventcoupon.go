@@ -5,6 +5,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 
 	"github.com/google/uuid"
 )
@@ -45,4 +46,12 @@ func (EventCoupon) Fields() []ent.Field {
 // Edges of the EventCoupon.
 func (EventCoupon) Edges() []ent.Edge {
 	return nil
+}
+
+// Indexes of the EventCoupon.
+func (EventCoupon) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("app_id", "activity_id", "coupon_id", "event").
+			Unique(),
+	}
 }

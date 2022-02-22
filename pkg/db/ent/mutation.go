@@ -6450,8 +6450,8 @@ type EventCouponMutation struct {
 	id            *uuid.UUID
 	app_id        *uuid.UUID
 	activity_id   *uuid.UUID
-	event         *string
 	coupon_id     *uuid.UUID
+	event         *string
 	create_at     *uint32
 	addcreate_at  *int32
 	update_at     *uint32
@@ -6640,42 +6640,6 @@ func (m *EventCouponMutation) ResetActivityID() {
 	m.activity_id = nil
 }
 
-// SetEvent sets the "event" field.
-func (m *EventCouponMutation) SetEvent(s string) {
-	m.event = &s
-}
-
-// Event returns the value of the "event" field in the mutation.
-func (m *EventCouponMutation) Event() (r string, exists bool) {
-	v := m.event
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldEvent returns the old "event" field's value of the EventCoupon entity.
-// If the EventCoupon object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *EventCouponMutation) OldEvent(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldEvent is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldEvent requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldEvent: %w", err)
-	}
-	return oldValue.Event, nil
-}
-
-// ResetEvent resets all changes to the "event" field.
-func (m *EventCouponMutation) ResetEvent() {
-	m.event = nil
-}
-
 // SetCouponID sets the "coupon_id" field.
 func (m *EventCouponMutation) SetCouponID(u uuid.UUID) {
 	m.coupon_id = &u
@@ -6710,6 +6674,42 @@ func (m *EventCouponMutation) OldCouponID(ctx context.Context) (v uuid.UUID, err
 // ResetCouponID resets all changes to the "coupon_id" field.
 func (m *EventCouponMutation) ResetCouponID() {
 	m.coupon_id = nil
+}
+
+// SetEvent sets the "event" field.
+func (m *EventCouponMutation) SetEvent(s string) {
+	m.event = &s
+}
+
+// Event returns the value of the "event" field in the mutation.
+func (m *EventCouponMutation) Event() (r string, exists bool) {
+	v := m.event
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEvent returns the old "event" field's value of the EventCoupon entity.
+// If the EventCoupon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EventCouponMutation) OldEvent(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEvent is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEvent requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEvent: %w", err)
+	}
+	return oldValue.Event, nil
+}
+
+// ResetEvent resets all changes to the "event" field.
+func (m *EventCouponMutation) ResetEvent() {
+	m.event = nil
 }
 
 // SetCreateAt sets the "create_at" field.
@@ -6906,11 +6906,11 @@ func (m *EventCouponMutation) Fields() []string {
 	if m.activity_id != nil {
 		fields = append(fields, eventcoupon.FieldActivityID)
 	}
-	if m.event != nil {
-		fields = append(fields, eventcoupon.FieldEvent)
-	}
 	if m.coupon_id != nil {
 		fields = append(fields, eventcoupon.FieldCouponID)
+	}
+	if m.event != nil {
+		fields = append(fields, eventcoupon.FieldEvent)
 	}
 	if m.create_at != nil {
 		fields = append(fields, eventcoupon.FieldCreateAt)
@@ -6933,10 +6933,10 @@ func (m *EventCouponMutation) Field(name string) (ent.Value, bool) {
 		return m.AppID()
 	case eventcoupon.FieldActivityID:
 		return m.ActivityID()
-	case eventcoupon.FieldEvent:
-		return m.Event()
 	case eventcoupon.FieldCouponID:
 		return m.CouponID()
+	case eventcoupon.FieldEvent:
+		return m.Event()
 	case eventcoupon.FieldCreateAt:
 		return m.CreateAt()
 	case eventcoupon.FieldUpdateAt:
@@ -6956,10 +6956,10 @@ func (m *EventCouponMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldAppID(ctx)
 	case eventcoupon.FieldActivityID:
 		return m.OldActivityID(ctx)
-	case eventcoupon.FieldEvent:
-		return m.OldEvent(ctx)
 	case eventcoupon.FieldCouponID:
 		return m.OldCouponID(ctx)
+	case eventcoupon.FieldEvent:
+		return m.OldEvent(ctx)
 	case eventcoupon.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case eventcoupon.FieldUpdateAt:
@@ -6989,19 +6989,19 @@ func (m *EventCouponMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetActivityID(v)
 		return nil
-	case eventcoupon.FieldEvent:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetEvent(v)
-		return nil
 	case eventcoupon.FieldCouponID:
 		v, ok := value.(uuid.UUID)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCouponID(v)
+		return nil
+	case eventcoupon.FieldEvent:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEvent(v)
 		return nil
 	case eventcoupon.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -7118,11 +7118,11 @@ func (m *EventCouponMutation) ResetField(name string) error {
 	case eventcoupon.FieldActivityID:
 		m.ResetActivityID()
 		return nil
-	case eventcoupon.FieldEvent:
-		m.ResetEvent()
-		return nil
 	case eventcoupon.FieldCouponID:
 		m.ResetCouponID()
+		return nil
+	case eventcoupon.FieldEvent:
+		m.ResetEvent()
 		return nil
 	case eventcoupon.FieldCreateAt:
 		m.ResetCreateAt()
