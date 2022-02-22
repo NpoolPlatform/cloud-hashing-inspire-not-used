@@ -62,6 +62,10 @@ type ActivityMutation struct {
 	app_id        *uuid.UUID
 	created_by    *uuid.UUID
 	name          *string
+	start         *uint32
+	addstart      *int32
+	end           *uint32
+	addend        *int32
 	create_at     *uint32
 	addcreate_at  *int32
 	update_at     *uint32
@@ -286,6 +290,118 @@ func (m *ActivityMutation) ResetName() {
 	m.name = nil
 }
 
+// SetStart sets the "start" field.
+func (m *ActivityMutation) SetStart(u uint32) {
+	m.start = &u
+	m.addstart = nil
+}
+
+// Start returns the value of the "start" field in the mutation.
+func (m *ActivityMutation) Start() (r uint32, exists bool) {
+	v := m.start
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStart returns the old "start" field's value of the Activity entity.
+// If the Activity object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ActivityMutation) OldStart(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStart is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStart requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStart: %w", err)
+	}
+	return oldValue.Start, nil
+}
+
+// AddStart adds u to the "start" field.
+func (m *ActivityMutation) AddStart(u int32) {
+	if m.addstart != nil {
+		*m.addstart += u
+	} else {
+		m.addstart = &u
+	}
+}
+
+// AddedStart returns the value that was added to the "start" field in this mutation.
+func (m *ActivityMutation) AddedStart() (r int32, exists bool) {
+	v := m.addstart
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetStart resets all changes to the "start" field.
+func (m *ActivityMutation) ResetStart() {
+	m.start = nil
+	m.addstart = nil
+}
+
+// SetEnd sets the "end" field.
+func (m *ActivityMutation) SetEnd(u uint32) {
+	m.end = &u
+	m.addend = nil
+}
+
+// End returns the value of the "end" field in the mutation.
+func (m *ActivityMutation) End() (r uint32, exists bool) {
+	v := m.end
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEnd returns the old "end" field's value of the Activity entity.
+// If the Activity object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ActivityMutation) OldEnd(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEnd is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEnd requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEnd: %w", err)
+	}
+	return oldValue.End, nil
+}
+
+// AddEnd adds u to the "end" field.
+func (m *ActivityMutation) AddEnd(u int32) {
+	if m.addend != nil {
+		*m.addend += u
+	} else {
+		m.addend = &u
+	}
+}
+
+// AddedEnd returns the value that was added to the "end" field in this mutation.
+func (m *ActivityMutation) AddedEnd() (r int32, exists bool) {
+	v := m.addend
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetEnd resets all changes to the "end" field.
+func (m *ActivityMutation) ResetEnd() {
+	m.end = nil
+	m.addend = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *ActivityMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -473,7 +589,7 @@ func (m *ActivityMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ActivityMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 8)
 	if m.app_id != nil {
 		fields = append(fields, activity.FieldAppID)
 	}
@@ -482,6 +598,12 @@ func (m *ActivityMutation) Fields() []string {
 	}
 	if m.name != nil {
 		fields = append(fields, activity.FieldName)
+	}
+	if m.start != nil {
+		fields = append(fields, activity.FieldStart)
+	}
+	if m.end != nil {
+		fields = append(fields, activity.FieldEnd)
 	}
 	if m.create_at != nil {
 		fields = append(fields, activity.FieldCreateAt)
@@ -506,6 +628,10 @@ func (m *ActivityMutation) Field(name string) (ent.Value, bool) {
 		return m.CreatedBy()
 	case activity.FieldName:
 		return m.Name()
+	case activity.FieldStart:
+		return m.Start()
+	case activity.FieldEnd:
+		return m.End()
 	case activity.FieldCreateAt:
 		return m.CreateAt()
 	case activity.FieldUpdateAt:
@@ -527,6 +653,10 @@ func (m *ActivityMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldCreatedBy(ctx)
 	case activity.FieldName:
 		return m.OldName(ctx)
+	case activity.FieldStart:
+		return m.OldStart(ctx)
+	case activity.FieldEnd:
+		return m.OldEnd(ctx)
 	case activity.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case activity.FieldUpdateAt:
@@ -563,6 +693,20 @@ func (m *ActivityMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetName(v)
 		return nil
+	case activity.FieldStart:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStart(v)
+		return nil
+	case activity.FieldEnd:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEnd(v)
+		return nil
 	case activity.FieldCreateAt:
 		v, ok := value.(uint32)
 		if !ok {
@@ -592,6 +736,12 @@ func (m *ActivityMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *ActivityMutation) AddedFields() []string {
 	var fields []string
+	if m.addstart != nil {
+		fields = append(fields, activity.FieldStart)
+	}
+	if m.addend != nil {
+		fields = append(fields, activity.FieldEnd)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, activity.FieldCreateAt)
 	}
@@ -609,6 +759,10 @@ func (m *ActivityMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *ActivityMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
+	case activity.FieldStart:
+		return m.AddedStart()
+	case activity.FieldEnd:
+		return m.AddedEnd()
 	case activity.FieldCreateAt:
 		return m.AddedCreateAt()
 	case activity.FieldUpdateAt:
@@ -624,6 +778,20 @@ func (m *ActivityMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *ActivityMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case activity.FieldStart:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddStart(v)
+		return nil
+	case activity.FieldEnd:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddEnd(v)
+		return nil
 	case activity.FieldCreateAt:
 		v, ok := value.(int32)
 		if !ok {
@@ -680,6 +848,12 @@ func (m *ActivityMutation) ResetField(name string) error {
 		return nil
 	case activity.FieldName:
 		m.ResetName()
+		return nil
+	case activity.FieldStart:
+		m.ResetStart()
+		return nil
+	case activity.FieldEnd:
+		m.ResetEnd()
 		return nil
 	case activity.FieldCreateAt:
 		m.ResetCreateAt()

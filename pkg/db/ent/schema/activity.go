@@ -23,6 +23,8 @@ func (Activity) Fields() []ent.Field {
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("created_by", uuid.UUID{}),
 		field.String("name"),
+		field.Uint32("start"),
+		field.Uint32("end"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

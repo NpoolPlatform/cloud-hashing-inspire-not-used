@@ -22,8 +22,8 @@ func (EventCoupon) Fields() []ent.Field {
 			Unique(),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("activity_id", uuid.UUID{}),
-		field.String("event"),
 		field.UUID("coupon_id", uuid.UUID{}),
+		field.String("event"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

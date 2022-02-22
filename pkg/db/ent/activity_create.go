@@ -41,6 +41,18 @@ func (ac *ActivityCreate) SetName(s string) *ActivityCreate {
 	return ac
 }
 
+// SetStart sets the "start" field.
+func (ac *ActivityCreate) SetStart(u uint32) *ActivityCreate {
+	ac.mutation.SetStart(u)
+	return ac
+}
+
+// SetEnd sets the "end" field.
+func (ac *ActivityCreate) SetEnd(u uint32) *ActivityCreate {
+	ac.mutation.SetEnd(u)
+	return ac
+}
+
 // SetCreateAt sets the "create_at" field.
 func (ac *ActivityCreate) SetCreateAt(u uint32) *ActivityCreate {
 	ac.mutation.SetCreateAt(u)
@@ -197,6 +209,12 @@ func (ac *ActivityCreate) check() error {
 	if _, ok := ac.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Activity.name"`)}
 	}
+	if _, ok := ac.mutation.Start(); !ok {
+		return &ValidationError{Name: "start", err: errors.New(`ent: missing required field "Activity.start"`)}
+	}
+	if _, ok := ac.mutation.End(); !ok {
+		return &ValidationError{Name: "end", err: errors.New(`ent: missing required field "Activity.end"`)}
+	}
 	if _, ok := ac.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "Activity.create_at"`)}
 	}
@@ -266,6 +284,22 @@ func (ac *ActivityCreate) createSpec() (*Activity, *sqlgraph.CreateSpec) {
 			Column: activity.FieldName,
 		})
 		_node.Name = value
+	}
+	if value, ok := ac.mutation.Start(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: activity.FieldStart,
+		})
+		_node.Start = value
+	}
+	if value, ok := ac.mutation.End(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: activity.FieldEnd,
+		})
+		_node.End = value
 	}
 	if value, ok := ac.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -378,6 +412,42 @@ func (u *ActivityUpsert) SetName(v string) *ActivityUpsert {
 // UpdateName sets the "name" field to the value that was provided on create.
 func (u *ActivityUpsert) UpdateName() *ActivityUpsert {
 	u.SetExcluded(activity.FieldName)
+	return u
+}
+
+// SetStart sets the "start" field.
+func (u *ActivityUpsert) SetStart(v uint32) *ActivityUpsert {
+	u.Set(activity.FieldStart, v)
+	return u
+}
+
+// UpdateStart sets the "start" field to the value that was provided on create.
+func (u *ActivityUpsert) UpdateStart() *ActivityUpsert {
+	u.SetExcluded(activity.FieldStart)
+	return u
+}
+
+// AddStart adds v to the "start" field.
+func (u *ActivityUpsert) AddStart(v uint32) *ActivityUpsert {
+	u.Add(activity.FieldStart, v)
+	return u
+}
+
+// SetEnd sets the "end" field.
+func (u *ActivityUpsert) SetEnd(v uint32) *ActivityUpsert {
+	u.Set(activity.FieldEnd, v)
+	return u
+}
+
+// UpdateEnd sets the "end" field to the value that was provided on create.
+func (u *ActivityUpsert) UpdateEnd() *ActivityUpsert {
+	u.SetExcluded(activity.FieldEnd)
+	return u
+}
+
+// AddEnd adds v to the "end" field.
+func (u *ActivityUpsert) AddEnd(v uint32) *ActivityUpsert {
+	u.Add(activity.FieldEnd, v)
 	return u
 }
 
@@ -524,6 +594,48 @@ func (u *ActivityUpsertOne) SetName(v string) *ActivityUpsertOne {
 func (u *ActivityUpsertOne) UpdateName() *ActivityUpsertOne {
 	return u.Update(func(s *ActivityUpsert) {
 		s.UpdateName()
+	})
+}
+
+// SetStart sets the "start" field.
+func (u *ActivityUpsertOne) SetStart(v uint32) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetStart(v)
+	})
+}
+
+// AddStart adds v to the "start" field.
+func (u *ActivityUpsertOne) AddStart(v uint32) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.AddStart(v)
+	})
+}
+
+// UpdateStart sets the "start" field to the value that was provided on create.
+func (u *ActivityUpsertOne) UpdateStart() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateStart()
+	})
+}
+
+// SetEnd sets the "end" field.
+func (u *ActivityUpsertOne) SetEnd(v uint32) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetEnd(v)
+	})
+}
+
+// AddEnd adds v to the "end" field.
+func (u *ActivityUpsertOne) AddEnd(v uint32) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.AddEnd(v)
+	})
+}
+
+// UpdateEnd sets the "end" field to the value that was provided on create.
+func (u *ActivityUpsertOne) UpdateEnd() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateEnd()
 	})
 }
 
@@ -845,6 +957,48 @@ func (u *ActivityUpsertBulk) SetName(v string) *ActivityUpsertBulk {
 func (u *ActivityUpsertBulk) UpdateName() *ActivityUpsertBulk {
 	return u.Update(func(s *ActivityUpsert) {
 		s.UpdateName()
+	})
+}
+
+// SetStart sets the "start" field.
+func (u *ActivityUpsertBulk) SetStart(v uint32) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetStart(v)
+	})
+}
+
+// AddStart adds v to the "start" field.
+func (u *ActivityUpsertBulk) AddStart(v uint32) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.AddStart(v)
+	})
+}
+
+// UpdateStart sets the "start" field to the value that was provided on create.
+func (u *ActivityUpsertBulk) UpdateStart() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateStart()
+	})
+}
+
+// SetEnd sets the "end" field.
+func (u *ActivityUpsertBulk) SetEnd(v uint32) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetEnd(v)
+	})
+}
+
+// AddEnd adds v to the "end" field.
+func (u *ActivityUpsertBulk) AddEnd(v uint32) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.AddEnd(v)
+	})
+}
+
+// UpdateEnd sets the "end" field to the value that was provided on create.
+func (u *ActivityUpsertBulk) UpdateEnd() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateEnd()
 	})
 }
 

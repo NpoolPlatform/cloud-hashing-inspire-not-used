@@ -112,6 +112,20 @@ func Name(v string) predicate.Activity {
 	})
 }
 
+// Start applies equality check predicate on the "start" field. It's identical to StartEQ.
+func Start(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldStart), v))
+	})
+}
+
+// End applies equality check predicate on the "end" field. It's identical to EndEQ.
+func End(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEnd), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.Activity {
 	return predicate.Activity(func(s *sql.Selector) {
@@ -393,6 +407,158 @@ func NameEqualFold(v string) predicate.Activity {
 func NameContainsFold(v string) predicate.Activity {
 	return predicate.Activity(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldName), v))
+	})
+}
+
+// StartEQ applies the EQ predicate on the "start" field.
+func StartEQ(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldStart), v))
+	})
+}
+
+// StartNEQ applies the NEQ predicate on the "start" field.
+func StartNEQ(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldStart), v))
+	})
+}
+
+// StartIn applies the In predicate on the "start" field.
+func StartIn(vs ...uint32) predicate.Activity {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Activity(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldStart), v...))
+	})
+}
+
+// StartNotIn applies the NotIn predicate on the "start" field.
+func StartNotIn(vs ...uint32) predicate.Activity {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Activity(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldStart), v...))
+	})
+}
+
+// StartGT applies the GT predicate on the "start" field.
+func StartGT(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldStart), v))
+	})
+}
+
+// StartGTE applies the GTE predicate on the "start" field.
+func StartGTE(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldStart), v))
+	})
+}
+
+// StartLT applies the LT predicate on the "start" field.
+func StartLT(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldStart), v))
+	})
+}
+
+// StartLTE applies the LTE predicate on the "start" field.
+func StartLTE(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldStart), v))
+	})
+}
+
+// EndEQ applies the EQ predicate on the "end" field.
+func EndEQ(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEnd), v))
+	})
+}
+
+// EndNEQ applies the NEQ predicate on the "end" field.
+func EndNEQ(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldEnd), v))
+	})
+}
+
+// EndIn applies the In predicate on the "end" field.
+func EndIn(vs ...uint32) predicate.Activity {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Activity(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldEnd), v...))
+	})
+}
+
+// EndNotIn applies the NotIn predicate on the "end" field.
+func EndNotIn(vs ...uint32) predicate.Activity {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Activity(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldEnd), v...))
+	})
+}
+
+// EndGT applies the GT predicate on the "end" field.
+func EndGT(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldEnd), v))
+	})
+}
+
+// EndGTE applies the GTE predicate on the "end" field.
+func EndGTE(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldEnd), v))
+	})
+}
+
+// EndLT applies the LT predicate on the "end" field.
+func EndLT(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldEnd), v))
+	})
+}
+
+// EndLTE applies the LTE predicate on the "end" field.
+func EndLTE(v uint32) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldEnd), v))
 	})
 }
 

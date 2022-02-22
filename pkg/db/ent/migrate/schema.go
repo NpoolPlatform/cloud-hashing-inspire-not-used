@@ -14,6 +14,8 @@ var (
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "created_by", Type: field.TypeUUID},
 		{Name: "name", Type: field.TypeString},
+		{Name: "start", Type: field.TypeUint32},
+		{Name: "end", Type: field.TypeUint32},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

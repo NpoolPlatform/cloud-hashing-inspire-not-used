@@ -22,6 +22,10 @@ type Activity struct {
 	CreatedBy uuid.UUID `json:"created_by,omitempty"`
 	// Name holds the value of the "name" field.
 	Name string `json:"name,omitempty"`
+	// Start holds the value of the "start" field.
+	Start uint32 `json:"start,omitempty"`
+	// End holds the value of the "end" field.
+	End uint32 `json:"end,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -35,7 +39,7 @@ func (*Activity) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case activity.FieldCreateAt, activity.FieldUpdateAt, activity.FieldDeleteAt:
+		case activity.FieldStart, activity.FieldEnd, activity.FieldCreateAt, activity.FieldUpdateAt, activity.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case activity.FieldName:
 			values[i] = new(sql.NullString)
@@ -79,6 +83,18 @@ func (a *Activity) assignValues(columns []string, values []interface{}) error {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
 				a.Name = value.String
+			}
+		case activity.FieldStart:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field start", values[i])
+			} else if value.Valid {
+				a.Start = uint32(value.Int64)
+			}
+		case activity.FieldEnd:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field end", values[i])
+			} else if value.Valid {
+				a.End = uint32(value.Int64)
 			}
 		case activity.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -132,6 +148,10 @@ func (a *Activity) String() string {
 	builder.WriteString(fmt.Sprintf("%v", a.CreatedBy))
 	builder.WriteString(", name=")
 	builder.WriteString(a.Name)
+	builder.WriteString(", start=")
+	builder.WriteString(fmt.Sprintf("%v", a.Start))
+	builder.WriteString(", end=")
+	builder.WriteString(fmt.Sprintf("%v", a.End))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", a.CreateAt))
 	builder.WriteString(", update_at=")

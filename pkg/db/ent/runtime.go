@@ -28,17 +28,17 @@ func init() {
 	activityFields := schema.Activity{}.Fields()
 	_ = activityFields
 	// activityDescCreateAt is the schema descriptor for create_at field.
-	activityDescCreateAt := activityFields[4].Descriptor()
+	activityDescCreateAt := activityFields[6].Descriptor()
 	// activity.DefaultCreateAt holds the default value on creation for the create_at field.
 	activity.DefaultCreateAt = activityDescCreateAt.Default.(func() uint32)
 	// activityDescUpdateAt is the schema descriptor for update_at field.
-	activityDescUpdateAt := activityFields[5].Descriptor()
+	activityDescUpdateAt := activityFields[7].Descriptor()
 	// activity.DefaultUpdateAt holds the default value on creation for the update_at field.
 	activity.DefaultUpdateAt = activityDescUpdateAt.Default.(func() uint32)
 	// activity.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	activity.UpdateDefaultUpdateAt = activityDescUpdateAt.UpdateDefault.(func() uint32)
 	// activityDescDeleteAt is the schema descriptor for delete_at field.
-	activityDescDeleteAt := activityFields[6].Descriptor()
+	activityDescDeleteAt := activityFields[8].Descriptor()
 	// activity.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	activity.DefaultDeleteAt = activityDescDeleteAt.Default.(func() uint32)
 	// activityDescID is the schema descriptor for id field.

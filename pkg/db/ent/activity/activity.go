@@ -17,6 +17,10 @@ const (
 	FieldCreatedBy = "created_by"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
+	// FieldStart holds the string denoting the start field in the database.
+	FieldStart = "start"
+	// FieldEnd holds the string denoting the end field in the database.
+	FieldEnd = "end"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -33,6 +37,8 @@ var Columns = []string{
 	FieldAppID,
 	FieldCreatedBy,
 	FieldName,
+	FieldStart,
+	FieldEnd,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

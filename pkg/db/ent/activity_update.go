@@ -46,6 +46,32 @@ func (au *ActivityUpdate) SetName(s string) *ActivityUpdate {
 	return au
 }
 
+// SetStart sets the "start" field.
+func (au *ActivityUpdate) SetStart(u uint32) *ActivityUpdate {
+	au.mutation.ResetStart()
+	au.mutation.SetStart(u)
+	return au
+}
+
+// AddStart adds u to the "start" field.
+func (au *ActivityUpdate) AddStart(u int32) *ActivityUpdate {
+	au.mutation.AddStart(u)
+	return au
+}
+
+// SetEnd sets the "end" field.
+func (au *ActivityUpdate) SetEnd(u uint32) *ActivityUpdate {
+	au.mutation.ResetEnd()
+	au.mutation.SetEnd(u)
+	return au
+}
+
+// AddEnd adds u to the "end" field.
+func (au *ActivityUpdate) AddEnd(u int32) *ActivityUpdate {
+	au.mutation.AddEnd(u)
+	return au
+}
+
 // SetCreateAt sets the "create_at" field.
 func (au *ActivityUpdate) SetCreateAt(u uint32) *ActivityUpdate {
 	au.mutation.ResetCreateAt()
@@ -208,6 +234,34 @@ func (au *ActivityUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: activity.FieldName,
 		})
 	}
+	if value, ok := au.mutation.Start(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: activity.FieldStart,
+		})
+	}
+	if value, ok := au.mutation.AddedStart(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: activity.FieldStart,
+		})
+	}
+	if value, ok := au.mutation.End(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: activity.FieldEnd,
+		})
+	}
+	if value, ok := au.mutation.AddedEnd(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: activity.FieldEnd,
+		})
+	}
 	if value, ok := au.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -284,6 +338,32 @@ func (auo *ActivityUpdateOne) SetCreatedBy(u uuid.UUID) *ActivityUpdateOne {
 // SetName sets the "name" field.
 func (auo *ActivityUpdateOne) SetName(s string) *ActivityUpdateOne {
 	auo.mutation.SetName(s)
+	return auo
+}
+
+// SetStart sets the "start" field.
+func (auo *ActivityUpdateOne) SetStart(u uint32) *ActivityUpdateOne {
+	auo.mutation.ResetStart()
+	auo.mutation.SetStart(u)
+	return auo
+}
+
+// AddStart adds u to the "start" field.
+func (auo *ActivityUpdateOne) AddStart(u int32) *ActivityUpdateOne {
+	auo.mutation.AddStart(u)
+	return auo
+}
+
+// SetEnd sets the "end" field.
+func (auo *ActivityUpdateOne) SetEnd(u uint32) *ActivityUpdateOne {
+	auo.mutation.ResetEnd()
+	auo.mutation.SetEnd(u)
+	return auo
+}
+
+// AddEnd adds u to the "end" field.
+func (auo *ActivityUpdateOne) AddEnd(u int32) *ActivityUpdateOne {
+	auo.mutation.AddEnd(u)
 	return auo
 }
 
@@ -471,6 +551,34 @@ func (auo *ActivityUpdateOne) sqlSave(ctx context.Context) (_node *Activity, err
 			Type:   field.TypeString,
 			Value:  value,
 			Column: activity.FieldName,
+		})
+	}
+	if value, ok := auo.mutation.Start(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: activity.FieldStart,
+		})
+	}
+	if value, ok := auo.mutation.AddedStart(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: activity.FieldStart,
+		})
+	}
+	if value, ok := auo.mutation.End(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: activity.FieldEnd,
+		})
+	}
+	if value, ok := auo.mutation.AddedEnd(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: activity.FieldEnd,
 		})
 	}
 	if value, ok := auo.mutation.CreateAt(); ok {
