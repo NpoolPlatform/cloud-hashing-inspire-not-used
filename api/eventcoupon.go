@@ -5,7 +5,8 @@ package api
 import (
 	"context"
 
-	crud "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/eventcoupon" //nolint
+	crud "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/eventcoupon"     //nolint
+	mw "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/middleware/eventcoupon" //nolint
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
@@ -15,7 +16,7 @@ import (
 )
 
 func (s *Server) CreateEventCoupon(ctx context.Context, in *npool.CreateEventCouponRequest) (*npool.CreateEventCouponResponse, error) {
-	resp, err := crud.Create(ctx, in)
+	resp, err := mw.Create(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorw("create event coupon error: %v", err)
 		return &npool.CreateEventCouponResponse{}, status.Error(codes.Internal, err.Error())
@@ -27,7 +28,7 @@ func (s *Server) CreateEventCouponForOtherApp(ctx context.Context, in *npool.Cre
 	info := in.GetInfo()
 	info.AppID = in.GetTargetAppID()
 
-	resp, err := crud.Create(ctx, &npool.CreateEventCouponRequest{
+	resp, err := mw.Create(ctx, &npool.CreateEventCouponRequest{
 		Info: info,
 	})
 	if err != nil {
@@ -40,7 +41,7 @@ func (s *Server) CreateEventCouponForOtherApp(ctx context.Context, in *npool.Cre
 }
 
 func (s *Server) UpdateEventCoupon(ctx context.Context, in *npool.UpdateEventCouponRequest) (*npool.UpdateEventCouponResponse, error) {
-	resp, err := crud.Update(ctx, in)
+	resp, err := mw.Update(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorw("update event coupon error: %v", err)
 		return &npool.UpdateEventCouponResponse{}, status.Error(codes.Internal, err.Error())
