@@ -40,6 +40,22 @@ func (s *Server) CreateUserInvitationCodeForOtherAppUser(ctx context.Context, in
 	}, nil
 }
 
+func (s *Server) CreateUserInvitationCodeForAppOtherUser(ctx context.Context, in *npool.CreateUserInvitationCodeForAppOtherUserRequest) (*npool.CreateUserInvitationCodeForAppOtherUserResponse, error) {
+	info := in.GetInfo()
+	info.UserID = in.GetTargetUserID()
+
+	resp, err := crud.Create(ctx, &npool.CreateUserInvitationCodeRequest{
+		Info: info,
+	})
+	if err != nil {
+		logger.Sugar().Errorw("create user invitation code error: %v", err)
+		return &npool.CreateUserInvitationCodeForAppOtherUserResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.CreateUserInvitationCodeForAppOtherUserResponse{
+		Info: resp.Info,
+	}, nil
+}
+
 func (s *Server) GetUserInvitationCode(ctx context.Context, in *npool.GetUserInvitationCodeRequest) (*npool.GetUserInvitationCodeResponse, error) {
 	resp, err := crud.Get(ctx, in)
 	if err != nil {
