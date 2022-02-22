@@ -6,6 +6,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// Activity is the predicate function for activity builders.
+type Activity func(*sql.Selector)
+
 // AgencySetting is the predicate function for agencysetting builders.
 type AgencySetting func(*sql.Selector)
 
@@ -23,6 +26,9 @@ type DefaultKpiSetting func(*sql.Selector)
 
 // DiscountPool is the predicate function for discountpool builders.
 type DiscountPool func(*sql.Selector)
+
+// EventCoupon is the predicate function for eventcoupon builders.
+type EventCoupon func(*sql.Selector)
 
 // NewUserRewardSetting is the predicate function for newuserrewardsetting builders.
 type NewUserRewardSetting func(*sql.Selector)

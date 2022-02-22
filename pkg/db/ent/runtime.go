@@ -3,12 +3,14 @@
 package ent
 
 import (
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/activity"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/agencysetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/discountpool"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/eventcoupon"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
@@ -23,6 +25,26 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	activityFields := schema.Activity{}.Fields()
+	_ = activityFields
+	// activityDescCreateAt is the schema descriptor for create_at field.
+	activityDescCreateAt := activityFields[4].Descriptor()
+	// activity.DefaultCreateAt holds the default value on creation for the create_at field.
+	activity.DefaultCreateAt = activityDescCreateAt.Default.(func() uint32)
+	// activityDescUpdateAt is the schema descriptor for update_at field.
+	activityDescUpdateAt := activityFields[5].Descriptor()
+	// activity.DefaultUpdateAt holds the default value on creation for the update_at field.
+	activity.DefaultUpdateAt = activityDescUpdateAt.Default.(func() uint32)
+	// activity.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	activity.UpdateDefaultUpdateAt = activityDescUpdateAt.UpdateDefault.(func() uint32)
+	// activityDescDeleteAt is the schema descriptor for delete_at field.
+	activityDescDeleteAt := activityFields[6].Descriptor()
+	// activity.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	activity.DefaultDeleteAt = activityDescDeleteAt.Default.(func() uint32)
+	// activityDescID is the schema descriptor for id field.
+	activityDescID := activityFields[0].Descriptor()
+	// activity.DefaultID holds the default value on creation for the id field.
+	activity.DefaultID = activityDescID.Default.(func() uuid.UUID)
 	agencysettingFields := schema.AgencySetting{}.Fields()
 	_ = agencysettingFields
 	// agencysettingDescCreateAt is the schema descriptor for create_at field.
@@ -159,6 +181,26 @@ func init() {
 	discountpoolDescID := discountpoolFields[0].Descriptor()
 	// discountpool.DefaultID holds the default value on creation for the id field.
 	discountpool.DefaultID = discountpoolDescID.Default.(func() uuid.UUID)
+	eventcouponFields := schema.EventCoupon{}.Fields()
+	_ = eventcouponFields
+	// eventcouponDescCreateAt is the schema descriptor for create_at field.
+	eventcouponDescCreateAt := eventcouponFields[5].Descriptor()
+	// eventcoupon.DefaultCreateAt holds the default value on creation for the create_at field.
+	eventcoupon.DefaultCreateAt = eventcouponDescCreateAt.Default.(func() uint32)
+	// eventcouponDescUpdateAt is the schema descriptor for update_at field.
+	eventcouponDescUpdateAt := eventcouponFields[6].Descriptor()
+	// eventcoupon.DefaultUpdateAt holds the default value on creation for the update_at field.
+	eventcoupon.DefaultUpdateAt = eventcouponDescUpdateAt.Default.(func() uint32)
+	// eventcoupon.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	eventcoupon.UpdateDefaultUpdateAt = eventcouponDescUpdateAt.UpdateDefault.(func() uint32)
+	// eventcouponDescDeleteAt is the schema descriptor for delete_at field.
+	eventcouponDescDeleteAt := eventcouponFields[7].Descriptor()
+	// eventcoupon.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	eventcoupon.DefaultDeleteAt = eventcouponDescDeleteAt.Default.(func() uint32)
+	// eventcouponDescID is the schema descriptor for id field.
+	eventcouponDescID := eventcouponFields[0].Descriptor()
+	// eventcoupon.DefaultID holds the default value on creation for the id field.
+	eventcoupon.DefaultID = eventcouponDescID.Default.(func() uuid.UUID)
 	newuserrewardsettingFields := schema.NewUserRewardSetting{}.Fields()
 	_ = newuserrewardsettingFields
 	// newuserrewardsettingDescAutoGenerateInvitationCode is the schema descriptor for auto_generate_invitation_code field.

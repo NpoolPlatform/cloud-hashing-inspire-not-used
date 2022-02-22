@@ -9,6 +9,19 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"
 )
 
+// The ActivityFunc type is an adapter to allow the use of ordinary
+// function as Activity mutator.
+type ActivityFunc func(context.Context, *ent.ActivityMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f ActivityFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.ActivityMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ActivityMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The AgencySettingFunc type is an adapter to allow the use of ordinary
 // function as AgencySetting mutator.
 type AgencySettingFunc func(context.Context, *ent.AgencySettingMutation) (ent.Value, error)
@@ -83,6 +96,19 @@ func (f DiscountPoolFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value
 	mv, ok := m.(*ent.DiscountPoolMutation)
 	if !ok {
 		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DiscountPoolMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The EventCouponFunc type is an adapter to allow the use of ordinary
+// function as EventCoupon mutator.
+type EventCouponFunc func(context.Context, *ent.EventCouponMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f EventCouponFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.EventCouponMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.EventCouponMutation", m)
 	}
 	return f(ctx, mv)
 }

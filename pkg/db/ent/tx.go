@@ -12,6 +12,8 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// Activity is the client for interacting with the Activity builders.
+	Activity *ActivityClient
 	// AgencySetting is the client for interacting with the AgencySetting builders.
 	AgencySetting *AgencySettingClient
 	// AppCouponSetting is the client for interacting with the AppCouponSetting builders.
@@ -24,6 +26,8 @@ type Tx struct {
 	DefaultKpiSetting *DefaultKpiSettingClient
 	// DiscountPool is the client for interacting with the DiscountPool builders.
 	DiscountPool *DiscountPoolClient
+	// EventCoupon is the client for interacting with the EventCoupon builders.
+	EventCoupon *EventCouponClient
 	// NewUserRewardSetting is the client for interacting with the NewUserRewardSetting builders.
 	NewUserRewardSetting *NewUserRewardSettingClient
 	// PurchaseInvitation is the client for interacting with the PurchaseInvitation builders.
@@ -171,12 +175,14 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.Activity = NewActivityClient(tx.config)
 	tx.AgencySetting = NewAgencySettingClient(tx.config)
 	tx.AppCouponSetting = NewAppCouponSettingClient(tx.config)
 	tx.CouponAllocated = NewCouponAllocatedClient(tx.config)
 	tx.CouponPool = NewCouponPoolClient(tx.config)
 	tx.DefaultKpiSetting = NewDefaultKpiSettingClient(tx.config)
 	tx.DiscountPool = NewDiscountPoolClient(tx.config)
+	tx.EventCoupon = NewEventCouponClient(tx.config)
 	tx.NewUserRewardSetting = NewNewUserRewardSettingClient(tx.config)
 	tx.PurchaseInvitation = NewPurchaseInvitationClient(tx.config)
 	tx.RegistrationInvitation = NewRegistrationInvitationClient(tx.config)
@@ -192,7 +198,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: AgencySetting.QueryXXX(), the query will be executed
+// applies a query, for example: Activity.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

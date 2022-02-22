@@ -24,12 +24,14 @@ type config struct {
 
 // hooks per client, for fast access.
 type hooks struct {
+	Activity               []ent.Hook
 	AgencySetting          []ent.Hook
 	AppCouponSetting       []ent.Hook
 	CouponAllocated        []ent.Hook
 	CouponPool             []ent.Hook
 	DefaultKpiSetting      []ent.Hook
 	DiscountPool           []ent.Hook
+	EventCoupon            []ent.Hook
 	NewUserRewardSetting   []ent.Hook
 	PurchaseInvitation     []ent.Hook
 	RegistrationInvitation []ent.Hook

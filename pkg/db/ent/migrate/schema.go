@@ -8,6 +8,22 @@ import (
 )
 
 var (
+	// ActivitiesColumns holds the columns for the "activities" table.
+	ActivitiesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "created_by", Type: field.TypeUUID},
+		{Name: "name", Type: field.TypeString},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// ActivitiesTable holds the schema information for the "activities" table.
+	ActivitiesTable = &schema.Table{
+		Name:       "activities",
+		Columns:    ActivitiesColumns,
+		PrimaryKey: []*schema.Column{ActivitiesColumns[0]},
+	}
 	// AgencySettingsColumns holds the columns for the "agency_settings" table.
 	AgencySettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -126,6 +142,23 @@ var (
 		Name:       "discount_pools",
 		Columns:    DiscountPoolsColumns,
 		PrimaryKey: []*schema.Column{DiscountPoolsColumns[0]},
+	}
+	// EventCouponsColumns holds the columns for the "event_coupons" table.
+	EventCouponsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "activity_id", Type: field.TypeUUID},
+		{Name: "event", Type: field.TypeString},
+		{Name: "coupon_id", Type: field.TypeUUID},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// EventCouponsTable holds the schema information for the "event_coupons" table.
+	EventCouponsTable = &schema.Table{
+		Name:       "event_coupons",
+		Columns:    EventCouponsColumns,
+		PrimaryKey: []*schema.Column{EventCouponsColumns[0]},
 	}
 	// NewUserRewardSettingsColumns holds the columns for the "new_user_reward_settings" table.
 	NewUserRewardSettingsColumns = []*schema.Column{
@@ -260,12 +293,14 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		ActivitiesTable,
 		AgencySettingsTable,
 		AppCouponSettingsTable,
 		CouponAllocatedsTable,
 		CouponPoolsTable,
 		DefaultKpiSettingsTable,
 		DiscountPoolsTable,
+		EventCouponsTable,
 		NewUserRewardSettingsTable,
 		PurchaseInvitationsTable,
 		RegistrationInvitationsTable,
