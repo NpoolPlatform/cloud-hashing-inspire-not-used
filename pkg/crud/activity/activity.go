@@ -29,7 +29,7 @@ func validateActivity(info *npool.Activity) error {
 		return xerrors.Errorf("invalid expiration")
 	}
 	if info.GetStart() <= uint32(time.Now().Unix()) {
-		return xerrors.Errorf("invalid start")
+		return xerrors.Errorf("invalid start %v < %v", info.GetStart(), time.Now().Unix())
 	}
 	return nil
 }
