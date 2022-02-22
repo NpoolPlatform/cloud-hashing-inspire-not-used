@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -41,7 +42,7 @@ func (dpu *DiscountPoolUpdate) SetDiscount(u uint32) *DiscountPoolUpdate {
 }
 
 // AddDiscount adds u to the "discount" field.
-func (dpu *DiscountPoolUpdate) AddDiscount(u uint32) *DiscountPoolUpdate {
+func (dpu *DiscountPoolUpdate) AddDiscount(u int32) *DiscountPoolUpdate {
 	dpu.mutation.AddDiscount(u)
 	return dpu
 }
@@ -60,7 +61,7 @@ func (dpu *DiscountPoolUpdate) SetStart(u uint32) *DiscountPoolUpdate {
 }
 
 // AddStart adds u to the "start" field.
-func (dpu *DiscountPoolUpdate) AddStart(u uint32) *DiscountPoolUpdate {
+func (dpu *DiscountPoolUpdate) AddStart(u int32) *DiscountPoolUpdate {
 	dpu.mutation.AddStart(u)
 	return dpu
 }
@@ -106,7 +107,7 @@ func (dpu *DiscountPoolUpdate) SetNillableCreateAt(u *uint32) *DiscountPoolUpdat
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (dpu *DiscountPoolUpdate) AddCreateAt(u uint32) *DiscountPoolUpdate {
+func (dpu *DiscountPoolUpdate) AddCreateAt(u int32) *DiscountPoolUpdate {
 	dpu.mutation.AddCreateAt(u)
 	return dpu
 }
@@ -119,7 +120,7 @@ func (dpu *DiscountPoolUpdate) SetUpdateAt(u uint32) *DiscountPoolUpdate {
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (dpu *DiscountPoolUpdate) AddUpdateAt(u uint32) *DiscountPoolUpdate {
+func (dpu *DiscountPoolUpdate) AddUpdateAt(u int32) *DiscountPoolUpdate {
 	dpu.mutation.AddUpdateAt(u)
 	return dpu
 }
@@ -140,7 +141,7 @@ func (dpu *DiscountPoolUpdate) SetNillableDeleteAt(u *uint32) *DiscountPoolUpdat
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (dpu *DiscountPoolUpdate) AddDeleteAt(u uint32) *DiscountPoolUpdate {
+func (dpu *DiscountPoolUpdate) AddDeleteAt(u int32) *DiscountPoolUpdate {
 	dpu.mutation.AddDeleteAt(u)
 	return dpu
 }
@@ -223,12 +224,12 @@ func (dpu *DiscountPoolUpdate) defaults() {
 func (dpu *DiscountPoolUpdate) check() error {
 	if v, ok := dpu.mutation.Message(); ok {
 		if err := discountpool.MessageValidator(v); err != nil {
-			return &ValidationError{Name: "message", err: fmt.Errorf("ent: validator failed for field \"message\": %w", err)}
+			return &ValidationError{Name: "message", err: fmt.Errorf(`ent: validator failed for field "DiscountPool.message": %w`, err)}
 		}
 	}
 	if v, ok := dpu.mutation.Name(); ok {
 		if err := discountpool.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf("ent: validator failed for field \"name\": %w", err)}
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "DiscountPool.name": %w`, err)}
 		}
 	}
 	return nil
@@ -397,7 +398,7 @@ func (dpuo *DiscountPoolUpdateOne) SetDiscount(u uint32) *DiscountPoolUpdateOne 
 }
 
 // AddDiscount adds u to the "discount" field.
-func (dpuo *DiscountPoolUpdateOne) AddDiscount(u uint32) *DiscountPoolUpdateOne {
+func (dpuo *DiscountPoolUpdateOne) AddDiscount(u int32) *DiscountPoolUpdateOne {
 	dpuo.mutation.AddDiscount(u)
 	return dpuo
 }
@@ -416,7 +417,7 @@ func (dpuo *DiscountPoolUpdateOne) SetStart(u uint32) *DiscountPoolUpdateOne {
 }
 
 // AddStart adds u to the "start" field.
-func (dpuo *DiscountPoolUpdateOne) AddStart(u uint32) *DiscountPoolUpdateOne {
+func (dpuo *DiscountPoolUpdateOne) AddStart(u int32) *DiscountPoolUpdateOne {
 	dpuo.mutation.AddStart(u)
 	return dpuo
 }
@@ -462,7 +463,7 @@ func (dpuo *DiscountPoolUpdateOne) SetNillableCreateAt(u *uint32) *DiscountPoolU
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (dpuo *DiscountPoolUpdateOne) AddCreateAt(u uint32) *DiscountPoolUpdateOne {
+func (dpuo *DiscountPoolUpdateOne) AddCreateAt(u int32) *DiscountPoolUpdateOne {
 	dpuo.mutation.AddCreateAt(u)
 	return dpuo
 }
@@ -475,7 +476,7 @@ func (dpuo *DiscountPoolUpdateOne) SetUpdateAt(u uint32) *DiscountPoolUpdateOne 
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (dpuo *DiscountPoolUpdateOne) AddUpdateAt(u uint32) *DiscountPoolUpdateOne {
+func (dpuo *DiscountPoolUpdateOne) AddUpdateAt(u int32) *DiscountPoolUpdateOne {
 	dpuo.mutation.AddUpdateAt(u)
 	return dpuo
 }
@@ -496,7 +497,7 @@ func (dpuo *DiscountPoolUpdateOne) SetNillableDeleteAt(u *uint32) *DiscountPoolU
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (dpuo *DiscountPoolUpdateOne) AddDeleteAt(u uint32) *DiscountPoolUpdateOne {
+func (dpuo *DiscountPoolUpdateOne) AddDeleteAt(u int32) *DiscountPoolUpdateOne {
 	dpuo.mutation.AddDeleteAt(u)
 	return dpuo
 }
@@ -586,12 +587,12 @@ func (dpuo *DiscountPoolUpdateOne) defaults() {
 func (dpuo *DiscountPoolUpdateOne) check() error {
 	if v, ok := dpuo.mutation.Message(); ok {
 		if err := discountpool.MessageValidator(v); err != nil {
-			return &ValidationError{Name: "message", err: fmt.Errorf("ent: validator failed for field \"message\": %w", err)}
+			return &ValidationError{Name: "message", err: fmt.Errorf(`ent: validator failed for field "DiscountPool.message": %w`, err)}
 		}
 	}
 	if v, ok := dpuo.mutation.Name(); ok {
 		if err := discountpool.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf("ent: validator failed for field \"name\": %w", err)}
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "DiscountPool.name": %w`, err)}
 		}
 	}
 	return nil
@@ -610,7 +611,7 @@ func (dpuo *DiscountPoolUpdateOne) sqlSave(ctx context.Context) (_node *Discount
 	}
 	id, ok := dpuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing DiscountPool.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "DiscountPool.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := dpuo.fields; len(fields) > 0 {

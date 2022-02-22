@@ -337,6 +337,10 @@ func (acsq *AppCouponSettingQuery) sqlAll(ctx context.Context) ([]*AppCouponSett
 
 func (acsq *AppCouponSettingQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := acsq.querySpec()
+	_spec.Node.Columns = acsq.fields
+	if len(acsq.fields) > 0 {
+		_spec.Unique = acsq.unique != nil && *acsq.unique
+	}
 	return sqlgraph.CountNodes(ctx, acsq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (acsq *AppCouponSettingQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if acsq.sql != nil {
 		selector = acsq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if acsq.unique != nil && *acsq.unique {
+		selector.Distinct()
 	}
 	for _, p := range acsq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (acsgb *AppCouponSettingGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range acsgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(acsgb.fields...)...)

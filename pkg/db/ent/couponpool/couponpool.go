@@ -11,6 +11,8 @@ const (
 	Label = "coupon_pool"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldAppID holds the string denoting the app_id field in the database.
+	FieldAppID = "app_id"
 	// FieldDenomination holds the string denoting the denomination field in the database.
 	FieldDenomination = "denomination"
 	// FieldCirculation holds the string denoting the circulation field in the database.
@@ -21,8 +23,6 @@ const (
 	FieldStart = "start"
 	// FieldDurationDays holds the string denoting the duration_days field in the database.
 	FieldDurationDays = "duration_days"
-	// FieldAppID holds the string denoting the app_id field in the database.
-	FieldAppID = "app_id"
 	// FieldMessage holds the string denoting the message field in the database.
 	FieldMessage = "message"
 	// FieldName holds the string denoting the name field in the database.
@@ -40,12 +40,12 @@ const (
 // Columns holds all SQL columns for couponpool fields.
 var Columns = []string{
 	FieldID,
+	FieldAppID,
 	FieldDenomination,
 	FieldCirculation,
 	FieldReleaseByUserID,
 	FieldStart,
 	FieldDurationDays,
-	FieldAppID,
 	FieldMessage,
 	FieldName,
 	FieldCreateAt,

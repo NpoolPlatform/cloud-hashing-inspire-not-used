@@ -16,6 +16,8 @@ type CouponPool struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID uuid.UUID `json:"id,omitempty"`
+	// AppID holds the value of the "app_id" field.
+	AppID uuid.UUID `json:"app_id,omitempty"`
 	// Denomination holds the value of the "denomination" field.
 	Denomination uint64 `json:"denomination,omitempty"`
 	// Circulation holds the value of the "circulation" field.
@@ -26,8 +28,6 @@ type CouponPool struct {
 	Start uint32 `json:"start,omitempty"`
 	// DurationDays holds the value of the "duration_days" field.
 	DurationDays int32 `json:"duration_days,omitempty"`
-	// AppID holds the value of the "app_id" field.
-	AppID uuid.UUID `json:"app_id,omitempty"`
 	// Message holds the value of the "message" field.
 	Message string `json:"message,omitempty"`
 	// Name holds the value of the "name" field.
@@ -49,7 +49,7 @@ func (*CouponPool) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullInt64)
 		case couponpool.FieldMessage, couponpool.FieldName:
 			values[i] = new(sql.NullString)
-		case couponpool.FieldID, couponpool.FieldReleaseByUserID, couponpool.FieldAppID:
+		case couponpool.FieldID, couponpool.FieldAppID, couponpool.FieldReleaseByUserID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CouponPool", columns[i])
@@ -71,6 +71,12 @@ func (cp *CouponPool) assignValues(columns []string, values []interface{}) error
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value != nil {
 				cp.ID = *value
+			}
+		case couponpool.FieldAppID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field app_id", values[i])
+			} else if value != nil {
+				cp.AppID = *value
 			}
 		case couponpool.FieldDenomination:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -101,12 +107,6 @@ func (cp *CouponPool) assignValues(columns []string, values []interface{}) error
 				return fmt.Errorf("unexpected type %T for field duration_days", values[i])
 			} else if value.Valid {
 				cp.DurationDays = int32(value.Int64)
-			}
-		case couponpool.FieldAppID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field app_id", values[i])
-			} else if value != nil {
-				cp.AppID = *value
 			}
 		case couponpool.FieldMessage:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -166,6 +166,8 @@ func (cp *CouponPool) String() string {
 	var builder strings.Builder
 	builder.WriteString("CouponPool(")
 	builder.WriteString(fmt.Sprintf("id=%v", cp.ID))
+	builder.WriteString(", app_id=")
+	builder.WriteString(fmt.Sprintf("%v", cp.AppID))
 	builder.WriteString(", denomination=")
 	builder.WriteString(fmt.Sprintf("%v", cp.Denomination))
 	builder.WriteString(", circulation=")
@@ -176,8 +178,6 @@ func (cp *CouponPool) String() string {
 	builder.WriteString(fmt.Sprintf("%v", cp.Start))
 	builder.WriteString(", duration_days=")
 	builder.WriteString(fmt.Sprintf("%v", cp.DurationDays))
-	builder.WriteString(", app_id=")
-	builder.WriteString(fmt.Sprintf("%v", cp.AppID))
 	builder.WriteString(", message=")
 	builder.WriteString(cp.Message)
 	builder.WriteString(", name=")

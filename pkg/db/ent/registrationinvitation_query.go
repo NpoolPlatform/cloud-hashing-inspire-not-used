@@ -337,6 +337,10 @@ func (riq *RegistrationInvitationQuery) sqlAll(ctx context.Context) ([]*Registra
 
 func (riq *RegistrationInvitationQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := riq.querySpec()
+	_spec.Node.Columns = riq.fields
+	if len(riq.fields) > 0 {
+		_spec.Unique = riq.unique != nil && *riq.unique
+	}
 	return sqlgraph.CountNodes(ctx, riq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (riq *RegistrationInvitationQuery) sqlQuery(ctx context.Context) *sql.Selec
 	if riq.sql != nil {
 		selector = riq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if riq.unique != nil && *riq.unique {
+		selector.Distinct()
 	}
 	for _, p := range riq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (rigb *RegistrationInvitationGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range rigb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(rigb.fields...)...)

@@ -254,12 +254,12 @@ func (cpq *CouponPoolQuery) Clone() *CouponPoolQuery {
 // Example:
 //
 //	var v []struct {
-//		Denomination uint64 `json:"denomination,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.CouponPool.Query().
-//		GroupBy(couponpool.FieldDenomination).
+//		GroupBy(couponpool.FieldAppID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (cpq *CouponPoolQuery) GroupBy(field string, fields ...string) *CouponPoolG
 // Example:
 //
 //	var v []struct {
-//		Denomination uint64 `json:"denomination,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //	}
 //
 //	client.CouponPool.Query().
-//		Select(couponpool.FieldDenomination).
+//		Select(couponpool.FieldAppID).
 //		Scan(ctx, &v)
 //
 func (cpq *CouponPoolQuery) Select(fields ...string) *CouponPoolSelect {
@@ -337,6 +337,10 @@ func (cpq *CouponPoolQuery) sqlAll(ctx context.Context) ([]*CouponPool, error) {
 
 func (cpq *CouponPoolQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := cpq.querySpec()
+	_spec.Node.Columns = cpq.fields
+	if len(cpq.fields) > 0 {
+		_spec.Unique = cpq.unique != nil && *cpq.unique
+	}
 	return sqlgraph.CountNodes(ctx, cpq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (cpq *CouponPoolQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if cpq.sql != nil {
 		selector = cpq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if cpq.unique != nil && *cpq.unique {
+		selector.Distinct()
 	}
 	for _, p := range cpq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (cpgb *CouponPoolGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range cpgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(cpgb.fields...)...)

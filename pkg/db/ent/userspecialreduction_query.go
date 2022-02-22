@@ -337,6 +337,10 @@ func (usrq *UserSpecialReductionQuery) sqlAll(ctx context.Context) ([]*UserSpeci
 
 func (usrq *UserSpecialReductionQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := usrq.querySpec()
+	_spec.Node.Columns = usrq.fields
+	if len(usrq.fields) > 0 {
+		_spec.Unique = usrq.unique != nil && *usrq.unique
+	}
 	return sqlgraph.CountNodes(ctx, usrq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (usrq *UserSpecialReductionQuery) sqlQuery(ctx context.Context) *sql.Select
 	if usrq.sql != nil {
 		selector = usrq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if usrq.unique != nil && *usrq.unique {
+		selector.Distinct()
 	}
 	for _, p := range usrq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (usrgb *UserSpecialReductionGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range usrgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(usrgb.fields...)...)

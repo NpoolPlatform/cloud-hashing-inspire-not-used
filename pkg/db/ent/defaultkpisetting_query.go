@@ -337,6 +337,10 @@ func (dksq *DefaultKpiSettingQuery) sqlAll(ctx context.Context) ([]*DefaultKpiSe
 
 func (dksq *DefaultKpiSettingQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := dksq.querySpec()
+	_spec.Node.Columns = dksq.fields
+	if len(dksq.fields) > 0 {
+		_spec.Unique = dksq.unique != nil && *dksq.unique
+	}
 	return sqlgraph.CountNodes(ctx, dksq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (dksq *DefaultKpiSettingQuery) sqlQuery(ctx context.Context) *sql.Selector 
 	if dksq.sql != nil {
 		selector = dksq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if dksq.unique != nil && *dksq.unique {
+		selector.Distinct()
 	}
 	for _, p := range dksq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (dksgb *DefaultKpiSettingGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range dksgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(dksgb.fields...)...)

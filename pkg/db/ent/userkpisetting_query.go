@@ -337,6 +337,10 @@ func (uksq *UserKpiSettingQuery) sqlAll(ctx context.Context) ([]*UserKpiSetting,
 
 func (uksq *UserKpiSettingQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := uksq.querySpec()
+	_spec.Node.Columns = uksq.fields
+	if len(uksq.fields) > 0 {
+		_spec.Unique = uksq.unique != nil && *uksq.unique
+	}
 	return sqlgraph.CountNodes(ctx, uksq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (uksq *UserKpiSettingQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if uksq.sql != nil {
 		selector = uksq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if uksq.unique != nil && *uksq.unique {
+		selector.Distinct()
 	}
 	for _, p := range uksq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (uksgb *UserKpiSettingGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range uksgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(uksgb.fields...)...)

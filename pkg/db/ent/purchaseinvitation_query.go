@@ -337,6 +337,10 @@ func (piq *PurchaseInvitationQuery) sqlAll(ctx context.Context) ([]*PurchaseInvi
 
 func (piq *PurchaseInvitationQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := piq.querySpec()
+	_spec.Node.Columns = piq.fields
+	if len(piq.fields) > 0 {
+		_spec.Unique = piq.unique != nil && *piq.unique
+	}
 	return sqlgraph.CountNodes(ctx, piq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (piq *PurchaseInvitationQuery) sqlQuery(ctx context.Context) *sql.Selector 
 	if piq.sql != nil {
 		selector = piq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if piq.unique != nil && *piq.unique {
+		selector.Distinct()
 	}
 	for _, p := range piq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (pigb *PurchaseInvitationGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range pigb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(pigb.fields...)...)

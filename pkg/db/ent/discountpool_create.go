@@ -113,6 +113,14 @@ func (dpc *DiscountPoolCreate) SetID(u uuid.UUID) *DiscountPoolCreate {
 	return dpc
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (dpc *DiscountPoolCreate) SetNillableID(u *uuid.UUID) *DiscountPoolCreate {
+	if u != nil {
+		dpc.SetID(*u)
+	}
+	return dpc
+}
+
 // Mutation returns the DiscountPoolMutation object of the builder.
 func (dpc *DiscountPoolCreate) Mutation() *DiscountPoolMutation {
 	return dpc.mutation
@@ -205,44 +213,44 @@ func (dpc *DiscountPoolCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (dpc *DiscountPoolCreate) check() error {
 	if _, ok := dpc.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "DiscountPool.app_id"`)}
 	}
 	if _, ok := dpc.mutation.Discount(); !ok {
-		return &ValidationError{Name: "discount", err: errors.New(`ent: missing required field "discount"`)}
+		return &ValidationError{Name: "discount", err: errors.New(`ent: missing required field "DiscountPool.discount"`)}
 	}
 	if _, ok := dpc.mutation.ReleaseByUserID(); !ok {
-		return &ValidationError{Name: "release_by_user_id", err: errors.New(`ent: missing required field "release_by_user_id"`)}
+		return &ValidationError{Name: "release_by_user_id", err: errors.New(`ent: missing required field "DiscountPool.release_by_user_id"`)}
 	}
 	if _, ok := dpc.mutation.Start(); !ok {
-		return &ValidationError{Name: "start", err: errors.New(`ent: missing required field "start"`)}
+		return &ValidationError{Name: "start", err: errors.New(`ent: missing required field "DiscountPool.start"`)}
 	}
 	if _, ok := dpc.mutation.DurationDays(); !ok {
-		return &ValidationError{Name: "duration_days", err: errors.New(`ent: missing required field "duration_days"`)}
+		return &ValidationError{Name: "duration_days", err: errors.New(`ent: missing required field "DiscountPool.duration_days"`)}
 	}
 	if _, ok := dpc.mutation.Message(); !ok {
-		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "message"`)}
+		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "DiscountPool.message"`)}
 	}
 	if v, ok := dpc.mutation.Message(); ok {
 		if err := discountpool.MessageValidator(v); err != nil {
-			return &ValidationError{Name: "message", err: fmt.Errorf(`ent: validator failed for field "message": %w`, err)}
+			return &ValidationError{Name: "message", err: fmt.Errorf(`ent: validator failed for field "DiscountPool.message": %w`, err)}
 		}
 	}
 	if _, ok := dpc.mutation.Name(); !ok {
-		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "name"`)}
+		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "DiscountPool.name"`)}
 	}
 	if v, ok := dpc.mutation.Name(); ok {
 		if err := discountpool.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "name": %w`, err)}
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "DiscountPool.name": %w`, err)}
 		}
 	}
 	if _, ok := dpc.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "DiscountPool.create_at"`)}
 	}
 	if _, ok := dpc.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "DiscountPool.update_at"`)}
 	}
 	if _, ok := dpc.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "DiscountPool.delete_at"`)}
 	}
 	return nil
 }
@@ -256,7 +264,11 @@ func (dpc *DiscountPoolCreate) sqlSave(ctx context.Context) (*DiscountPool, erro
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -275,7 +287,7 @@ func (dpc *DiscountPoolCreate) createSpec() (*DiscountPool, *sqlgraph.CreateSpec
 	_spec.OnConflict = dpc.conflict
 	if id, ok := dpc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
 	}
 	if value, ok := dpc.mutation.AppID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -435,6 +447,12 @@ func (u *DiscountPoolUpsert) UpdateDiscount() *DiscountPoolUpsert {
 	return u
 }
 
+// AddDiscount adds v to the "discount" field.
+func (u *DiscountPoolUpsert) AddDiscount(v uint32) *DiscountPoolUpsert {
+	u.Add(discountpool.FieldDiscount, v)
+	return u
+}
+
 // SetReleaseByUserID sets the "release_by_user_id" field.
 func (u *DiscountPoolUpsert) SetReleaseByUserID(v uuid.UUID) *DiscountPoolUpsert {
 	u.Set(discountpool.FieldReleaseByUserID, v)
@@ -459,6 +477,12 @@ func (u *DiscountPoolUpsert) UpdateStart() *DiscountPoolUpsert {
 	return u
 }
 
+// AddStart adds v to the "start" field.
+func (u *DiscountPoolUpsert) AddStart(v uint32) *DiscountPoolUpsert {
+	u.Add(discountpool.FieldStart, v)
+	return u
+}
+
 // SetDurationDays sets the "duration_days" field.
 func (u *DiscountPoolUpsert) SetDurationDays(v int32) *DiscountPoolUpsert {
 	u.Set(discountpool.FieldDurationDays, v)
@@ -468,6 +492,12 @@ func (u *DiscountPoolUpsert) SetDurationDays(v int32) *DiscountPoolUpsert {
 // UpdateDurationDays sets the "duration_days" field to the value that was provided on create.
 func (u *DiscountPoolUpsert) UpdateDurationDays() *DiscountPoolUpsert {
 	u.SetExcluded(discountpool.FieldDurationDays)
+	return u
+}
+
+// AddDurationDays adds v to the "duration_days" field.
+func (u *DiscountPoolUpsert) AddDurationDays(v int32) *DiscountPoolUpsert {
+	u.Add(discountpool.FieldDurationDays, v)
 	return u
 }
 
@@ -507,6 +537,12 @@ func (u *DiscountPoolUpsert) UpdateCreateAt() *DiscountPoolUpsert {
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *DiscountPoolUpsert) AddCreateAt(v uint32) *DiscountPoolUpsert {
+	u.Add(discountpool.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *DiscountPoolUpsert) SetUpdateAt(v uint32) *DiscountPoolUpsert {
 	u.Set(discountpool.FieldUpdateAt, v)
@@ -516,6 +552,12 @@ func (u *DiscountPoolUpsert) SetUpdateAt(v uint32) *DiscountPoolUpsert {
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *DiscountPoolUpsert) UpdateUpdateAt() *DiscountPoolUpsert {
 	u.SetExcluded(discountpool.FieldUpdateAt)
+	return u
+}
+
+// AddUpdateAt adds v to the "update_at" field.
+func (u *DiscountPoolUpsert) AddUpdateAt(v uint32) *DiscountPoolUpsert {
+	u.Add(discountpool.FieldUpdateAt, v)
 	return u
 }
 
@@ -531,7 +573,13 @@ func (u *DiscountPoolUpsert) UpdateDeleteAt() *DiscountPoolUpsert {
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *DiscountPoolUpsert) AddDeleteAt(v uint32) *DiscountPoolUpsert {
+	u.Add(discountpool.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.DiscountPool.Create().
@@ -602,6 +650,13 @@ func (u *DiscountPoolUpsertOne) SetDiscount(v uint32) *DiscountPoolUpsertOne {
 	})
 }
 
+// AddDiscount adds v to the "discount" field.
+func (u *DiscountPoolUpsertOne) AddDiscount(v uint32) *DiscountPoolUpsertOne {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddDiscount(v)
+	})
+}
+
 // UpdateDiscount sets the "discount" field to the value that was provided on create.
 func (u *DiscountPoolUpsertOne) UpdateDiscount() *DiscountPoolUpsertOne {
 	return u.Update(func(s *DiscountPoolUpsert) {
@@ -630,6 +685,13 @@ func (u *DiscountPoolUpsertOne) SetStart(v uint32) *DiscountPoolUpsertOne {
 	})
 }
 
+// AddStart adds v to the "start" field.
+func (u *DiscountPoolUpsertOne) AddStart(v uint32) *DiscountPoolUpsertOne {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddStart(v)
+	})
+}
+
 // UpdateStart sets the "start" field to the value that was provided on create.
 func (u *DiscountPoolUpsertOne) UpdateStart() *DiscountPoolUpsertOne {
 	return u.Update(func(s *DiscountPoolUpsert) {
@@ -641,6 +703,13 @@ func (u *DiscountPoolUpsertOne) UpdateStart() *DiscountPoolUpsertOne {
 func (u *DiscountPoolUpsertOne) SetDurationDays(v int32) *DiscountPoolUpsertOne {
 	return u.Update(func(s *DiscountPoolUpsert) {
 		s.SetDurationDays(v)
+	})
+}
+
+// AddDurationDays adds v to the "duration_days" field.
+func (u *DiscountPoolUpsertOne) AddDurationDays(v int32) *DiscountPoolUpsertOne {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddDurationDays(v)
 	})
 }
 
@@ -686,6 +755,13 @@ func (u *DiscountPoolUpsertOne) SetCreateAt(v uint32) *DiscountPoolUpsertOne {
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *DiscountPoolUpsertOne) AddCreateAt(v uint32) *DiscountPoolUpsertOne {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *DiscountPoolUpsertOne) UpdateCreateAt() *DiscountPoolUpsertOne {
 	return u.Update(func(s *DiscountPoolUpsert) {
@@ -700,6 +776,13 @@ func (u *DiscountPoolUpsertOne) SetUpdateAt(v uint32) *DiscountPoolUpsertOne {
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *DiscountPoolUpsertOne) AddUpdateAt(v uint32) *DiscountPoolUpsertOne {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *DiscountPoolUpsertOne) UpdateUpdateAt() *DiscountPoolUpsertOne {
 	return u.Update(func(s *DiscountPoolUpsert) {
@@ -711,6 +794,13 @@ func (u *DiscountPoolUpsertOne) UpdateUpdateAt() *DiscountPoolUpsertOne {
 func (u *DiscountPoolUpsertOne) SetDeleteAt(v uint32) *DiscountPoolUpsertOne {
 	return u.Update(func(s *DiscountPoolUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *DiscountPoolUpsertOne) AddDeleteAt(v uint32) *DiscountPoolUpsertOne {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -884,7 +974,7 @@ type DiscountPoolUpsertBulk struct {
 	create *DiscountPoolCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.DiscountPool.Create().
@@ -958,6 +1048,13 @@ func (u *DiscountPoolUpsertBulk) SetDiscount(v uint32) *DiscountPoolUpsertBulk {
 	})
 }
 
+// AddDiscount adds v to the "discount" field.
+func (u *DiscountPoolUpsertBulk) AddDiscount(v uint32) *DiscountPoolUpsertBulk {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddDiscount(v)
+	})
+}
+
 // UpdateDiscount sets the "discount" field to the value that was provided on create.
 func (u *DiscountPoolUpsertBulk) UpdateDiscount() *DiscountPoolUpsertBulk {
 	return u.Update(func(s *DiscountPoolUpsert) {
@@ -986,6 +1083,13 @@ func (u *DiscountPoolUpsertBulk) SetStart(v uint32) *DiscountPoolUpsertBulk {
 	})
 }
 
+// AddStart adds v to the "start" field.
+func (u *DiscountPoolUpsertBulk) AddStart(v uint32) *DiscountPoolUpsertBulk {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddStart(v)
+	})
+}
+
 // UpdateStart sets the "start" field to the value that was provided on create.
 func (u *DiscountPoolUpsertBulk) UpdateStart() *DiscountPoolUpsertBulk {
 	return u.Update(func(s *DiscountPoolUpsert) {
@@ -997,6 +1101,13 @@ func (u *DiscountPoolUpsertBulk) UpdateStart() *DiscountPoolUpsertBulk {
 func (u *DiscountPoolUpsertBulk) SetDurationDays(v int32) *DiscountPoolUpsertBulk {
 	return u.Update(func(s *DiscountPoolUpsert) {
 		s.SetDurationDays(v)
+	})
+}
+
+// AddDurationDays adds v to the "duration_days" field.
+func (u *DiscountPoolUpsertBulk) AddDurationDays(v int32) *DiscountPoolUpsertBulk {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddDurationDays(v)
 	})
 }
 
@@ -1042,6 +1153,13 @@ func (u *DiscountPoolUpsertBulk) SetCreateAt(v uint32) *DiscountPoolUpsertBulk {
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *DiscountPoolUpsertBulk) AddCreateAt(v uint32) *DiscountPoolUpsertBulk {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *DiscountPoolUpsertBulk) UpdateCreateAt() *DiscountPoolUpsertBulk {
 	return u.Update(func(s *DiscountPoolUpsert) {
@@ -1056,6 +1174,13 @@ func (u *DiscountPoolUpsertBulk) SetUpdateAt(v uint32) *DiscountPoolUpsertBulk {
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *DiscountPoolUpsertBulk) AddUpdateAt(v uint32) *DiscountPoolUpsertBulk {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *DiscountPoolUpsertBulk) UpdateUpdateAt() *DiscountPoolUpsertBulk {
 	return u.Update(func(s *DiscountPoolUpsert) {
@@ -1067,6 +1192,13 @@ func (u *DiscountPoolUpsertBulk) UpdateUpdateAt() *DiscountPoolUpsertBulk {
 func (u *DiscountPoolUpsertBulk) SetDeleteAt(v uint32) *DiscountPoolUpsertBulk {
 	return u.Update(func(s *DiscountPoolUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *DiscountPoolUpsertBulk) AddDeleteAt(v uint32) *DiscountPoolUpsertBulk {
+	return u.Update(func(s *DiscountPoolUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

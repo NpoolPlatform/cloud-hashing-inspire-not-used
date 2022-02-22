@@ -103,6 +103,14 @@ func (nursc *NewUserRewardSettingCreate) SetID(u uuid.UUID) *NewUserRewardSettin
 	return nursc
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (nursc *NewUserRewardSettingCreate) SetNillableID(u *uuid.UUID) *NewUserRewardSettingCreate {
+	if u != nil {
+		nursc.SetID(*u)
+	}
+	return nursc
+}
+
 // Mutation returns the NewUserRewardSettingMutation object of the builder.
 func (nursc *NewUserRewardSettingCreate) Mutation() *NewUserRewardSettingMutation {
 	return nursc.mutation
@@ -199,25 +207,25 @@ func (nursc *NewUserRewardSettingCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (nursc *NewUserRewardSettingCreate) check() error {
 	if _, ok := nursc.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "NewUserRewardSetting.app_id"`)}
 	}
 	if _, ok := nursc.mutation.RegistrationCouponID(); !ok {
-		return &ValidationError{Name: "registration_coupon_id", err: errors.New(`ent: missing required field "registration_coupon_id"`)}
+		return &ValidationError{Name: "registration_coupon_id", err: errors.New(`ent: missing required field "NewUserRewardSetting.registration_coupon_id"`)}
 	}
 	if _, ok := nursc.mutation.KycCouponID(); !ok {
-		return &ValidationError{Name: "kyc_coupon_id", err: errors.New(`ent: missing required field "kyc_coupon_id"`)}
+		return &ValidationError{Name: "kyc_coupon_id", err: errors.New(`ent: missing required field "NewUserRewardSetting.kyc_coupon_id"`)}
 	}
 	if _, ok := nursc.mutation.AutoGenerateInvitationCode(); !ok {
-		return &ValidationError{Name: "auto_generate_invitation_code", err: errors.New(`ent: missing required field "auto_generate_invitation_code"`)}
+		return &ValidationError{Name: "auto_generate_invitation_code", err: errors.New(`ent: missing required field "NewUserRewardSetting.auto_generate_invitation_code"`)}
 	}
 	if _, ok := nursc.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "NewUserRewardSetting.create_at"`)}
 	}
 	if _, ok := nursc.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "NewUserRewardSetting.update_at"`)}
 	}
 	if _, ok := nursc.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "NewUserRewardSetting.delete_at"`)}
 	}
 	return nil
 }
@@ -231,7 +239,11 @@ func (nursc *NewUserRewardSettingCreate) sqlSave(ctx context.Context) (*NewUserR
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -250,7 +262,7 @@ func (nursc *NewUserRewardSettingCreate) createSpec() (*NewUserRewardSetting, *s
 	_spec.OnConflict = nursc.conflict
 	if id, ok := nursc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
 	}
 	if value, ok := nursc.mutation.AppID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -422,6 +434,12 @@ func (u *NewUserRewardSettingUpsert) UpdateCreateAt() *NewUserRewardSettingUpser
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *NewUserRewardSettingUpsert) AddCreateAt(v uint32) *NewUserRewardSettingUpsert {
+	u.Add(newuserrewardsetting.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *NewUserRewardSettingUpsert) SetUpdateAt(v uint32) *NewUserRewardSettingUpsert {
 	u.Set(newuserrewardsetting.FieldUpdateAt, v)
@@ -431,6 +449,12 @@ func (u *NewUserRewardSettingUpsert) SetUpdateAt(v uint32) *NewUserRewardSetting
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *NewUserRewardSettingUpsert) UpdateUpdateAt() *NewUserRewardSettingUpsert {
 	u.SetExcluded(newuserrewardsetting.FieldUpdateAt)
+	return u
+}
+
+// AddUpdateAt adds v to the "update_at" field.
+func (u *NewUserRewardSettingUpsert) AddUpdateAt(v uint32) *NewUserRewardSettingUpsert {
+	u.Add(newuserrewardsetting.FieldUpdateAt, v)
 	return u
 }
 
@@ -446,7 +470,13 @@ func (u *NewUserRewardSettingUpsert) UpdateDeleteAt() *NewUserRewardSettingUpser
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *NewUserRewardSettingUpsert) AddDeleteAt(v uint32) *NewUserRewardSettingUpsert {
+	u.Add(newuserrewardsetting.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.NewUserRewardSetting.Create().
@@ -559,6 +589,13 @@ func (u *NewUserRewardSettingUpsertOne) SetCreateAt(v uint32) *NewUserRewardSett
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *NewUserRewardSettingUpsertOne) AddCreateAt(v uint32) *NewUserRewardSettingUpsertOne {
+	return u.Update(func(s *NewUserRewardSettingUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *NewUserRewardSettingUpsertOne) UpdateCreateAt() *NewUserRewardSettingUpsertOne {
 	return u.Update(func(s *NewUserRewardSettingUpsert) {
@@ -573,6 +610,13 @@ func (u *NewUserRewardSettingUpsertOne) SetUpdateAt(v uint32) *NewUserRewardSett
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *NewUserRewardSettingUpsertOne) AddUpdateAt(v uint32) *NewUserRewardSettingUpsertOne {
+	return u.Update(func(s *NewUserRewardSettingUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *NewUserRewardSettingUpsertOne) UpdateUpdateAt() *NewUserRewardSettingUpsertOne {
 	return u.Update(func(s *NewUserRewardSettingUpsert) {
@@ -584,6 +628,13 @@ func (u *NewUserRewardSettingUpsertOne) UpdateUpdateAt() *NewUserRewardSettingUp
 func (u *NewUserRewardSettingUpsertOne) SetDeleteAt(v uint32) *NewUserRewardSettingUpsertOne {
 	return u.Update(func(s *NewUserRewardSettingUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *NewUserRewardSettingUpsertOne) AddDeleteAt(v uint32) *NewUserRewardSettingUpsertOne {
+	return u.Update(func(s *NewUserRewardSettingUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -757,7 +808,7 @@ type NewUserRewardSettingUpsertBulk struct {
 	create *NewUserRewardSettingCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.NewUserRewardSetting.Create().
@@ -873,6 +924,13 @@ func (u *NewUserRewardSettingUpsertBulk) SetCreateAt(v uint32) *NewUserRewardSet
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *NewUserRewardSettingUpsertBulk) AddCreateAt(v uint32) *NewUserRewardSettingUpsertBulk {
+	return u.Update(func(s *NewUserRewardSettingUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *NewUserRewardSettingUpsertBulk) UpdateCreateAt() *NewUserRewardSettingUpsertBulk {
 	return u.Update(func(s *NewUserRewardSettingUpsert) {
@@ -887,6 +945,13 @@ func (u *NewUserRewardSettingUpsertBulk) SetUpdateAt(v uint32) *NewUserRewardSet
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *NewUserRewardSettingUpsertBulk) AddUpdateAt(v uint32) *NewUserRewardSettingUpsertBulk {
+	return u.Update(func(s *NewUserRewardSettingUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *NewUserRewardSettingUpsertBulk) UpdateUpdateAt() *NewUserRewardSettingUpsertBulk {
 	return u.Update(func(s *NewUserRewardSettingUpsert) {
@@ -898,6 +963,13 @@ func (u *NewUserRewardSettingUpsertBulk) UpdateUpdateAt() *NewUserRewardSettingU
 func (u *NewUserRewardSettingUpsertBulk) SetDeleteAt(v uint32) *NewUserRewardSettingUpsertBulk {
 	return u.Update(func(s *NewUserRewardSettingUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *NewUserRewardSettingUpsertBulk) AddDeleteAt(v uint32) *NewUserRewardSettingUpsertBulk {
+	return u.Update(func(s *NewUserRewardSettingUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

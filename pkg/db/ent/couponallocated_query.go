@@ -254,12 +254,12 @@ func (caq *CouponAllocatedQuery) Clone() *CouponAllocatedQuery {
 // Example:
 //
 //	var v []struct {
-//		UserID uuid.UUID `json:"user_id,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.CouponAllocated.Query().
-//		GroupBy(couponallocated.FieldUserID).
+//		GroupBy(couponallocated.FieldAppID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (caq *CouponAllocatedQuery) GroupBy(field string, fields ...string) *Coupon
 // Example:
 //
 //	var v []struct {
-//		UserID uuid.UUID `json:"user_id,omitempty"`
+//		AppID uuid.UUID `json:"app_id,omitempty"`
 //	}
 //
 //	client.CouponAllocated.Query().
-//		Select(couponallocated.FieldUserID).
+//		Select(couponallocated.FieldAppID).
 //		Scan(ctx, &v)
 //
 func (caq *CouponAllocatedQuery) Select(fields ...string) *CouponAllocatedSelect {
@@ -337,6 +337,10 @@ func (caq *CouponAllocatedQuery) sqlAll(ctx context.Context) ([]*CouponAllocated
 
 func (caq *CouponAllocatedQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := caq.querySpec()
+	_spec.Node.Columns = caq.fields
+	if len(caq.fields) > 0 {
+		_spec.Unique = caq.unique != nil && *caq.unique
+	}
 	return sqlgraph.CountNodes(ctx, caq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (caq *CouponAllocatedQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if caq.sql != nil {
 		selector = caq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if caq.unique != nil && *caq.unique {
+		selector.Distinct()
 	}
 	for _, p := range caq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (cagb *CouponAllocatedGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range cagb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(cagb.fields...)...)

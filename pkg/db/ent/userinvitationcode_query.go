@@ -337,6 +337,10 @@ func (uicq *UserInvitationCodeQuery) sqlAll(ctx context.Context) ([]*UserInvitat
 
 func (uicq *UserInvitationCodeQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := uicq.querySpec()
+	_spec.Node.Columns = uicq.fields
+	if len(uicq.fields) > 0 {
+		_spec.Unique = uicq.unique != nil && *uicq.unique
+	}
 	return sqlgraph.CountNodes(ctx, uicq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (uicq *UserInvitationCodeQuery) sqlQuery(ctx context.Context) *sql.Selector
 	if uicq.sql != nil {
 		selector = uicq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if uicq.unique != nil && *uicq.unique {
+		selector.Distinct()
 	}
 	for _, p := range uicq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (uicgb *UserInvitationCodeGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range uicgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(uicgb.fields...)...)

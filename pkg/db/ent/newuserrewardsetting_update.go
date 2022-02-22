@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -75,7 +76,7 @@ func (nursu *NewUserRewardSettingUpdate) SetNillableCreateAt(u *uint32) *NewUser
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (nursu *NewUserRewardSettingUpdate) AddCreateAt(u uint32) *NewUserRewardSettingUpdate {
+func (nursu *NewUserRewardSettingUpdate) AddCreateAt(u int32) *NewUserRewardSettingUpdate {
 	nursu.mutation.AddCreateAt(u)
 	return nursu
 }
@@ -88,7 +89,7 @@ func (nursu *NewUserRewardSettingUpdate) SetUpdateAt(u uint32) *NewUserRewardSet
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (nursu *NewUserRewardSettingUpdate) AddUpdateAt(u uint32) *NewUserRewardSettingUpdate {
+func (nursu *NewUserRewardSettingUpdate) AddUpdateAt(u int32) *NewUserRewardSettingUpdate {
 	nursu.mutation.AddUpdateAt(u)
 	return nursu
 }
@@ -109,7 +110,7 @@ func (nursu *NewUserRewardSettingUpdate) SetNillableDeleteAt(u *uint32) *NewUser
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (nursu *NewUserRewardSettingUpdate) AddDeleteAt(u uint32) *NewUserRewardSettingUpdate {
+func (nursu *NewUserRewardSettingUpdate) AddDeleteAt(u int32) *NewUserRewardSettingUpdate {
 	nursu.mutation.AddDeleteAt(u)
 	return nursu
 }
@@ -337,7 +338,7 @@ func (nursuo *NewUserRewardSettingUpdateOne) SetNillableCreateAt(u *uint32) *New
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (nursuo *NewUserRewardSettingUpdateOne) AddCreateAt(u uint32) *NewUserRewardSettingUpdateOne {
+func (nursuo *NewUserRewardSettingUpdateOne) AddCreateAt(u int32) *NewUserRewardSettingUpdateOne {
 	nursuo.mutation.AddCreateAt(u)
 	return nursuo
 }
@@ -350,7 +351,7 @@ func (nursuo *NewUserRewardSettingUpdateOne) SetUpdateAt(u uint32) *NewUserRewar
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (nursuo *NewUserRewardSettingUpdateOne) AddUpdateAt(u uint32) *NewUserRewardSettingUpdateOne {
+func (nursuo *NewUserRewardSettingUpdateOne) AddUpdateAt(u int32) *NewUserRewardSettingUpdateOne {
 	nursuo.mutation.AddUpdateAt(u)
 	return nursuo
 }
@@ -371,7 +372,7 @@ func (nursuo *NewUserRewardSettingUpdateOne) SetNillableDeleteAt(u *uint32) *New
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (nursuo *NewUserRewardSettingUpdateOne) AddDeleteAt(u uint32) *NewUserRewardSettingUpdateOne {
+func (nursuo *NewUserRewardSettingUpdateOne) AddDeleteAt(u int32) *NewUserRewardSettingUpdateOne {
 	nursuo.mutation.AddDeleteAt(u)
 	return nursuo
 }
@@ -464,7 +465,7 @@ func (nursuo *NewUserRewardSettingUpdateOne) sqlSave(ctx context.Context) (_node
 	}
 	id, ok := nursuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing NewUserRewardSetting.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "NewUserRewardSetting.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := nursuo.fields; len(fields) > 0 {

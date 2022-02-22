@@ -337,6 +337,10 @@ func (nursq *NewUserRewardSettingQuery) sqlAll(ctx context.Context) ([]*NewUserR
 
 func (nursq *NewUserRewardSettingQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := nursq.querySpec()
+	_spec.Node.Columns = nursq.fields
+	if len(nursq.fields) > 0 {
+		_spec.Unique = nursq.unique != nil && *nursq.unique
+	}
 	return sqlgraph.CountNodes(ctx, nursq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (nursq *NewUserRewardSettingQuery) sqlQuery(ctx context.Context) *sql.Selec
 	if nursq.sql != nil {
 		selector = nursq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if nursq.unique != nil && *nursq.unique {
+		selector.Distinct()
 	}
 	for _, p := range nursq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (nursgb *NewUserRewardSettingGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range nursgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(nursgb.fields...)...)

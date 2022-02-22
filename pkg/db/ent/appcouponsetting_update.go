@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -41,7 +42,7 @@ func (acsu *AppCouponSettingUpdate) SetDominationLimit(u uint64) *AppCouponSetti
 }
 
 // AddDominationLimit adds u to the "domination_limit" field.
-func (acsu *AppCouponSettingUpdate) AddDominationLimit(u uint64) *AppCouponSettingUpdate {
+func (acsu *AppCouponSettingUpdate) AddDominationLimit(u int64) *AppCouponSettingUpdate {
 	acsu.mutation.AddDominationLimit(u)
 	return acsu
 }
@@ -75,7 +76,7 @@ func (acsu *AppCouponSettingUpdate) SetNillableCreateAt(u *uint32) *AppCouponSet
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (acsu *AppCouponSettingUpdate) AddCreateAt(u uint32) *AppCouponSettingUpdate {
+func (acsu *AppCouponSettingUpdate) AddCreateAt(u int32) *AppCouponSettingUpdate {
 	acsu.mutation.AddCreateAt(u)
 	return acsu
 }
@@ -88,7 +89,7 @@ func (acsu *AppCouponSettingUpdate) SetUpdateAt(u uint32) *AppCouponSettingUpdat
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (acsu *AppCouponSettingUpdate) AddUpdateAt(u uint32) *AppCouponSettingUpdate {
+func (acsu *AppCouponSettingUpdate) AddUpdateAt(u int32) *AppCouponSettingUpdate {
 	acsu.mutation.AddUpdateAt(u)
 	return acsu
 }
@@ -109,7 +110,7 @@ func (acsu *AppCouponSettingUpdate) SetNillableDeleteAt(u *uint32) *AppCouponSet
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (acsu *AppCouponSettingUpdate) AddDeleteAt(u uint32) *AppCouponSettingUpdate {
+func (acsu *AppCouponSettingUpdate) AddDeleteAt(u int32) *AppCouponSettingUpdate {
 	acsu.mutation.AddDeleteAt(u)
 	return acsu
 }
@@ -310,7 +311,7 @@ func (acsuo *AppCouponSettingUpdateOne) SetDominationLimit(u uint64) *AppCouponS
 }
 
 // AddDominationLimit adds u to the "domination_limit" field.
-func (acsuo *AppCouponSettingUpdateOne) AddDominationLimit(u uint64) *AppCouponSettingUpdateOne {
+func (acsuo *AppCouponSettingUpdateOne) AddDominationLimit(u int64) *AppCouponSettingUpdateOne {
 	acsuo.mutation.AddDominationLimit(u)
 	return acsuo
 }
@@ -344,7 +345,7 @@ func (acsuo *AppCouponSettingUpdateOne) SetNillableCreateAt(u *uint32) *AppCoupo
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (acsuo *AppCouponSettingUpdateOne) AddCreateAt(u uint32) *AppCouponSettingUpdateOne {
+func (acsuo *AppCouponSettingUpdateOne) AddCreateAt(u int32) *AppCouponSettingUpdateOne {
 	acsuo.mutation.AddCreateAt(u)
 	return acsuo
 }
@@ -357,7 +358,7 @@ func (acsuo *AppCouponSettingUpdateOne) SetUpdateAt(u uint32) *AppCouponSettingU
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (acsuo *AppCouponSettingUpdateOne) AddUpdateAt(u uint32) *AppCouponSettingUpdateOne {
+func (acsuo *AppCouponSettingUpdateOne) AddUpdateAt(u int32) *AppCouponSettingUpdateOne {
 	acsuo.mutation.AddUpdateAt(u)
 	return acsuo
 }
@@ -378,7 +379,7 @@ func (acsuo *AppCouponSettingUpdateOne) SetNillableDeleteAt(u *uint32) *AppCoupo
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (acsuo *AppCouponSettingUpdateOne) AddDeleteAt(u uint32) *AppCouponSettingUpdateOne {
+func (acsuo *AppCouponSettingUpdateOne) AddDeleteAt(u int32) *AppCouponSettingUpdateOne {
 	acsuo.mutation.AddDeleteAt(u)
 	return acsuo
 }
@@ -471,7 +472,7 @@ func (acsuo *AppCouponSettingUpdateOne) sqlSave(ctx context.Context) (_node *App
 	}
 	id, ok := acsuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing AppCouponSetting.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "AppCouponSetting.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := acsuo.fields; len(fields) > 0 {

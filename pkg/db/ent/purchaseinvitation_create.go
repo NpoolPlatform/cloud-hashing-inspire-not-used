@@ -89,6 +89,14 @@ func (pic *PurchaseInvitationCreate) SetID(u uuid.UUID) *PurchaseInvitationCreat
 	return pic
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (pic *PurchaseInvitationCreate) SetNillableID(u *uuid.UUID) *PurchaseInvitationCreate {
+	if u != nil {
+		pic.SetID(*u)
+	}
+	return pic
+}
+
 // Mutation returns the PurchaseInvitationMutation object of the builder.
 func (pic *PurchaseInvitationCreate) Mutation() *PurchaseInvitationMutation {
 	return pic.mutation
@@ -181,22 +189,22 @@ func (pic *PurchaseInvitationCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (pic *PurchaseInvitationCreate) check() error {
 	if _, ok := pic.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "PurchaseInvitation.app_id"`)}
 	}
 	if _, ok := pic.mutation.OrderID(); !ok {
-		return &ValidationError{Name: "order_id", err: errors.New(`ent: missing required field "order_id"`)}
+		return &ValidationError{Name: "order_id", err: errors.New(`ent: missing required field "PurchaseInvitation.order_id"`)}
 	}
 	if _, ok := pic.mutation.InvitationCodeID(); !ok {
-		return &ValidationError{Name: "invitation_code_id", err: errors.New(`ent: missing required field "invitation_code_id"`)}
+		return &ValidationError{Name: "invitation_code_id", err: errors.New(`ent: missing required field "PurchaseInvitation.invitation_code_id"`)}
 	}
 	if _, ok := pic.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "PurchaseInvitation.create_at"`)}
 	}
 	if _, ok := pic.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "PurchaseInvitation.update_at"`)}
 	}
 	if _, ok := pic.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "PurchaseInvitation.delete_at"`)}
 	}
 	return nil
 }
@@ -210,7 +218,11 @@ func (pic *PurchaseInvitationCreate) sqlSave(ctx context.Context) (*PurchaseInvi
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -229,7 +241,7 @@ func (pic *PurchaseInvitationCreate) createSpec() (*PurchaseInvitation, *sqlgrap
 	_spec.OnConflict = pic.conflict
 	if id, ok := pic.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
 	}
 	if value, ok := pic.mutation.AppID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -381,6 +393,12 @@ func (u *PurchaseInvitationUpsert) UpdateCreateAt() *PurchaseInvitationUpsert {
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *PurchaseInvitationUpsert) AddCreateAt(v uint32) *PurchaseInvitationUpsert {
+	u.Add(purchaseinvitation.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *PurchaseInvitationUpsert) SetUpdateAt(v uint32) *PurchaseInvitationUpsert {
 	u.Set(purchaseinvitation.FieldUpdateAt, v)
@@ -390,6 +408,12 @@ func (u *PurchaseInvitationUpsert) SetUpdateAt(v uint32) *PurchaseInvitationUpse
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *PurchaseInvitationUpsert) UpdateUpdateAt() *PurchaseInvitationUpsert {
 	u.SetExcluded(purchaseinvitation.FieldUpdateAt)
+	return u
+}
+
+// AddUpdateAt adds v to the "update_at" field.
+func (u *PurchaseInvitationUpsert) AddUpdateAt(v uint32) *PurchaseInvitationUpsert {
+	u.Add(purchaseinvitation.FieldUpdateAt, v)
 	return u
 }
 
@@ -405,7 +429,13 @@ func (u *PurchaseInvitationUpsert) UpdateDeleteAt() *PurchaseInvitationUpsert {
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *PurchaseInvitationUpsert) AddDeleteAt(v uint32) *PurchaseInvitationUpsert {
+	u.Add(purchaseinvitation.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.PurchaseInvitation.Create().
@@ -504,6 +534,13 @@ func (u *PurchaseInvitationUpsertOne) SetCreateAt(v uint32) *PurchaseInvitationU
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *PurchaseInvitationUpsertOne) AddCreateAt(v uint32) *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *PurchaseInvitationUpsertOne) UpdateCreateAt() *PurchaseInvitationUpsertOne {
 	return u.Update(func(s *PurchaseInvitationUpsert) {
@@ -518,6 +555,13 @@ func (u *PurchaseInvitationUpsertOne) SetUpdateAt(v uint32) *PurchaseInvitationU
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *PurchaseInvitationUpsertOne) AddUpdateAt(v uint32) *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *PurchaseInvitationUpsertOne) UpdateUpdateAt() *PurchaseInvitationUpsertOne {
 	return u.Update(func(s *PurchaseInvitationUpsert) {
@@ -529,6 +573,13 @@ func (u *PurchaseInvitationUpsertOne) UpdateUpdateAt() *PurchaseInvitationUpsert
 func (u *PurchaseInvitationUpsertOne) SetDeleteAt(v uint32) *PurchaseInvitationUpsertOne {
 	return u.Update(func(s *PurchaseInvitationUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *PurchaseInvitationUpsertOne) AddDeleteAt(v uint32) *PurchaseInvitationUpsertOne {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -702,7 +753,7 @@ type PurchaseInvitationUpsertBulk struct {
 	create *PurchaseInvitationCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.PurchaseInvitation.Create().
@@ -804,6 +855,13 @@ func (u *PurchaseInvitationUpsertBulk) SetCreateAt(v uint32) *PurchaseInvitation
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *PurchaseInvitationUpsertBulk) AddCreateAt(v uint32) *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *PurchaseInvitationUpsertBulk) UpdateCreateAt() *PurchaseInvitationUpsertBulk {
 	return u.Update(func(s *PurchaseInvitationUpsert) {
@@ -818,6 +876,13 @@ func (u *PurchaseInvitationUpsertBulk) SetUpdateAt(v uint32) *PurchaseInvitation
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *PurchaseInvitationUpsertBulk) AddUpdateAt(v uint32) *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *PurchaseInvitationUpsertBulk) UpdateUpdateAt() *PurchaseInvitationUpsertBulk {
 	return u.Update(func(s *PurchaseInvitationUpsert) {
@@ -829,6 +894,13 @@ func (u *PurchaseInvitationUpsertBulk) UpdateUpdateAt() *PurchaseInvitationUpser
 func (u *PurchaseInvitationUpsertBulk) SetDeleteAt(v uint32) *PurchaseInvitationUpsertBulk {
 	return u.Update(func(s *PurchaseInvitationUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *PurchaseInvitationUpsertBulk) AddDeleteAt(v uint32) *PurchaseInvitationUpsertBulk {
+	return u.Update(func(s *PurchaseInvitationUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

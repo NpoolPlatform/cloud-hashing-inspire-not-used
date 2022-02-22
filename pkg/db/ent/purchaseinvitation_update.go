@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -61,7 +62,7 @@ func (piu *PurchaseInvitationUpdate) SetNillableCreateAt(u *uint32) *PurchaseInv
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (piu *PurchaseInvitationUpdate) AddCreateAt(u uint32) *PurchaseInvitationUpdate {
+func (piu *PurchaseInvitationUpdate) AddCreateAt(u int32) *PurchaseInvitationUpdate {
 	piu.mutation.AddCreateAt(u)
 	return piu
 }
@@ -74,7 +75,7 @@ func (piu *PurchaseInvitationUpdate) SetUpdateAt(u uint32) *PurchaseInvitationUp
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (piu *PurchaseInvitationUpdate) AddUpdateAt(u uint32) *PurchaseInvitationUpdate {
+func (piu *PurchaseInvitationUpdate) AddUpdateAt(u int32) *PurchaseInvitationUpdate {
 	piu.mutation.AddUpdateAt(u)
 	return piu
 }
@@ -95,7 +96,7 @@ func (piu *PurchaseInvitationUpdate) SetNillableDeleteAt(u *uint32) *PurchaseInv
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (piu *PurchaseInvitationUpdate) AddDeleteAt(u uint32) *PurchaseInvitationUpdate {
+func (piu *PurchaseInvitationUpdate) AddDeleteAt(u int32) *PurchaseInvitationUpdate {
 	piu.mutation.AddDeleteAt(u)
 	return piu
 }
@@ -302,7 +303,7 @@ func (piuo *PurchaseInvitationUpdateOne) SetNillableCreateAt(u *uint32) *Purchas
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (piuo *PurchaseInvitationUpdateOne) AddCreateAt(u uint32) *PurchaseInvitationUpdateOne {
+func (piuo *PurchaseInvitationUpdateOne) AddCreateAt(u int32) *PurchaseInvitationUpdateOne {
 	piuo.mutation.AddCreateAt(u)
 	return piuo
 }
@@ -315,7 +316,7 @@ func (piuo *PurchaseInvitationUpdateOne) SetUpdateAt(u uint32) *PurchaseInvitati
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (piuo *PurchaseInvitationUpdateOne) AddUpdateAt(u uint32) *PurchaseInvitationUpdateOne {
+func (piuo *PurchaseInvitationUpdateOne) AddUpdateAt(u int32) *PurchaseInvitationUpdateOne {
 	piuo.mutation.AddUpdateAt(u)
 	return piuo
 }
@@ -336,7 +337,7 @@ func (piuo *PurchaseInvitationUpdateOne) SetNillableDeleteAt(u *uint32) *Purchas
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (piuo *PurchaseInvitationUpdateOne) AddDeleteAt(u uint32) *PurchaseInvitationUpdateOne {
+func (piuo *PurchaseInvitationUpdateOne) AddDeleteAt(u int32) *PurchaseInvitationUpdateOne {
 	piuo.mutation.AddDeleteAt(u)
 	return piuo
 }
@@ -429,7 +430,7 @@ func (piuo *PurchaseInvitationUpdateOne) sqlSave(ctx context.Context) (_node *Pu
 	}
 	id, ok := piuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing PurchaseInvitation.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "PurchaseInvitation.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := piuo.fields; len(fields) > 0 {

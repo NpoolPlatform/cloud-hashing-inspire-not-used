@@ -48,8 +48,8 @@ var (
 	// CouponAllocatedsColumns holds the columns for the "coupon_allocateds" table.
 	CouponAllocatedsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "type", Type: field.TypeEnum, Enums: []string{"discount", "coupon"}},
 		{Name: "coupon_id", Type: field.TypeUUID},
 		{Name: "create_at", Type: field.TypeUint32},
@@ -65,12 +65,12 @@ var (
 	// CouponPoolsColumns holds the columns for the "coupon_pools" table.
 	CouponPoolsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "denomination", Type: field.TypeUint64},
 		{Name: "circulation", Type: field.TypeInt32},
 		{Name: "release_by_user_id", Type: field.TypeUUID},
 		{Name: "start", Type: field.TypeUint32},
 		{Name: "duration_days", Type: field.TypeInt32},
-		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "message", Type: field.TypeString, Size: 512},
 		{Name: "name", Type: field.TypeString, Unique: true, Size: 64},
 		{Name: "create_at", Type: field.TypeUint32},

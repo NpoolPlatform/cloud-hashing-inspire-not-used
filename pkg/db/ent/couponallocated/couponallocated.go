@@ -13,10 +13,10 @@ const (
 	Label = "coupon_allocated"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldUserID holds the string denoting the user_id field in the database.
-	FieldUserID = "user_id"
 	// FieldAppID holds the string denoting the app_id field in the database.
 	FieldAppID = "app_id"
+	// FieldUserID holds the string denoting the user_id field in the database.
+	FieldUserID = "user_id"
 	// FieldType holds the string denoting the type field in the database.
 	FieldType = "type"
 	// FieldCouponID holds the string denoting the coupon_id field in the database.
@@ -34,8 +34,8 @@ const (
 // Columns holds all SQL columns for couponallocated fields.
 var Columns = []string{
 	FieldID,
-	FieldUserID,
 	FieldAppID,
+	FieldUserID,
 	FieldType,
 	FieldCouponID,
 	FieldCreateAt,

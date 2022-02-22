@@ -89,6 +89,14 @@ func (ric *RegistrationInvitationCreate) SetID(u uuid.UUID) *RegistrationInvitat
 	return ric
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (ric *RegistrationInvitationCreate) SetNillableID(u *uuid.UUID) *RegistrationInvitationCreate {
+	if u != nil {
+		ric.SetID(*u)
+	}
+	return ric
+}
+
 // Mutation returns the RegistrationInvitationMutation object of the builder.
 func (ric *RegistrationInvitationCreate) Mutation() *RegistrationInvitationMutation {
 	return ric.mutation
@@ -181,22 +189,22 @@ func (ric *RegistrationInvitationCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (ric *RegistrationInvitationCreate) check() error {
 	if _, ok := ric.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "RegistrationInvitation.create_at"`)}
 	}
 	if _, ok := ric.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "RegistrationInvitation.update_at"`)}
 	}
 	if _, ok := ric.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "RegistrationInvitation.delete_at"`)}
 	}
 	if _, ok := ric.mutation.InviterID(); !ok {
-		return &ValidationError{Name: "inviter_id", err: errors.New(`ent: missing required field "inviter_id"`)}
+		return &ValidationError{Name: "inviter_id", err: errors.New(`ent: missing required field "RegistrationInvitation.inviter_id"`)}
 	}
 	if _, ok := ric.mutation.InviteeID(); !ok {
-		return &ValidationError{Name: "invitee_id", err: errors.New(`ent: missing required field "invitee_id"`)}
+		return &ValidationError{Name: "invitee_id", err: errors.New(`ent: missing required field "RegistrationInvitation.invitee_id"`)}
 	}
 	if _, ok := ric.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "RegistrationInvitation.app_id"`)}
 	}
 	return nil
 }
@@ -210,7 +218,11 @@ func (ric *RegistrationInvitationCreate) sqlSave(ctx context.Context) (*Registra
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -229,7 +241,7 @@ func (ric *RegistrationInvitationCreate) createSpec() (*RegistrationInvitation, 
 	_spec.OnConflict = ric.conflict
 	if id, ok := ric.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
 	}
 	if value, ok := ric.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -345,6 +357,12 @@ func (u *RegistrationInvitationUpsert) UpdateCreateAt() *RegistrationInvitationU
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *RegistrationInvitationUpsert) AddCreateAt(v uint32) *RegistrationInvitationUpsert {
+	u.Add(registrationinvitation.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *RegistrationInvitationUpsert) SetUpdateAt(v uint32) *RegistrationInvitationUpsert {
 	u.Set(registrationinvitation.FieldUpdateAt, v)
@@ -357,6 +375,12 @@ func (u *RegistrationInvitationUpsert) UpdateUpdateAt() *RegistrationInvitationU
 	return u
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *RegistrationInvitationUpsert) AddUpdateAt(v uint32) *RegistrationInvitationUpsert {
+	u.Add(registrationinvitation.FieldUpdateAt, v)
+	return u
+}
+
 // SetDeleteAt sets the "delete_at" field.
 func (u *RegistrationInvitationUpsert) SetDeleteAt(v uint32) *RegistrationInvitationUpsert {
 	u.Set(registrationinvitation.FieldDeleteAt, v)
@@ -366,6 +390,12 @@ func (u *RegistrationInvitationUpsert) SetDeleteAt(v uint32) *RegistrationInvita
 // UpdateDeleteAt sets the "delete_at" field to the value that was provided on create.
 func (u *RegistrationInvitationUpsert) UpdateDeleteAt() *RegistrationInvitationUpsert {
 	u.SetExcluded(registrationinvitation.FieldDeleteAt)
+	return u
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *RegistrationInvitationUpsert) AddDeleteAt(v uint32) *RegistrationInvitationUpsert {
+	u.Add(registrationinvitation.FieldDeleteAt, v)
 	return u
 }
 
@@ -405,7 +435,7 @@ func (u *RegistrationInvitationUpsert) UpdateAppID() *RegistrationInvitationUpse
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.RegistrationInvitation.Create().
@@ -462,6 +492,13 @@ func (u *RegistrationInvitationUpsertOne) SetCreateAt(v uint32) *RegistrationInv
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *RegistrationInvitationUpsertOne) AddCreateAt(v uint32) *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *RegistrationInvitationUpsertOne) UpdateCreateAt() *RegistrationInvitationUpsertOne {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
@@ -476,6 +513,13 @@ func (u *RegistrationInvitationUpsertOne) SetUpdateAt(v uint32) *RegistrationInv
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *RegistrationInvitationUpsertOne) AddUpdateAt(v uint32) *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *RegistrationInvitationUpsertOne) UpdateUpdateAt() *RegistrationInvitationUpsertOne {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
@@ -487,6 +531,13 @@ func (u *RegistrationInvitationUpsertOne) UpdateUpdateAt() *RegistrationInvitati
 func (u *RegistrationInvitationUpsertOne) SetDeleteAt(v uint32) *RegistrationInvitationUpsertOne {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *RegistrationInvitationUpsertOne) AddDeleteAt(v uint32) *RegistrationInvitationUpsertOne {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -702,7 +753,7 @@ type RegistrationInvitationUpsertBulk struct {
 	create *RegistrationInvitationCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.RegistrationInvitation.Create().
@@ -762,6 +813,13 @@ func (u *RegistrationInvitationUpsertBulk) SetCreateAt(v uint32) *RegistrationIn
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *RegistrationInvitationUpsertBulk) AddCreateAt(v uint32) *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *RegistrationInvitationUpsertBulk) UpdateCreateAt() *RegistrationInvitationUpsertBulk {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
@@ -776,6 +834,13 @@ func (u *RegistrationInvitationUpsertBulk) SetUpdateAt(v uint32) *RegistrationIn
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *RegistrationInvitationUpsertBulk) AddUpdateAt(v uint32) *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *RegistrationInvitationUpsertBulk) UpdateUpdateAt() *RegistrationInvitationUpsertBulk {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
@@ -787,6 +852,13 @@ func (u *RegistrationInvitationUpsertBulk) UpdateUpdateAt() *RegistrationInvitat
 func (u *RegistrationInvitationUpsertBulk) SetDeleteAt(v uint32) *RegistrationInvitationUpsertBulk {
 	return u.Update(func(s *RegistrationInvitationUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *RegistrationInvitationUpsertBulk) AddDeleteAt(v uint32) *RegistrationInvitationUpsertBulk {
+	return u.Update(func(s *RegistrationInvitationUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

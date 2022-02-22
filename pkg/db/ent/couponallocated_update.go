@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -27,15 +28,15 @@ func (cau *CouponAllocatedUpdate) Where(ps ...predicate.CouponAllocated) *Coupon
 	return cau
 }
 
-// SetUserID sets the "user_id" field.
-func (cau *CouponAllocatedUpdate) SetUserID(u uuid.UUID) *CouponAllocatedUpdate {
-	cau.mutation.SetUserID(u)
-	return cau
-}
-
 // SetAppID sets the "app_id" field.
 func (cau *CouponAllocatedUpdate) SetAppID(u uuid.UUID) *CouponAllocatedUpdate {
 	cau.mutation.SetAppID(u)
+	return cau
+}
+
+// SetUserID sets the "user_id" field.
+func (cau *CouponAllocatedUpdate) SetUserID(u uuid.UUID) *CouponAllocatedUpdate {
+	cau.mutation.SetUserID(u)
 	return cau
 }
 
@@ -67,7 +68,7 @@ func (cau *CouponAllocatedUpdate) SetNillableCreateAt(u *uint32) *CouponAllocate
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (cau *CouponAllocatedUpdate) AddCreateAt(u uint32) *CouponAllocatedUpdate {
+func (cau *CouponAllocatedUpdate) AddCreateAt(u int32) *CouponAllocatedUpdate {
 	cau.mutation.AddCreateAt(u)
 	return cau
 }
@@ -80,7 +81,7 @@ func (cau *CouponAllocatedUpdate) SetUpdateAt(u uint32) *CouponAllocatedUpdate {
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (cau *CouponAllocatedUpdate) AddUpdateAt(u uint32) *CouponAllocatedUpdate {
+func (cau *CouponAllocatedUpdate) AddUpdateAt(u int32) *CouponAllocatedUpdate {
 	cau.mutation.AddUpdateAt(u)
 	return cau
 }
@@ -101,7 +102,7 @@ func (cau *CouponAllocatedUpdate) SetNillableDeleteAt(u *uint32) *CouponAllocate
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (cau *CouponAllocatedUpdate) AddDeleteAt(u uint32) *CouponAllocatedUpdate {
+func (cau *CouponAllocatedUpdate) AddDeleteAt(u int32) *CouponAllocatedUpdate {
 	cau.mutation.AddDeleteAt(u)
 	return cau
 }
@@ -184,7 +185,7 @@ func (cau *CouponAllocatedUpdate) defaults() {
 func (cau *CouponAllocatedUpdate) check() error {
 	if v, ok := cau.mutation.GetType(); ok {
 		if err := couponallocated.TypeValidator(v); err != nil {
-			return &ValidationError{Name: "type", err: fmt.Errorf("ent: validator failed for field \"type\": %w", err)}
+			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "CouponAllocated.type": %w`, err)}
 		}
 	}
 	return nil
@@ -208,18 +209,18 @@ func (cau *CouponAllocatedUpdate) sqlSave(ctx context.Context) (n int, err error
 			}
 		}
 	}
-	if value, ok := cau.mutation.UserID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: couponallocated.FieldUserID,
-		})
-	}
 	if value, ok := cau.mutation.AppID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: couponallocated.FieldAppID,
+		})
+	}
+	if value, ok := cau.mutation.UserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldUserID,
 		})
 	}
 	if value, ok := cau.mutation.GetType(); ok {
@@ -297,15 +298,15 @@ type CouponAllocatedUpdateOne struct {
 	mutation *CouponAllocatedMutation
 }
 
-// SetUserID sets the "user_id" field.
-func (cauo *CouponAllocatedUpdateOne) SetUserID(u uuid.UUID) *CouponAllocatedUpdateOne {
-	cauo.mutation.SetUserID(u)
-	return cauo
-}
-
 // SetAppID sets the "app_id" field.
 func (cauo *CouponAllocatedUpdateOne) SetAppID(u uuid.UUID) *CouponAllocatedUpdateOne {
 	cauo.mutation.SetAppID(u)
+	return cauo
+}
+
+// SetUserID sets the "user_id" field.
+func (cauo *CouponAllocatedUpdateOne) SetUserID(u uuid.UUID) *CouponAllocatedUpdateOne {
+	cauo.mutation.SetUserID(u)
 	return cauo
 }
 
@@ -337,7 +338,7 @@ func (cauo *CouponAllocatedUpdateOne) SetNillableCreateAt(u *uint32) *CouponAllo
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (cauo *CouponAllocatedUpdateOne) AddCreateAt(u uint32) *CouponAllocatedUpdateOne {
+func (cauo *CouponAllocatedUpdateOne) AddCreateAt(u int32) *CouponAllocatedUpdateOne {
 	cauo.mutation.AddCreateAt(u)
 	return cauo
 }
@@ -350,7 +351,7 @@ func (cauo *CouponAllocatedUpdateOne) SetUpdateAt(u uint32) *CouponAllocatedUpda
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (cauo *CouponAllocatedUpdateOne) AddUpdateAt(u uint32) *CouponAllocatedUpdateOne {
+func (cauo *CouponAllocatedUpdateOne) AddUpdateAt(u int32) *CouponAllocatedUpdateOne {
 	cauo.mutation.AddUpdateAt(u)
 	return cauo
 }
@@ -371,7 +372,7 @@ func (cauo *CouponAllocatedUpdateOne) SetNillableDeleteAt(u *uint32) *CouponAllo
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (cauo *CouponAllocatedUpdateOne) AddDeleteAt(u uint32) *CouponAllocatedUpdateOne {
+func (cauo *CouponAllocatedUpdateOne) AddDeleteAt(u int32) *CouponAllocatedUpdateOne {
 	cauo.mutation.AddDeleteAt(u)
 	return cauo
 }
@@ -461,7 +462,7 @@ func (cauo *CouponAllocatedUpdateOne) defaults() {
 func (cauo *CouponAllocatedUpdateOne) check() error {
 	if v, ok := cauo.mutation.GetType(); ok {
 		if err := couponallocated.TypeValidator(v); err != nil {
-			return &ValidationError{Name: "type", err: fmt.Errorf("ent: validator failed for field \"type\": %w", err)}
+			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "CouponAllocated.type": %w`, err)}
 		}
 	}
 	return nil
@@ -480,7 +481,7 @@ func (cauo *CouponAllocatedUpdateOne) sqlSave(ctx context.Context) (_node *Coupo
 	}
 	id, ok := cauo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing CouponAllocated.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "CouponAllocated.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := cauo.fields; len(fields) > 0 {
@@ -502,18 +503,18 @@ func (cauo *CouponAllocatedUpdateOne) sqlSave(ctx context.Context) (_node *Coupo
 			}
 		}
 	}
-	if value, ok := cauo.mutation.UserID(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: couponallocated.FieldUserID,
-		})
-	}
 	if value, ok := cauo.mutation.AppID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: couponallocated.FieldAppID,
+		})
+	}
+	if value, ok := cauo.mutation.UserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponallocated.FieldUserID,
 		})
 	}
 	if value, ok := cauo.mutation.GetType(); ok {

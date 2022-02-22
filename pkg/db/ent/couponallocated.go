@@ -16,10 +16,10 @@ type CouponAllocated struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID uuid.UUID `json:"id,omitempty"`
-	// UserID holds the value of the "user_id" field.
-	UserID uuid.UUID `json:"user_id,omitempty"`
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
+	// UserID holds the value of the "user_id" field.
+	UserID uuid.UUID `json:"user_id,omitempty"`
 	// Type holds the value of the "type" field.
 	Type couponallocated.Type `json:"type,omitempty"`
 	// CouponID holds the value of the "coupon_id" field.
@@ -41,7 +41,7 @@ func (*CouponAllocated) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullInt64)
 		case couponallocated.FieldType:
 			values[i] = new(sql.NullString)
-		case couponallocated.FieldID, couponallocated.FieldUserID, couponallocated.FieldAppID, couponallocated.FieldCouponID:
+		case couponallocated.FieldID, couponallocated.FieldAppID, couponallocated.FieldUserID, couponallocated.FieldCouponID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CouponAllocated", columns[i])
@@ -64,17 +64,17 @@ func (ca *CouponAllocated) assignValues(columns []string, values []interface{}) 
 			} else if value != nil {
 				ca.ID = *value
 			}
-		case couponallocated.FieldUserID:
-			if value, ok := values[i].(*uuid.UUID); !ok {
-				return fmt.Errorf("unexpected type %T for field user_id", values[i])
-			} else if value != nil {
-				ca.UserID = *value
-			}
 		case couponallocated.FieldAppID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
 				return fmt.Errorf("unexpected type %T for field app_id", values[i])
 			} else if value != nil {
 				ca.AppID = *value
+			}
+		case couponallocated.FieldUserID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field user_id", values[i])
+			} else if value != nil {
+				ca.UserID = *value
 			}
 		case couponallocated.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -134,10 +134,10 @@ func (ca *CouponAllocated) String() string {
 	var builder strings.Builder
 	builder.WriteString("CouponAllocated(")
 	builder.WriteString(fmt.Sprintf("id=%v", ca.ID))
-	builder.WriteString(", user_id=")
-	builder.WriteString(fmt.Sprintf("%v", ca.UserID))
 	builder.WriteString(", app_id=")
 	builder.WriteString(fmt.Sprintf("%v", ca.AppID))
+	builder.WriteString(", user_id=")
+	builder.WriteString(fmt.Sprintf("%v", ca.UserID))
 	builder.WriteString(", type=")
 	builder.WriteString(fmt.Sprintf("%v", ca.Type))
 	builder.WriteString(", coupon_id=")

@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -47,7 +48,7 @@ func (usru *UserSpecialReductionUpdate) SetAmount(u uint64) *UserSpecialReductio
 }
 
 // AddAmount adds u to the "amount" field.
-func (usru *UserSpecialReductionUpdate) AddAmount(u uint64) *UserSpecialReductionUpdate {
+func (usru *UserSpecialReductionUpdate) AddAmount(u int64) *UserSpecialReductionUpdate {
 	usru.mutation.AddAmount(u)
 	return usru
 }
@@ -66,7 +67,7 @@ func (usru *UserSpecialReductionUpdate) SetStart(u uint32) *UserSpecialReduction
 }
 
 // AddStart adds u to the "start" field.
-func (usru *UserSpecialReductionUpdate) AddStart(u uint32) *UserSpecialReductionUpdate {
+func (usru *UserSpecialReductionUpdate) AddStart(u int32) *UserSpecialReductionUpdate {
 	usru.mutation.AddStart(u)
 	return usru
 }
@@ -106,7 +107,7 @@ func (usru *UserSpecialReductionUpdate) SetNillableCreateAt(u *uint32) *UserSpec
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (usru *UserSpecialReductionUpdate) AddCreateAt(u uint32) *UserSpecialReductionUpdate {
+func (usru *UserSpecialReductionUpdate) AddCreateAt(u int32) *UserSpecialReductionUpdate {
 	usru.mutation.AddCreateAt(u)
 	return usru
 }
@@ -119,7 +120,7 @@ func (usru *UserSpecialReductionUpdate) SetUpdateAt(u uint32) *UserSpecialReduct
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (usru *UserSpecialReductionUpdate) AddUpdateAt(u uint32) *UserSpecialReductionUpdate {
+func (usru *UserSpecialReductionUpdate) AddUpdateAt(u int32) *UserSpecialReductionUpdate {
 	usru.mutation.AddUpdateAt(u)
 	return usru
 }
@@ -140,7 +141,7 @@ func (usru *UserSpecialReductionUpdate) SetNillableDeleteAt(u *uint32) *UserSpec
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (usru *UserSpecialReductionUpdate) AddDeleteAt(u uint32) *UserSpecialReductionUpdate {
+func (usru *UserSpecialReductionUpdate) AddDeleteAt(u int32) *UserSpecialReductionUpdate {
 	usru.mutation.AddDeleteAt(u)
 	return usru
 }
@@ -223,7 +224,7 @@ func (usru *UserSpecialReductionUpdate) defaults() {
 func (usru *UserSpecialReductionUpdate) check() error {
 	if v, ok := usru.mutation.Message(); ok {
 		if err := userspecialreduction.MessageValidator(v); err != nil {
-			return &ValidationError{Name: "message", err: fmt.Errorf("ent: validator failed for field \"message\": %w", err)}
+			return &ValidationError{Name: "message", err: fmt.Errorf(`ent: validator failed for field "UserSpecialReduction.message": %w`, err)}
 		}
 	}
 	return nil
@@ -398,7 +399,7 @@ func (usruo *UserSpecialReductionUpdateOne) SetAmount(u uint64) *UserSpecialRedu
 }
 
 // AddAmount adds u to the "amount" field.
-func (usruo *UserSpecialReductionUpdateOne) AddAmount(u uint64) *UserSpecialReductionUpdateOne {
+func (usruo *UserSpecialReductionUpdateOne) AddAmount(u int64) *UserSpecialReductionUpdateOne {
 	usruo.mutation.AddAmount(u)
 	return usruo
 }
@@ -417,7 +418,7 @@ func (usruo *UserSpecialReductionUpdateOne) SetStart(u uint32) *UserSpecialReduc
 }
 
 // AddStart adds u to the "start" field.
-func (usruo *UserSpecialReductionUpdateOne) AddStart(u uint32) *UserSpecialReductionUpdateOne {
+func (usruo *UserSpecialReductionUpdateOne) AddStart(u int32) *UserSpecialReductionUpdateOne {
 	usruo.mutation.AddStart(u)
 	return usruo
 }
@@ -457,7 +458,7 @@ func (usruo *UserSpecialReductionUpdateOne) SetNillableCreateAt(u *uint32) *User
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (usruo *UserSpecialReductionUpdateOne) AddCreateAt(u uint32) *UserSpecialReductionUpdateOne {
+func (usruo *UserSpecialReductionUpdateOne) AddCreateAt(u int32) *UserSpecialReductionUpdateOne {
 	usruo.mutation.AddCreateAt(u)
 	return usruo
 }
@@ -470,7 +471,7 @@ func (usruo *UserSpecialReductionUpdateOne) SetUpdateAt(u uint32) *UserSpecialRe
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (usruo *UserSpecialReductionUpdateOne) AddUpdateAt(u uint32) *UserSpecialReductionUpdateOne {
+func (usruo *UserSpecialReductionUpdateOne) AddUpdateAt(u int32) *UserSpecialReductionUpdateOne {
 	usruo.mutation.AddUpdateAt(u)
 	return usruo
 }
@@ -491,7 +492,7 @@ func (usruo *UserSpecialReductionUpdateOne) SetNillableDeleteAt(u *uint32) *User
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (usruo *UserSpecialReductionUpdateOne) AddDeleteAt(u uint32) *UserSpecialReductionUpdateOne {
+func (usruo *UserSpecialReductionUpdateOne) AddDeleteAt(u int32) *UserSpecialReductionUpdateOne {
 	usruo.mutation.AddDeleteAt(u)
 	return usruo
 }
@@ -581,7 +582,7 @@ func (usruo *UserSpecialReductionUpdateOne) defaults() {
 func (usruo *UserSpecialReductionUpdateOne) check() error {
 	if v, ok := usruo.mutation.Message(); ok {
 		if err := userspecialreduction.MessageValidator(v); err != nil {
-			return &ValidationError{Name: "message", err: fmt.Errorf("ent: validator failed for field \"message\": %w", err)}
+			return &ValidationError{Name: "message", err: fmt.Errorf(`ent: validator failed for field "UserSpecialReduction.message": %w`, err)}
 		}
 	}
 	return nil
@@ -600,7 +601,7 @@ func (usruo *UserSpecialReductionUpdateOne) sqlSave(ctx context.Context) (_node 
 	}
 	id, ok := usruo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing UserSpecialReduction.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "UserSpecialReduction.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := usruo.fields; len(fields) > 0 {

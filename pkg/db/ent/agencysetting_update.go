@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -126,7 +127,7 @@ func (asu *AgencySettingUpdate) SetNillableCreateAt(u *uint32) *AgencySettingUpd
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (asu *AgencySettingUpdate) AddCreateAt(u uint32) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) AddCreateAt(u int32) *AgencySettingUpdate {
 	asu.mutation.AddCreateAt(u)
 	return asu
 }
@@ -139,7 +140,7 @@ func (asu *AgencySettingUpdate) SetUpdateAt(u uint32) *AgencySettingUpdate {
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (asu *AgencySettingUpdate) AddUpdateAt(u uint32) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) AddUpdateAt(u int32) *AgencySettingUpdate {
 	asu.mutation.AddUpdateAt(u)
 	return asu
 }
@@ -160,7 +161,7 @@ func (asu *AgencySettingUpdate) SetNillableDeleteAt(u *uint32) *AgencySettingUpd
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (asu *AgencySettingUpdate) AddDeleteAt(u uint32) *AgencySettingUpdate {
+func (asu *AgencySettingUpdate) AddDeleteAt(u int32) *AgencySettingUpdate {
 	asu.mutation.AddDeleteAt(u)
 	return asu
 }
@@ -502,7 +503,7 @@ func (asuo *AgencySettingUpdateOne) SetNillableCreateAt(u *uint32) *AgencySettin
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (asuo *AgencySettingUpdateOne) AddCreateAt(u uint32) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) AddCreateAt(u int32) *AgencySettingUpdateOne {
 	asuo.mutation.AddCreateAt(u)
 	return asuo
 }
@@ -515,7 +516,7 @@ func (asuo *AgencySettingUpdateOne) SetUpdateAt(u uint32) *AgencySettingUpdateOn
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (asuo *AgencySettingUpdateOne) AddUpdateAt(u uint32) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) AddUpdateAt(u int32) *AgencySettingUpdateOne {
 	asuo.mutation.AddUpdateAt(u)
 	return asuo
 }
@@ -536,7 +537,7 @@ func (asuo *AgencySettingUpdateOne) SetNillableDeleteAt(u *uint32) *AgencySettin
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (asuo *AgencySettingUpdateOne) AddDeleteAt(u uint32) *AgencySettingUpdateOne {
+func (asuo *AgencySettingUpdateOne) AddDeleteAt(u int32) *AgencySettingUpdateOne {
 	asuo.mutation.AddDeleteAt(u)
 	return asuo
 }
@@ -629,7 +630,7 @@ func (asuo *AgencySettingUpdateOne) sqlSave(ctx context.Context) (_node *AgencyS
 	}
 	id, ok := asuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing AgencySetting.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "AgencySetting.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := asuo.fields; len(fields) > 0 {

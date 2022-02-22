@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -61,7 +62,7 @@ func (uicu *UserInvitationCodeUpdate) SetNillableCreateAt(u *uint32) *UserInvita
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (uicu *UserInvitationCodeUpdate) AddCreateAt(u uint32) *UserInvitationCodeUpdate {
+func (uicu *UserInvitationCodeUpdate) AddCreateAt(u int32) *UserInvitationCodeUpdate {
 	uicu.mutation.AddCreateAt(u)
 	return uicu
 }
@@ -74,7 +75,7 @@ func (uicu *UserInvitationCodeUpdate) SetUpdateAt(u uint32) *UserInvitationCodeU
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (uicu *UserInvitationCodeUpdate) AddUpdateAt(u uint32) *UserInvitationCodeUpdate {
+func (uicu *UserInvitationCodeUpdate) AddUpdateAt(u int32) *UserInvitationCodeUpdate {
 	uicu.mutation.AddUpdateAt(u)
 	return uicu
 }
@@ -95,7 +96,7 @@ func (uicu *UserInvitationCodeUpdate) SetNillableDeleteAt(u *uint32) *UserInvita
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (uicu *UserInvitationCodeUpdate) AddDeleteAt(u uint32) *UserInvitationCodeUpdate {
+func (uicu *UserInvitationCodeUpdate) AddDeleteAt(u int32) *UserInvitationCodeUpdate {
 	uicu.mutation.AddDeleteAt(u)
 	return uicu
 }
@@ -302,7 +303,7 @@ func (uicuo *UserInvitationCodeUpdateOne) SetNillableCreateAt(u *uint32) *UserIn
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (uicuo *UserInvitationCodeUpdateOne) AddCreateAt(u uint32) *UserInvitationCodeUpdateOne {
+func (uicuo *UserInvitationCodeUpdateOne) AddCreateAt(u int32) *UserInvitationCodeUpdateOne {
 	uicuo.mutation.AddCreateAt(u)
 	return uicuo
 }
@@ -315,7 +316,7 @@ func (uicuo *UserInvitationCodeUpdateOne) SetUpdateAt(u uint32) *UserInvitationC
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (uicuo *UserInvitationCodeUpdateOne) AddUpdateAt(u uint32) *UserInvitationCodeUpdateOne {
+func (uicuo *UserInvitationCodeUpdateOne) AddUpdateAt(u int32) *UserInvitationCodeUpdateOne {
 	uicuo.mutation.AddUpdateAt(u)
 	return uicuo
 }
@@ -336,7 +337,7 @@ func (uicuo *UserInvitationCodeUpdateOne) SetNillableDeleteAt(u *uint32) *UserIn
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (uicuo *UserInvitationCodeUpdateOne) AddDeleteAt(u uint32) *UserInvitationCodeUpdateOne {
+func (uicuo *UserInvitationCodeUpdateOne) AddDeleteAt(u int32) *UserInvitationCodeUpdateOne {
 	uicuo.mutation.AddDeleteAt(u)
 	return uicuo
 }
@@ -429,7 +430,7 @@ func (uicuo *UserInvitationCodeUpdateOne) sqlSave(ctx context.Context) (_node *U
 	}
 	id, ok := uicuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing UserInvitationCode.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "UserInvitationCode.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := uicuo.fields; len(fields) > 0 {

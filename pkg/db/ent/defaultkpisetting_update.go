@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -35,7 +36,7 @@ func (dksu *DefaultKpiSettingUpdate) SetAmount(u uint64) *DefaultKpiSettingUpdat
 }
 
 // AddAmount adds u to the "amount" field.
-func (dksu *DefaultKpiSettingUpdate) AddAmount(u uint64) *DefaultKpiSettingUpdate {
+func (dksu *DefaultKpiSettingUpdate) AddAmount(u int64) *DefaultKpiSettingUpdate {
 	dksu.mutation.AddAmount(u)
 	return dksu
 }
@@ -81,7 +82,7 @@ func (dksu *DefaultKpiSettingUpdate) SetNillableCreateAt(u *uint32) *DefaultKpiS
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (dksu *DefaultKpiSettingUpdate) AddCreateAt(u uint32) *DefaultKpiSettingUpdate {
+func (dksu *DefaultKpiSettingUpdate) AddCreateAt(u int32) *DefaultKpiSettingUpdate {
 	dksu.mutation.AddCreateAt(u)
 	return dksu
 }
@@ -94,7 +95,7 @@ func (dksu *DefaultKpiSettingUpdate) SetUpdateAt(u uint32) *DefaultKpiSettingUpd
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (dksu *DefaultKpiSettingUpdate) AddUpdateAt(u uint32) *DefaultKpiSettingUpdate {
+func (dksu *DefaultKpiSettingUpdate) AddUpdateAt(u int32) *DefaultKpiSettingUpdate {
 	dksu.mutation.AddUpdateAt(u)
 	return dksu
 }
@@ -115,7 +116,7 @@ func (dksu *DefaultKpiSettingUpdate) SetNillableDeleteAt(u *uint32) *DefaultKpiS
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (dksu *DefaultKpiSettingUpdate) AddDeleteAt(u uint32) *DefaultKpiSettingUpdate {
+func (dksu *DefaultKpiSettingUpdate) AddDeleteAt(u int32) *DefaultKpiSettingUpdate {
 	dksu.mutation.AddDeleteAt(u)
 	return dksu
 }
@@ -317,7 +318,7 @@ func (dksuo *DefaultKpiSettingUpdateOne) SetAmount(u uint64) *DefaultKpiSettingU
 }
 
 // AddAmount adds u to the "amount" field.
-func (dksuo *DefaultKpiSettingUpdateOne) AddAmount(u uint64) *DefaultKpiSettingUpdateOne {
+func (dksuo *DefaultKpiSettingUpdateOne) AddAmount(u int64) *DefaultKpiSettingUpdateOne {
 	dksuo.mutation.AddAmount(u)
 	return dksuo
 }
@@ -363,7 +364,7 @@ func (dksuo *DefaultKpiSettingUpdateOne) SetNillableCreateAt(u *uint32) *Default
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (dksuo *DefaultKpiSettingUpdateOne) AddCreateAt(u uint32) *DefaultKpiSettingUpdateOne {
+func (dksuo *DefaultKpiSettingUpdateOne) AddCreateAt(u int32) *DefaultKpiSettingUpdateOne {
 	dksuo.mutation.AddCreateAt(u)
 	return dksuo
 }
@@ -376,7 +377,7 @@ func (dksuo *DefaultKpiSettingUpdateOne) SetUpdateAt(u uint32) *DefaultKpiSettin
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (dksuo *DefaultKpiSettingUpdateOne) AddUpdateAt(u uint32) *DefaultKpiSettingUpdateOne {
+func (dksuo *DefaultKpiSettingUpdateOne) AddUpdateAt(u int32) *DefaultKpiSettingUpdateOne {
 	dksuo.mutation.AddUpdateAt(u)
 	return dksuo
 }
@@ -397,7 +398,7 @@ func (dksuo *DefaultKpiSettingUpdateOne) SetNillableDeleteAt(u *uint32) *Default
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (dksuo *DefaultKpiSettingUpdateOne) AddDeleteAt(u uint32) *DefaultKpiSettingUpdateOne {
+func (dksuo *DefaultKpiSettingUpdateOne) AddDeleteAt(u int32) *DefaultKpiSettingUpdateOne {
 	dksuo.mutation.AddDeleteAt(u)
 	return dksuo
 }
@@ -490,7 +491,7 @@ func (dksuo *DefaultKpiSettingUpdateOne) sqlSave(ctx context.Context) (_node *De
 	}
 	id, ok := dksuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing DefaultKpiSetting.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "DefaultKpiSetting.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := dksuo.fields; len(fields) > 0 {

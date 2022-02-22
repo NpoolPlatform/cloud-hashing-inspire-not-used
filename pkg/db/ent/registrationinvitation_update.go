@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -43,7 +44,7 @@ func (riu *RegistrationInvitationUpdate) SetNillableCreateAt(u *uint32) *Registr
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (riu *RegistrationInvitationUpdate) AddCreateAt(u uint32) *RegistrationInvitationUpdate {
+func (riu *RegistrationInvitationUpdate) AddCreateAt(u int32) *RegistrationInvitationUpdate {
 	riu.mutation.AddCreateAt(u)
 	return riu
 }
@@ -56,7 +57,7 @@ func (riu *RegistrationInvitationUpdate) SetUpdateAt(u uint32) *RegistrationInvi
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (riu *RegistrationInvitationUpdate) AddUpdateAt(u uint32) *RegistrationInvitationUpdate {
+func (riu *RegistrationInvitationUpdate) AddUpdateAt(u int32) *RegistrationInvitationUpdate {
 	riu.mutation.AddUpdateAt(u)
 	return riu
 }
@@ -77,7 +78,7 @@ func (riu *RegistrationInvitationUpdate) SetNillableDeleteAt(u *uint32) *Registr
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (riu *RegistrationInvitationUpdate) AddDeleteAt(u uint32) *RegistrationInvitationUpdate {
+func (riu *RegistrationInvitationUpdate) AddDeleteAt(u int32) *RegistrationInvitationUpdate {
 	riu.mutation.AddDeleteAt(u)
 	return riu
 }
@@ -284,7 +285,7 @@ func (riuo *RegistrationInvitationUpdateOne) SetNillableCreateAt(u *uint32) *Reg
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (riuo *RegistrationInvitationUpdateOne) AddCreateAt(u uint32) *RegistrationInvitationUpdateOne {
+func (riuo *RegistrationInvitationUpdateOne) AddCreateAt(u int32) *RegistrationInvitationUpdateOne {
 	riuo.mutation.AddCreateAt(u)
 	return riuo
 }
@@ -297,7 +298,7 @@ func (riuo *RegistrationInvitationUpdateOne) SetUpdateAt(u uint32) *Registration
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (riuo *RegistrationInvitationUpdateOne) AddUpdateAt(u uint32) *RegistrationInvitationUpdateOne {
+func (riuo *RegistrationInvitationUpdateOne) AddUpdateAt(u int32) *RegistrationInvitationUpdateOne {
 	riuo.mutation.AddUpdateAt(u)
 	return riuo
 }
@@ -318,7 +319,7 @@ func (riuo *RegistrationInvitationUpdateOne) SetNillableDeleteAt(u *uint32) *Reg
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (riuo *RegistrationInvitationUpdateOne) AddDeleteAt(u uint32) *RegistrationInvitationUpdateOne {
+func (riuo *RegistrationInvitationUpdateOne) AddDeleteAt(u int32) *RegistrationInvitationUpdateOne {
 	riuo.mutation.AddDeleteAt(u)
 	return riuo
 }
@@ -429,7 +430,7 @@ func (riuo *RegistrationInvitationUpdateOne) sqlSave(ctx context.Context) (_node
 	}
 	id, ok := riuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing RegistrationInvitation.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "RegistrationInvitation.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := riuo.fields; len(fields) > 0 {

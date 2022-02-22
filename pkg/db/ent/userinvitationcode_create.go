@@ -89,6 +89,14 @@ func (uicc *UserInvitationCodeCreate) SetID(u uuid.UUID) *UserInvitationCodeCrea
 	return uicc
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (uicc *UserInvitationCodeCreate) SetNillableID(u *uuid.UUID) *UserInvitationCodeCreate {
+	if u != nil {
+		uicc.SetID(*u)
+	}
+	return uicc
+}
+
 // Mutation returns the UserInvitationCodeMutation object of the builder.
 func (uicc *UserInvitationCodeCreate) Mutation() *UserInvitationCodeMutation {
 	return uicc.mutation
@@ -181,22 +189,22 @@ func (uicc *UserInvitationCodeCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (uicc *UserInvitationCodeCreate) check() error {
 	if _, ok := uicc.mutation.UserID(); !ok {
-		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "user_id"`)}
+		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "UserInvitationCode.user_id"`)}
 	}
 	if _, ok := uicc.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "UserInvitationCode.app_id"`)}
 	}
 	if _, ok := uicc.mutation.InvitationCode(); !ok {
-		return &ValidationError{Name: "invitation_code", err: errors.New(`ent: missing required field "invitation_code"`)}
+		return &ValidationError{Name: "invitation_code", err: errors.New(`ent: missing required field "UserInvitationCode.invitation_code"`)}
 	}
 	if _, ok := uicc.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "UserInvitationCode.create_at"`)}
 	}
 	if _, ok := uicc.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "UserInvitationCode.update_at"`)}
 	}
 	if _, ok := uicc.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "UserInvitationCode.delete_at"`)}
 	}
 	return nil
 }
@@ -210,7 +218,11 @@ func (uicc *UserInvitationCodeCreate) sqlSave(ctx context.Context) (*UserInvitat
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -229,7 +241,7 @@ func (uicc *UserInvitationCodeCreate) createSpec() (*UserInvitationCode, *sqlgra
 	_spec.OnConflict = uicc.conflict
 	if id, ok := uicc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
 	}
 	if value, ok := uicc.mutation.UserID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -381,6 +393,12 @@ func (u *UserInvitationCodeUpsert) UpdateCreateAt() *UserInvitationCodeUpsert {
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *UserInvitationCodeUpsert) AddCreateAt(v uint32) *UserInvitationCodeUpsert {
+	u.Add(userinvitationcode.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *UserInvitationCodeUpsert) SetUpdateAt(v uint32) *UserInvitationCodeUpsert {
 	u.Set(userinvitationcode.FieldUpdateAt, v)
@@ -390,6 +408,12 @@ func (u *UserInvitationCodeUpsert) SetUpdateAt(v uint32) *UserInvitationCodeUpse
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *UserInvitationCodeUpsert) UpdateUpdateAt() *UserInvitationCodeUpsert {
 	u.SetExcluded(userinvitationcode.FieldUpdateAt)
+	return u
+}
+
+// AddUpdateAt adds v to the "update_at" field.
+func (u *UserInvitationCodeUpsert) AddUpdateAt(v uint32) *UserInvitationCodeUpsert {
+	u.Add(userinvitationcode.FieldUpdateAt, v)
 	return u
 }
 
@@ -405,7 +429,13 @@ func (u *UserInvitationCodeUpsert) UpdateDeleteAt() *UserInvitationCodeUpsert {
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *UserInvitationCodeUpsert) AddDeleteAt(v uint32) *UserInvitationCodeUpsert {
+	u.Add(userinvitationcode.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.UserInvitationCode.Create().
@@ -504,6 +534,13 @@ func (u *UserInvitationCodeUpsertOne) SetCreateAt(v uint32) *UserInvitationCodeU
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *UserInvitationCodeUpsertOne) AddCreateAt(v uint32) *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *UserInvitationCodeUpsertOne) UpdateCreateAt() *UserInvitationCodeUpsertOne {
 	return u.Update(func(s *UserInvitationCodeUpsert) {
@@ -518,6 +555,13 @@ func (u *UserInvitationCodeUpsertOne) SetUpdateAt(v uint32) *UserInvitationCodeU
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *UserInvitationCodeUpsertOne) AddUpdateAt(v uint32) *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *UserInvitationCodeUpsertOne) UpdateUpdateAt() *UserInvitationCodeUpsertOne {
 	return u.Update(func(s *UserInvitationCodeUpsert) {
@@ -529,6 +573,13 @@ func (u *UserInvitationCodeUpsertOne) UpdateUpdateAt() *UserInvitationCodeUpsert
 func (u *UserInvitationCodeUpsertOne) SetDeleteAt(v uint32) *UserInvitationCodeUpsertOne {
 	return u.Update(func(s *UserInvitationCodeUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *UserInvitationCodeUpsertOne) AddDeleteAt(v uint32) *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -702,7 +753,7 @@ type UserInvitationCodeUpsertBulk struct {
 	create *UserInvitationCodeCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.UserInvitationCode.Create().
@@ -804,6 +855,13 @@ func (u *UserInvitationCodeUpsertBulk) SetCreateAt(v uint32) *UserInvitationCode
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *UserInvitationCodeUpsertBulk) AddCreateAt(v uint32) *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *UserInvitationCodeUpsertBulk) UpdateCreateAt() *UserInvitationCodeUpsertBulk {
 	return u.Update(func(s *UserInvitationCodeUpsert) {
@@ -818,6 +876,13 @@ func (u *UserInvitationCodeUpsertBulk) SetUpdateAt(v uint32) *UserInvitationCode
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *UserInvitationCodeUpsertBulk) AddUpdateAt(v uint32) *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *UserInvitationCodeUpsertBulk) UpdateUpdateAt() *UserInvitationCodeUpsertBulk {
 	return u.Update(func(s *UserInvitationCodeUpsert) {
@@ -829,6 +894,13 @@ func (u *UserInvitationCodeUpsertBulk) UpdateUpdateAt() *UserInvitationCodeUpser
 func (u *UserInvitationCodeUpsertBulk) SetDeleteAt(v uint32) *UserInvitationCodeUpsertBulk {
 	return u.Update(func(s *UserInvitationCodeUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *UserInvitationCodeUpsertBulk) AddDeleteAt(v uint32) *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

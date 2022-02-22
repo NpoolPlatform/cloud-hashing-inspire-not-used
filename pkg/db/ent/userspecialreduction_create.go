@@ -113,6 +113,14 @@ func (usrc *UserSpecialReductionCreate) SetID(u uuid.UUID) *UserSpecialReduction
 	return usrc
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (usrc *UserSpecialReductionCreate) SetNillableID(u *uuid.UUID) *UserSpecialReductionCreate {
+	if u != nil {
+		usrc.SetID(*u)
+	}
+	return usrc
+}
+
 // Mutation returns the UserSpecialReductionMutation object of the builder.
 func (usrc *UserSpecialReductionCreate) Mutation() *UserSpecialReductionMutation {
 	return usrc.mutation
@@ -205,39 +213,39 @@ func (usrc *UserSpecialReductionCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (usrc *UserSpecialReductionCreate) check() error {
 	if _, ok := usrc.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "UserSpecialReduction.app_id"`)}
 	}
 	if _, ok := usrc.mutation.UserID(); !ok {
-		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "user_id"`)}
+		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "UserSpecialReduction.user_id"`)}
 	}
 	if _, ok := usrc.mutation.Amount(); !ok {
-		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "amount"`)}
+		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "UserSpecialReduction.amount"`)}
 	}
 	if _, ok := usrc.mutation.ReleaseByUserID(); !ok {
-		return &ValidationError{Name: "release_by_user_id", err: errors.New(`ent: missing required field "release_by_user_id"`)}
+		return &ValidationError{Name: "release_by_user_id", err: errors.New(`ent: missing required field "UserSpecialReduction.release_by_user_id"`)}
 	}
 	if _, ok := usrc.mutation.Start(); !ok {
-		return &ValidationError{Name: "start", err: errors.New(`ent: missing required field "start"`)}
+		return &ValidationError{Name: "start", err: errors.New(`ent: missing required field "UserSpecialReduction.start"`)}
 	}
 	if _, ok := usrc.mutation.DurationDays(); !ok {
-		return &ValidationError{Name: "duration_days", err: errors.New(`ent: missing required field "duration_days"`)}
+		return &ValidationError{Name: "duration_days", err: errors.New(`ent: missing required field "UserSpecialReduction.duration_days"`)}
 	}
 	if _, ok := usrc.mutation.Message(); !ok {
-		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "message"`)}
+		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "UserSpecialReduction.message"`)}
 	}
 	if v, ok := usrc.mutation.Message(); ok {
 		if err := userspecialreduction.MessageValidator(v); err != nil {
-			return &ValidationError{Name: "message", err: fmt.Errorf(`ent: validator failed for field "message": %w`, err)}
+			return &ValidationError{Name: "message", err: fmt.Errorf(`ent: validator failed for field "UserSpecialReduction.message": %w`, err)}
 		}
 	}
 	if _, ok := usrc.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "UserSpecialReduction.create_at"`)}
 	}
 	if _, ok := usrc.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "UserSpecialReduction.update_at"`)}
 	}
 	if _, ok := usrc.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "UserSpecialReduction.delete_at"`)}
 	}
 	return nil
 }
@@ -251,7 +259,11 @@ func (usrc *UserSpecialReductionCreate) sqlSave(ctx context.Context) (*UserSpeci
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -270,7 +282,7 @@ func (usrc *UserSpecialReductionCreate) createSpec() (*UserSpecialReduction, *sq
 	_spec.OnConflict = usrc.conflict
 	if id, ok := usrc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
 	}
 	if value, ok := usrc.mutation.AppID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -442,6 +454,12 @@ func (u *UserSpecialReductionUpsert) UpdateAmount() *UserSpecialReductionUpsert 
 	return u
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *UserSpecialReductionUpsert) AddAmount(v uint64) *UserSpecialReductionUpsert {
+	u.Add(userspecialreduction.FieldAmount, v)
+	return u
+}
+
 // SetReleaseByUserID sets the "release_by_user_id" field.
 func (u *UserSpecialReductionUpsert) SetReleaseByUserID(v uuid.UUID) *UserSpecialReductionUpsert {
 	u.Set(userspecialreduction.FieldReleaseByUserID, v)
@@ -466,6 +484,12 @@ func (u *UserSpecialReductionUpsert) UpdateStart() *UserSpecialReductionUpsert {
 	return u
 }
 
+// AddStart adds v to the "start" field.
+func (u *UserSpecialReductionUpsert) AddStart(v uint32) *UserSpecialReductionUpsert {
+	u.Add(userspecialreduction.FieldStart, v)
+	return u
+}
+
 // SetDurationDays sets the "duration_days" field.
 func (u *UserSpecialReductionUpsert) SetDurationDays(v int32) *UserSpecialReductionUpsert {
 	u.Set(userspecialreduction.FieldDurationDays, v)
@@ -475,6 +499,12 @@ func (u *UserSpecialReductionUpsert) SetDurationDays(v int32) *UserSpecialReduct
 // UpdateDurationDays sets the "duration_days" field to the value that was provided on create.
 func (u *UserSpecialReductionUpsert) UpdateDurationDays() *UserSpecialReductionUpsert {
 	u.SetExcluded(userspecialreduction.FieldDurationDays)
+	return u
+}
+
+// AddDurationDays adds v to the "duration_days" field.
+func (u *UserSpecialReductionUpsert) AddDurationDays(v int32) *UserSpecialReductionUpsert {
+	u.Add(userspecialreduction.FieldDurationDays, v)
 	return u
 }
 
@@ -502,6 +532,12 @@ func (u *UserSpecialReductionUpsert) UpdateCreateAt() *UserSpecialReductionUpser
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *UserSpecialReductionUpsert) AddCreateAt(v uint32) *UserSpecialReductionUpsert {
+	u.Add(userspecialreduction.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *UserSpecialReductionUpsert) SetUpdateAt(v uint32) *UserSpecialReductionUpsert {
 	u.Set(userspecialreduction.FieldUpdateAt, v)
@@ -511,6 +547,12 @@ func (u *UserSpecialReductionUpsert) SetUpdateAt(v uint32) *UserSpecialReduction
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *UserSpecialReductionUpsert) UpdateUpdateAt() *UserSpecialReductionUpsert {
 	u.SetExcluded(userspecialreduction.FieldUpdateAt)
+	return u
+}
+
+// AddUpdateAt adds v to the "update_at" field.
+func (u *UserSpecialReductionUpsert) AddUpdateAt(v uint32) *UserSpecialReductionUpsert {
+	u.Add(userspecialreduction.FieldUpdateAt, v)
 	return u
 }
 
@@ -526,7 +568,13 @@ func (u *UserSpecialReductionUpsert) UpdateDeleteAt() *UserSpecialReductionUpser
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *UserSpecialReductionUpsert) AddDeleteAt(v uint32) *UserSpecialReductionUpsert {
+	u.Add(userspecialreduction.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.UserSpecialReduction.Create().
@@ -611,6 +659,13 @@ func (u *UserSpecialReductionUpsertOne) SetAmount(v uint64) *UserSpecialReductio
 	})
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *UserSpecialReductionUpsertOne) AddAmount(v uint64) *UserSpecialReductionUpsertOne {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddAmount(v)
+	})
+}
+
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *UserSpecialReductionUpsertOne) UpdateAmount() *UserSpecialReductionUpsertOne {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
@@ -639,6 +694,13 @@ func (u *UserSpecialReductionUpsertOne) SetStart(v uint32) *UserSpecialReduction
 	})
 }
 
+// AddStart adds v to the "start" field.
+func (u *UserSpecialReductionUpsertOne) AddStart(v uint32) *UserSpecialReductionUpsertOne {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddStart(v)
+	})
+}
+
 // UpdateStart sets the "start" field to the value that was provided on create.
 func (u *UserSpecialReductionUpsertOne) UpdateStart() *UserSpecialReductionUpsertOne {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
@@ -650,6 +712,13 @@ func (u *UserSpecialReductionUpsertOne) UpdateStart() *UserSpecialReductionUpser
 func (u *UserSpecialReductionUpsertOne) SetDurationDays(v int32) *UserSpecialReductionUpsertOne {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
 		s.SetDurationDays(v)
+	})
+}
+
+// AddDurationDays adds v to the "duration_days" field.
+func (u *UserSpecialReductionUpsertOne) AddDurationDays(v int32) *UserSpecialReductionUpsertOne {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddDurationDays(v)
 	})
 }
 
@@ -681,6 +750,13 @@ func (u *UserSpecialReductionUpsertOne) SetCreateAt(v uint32) *UserSpecialReduct
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *UserSpecialReductionUpsertOne) AddCreateAt(v uint32) *UserSpecialReductionUpsertOne {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *UserSpecialReductionUpsertOne) UpdateCreateAt() *UserSpecialReductionUpsertOne {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
@@ -695,6 +771,13 @@ func (u *UserSpecialReductionUpsertOne) SetUpdateAt(v uint32) *UserSpecialReduct
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *UserSpecialReductionUpsertOne) AddUpdateAt(v uint32) *UserSpecialReductionUpsertOne {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *UserSpecialReductionUpsertOne) UpdateUpdateAt() *UserSpecialReductionUpsertOne {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
@@ -706,6 +789,13 @@ func (u *UserSpecialReductionUpsertOne) UpdateUpdateAt() *UserSpecialReductionUp
 func (u *UserSpecialReductionUpsertOne) SetDeleteAt(v uint32) *UserSpecialReductionUpsertOne {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *UserSpecialReductionUpsertOne) AddDeleteAt(v uint32) *UserSpecialReductionUpsertOne {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -879,7 +969,7 @@ type UserSpecialReductionUpsertBulk struct {
 	create *UserSpecialReductionCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.UserSpecialReduction.Create().
@@ -967,6 +1057,13 @@ func (u *UserSpecialReductionUpsertBulk) SetAmount(v uint64) *UserSpecialReducti
 	})
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *UserSpecialReductionUpsertBulk) AddAmount(v uint64) *UserSpecialReductionUpsertBulk {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddAmount(v)
+	})
+}
+
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *UserSpecialReductionUpsertBulk) UpdateAmount() *UserSpecialReductionUpsertBulk {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
@@ -995,6 +1092,13 @@ func (u *UserSpecialReductionUpsertBulk) SetStart(v uint32) *UserSpecialReductio
 	})
 }
 
+// AddStart adds v to the "start" field.
+func (u *UserSpecialReductionUpsertBulk) AddStart(v uint32) *UserSpecialReductionUpsertBulk {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddStart(v)
+	})
+}
+
 // UpdateStart sets the "start" field to the value that was provided on create.
 func (u *UserSpecialReductionUpsertBulk) UpdateStart() *UserSpecialReductionUpsertBulk {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
@@ -1006,6 +1110,13 @@ func (u *UserSpecialReductionUpsertBulk) UpdateStart() *UserSpecialReductionUpse
 func (u *UserSpecialReductionUpsertBulk) SetDurationDays(v int32) *UserSpecialReductionUpsertBulk {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
 		s.SetDurationDays(v)
+	})
+}
+
+// AddDurationDays adds v to the "duration_days" field.
+func (u *UserSpecialReductionUpsertBulk) AddDurationDays(v int32) *UserSpecialReductionUpsertBulk {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddDurationDays(v)
 	})
 }
 
@@ -1037,6 +1148,13 @@ func (u *UserSpecialReductionUpsertBulk) SetCreateAt(v uint32) *UserSpecialReduc
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *UserSpecialReductionUpsertBulk) AddCreateAt(v uint32) *UserSpecialReductionUpsertBulk {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *UserSpecialReductionUpsertBulk) UpdateCreateAt() *UserSpecialReductionUpsertBulk {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
@@ -1051,6 +1169,13 @@ func (u *UserSpecialReductionUpsertBulk) SetUpdateAt(v uint32) *UserSpecialReduc
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *UserSpecialReductionUpsertBulk) AddUpdateAt(v uint32) *UserSpecialReductionUpsertBulk {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *UserSpecialReductionUpsertBulk) UpdateUpdateAt() *UserSpecialReductionUpsertBulk {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
@@ -1062,6 +1187,13 @@ func (u *UserSpecialReductionUpsertBulk) UpdateUpdateAt() *UserSpecialReductionU
 func (u *UserSpecialReductionUpsertBulk) SetDeleteAt(v uint32) *UserSpecialReductionUpsertBulk {
 	return u.Update(func(s *UserSpecialReductionUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *UserSpecialReductionUpsertBulk) AddDeleteAt(v uint32) *UserSpecialReductionUpsertBulk {
+	return u.Update(func(s *UserSpecialReductionUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

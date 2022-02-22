@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sync"
 
@@ -68,11 +69,11 @@ type AgencySettingMutation struct {
 	level_purchase_reward_percent    *int32
 	addlevel_purchase_reward_percent *int32
 	create_at                        *uint32
-	addcreate_at                     *uint32
+	addcreate_at                     *int32
 	update_at                        *uint32
-	addupdate_at                     *uint32
+	addupdate_at                     *int32
 	delete_at                        *uint32
-	adddelete_at                     *uint32
+	adddelete_at                     *int32
 	clearedFields                    map[string]struct{}
 	done                             bool
 	oldValue                         func(context.Context) (*AgencySetting, error)
@@ -109,7 +110,7 @@ func withAgencySettingID(id uuid.UUID) agencysettingOption {
 		m.oldValue = func(ctx context.Context) (*AgencySetting, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().AgencySetting.Get(ctx, id)
 				}
@@ -142,7 +143,7 @@ func (m AgencySettingMutation) Client() *Client {
 // it returns an error otherwise.
 func (m AgencySettingMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -164,6 +165,25 @@ func (m *AgencySettingMutation) ID() (id uuid.UUID, exists bool) {
 	return *m.id, true
 }
 
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *AgencySettingMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().AgencySetting.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
 // SetAppID sets the "app_id" field.
 func (m *AgencySettingMutation) SetAppID(u uuid.UUID) {
 	m.app_id = &u
@@ -183,10 +203,10 @@ func (m *AgencySettingMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -220,10 +240,10 @@ func (m *AgencySettingMutation) RegistrationRewardThreshold() (r int32, exists b
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldRegistrationRewardThreshold(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldRegistrationRewardThreshold is only allowed on UpdateOne operations")
+		return v, errors.New("OldRegistrationRewardThreshold is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldRegistrationRewardThreshold requires an ID field in the mutation")
+		return v, errors.New("OldRegistrationRewardThreshold requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -275,10 +295,10 @@ func (m *AgencySettingMutation) RegistrationCouponID() (r uuid.UUID, exists bool
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldRegistrationCouponID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldRegistrationCouponID is only allowed on UpdateOne operations")
+		return v, errors.New("OldRegistrationCouponID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldRegistrationCouponID requires an ID field in the mutation")
+		return v, errors.New("OldRegistrationCouponID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -312,10 +332,10 @@ func (m *AgencySettingMutation) KycRewardThreshold() (r int32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldKycRewardThreshold(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldKycRewardThreshold is only allowed on UpdateOne operations")
+		return v, errors.New("OldKycRewardThreshold is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldKycRewardThreshold requires an ID field in the mutation")
+		return v, errors.New("OldKycRewardThreshold requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -367,10 +387,10 @@ func (m *AgencySettingMutation) KycCouponID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldKycCouponID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldKycCouponID is only allowed on UpdateOne operations")
+		return v, errors.New("OldKycCouponID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldKycCouponID requires an ID field in the mutation")
+		return v, errors.New("OldKycCouponID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -404,10 +424,10 @@ func (m *AgencySettingMutation) TotalPurchaseRewardPercent() (r int32, exists bo
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldTotalPurchaseRewardPercent(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldTotalPurchaseRewardPercent is only allowed on UpdateOne operations")
+		return v, errors.New("OldTotalPurchaseRewardPercent is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldTotalPurchaseRewardPercent requires an ID field in the mutation")
+		return v, errors.New("OldTotalPurchaseRewardPercent requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -460,10 +480,10 @@ func (m *AgencySettingMutation) PurchaseRewardChainLevels() (r int32, exists boo
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldPurchaseRewardChainLevels(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldPurchaseRewardChainLevels is only allowed on UpdateOne operations")
+		return v, errors.New("OldPurchaseRewardChainLevels is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldPurchaseRewardChainLevels requires an ID field in the mutation")
+		return v, errors.New("OldPurchaseRewardChainLevels requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -516,10 +536,10 @@ func (m *AgencySettingMutation) LevelPurchaseRewardPercent() (r int32, exists bo
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldLevelPurchaseRewardPercent(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldLevelPurchaseRewardPercent is only allowed on UpdateOne operations")
+		return v, errors.New("OldLevelPurchaseRewardPercent is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldLevelPurchaseRewardPercent requires an ID field in the mutation")
+		return v, errors.New("OldLevelPurchaseRewardPercent requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -572,10 +592,10 @@ func (m *AgencySettingMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -585,7 +605,7 @@ func (m *AgencySettingMutation) OldCreateAt(ctx context.Context) (v uint32, err 
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *AgencySettingMutation) AddCreateAt(u uint32) {
+func (m *AgencySettingMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -594,7 +614,7 @@ func (m *AgencySettingMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *AgencySettingMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *AgencySettingMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -628,10 +648,10 @@ func (m *AgencySettingMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -641,7 +661,7 @@ func (m *AgencySettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err 
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *AgencySettingMutation) AddUpdateAt(u uint32) {
+func (m *AgencySettingMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -650,7 +670,7 @@ func (m *AgencySettingMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *AgencySettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *AgencySettingMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -684,10 +704,10 @@ func (m *AgencySettingMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AgencySettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -697,7 +717,7 @@ func (m *AgencySettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err 
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *AgencySettingMutation) AddDeleteAt(u uint32) {
+func (m *AgencySettingMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -706,7 +726,7 @@ func (m *AgencySettingMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *AgencySettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *AgencySettingMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -1021,21 +1041,21 @@ func (m *AgencySettingMutation) AddField(name string, value ent.Value) error {
 		m.AddLevelPurchaseRewardPercent(v)
 		return nil
 	case agencysetting.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case agencysetting.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case agencysetting.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1161,15 +1181,15 @@ type AppCouponSettingMutation struct {
 	id                  *uuid.UUID
 	app_id              *uuid.UUID
 	domination_limit    *uint64
-	adddomination_limit *uint64
+	adddomination_limit *int64
 	total_limit         *int32
 	addtotal_limit      *int32
 	create_at           *uint32
-	addcreate_at        *uint32
+	addcreate_at        *int32
 	update_at           *uint32
-	addupdate_at        *uint32
+	addupdate_at        *int32
 	delete_at           *uint32
-	adddelete_at        *uint32
+	adddelete_at        *int32
 	clearedFields       map[string]struct{}
 	done                bool
 	oldValue            func(context.Context) (*AppCouponSetting, error)
@@ -1206,7 +1226,7 @@ func withAppCouponSettingID(id uuid.UUID) appcouponsettingOption {
 		m.oldValue = func(ctx context.Context) (*AppCouponSetting, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().AppCouponSetting.Get(ctx, id)
 				}
@@ -1239,7 +1259,7 @@ func (m AppCouponSettingMutation) Client() *Client {
 // it returns an error otherwise.
 func (m AppCouponSettingMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -1261,6 +1281,25 @@ func (m *AppCouponSettingMutation) ID() (id uuid.UUID, exists bool) {
 	return *m.id, true
 }
 
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *AppCouponSettingMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().AppCouponSetting.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
 // SetAppID sets the "app_id" field.
 func (m *AppCouponSettingMutation) SetAppID(u uuid.UUID) {
 	m.app_id = &u
@@ -1280,10 +1319,10 @@ func (m *AppCouponSettingMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AppCouponSettingMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -1317,10 +1356,10 @@ func (m *AppCouponSettingMutation) DominationLimit() (r uint64, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AppCouponSettingMutation) OldDominationLimit(ctx context.Context) (v uint64, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDominationLimit is only allowed on UpdateOne operations")
+		return v, errors.New("OldDominationLimit is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDominationLimit requires an ID field in the mutation")
+		return v, errors.New("OldDominationLimit requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -1330,7 +1369,7 @@ func (m *AppCouponSettingMutation) OldDominationLimit(ctx context.Context) (v ui
 }
 
 // AddDominationLimit adds u to the "domination_limit" field.
-func (m *AppCouponSettingMutation) AddDominationLimit(u uint64) {
+func (m *AppCouponSettingMutation) AddDominationLimit(u int64) {
 	if m.adddomination_limit != nil {
 		*m.adddomination_limit += u
 	} else {
@@ -1339,7 +1378,7 @@ func (m *AppCouponSettingMutation) AddDominationLimit(u uint64) {
 }
 
 // AddedDominationLimit returns the value that was added to the "domination_limit" field in this mutation.
-func (m *AppCouponSettingMutation) AddedDominationLimit() (r uint64, exists bool) {
+func (m *AppCouponSettingMutation) AddedDominationLimit() (r int64, exists bool) {
 	v := m.adddomination_limit
 	if v == nil {
 		return
@@ -1373,10 +1412,10 @@ func (m *AppCouponSettingMutation) TotalLimit() (r int32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AppCouponSettingMutation) OldTotalLimit(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldTotalLimit is only allowed on UpdateOne operations")
+		return v, errors.New("OldTotalLimit is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldTotalLimit requires an ID field in the mutation")
+		return v, errors.New("OldTotalLimit requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -1429,10 +1468,10 @@ func (m *AppCouponSettingMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AppCouponSettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -1442,7 +1481,7 @@ func (m *AppCouponSettingMutation) OldCreateAt(ctx context.Context) (v uint32, e
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *AppCouponSettingMutation) AddCreateAt(u uint32) {
+func (m *AppCouponSettingMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -1451,7 +1490,7 @@ func (m *AppCouponSettingMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *AppCouponSettingMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *AppCouponSettingMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -1485,10 +1524,10 @@ func (m *AppCouponSettingMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AppCouponSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -1498,7 +1537,7 @@ func (m *AppCouponSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, e
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *AppCouponSettingMutation) AddUpdateAt(u uint32) {
+func (m *AppCouponSettingMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -1507,7 +1546,7 @@ func (m *AppCouponSettingMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *AppCouponSettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *AppCouponSettingMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -1541,10 +1580,10 @@ func (m *AppCouponSettingMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *AppCouponSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -1554,7 +1593,7 @@ func (m *AppCouponSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, e
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *AppCouponSettingMutation) AddDeleteAt(u uint32) {
+func (m *AppCouponSettingMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -1563,7 +1602,7 @@ func (m *AppCouponSettingMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *AppCouponSettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *AppCouponSettingMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -1758,7 +1797,7 @@ func (m *AppCouponSettingMutation) AddedField(name string) (ent.Value, bool) {
 func (m *AppCouponSettingMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case appcouponsetting.FieldDominationLimit:
-		v, ok := value.(uint64)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1772,21 +1811,21 @@ func (m *AppCouponSettingMutation) AddField(name string, value ent.Value) error 
 		m.AddTotalLimit(v)
 		return nil
 	case appcouponsetting.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case appcouponsetting.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case appcouponsetting.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1895,16 +1934,16 @@ type CouponAllocatedMutation struct {
 	op            Op
 	typ           string
 	id            *uuid.UUID
-	user_id       *uuid.UUID
 	app_id        *uuid.UUID
+	user_id       *uuid.UUID
 	_type         *couponallocated.Type
 	coupon_id     *uuid.UUID
 	create_at     *uint32
-	addcreate_at  *uint32
+	addcreate_at  *int32
 	update_at     *uint32
-	addupdate_at  *uint32
+	addupdate_at  *int32
 	delete_at     *uint32
-	adddelete_at  *uint32
+	adddelete_at  *int32
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*CouponAllocated, error)
@@ -1941,7 +1980,7 @@ func withCouponAllocatedID(id uuid.UUID) couponallocatedOption {
 		m.oldValue = func(ctx context.Context) (*CouponAllocated, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().CouponAllocated.Get(ctx, id)
 				}
@@ -1974,7 +2013,7 @@ func (m CouponAllocatedMutation) Client() *Client {
 // it returns an error otherwise.
 func (m CouponAllocatedMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -1996,40 +2035,23 @@ func (m *CouponAllocatedMutation) ID() (id uuid.UUID, exists bool) {
 	return *m.id, true
 }
 
-// SetUserID sets the "user_id" field.
-func (m *CouponAllocatedMutation) SetUserID(u uuid.UUID) {
-	m.user_id = &u
-}
-
-// UserID returns the value of the "user_id" field in the mutation.
-func (m *CouponAllocatedMutation) UserID() (r uuid.UUID, exists bool) {
-	v := m.user_id
-	if v == nil {
-		return
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *CouponAllocatedMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().CouponAllocated.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
-	return *v, true
-}
-
-// OldUserID returns the old "user_id" field's value of the CouponAllocated entity.
-// If the CouponAllocated object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CouponAllocatedMutation) OldUserID(ctx context.Context) (v uuid.UUID, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUserID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUserID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUserID: %w", err)
-	}
-	return oldValue.UserID, nil
-}
-
-// ResetUserID resets all changes to the "user_id" field.
-func (m *CouponAllocatedMutation) ResetUserID() {
-	m.user_id = nil
 }
 
 // SetAppID sets the "app_id" field.
@@ -2051,10 +2073,10 @@ func (m *CouponAllocatedMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponAllocatedMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2066,6 +2088,42 @@ func (m *CouponAllocatedMutation) OldAppID(ctx context.Context) (v uuid.UUID, er
 // ResetAppID resets all changes to the "app_id" field.
 func (m *CouponAllocatedMutation) ResetAppID() {
 	m.app_id = nil
+}
+
+// SetUserID sets the "user_id" field.
+func (m *CouponAllocatedMutation) SetUserID(u uuid.UUID) {
+	m.user_id = &u
+}
+
+// UserID returns the value of the "user_id" field in the mutation.
+func (m *CouponAllocatedMutation) UserID() (r uuid.UUID, exists bool) {
+	v := m.user_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserID returns the old "user_id" field's value of the CouponAllocated entity.
+// If the CouponAllocated object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CouponAllocatedMutation) OldUserID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserID: %w", err)
+	}
+	return oldValue.UserID, nil
+}
+
+// ResetUserID resets all changes to the "user_id" field.
+func (m *CouponAllocatedMutation) ResetUserID() {
+	m.user_id = nil
 }
 
 // SetType sets the "type" field.
@@ -2087,10 +2145,10 @@ func (m *CouponAllocatedMutation) GetType() (r couponallocated.Type, exists bool
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponAllocatedMutation) OldType(ctx context.Context) (v couponallocated.Type, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldType is only allowed on UpdateOne operations")
+		return v, errors.New("OldType is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldType requires an ID field in the mutation")
+		return v, errors.New("OldType requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2123,10 +2181,10 @@ func (m *CouponAllocatedMutation) CouponID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponAllocatedMutation) OldCouponID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCouponID is only allowed on UpdateOne operations")
+		return v, errors.New("OldCouponID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCouponID requires an ID field in the mutation")
+		return v, errors.New("OldCouponID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2160,10 +2218,10 @@ func (m *CouponAllocatedMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponAllocatedMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2173,7 +2231,7 @@ func (m *CouponAllocatedMutation) OldCreateAt(ctx context.Context) (v uint32, er
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *CouponAllocatedMutation) AddCreateAt(u uint32) {
+func (m *CouponAllocatedMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -2182,7 +2240,7 @@ func (m *CouponAllocatedMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *CouponAllocatedMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *CouponAllocatedMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -2216,10 +2274,10 @@ func (m *CouponAllocatedMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponAllocatedMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2229,7 +2287,7 @@ func (m *CouponAllocatedMutation) OldUpdateAt(ctx context.Context) (v uint32, er
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *CouponAllocatedMutation) AddUpdateAt(u uint32) {
+func (m *CouponAllocatedMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -2238,7 +2296,7 @@ func (m *CouponAllocatedMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *CouponAllocatedMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *CouponAllocatedMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -2272,10 +2330,10 @@ func (m *CouponAllocatedMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponAllocatedMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2285,7 +2343,7 @@ func (m *CouponAllocatedMutation) OldDeleteAt(ctx context.Context) (v uint32, er
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *CouponAllocatedMutation) AddDeleteAt(u uint32) {
+func (m *CouponAllocatedMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -2294,7 +2352,7 @@ func (m *CouponAllocatedMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *CouponAllocatedMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *CouponAllocatedMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -2328,11 +2386,11 @@ func (m *CouponAllocatedMutation) Type() string {
 // AddedFields().
 func (m *CouponAllocatedMutation) Fields() []string {
 	fields := make([]string, 0, 7)
-	if m.user_id != nil {
-		fields = append(fields, couponallocated.FieldUserID)
-	}
 	if m.app_id != nil {
 		fields = append(fields, couponallocated.FieldAppID)
+	}
+	if m.user_id != nil {
+		fields = append(fields, couponallocated.FieldUserID)
 	}
 	if m._type != nil {
 		fields = append(fields, couponallocated.FieldType)
@@ -2357,10 +2415,10 @@ func (m *CouponAllocatedMutation) Fields() []string {
 // schema.
 func (m *CouponAllocatedMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case couponallocated.FieldUserID:
-		return m.UserID()
 	case couponallocated.FieldAppID:
 		return m.AppID()
+	case couponallocated.FieldUserID:
+		return m.UserID()
 	case couponallocated.FieldType:
 		return m.GetType()
 	case couponallocated.FieldCouponID:
@@ -2380,10 +2438,10 @@ func (m *CouponAllocatedMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *CouponAllocatedMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case couponallocated.FieldUserID:
-		return m.OldUserID(ctx)
 	case couponallocated.FieldAppID:
 		return m.OldAppID(ctx)
+	case couponallocated.FieldUserID:
+		return m.OldUserID(ctx)
 	case couponallocated.FieldType:
 		return m.OldType(ctx)
 	case couponallocated.FieldCouponID:
@@ -2403,19 +2461,19 @@ func (m *CouponAllocatedMutation) OldField(ctx context.Context, name string) (en
 // type.
 func (m *CouponAllocatedMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case couponallocated.FieldUserID:
-		v, ok := value.(uuid.UUID)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUserID(v)
-		return nil
 	case couponallocated.FieldAppID:
 		v, ok := value.(uuid.UUID)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAppID(v)
+		return nil
+	case couponallocated.FieldUserID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserID(v)
 		return nil
 	case couponallocated.FieldType:
 		v, ok := value.(couponallocated.Type)
@@ -2493,21 +2551,21 @@ func (m *CouponAllocatedMutation) AddedField(name string) (ent.Value, bool) {
 func (m *CouponAllocatedMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case couponallocated.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case couponallocated.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case couponallocated.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -2540,11 +2598,11 @@ func (m *CouponAllocatedMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *CouponAllocatedMutation) ResetField(name string) error {
 	switch name {
-	case couponallocated.FieldUserID:
-		m.ResetUserID()
-		return nil
 	case couponallocated.FieldAppID:
 		m.ResetAppID()
+		return nil
+	case couponallocated.FieldUserID:
+		m.ResetUserID()
 		return nil
 	case couponallocated.FieldType:
 		m.ResetType()
@@ -2619,24 +2677,24 @@ type CouponPoolMutation struct {
 	op                 Op
 	typ                string
 	id                 *uuid.UUID
+	app_id             *uuid.UUID
 	denomination       *uint64
-	adddenomination    *uint64
+	adddenomination    *int64
 	circulation        *int32
 	addcirculation     *int32
 	release_by_user_id *uuid.UUID
 	start              *uint32
-	addstart           *uint32
+	addstart           *int32
 	duration_days      *int32
 	addduration_days   *int32
-	app_id             *uuid.UUID
 	message            *string
 	name               *string
 	create_at          *uint32
-	addcreate_at       *uint32
+	addcreate_at       *int32
 	update_at          *uint32
-	addupdate_at       *uint32
+	addupdate_at       *int32
 	delete_at          *uint32
-	adddelete_at       *uint32
+	adddelete_at       *int32
 	clearedFields      map[string]struct{}
 	done               bool
 	oldValue           func(context.Context) (*CouponPool, error)
@@ -2673,7 +2731,7 @@ func withCouponPoolID(id uuid.UUID) couponpoolOption {
 		m.oldValue = func(ctx context.Context) (*CouponPool, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().CouponPool.Get(ctx, id)
 				}
@@ -2706,7 +2764,7 @@ func (m CouponPoolMutation) Client() *Client {
 // it returns an error otherwise.
 func (m CouponPoolMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -2726,6 +2784,61 @@ func (m *CouponPoolMutation) ID() (id uuid.UUID, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *CouponPoolMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().CouponPool.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetAppID sets the "app_id" field.
+func (m *CouponPoolMutation) SetAppID(u uuid.UUID) {
+	m.app_id = &u
+}
+
+// AppID returns the value of the "app_id" field in the mutation.
+func (m *CouponPoolMutation) AppID() (r uuid.UUID, exists bool) {
+	v := m.app_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAppID returns the old "app_id" field's value of the CouponPool entity.
+// If the CouponPool object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CouponPoolMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAppID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
+	}
+	return oldValue.AppID, nil
+}
+
+// ResetAppID resets all changes to the "app_id" field.
+func (m *CouponPoolMutation) ResetAppID() {
+	m.app_id = nil
 }
 
 // SetDenomination sets the "denomination" field.
@@ -2748,10 +2861,10 @@ func (m *CouponPoolMutation) Denomination() (r uint64, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponPoolMutation) OldDenomination(ctx context.Context) (v uint64, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDenomination is only allowed on UpdateOne operations")
+		return v, errors.New("OldDenomination is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDenomination requires an ID field in the mutation")
+		return v, errors.New("OldDenomination requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2761,7 +2874,7 @@ func (m *CouponPoolMutation) OldDenomination(ctx context.Context) (v uint64, err
 }
 
 // AddDenomination adds u to the "denomination" field.
-func (m *CouponPoolMutation) AddDenomination(u uint64) {
+func (m *CouponPoolMutation) AddDenomination(u int64) {
 	if m.adddenomination != nil {
 		*m.adddenomination += u
 	} else {
@@ -2770,7 +2883,7 @@ func (m *CouponPoolMutation) AddDenomination(u uint64) {
 }
 
 // AddedDenomination returns the value that was added to the "denomination" field in this mutation.
-func (m *CouponPoolMutation) AddedDenomination() (r uint64, exists bool) {
+func (m *CouponPoolMutation) AddedDenomination() (r int64, exists bool) {
 	v := m.adddenomination
 	if v == nil {
 		return
@@ -2804,10 +2917,10 @@ func (m *CouponPoolMutation) Circulation() (r int32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponPoolMutation) OldCirculation(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCirculation is only allowed on UpdateOne operations")
+		return v, errors.New("OldCirculation is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCirculation requires an ID field in the mutation")
+		return v, errors.New("OldCirculation requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2859,10 +2972,10 @@ func (m *CouponPoolMutation) ReleaseByUserID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponPoolMutation) OldReleaseByUserID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldReleaseByUserID is only allowed on UpdateOne operations")
+		return v, errors.New("OldReleaseByUserID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldReleaseByUserID requires an ID field in the mutation")
+		return v, errors.New("OldReleaseByUserID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2896,10 +3009,10 @@ func (m *CouponPoolMutation) Start() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponPoolMutation) OldStart(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldStart is only allowed on UpdateOne operations")
+		return v, errors.New("OldStart is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldStart requires an ID field in the mutation")
+		return v, errors.New("OldStart requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2909,7 +3022,7 @@ func (m *CouponPoolMutation) OldStart(ctx context.Context) (v uint32, err error)
 }
 
 // AddStart adds u to the "start" field.
-func (m *CouponPoolMutation) AddStart(u uint32) {
+func (m *CouponPoolMutation) AddStart(u int32) {
 	if m.addstart != nil {
 		*m.addstart += u
 	} else {
@@ -2918,7 +3031,7 @@ func (m *CouponPoolMutation) AddStart(u uint32) {
 }
 
 // AddedStart returns the value that was added to the "start" field in this mutation.
-func (m *CouponPoolMutation) AddedStart() (r uint32, exists bool) {
+func (m *CouponPoolMutation) AddedStart() (r int32, exists bool) {
 	v := m.addstart
 	if v == nil {
 		return
@@ -2952,10 +3065,10 @@ func (m *CouponPoolMutation) DurationDays() (r int32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponPoolMutation) OldDurationDays(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDurationDays is only allowed on UpdateOne operations")
+		return v, errors.New("OldDurationDays is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDurationDays requires an ID field in the mutation")
+		return v, errors.New("OldDurationDays requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -2988,42 +3101,6 @@ func (m *CouponPoolMutation) ResetDurationDays() {
 	m.addduration_days = nil
 }
 
-// SetAppID sets the "app_id" field.
-func (m *CouponPoolMutation) SetAppID(u uuid.UUID) {
-	m.app_id = &u
-}
-
-// AppID returns the value of the "app_id" field in the mutation.
-func (m *CouponPoolMutation) AppID() (r uuid.UUID, exists bool) {
-	v := m.app_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldAppID returns the old "app_id" field's value of the CouponPool entity.
-// If the CouponPool object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CouponPoolMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAppID: %w", err)
-	}
-	return oldValue.AppID, nil
-}
-
-// ResetAppID resets all changes to the "app_id" field.
-func (m *CouponPoolMutation) ResetAppID() {
-	m.app_id = nil
-}
-
 // SetMessage sets the "message" field.
 func (m *CouponPoolMutation) SetMessage(s string) {
 	m.message = &s
@@ -3043,10 +3120,10 @@ func (m *CouponPoolMutation) Message() (r string, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponPoolMutation) OldMessage(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldMessage is only allowed on UpdateOne operations")
+		return v, errors.New("OldMessage is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldMessage requires an ID field in the mutation")
+		return v, errors.New("OldMessage requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -3079,10 +3156,10 @@ func (m *CouponPoolMutation) Name() (r string, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponPoolMutation) OldName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldName is only allowed on UpdateOne operations")
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldName requires an ID field in the mutation")
+		return v, errors.New("OldName requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -3116,10 +3193,10 @@ func (m *CouponPoolMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponPoolMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -3129,7 +3206,7 @@ func (m *CouponPoolMutation) OldCreateAt(ctx context.Context) (v uint32, err err
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *CouponPoolMutation) AddCreateAt(u uint32) {
+func (m *CouponPoolMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -3138,7 +3215,7 @@ func (m *CouponPoolMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *CouponPoolMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *CouponPoolMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -3172,10 +3249,10 @@ func (m *CouponPoolMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponPoolMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -3185,7 +3262,7 @@ func (m *CouponPoolMutation) OldUpdateAt(ctx context.Context) (v uint32, err err
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *CouponPoolMutation) AddUpdateAt(u uint32) {
+func (m *CouponPoolMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -3194,7 +3271,7 @@ func (m *CouponPoolMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *CouponPoolMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *CouponPoolMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -3228,10 +3305,10 @@ func (m *CouponPoolMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *CouponPoolMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -3241,7 +3318,7 @@ func (m *CouponPoolMutation) OldDeleteAt(ctx context.Context) (v uint32, err err
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *CouponPoolMutation) AddDeleteAt(u uint32) {
+func (m *CouponPoolMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -3250,7 +3327,7 @@ func (m *CouponPoolMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *CouponPoolMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *CouponPoolMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -3284,6 +3361,9 @@ func (m *CouponPoolMutation) Type() string {
 // AddedFields().
 func (m *CouponPoolMutation) Fields() []string {
 	fields := make([]string, 0, 11)
+	if m.app_id != nil {
+		fields = append(fields, couponpool.FieldAppID)
+	}
 	if m.denomination != nil {
 		fields = append(fields, couponpool.FieldDenomination)
 	}
@@ -3298,9 +3378,6 @@ func (m *CouponPoolMutation) Fields() []string {
 	}
 	if m.duration_days != nil {
 		fields = append(fields, couponpool.FieldDurationDays)
-	}
-	if m.app_id != nil {
-		fields = append(fields, couponpool.FieldAppID)
 	}
 	if m.message != nil {
 		fields = append(fields, couponpool.FieldMessage)
@@ -3325,6 +3402,8 @@ func (m *CouponPoolMutation) Fields() []string {
 // schema.
 func (m *CouponPoolMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case couponpool.FieldAppID:
+		return m.AppID()
 	case couponpool.FieldDenomination:
 		return m.Denomination()
 	case couponpool.FieldCirculation:
@@ -3335,8 +3414,6 @@ func (m *CouponPoolMutation) Field(name string) (ent.Value, bool) {
 		return m.Start()
 	case couponpool.FieldDurationDays:
 		return m.DurationDays()
-	case couponpool.FieldAppID:
-		return m.AppID()
 	case couponpool.FieldMessage:
 		return m.Message()
 	case couponpool.FieldName:
@@ -3356,6 +3433,8 @@ func (m *CouponPoolMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *CouponPoolMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case couponpool.FieldAppID:
+		return m.OldAppID(ctx)
 	case couponpool.FieldDenomination:
 		return m.OldDenomination(ctx)
 	case couponpool.FieldCirculation:
@@ -3366,8 +3445,6 @@ func (m *CouponPoolMutation) OldField(ctx context.Context, name string) (ent.Val
 		return m.OldStart(ctx)
 	case couponpool.FieldDurationDays:
 		return m.OldDurationDays(ctx)
-	case couponpool.FieldAppID:
-		return m.OldAppID(ctx)
 	case couponpool.FieldMessage:
 		return m.OldMessage(ctx)
 	case couponpool.FieldName:
@@ -3387,6 +3464,13 @@ func (m *CouponPoolMutation) OldField(ctx context.Context, name string) (ent.Val
 // type.
 func (m *CouponPoolMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case couponpool.FieldAppID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAppID(v)
+		return nil
 	case couponpool.FieldDenomination:
 		v, ok := value.(uint64)
 		if !ok {
@@ -3421,13 +3505,6 @@ func (m *CouponPoolMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDurationDays(v)
-		return nil
-	case couponpool.FieldAppID:
-		v, ok := value.(uuid.UUID)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetAppID(v)
 		return nil
 	case couponpool.FieldMessage:
 		v, ok := value.(string)
@@ -3525,7 +3602,7 @@ func (m *CouponPoolMutation) AddedField(name string) (ent.Value, bool) {
 func (m *CouponPoolMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case couponpool.FieldDenomination:
-		v, ok := value.(uint64)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3539,7 +3616,7 @@ func (m *CouponPoolMutation) AddField(name string, value ent.Value) error {
 		m.AddCirculation(v)
 		return nil
 	case couponpool.FieldStart:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3553,21 +3630,21 @@ func (m *CouponPoolMutation) AddField(name string, value ent.Value) error {
 		m.AddDurationDays(v)
 		return nil
 	case couponpool.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case couponpool.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case couponpool.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3600,6 +3677,9 @@ func (m *CouponPoolMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *CouponPoolMutation) ResetField(name string) error {
 	switch name {
+	case couponpool.FieldAppID:
+		m.ResetAppID()
+		return nil
 	case couponpool.FieldDenomination:
 		m.ResetDenomination()
 		return nil
@@ -3614,9 +3694,6 @@ func (m *CouponPoolMutation) ResetField(name string) error {
 		return nil
 	case couponpool.FieldDurationDays:
 		m.ResetDurationDays()
-		return nil
-	case couponpool.FieldAppID:
-		m.ResetAppID()
 		return nil
 	case couponpool.FieldMessage:
 		m.ResetMessage()
@@ -3692,17 +3769,17 @@ type DefaultKpiSettingMutation struct {
 	typ           string
 	id            *uuid.UUID
 	amount        *uint64
-	addamount     *uint64
+	addamount     *int64
 	percent       *int32
 	addpercent    *int32
 	app_id        *uuid.UUID
 	good_id       *uuid.UUID
 	create_at     *uint32
-	addcreate_at  *uint32
+	addcreate_at  *int32
 	update_at     *uint32
-	addupdate_at  *uint32
+	addupdate_at  *int32
 	delete_at     *uint32
-	adddelete_at  *uint32
+	adddelete_at  *int32
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*DefaultKpiSetting, error)
@@ -3739,7 +3816,7 @@ func withDefaultKpiSettingID(id uuid.UUID) defaultkpisettingOption {
 		m.oldValue = func(ctx context.Context) (*DefaultKpiSetting, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().DefaultKpiSetting.Get(ctx, id)
 				}
@@ -3772,7 +3849,7 @@ func (m DefaultKpiSettingMutation) Client() *Client {
 // it returns an error otherwise.
 func (m DefaultKpiSettingMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -3792,6 +3869,25 @@ func (m *DefaultKpiSettingMutation) ID() (id uuid.UUID, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *DefaultKpiSettingMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().DefaultKpiSetting.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
 }
 
 // SetAmount sets the "amount" field.
@@ -3814,10 +3910,10 @@ func (m *DefaultKpiSettingMutation) Amount() (r uint64, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DefaultKpiSettingMutation) OldAmount(ctx context.Context) (v uint64, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAmount is only allowed on UpdateOne operations")
+		return v, errors.New("OldAmount is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAmount requires an ID field in the mutation")
+		return v, errors.New("OldAmount requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -3827,7 +3923,7 @@ func (m *DefaultKpiSettingMutation) OldAmount(ctx context.Context) (v uint64, er
 }
 
 // AddAmount adds u to the "amount" field.
-func (m *DefaultKpiSettingMutation) AddAmount(u uint64) {
+func (m *DefaultKpiSettingMutation) AddAmount(u int64) {
 	if m.addamount != nil {
 		*m.addamount += u
 	} else {
@@ -3836,7 +3932,7 @@ func (m *DefaultKpiSettingMutation) AddAmount(u uint64) {
 }
 
 // AddedAmount returns the value that was added to the "amount" field in this mutation.
-func (m *DefaultKpiSettingMutation) AddedAmount() (r uint64, exists bool) {
+func (m *DefaultKpiSettingMutation) AddedAmount() (r int64, exists bool) {
 	v := m.addamount
 	if v == nil {
 		return
@@ -3870,10 +3966,10 @@ func (m *DefaultKpiSettingMutation) Percent() (r int32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DefaultKpiSettingMutation) OldPercent(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldPercent is only allowed on UpdateOne operations")
+		return v, errors.New("OldPercent is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldPercent requires an ID field in the mutation")
+		return v, errors.New("OldPercent requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -3925,10 +4021,10 @@ func (m *DefaultKpiSettingMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DefaultKpiSettingMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -3961,10 +4057,10 @@ func (m *DefaultKpiSettingMutation) GoodID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DefaultKpiSettingMutation) OldGoodID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldGoodID is only allowed on UpdateOne operations")
+		return v, errors.New("OldGoodID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldGoodID requires an ID field in the mutation")
+		return v, errors.New("OldGoodID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -3998,10 +4094,10 @@ func (m *DefaultKpiSettingMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DefaultKpiSettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4011,7 +4107,7 @@ func (m *DefaultKpiSettingMutation) OldCreateAt(ctx context.Context) (v uint32, 
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *DefaultKpiSettingMutation) AddCreateAt(u uint32) {
+func (m *DefaultKpiSettingMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -4020,7 +4116,7 @@ func (m *DefaultKpiSettingMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *DefaultKpiSettingMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *DefaultKpiSettingMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -4054,10 +4150,10 @@ func (m *DefaultKpiSettingMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DefaultKpiSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4067,7 +4163,7 @@ func (m *DefaultKpiSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, 
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *DefaultKpiSettingMutation) AddUpdateAt(u uint32) {
+func (m *DefaultKpiSettingMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -4076,7 +4172,7 @@ func (m *DefaultKpiSettingMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *DefaultKpiSettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *DefaultKpiSettingMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -4110,10 +4206,10 @@ func (m *DefaultKpiSettingMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DefaultKpiSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4123,7 +4219,7 @@ func (m *DefaultKpiSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, 
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *DefaultKpiSettingMutation) AddDeleteAt(u uint32) {
+func (m *DefaultKpiSettingMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -4132,7 +4228,7 @@ func (m *DefaultKpiSettingMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *DefaultKpiSettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *DefaultKpiSettingMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -4341,7 +4437,7 @@ func (m *DefaultKpiSettingMutation) AddedField(name string) (ent.Value, bool) {
 func (m *DefaultKpiSettingMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case defaultkpisetting.FieldAmount:
-		v, ok := value.(uint64)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -4355,21 +4451,21 @@ func (m *DefaultKpiSettingMutation) AddField(name string, value ent.Value) error
 		m.AddPercent(v)
 		return nil
 	case defaultkpisetting.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case defaultkpisetting.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case defaultkpisetting.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -4483,20 +4579,20 @@ type DiscountPoolMutation struct {
 	id                 *uuid.UUID
 	app_id             *uuid.UUID
 	discount           *uint32
-	adddiscount        *uint32
+	adddiscount        *int32
 	release_by_user_id *uuid.UUID
 	start              *uint32
-	addstart           *uint32
+	addstart           *int32
 	duration_days      *int32
 	addduration_days   *int32
 	message            *string
 	name               *string
 	create_at          *uint32
-	addcreate_at       *uint32
+	addcreate_at       *int32
 	update_at          *uint32
-	addupdate_at       *uint32
+	addupdate_at       *int32
 	delete_at          *uint32
-	adddelete_at       *uint32
+	adddelete_at       *int32
 	clearedFields      map[string]struct{}
 	done               bool
 	oldValue           func(context.Context) (*DiscountPool, error)
@@ -4533,7 +4629,7 @@ func withDiscountPoolID(id uuid.UUID) discountpoolOption {
 		m.oldValue = func(ctx context.Context) (*DiscountPool, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().DiscountPool.Get(ctx, id)
 				}
@@ -4566,7 +4662,7 @@ func (m DiscountPoolMutation) Client() *Client {
 // it returns an error otherwise.
 func (m DiscountPoolMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -4588,6 +4684,25 @@ func (m *DiscountPoolMutation) ID() (id uuid.UUID, exists bool) {
 	return *m.id, true
 }
 
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *DiscountPoolMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().DiscountPool.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
 // SetAppID sets the "app_id" field.
 func (m *DiscountPoolMutation) SetAppID(u uuid.UUID) {
 	m.app_id = &u
@@ -4607,10 +4722,10 @@ func (m *DiscountPoolMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DiscountPoolMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4644,10 +4759,10 @@ func (m *DiscountPoolMutation) Discount() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DiscountPoolMutation) OldDiscount(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDiscount is only allowed on UpdateOne operations")
+		return v, errors.New("OldDiscount is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDiscount requires an ID field in the mutation")
+		return v, errors.New("OldDiscount requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4657,7 +4772,7 @@ func (m *DiscountPoolMutation) OldDiscount(ctx context.Context) (v uint32, err e
 }
 
 // AddDiscount adds u to the "discount" field.
-func (m *DiscountPoolMutation) AddDiscount(u uint32) {
+func (m *DiscountPoolMutation) AddDiscount(u int32) {
 	if m.adddiscount != nil {
 		*m.adddiscount += u
 	} else {
@@ -4666,7 +4781,7 @@ func (m *DiscountPoolMutation) AddDiscount(u uint32) {
 }
 
 // AddedDiscount returns the value that was added to the "discount" field in this mutation.
-func (m *DiscountPoolMutation) AddedDiscount() (r uint32, exists bool) {
+func (m *DiscountPoolMutation) AddedDiscount() (r int32, exists bool) {
 	v := m.adddiscount
 	if v == nil {
 		return
@@ -4699,10 +4814,10 @@ func (m *DiscountPoolMutation) ReleaseByUserID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DiscountPoolMutation) OldReleaseByUserID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldReleaseByUserID is only allowed on UpdateOne operations")
+		return v, errors.New("OldReleaseByUserID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldReleaseByUserID requires an ID field in the mutation")
+		return v, errors.New("OldReleaseByUserID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4736,10 +4851,10 @@ func (m *DiscountPoolMutation) Start() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DiscountPoolMutation) OldStart(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldStart is only allowed on UpdateOne operations")
+		return v, errors.New("OldStart is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldStart requires an ID field in the mutation")
+		return v, errors.New("OldStart requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4749,7 +4864,7 @@ func (m *DiscountPoolMutation) OldStart(ctx context.Context) (v uint32, err erro
 }
 
 // AddStart adds u to the "start" field.
-func (m *DiscountPoolMutation) AddStart(u uint32) {
+func (m *DiscountPoolMutation) AddStart(u int32) {
 	if m.addstart != nil {
 		*m.addstart += u
 	} else {
@@ -4758,7 +4873,7 @@ func (m *DiscountPoolMutation) AddStart(u uint32) {
 }
 
 // AddedStart returns the value that was added to the "start" field in this mutation.
-func (m *DiscountPoolMutation) AddedStart() (r uint32, exists bool) {
+func (m *DiscountPoolMutation) AddedStart() (r int32, exists bool) {
 	v := m.addstart
 	if v == nil {
 		return
@@ -4792,10 +4907,10 @@ func (m *DiscountPoolMutation) DurationDays() (r int32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DiscountPoolMutation) OldDurationDays(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDurationDays is only allowed on UpdateOne operations")
+		return v, errors.New("OldDurationDays is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDurationDays requires an ID field in the mutation")
+		return v, errors.New("OldDurationDays requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4847,10 +4962,10 @@ func (m *DiscountPoolMutation) Message() (r string, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DiscountPoolMutation) OldMessage(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldMessage is only allowed on UpdateOne operations")
+		return v, errors.New("OldMessage is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldMessage requires an ID field in the mutation")
+		return v, errors.New("OldMessage requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4883,10 +4998,10 @@ func (m *DiscountPoolMutation) Name() (r string, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DiscountPoolMutation) OldName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldName is only allowed on UpdateOne operations")
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldName requires an ID field in the mutation")
+		return v, errors.New("OldName requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4920,10 +5035,10 @@ func (m *DiscountPoolMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DiscountPoolMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4933,7 +5048,7 @@ func (m *DiscountPoolMutation) OldCreateAt(ctx context.Context) (v uint32, err e
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *DiscountPoolMutation) AddCreateAt(u uint32) {
+func (m *DiscountPoolMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -4942,7 +5057,7 @@ func (m *DiscountPoolMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *DiscountPoolMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *DiscountPoolMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -4976,10 +5091,10 @@ func (m *DiscountPoolMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DiscountPoolMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -4989,7 +5104,7 @@ func (m *DiscountPoolMutation) OldUpdateAt(ctx context.Context) (v uint32, err e
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *DiscountPoolMutation) AddUpdateAt(u uint32) {
+func (m *DiscountPoolMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -4998,7 +5113,7 @@ func (m *DiscountPoolMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *DiscountPoolMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *DiscountPoolMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -5032,10 +5147,10 @@ func (m *DiscountPoolMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *DiscountPoolMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -5045,7 +5160,7 @@ func (m *DiscountPoolMutation) OldDeleteAt(ctx context.Context) (v uint32, err e
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *DiscountPoolMutation) AddDeleteAt(u uint32) {
+func (m *DiscountPoolMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -5054,7 +5169,7 @@ func (m *DiscountPoolMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *DiscountPoolMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *DiscountPoolMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -5310,14 +5425,14 @@ func (m *DiscountPoolMutation) AddedField(name string) (ent.Value, bool) {
 func (m *DiscountPoolMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case discountpool.FieldDiscount:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddDiscount(v)
 		return nil
 	case discountpool.FieldStart:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -5331,21 +5446,21 @@ func (m *DiscountPoolMutation) AddField(name string, value ent.Value) error {
 		m.AddDurationDays(v)
 		return nil
 	case discountpool.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case discountpool.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case discountpool.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -5471,11 +5586,11 @@ type NewUserRewardSettingMutation struct {
 	kyc_coupon_id                 *uuid.UUID
 	auto_generate_invitation_code *bool
 	create_at                     *uint32
-	addcreate_at                  *uint32
+	addcreate_at                  *int32
 	update_at                     *uint32
-	addupdate_at                  *uint32
+	addupdate_at                  *int32
 	delete_at                     *uint32
-	adddelete_at                  *uint32
+	adddelete_at                  *int32
 	clearedFields                 map[string]struct{}
 	done                          bool
 	oldValue                      func(context.Context) (*NewUserRewardSetting, error)
@@ -5512,7 +5627,7 @@ func withNewUserRewardSettingID(id uuid.UUID) newuserrewardsettingOption {
 		m.oldValue = func(ctx context.Context) (*NewUserRewardSetting, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().NewUserRewardSetting.Get(ctx, id)
 				}
@@ -5545,7 +5660,7 @@ func (m NewUserRewardSettingMutation) Client() *Client {
 // it returns an error otherwise.
 func (m NewUserRewardSettingMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -5567,6 +5682,25 @@ func (m *NewUserRewardSettingMutation) ID() (id uuid.UUID, exists bool) {
 	return *m.id, true
 }
 
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *NewUserRewardSettingMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().NewUserRewardSetting.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
 // SetAppID sets the "app_id" field.
 func (m *NewUserRewardSettingMutation) SetAppID(u uuid.UUID) {
 	m.app_id = &u
@@ -5586,10 +5720,10 @@ func (m *NewUserRewardSettingMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *NewUserRewardSettingMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -5622,10 +5756,10 @@ func (m *NewUserRewardSettingMutation) RegistrationCouponID() (r uuid.UUID, exis
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *NewUserRewardSettingMutation) OldRegistrationCouponID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldRegistrationCouponID is only allowed on UpdateOne operations")
+		return v, errors.New("OldRegistrationCouponID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldRegistrationCouponID requires an ID field in the mutation")
+		return v, errors.New("OldRegistrationCouponID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -5658,10 +5792,10 @@ func (m *NewUserRewardSettingMutation) KycCouponID() (r uuid.UUID, exists bool) 
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *NewUserRewardSettingMutation) OldKycCouponID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldKycCouponID is only allowed on UpdateOne operations")
+		return v, errors.New("OldKycCouponID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldKycCouponID requires an ID field in the mutation")
+		return v, errors.New("OldKycCouponID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -5694,10 +5828,10 @@ func (m *NewUserRewardSettingMutation) AutoGenerateInvitationCode() (r bool, exi
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *NewUserRewardSettingMutation) OldAutoGenerateInvitationCode(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAutoGenerateInvitationCode is only allowed on UpdateOne operations")
+		return v, errors.New("OldAutoGenerateInvitationCode is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAutoGenerateInvitationCode requires an ID field in the mutation")
+		return v, errors.New("OldAutoGenerateInvitationCode requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -5731,10 +5865,10 @@ func (m *NewUserRewardSettingMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *NewUserRewardSettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -5744,7 +5878,7 @@ func (m *NewUserRewardSettingMutation) OldCreateAt(ctx context.Context) (v uint3
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *NewUserRewardSettingMutation) AddCreateAt(u uint32) {
+func (m *NewUserRewardSettingMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -5753,7 +5887,7 @@ func (m *NewUserRewardSettingMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *NewUserRewardSettingMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *NewUserRewardSettingMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -5787,10 +5921,10 @@ func (m *NewUserRewardSettingMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *NewUserRewardSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -5800,7 +5934,7 @@ func (m *NewUserRewardSettingMutation) OldUpdateAt(ctx context.Context) (v uint3
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *NewUserRewardSettingMutation) AddUpdateAt(u uint32) {
+func (m *NewUserRewardSettingMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -5809,7 +5943,7 @@ func (m *NewUserRewardSettingMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *NewUserRewardSettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *NewUserRewardSettingMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -5843,10 +5977,10 @@ func (m *NewUserRewardSettingMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *NewUserRewardSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -5856,7 +5990,7 @@ func (m *NewUserRewardSettingMutation) OldDeleteAt(ctx context.Context) (v uint3
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *NewUserRewardSettingMutation) AddDeleteAt(u uint32) {
+func (m *NewUserRewardSettingMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -5865,7 +5999,7 @@ func (m *NewUserRewardSettingMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *NewUserRewardSettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *NewUserRewardSettingMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -6064,21 +6198,21 @@ func (m *NewUserRewardSettingMutation) AddedField(name string) (ent.Value, bool)
 func (m *NewUserRewardSettingMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case newuserrewardsetting.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case newuserrewardsetting.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case newuserrewardsetting.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -6194,11 +6328,11 @@ type PurchaseInvitationMutation struct {
 	order_id           *uuid.UUID
 	invitation_code_id *uuid.UUID
 	create_at          *uint32
-	addcreate_at       *uint32
+	addcreate_at       *int32
 	update_at          *uint32
-	addupdate_at       *uint32
+	addupdate_at       *int32
 	delete_at          *uint32
-	adddelete_at       *uint32
+	adddelete_at       *int32
 	clearedFields      map[string]struct{}
 	done               bool
 	oldValue           func(context.Context) (*PurchaseInvitation, error)
@@ -6235,7 +6369,7 @@ func withPurchaseInvitationID(id uuid.UUID) purchaseinvitationOption {
 		m.oldValue = func(ctx context.Context) (*PurchaseInvitation, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().PurchaseInvitation.Get(ctx, id)
 				}
@@ -6268,7 +6402,7 @@ func (m PurchaseInvitationMutation) Client() *Client {
 // it returns an error otherwise.
 func (m PurchaseInvitationMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -6290,6 +6424,25 @@ func (m *PurchaseInvitationMutation) ID() (id uuid.UUID, exists bool) {
 	return *m.id, true
 }
 
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *PurchaseInvitationMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().PurchaseInvitation.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
 // SetAppID sets the "app_id" field.
 func (m *PurchaseInvitationMutation) SetAppID(u uuid.UUID) {
 	m.app_id = &u
@@ -6309,10 +6462,10 @@ func (m *PurchaseInvitationMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *PurchaseInvitationMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -6345,10 +6498,10 @@ func (m *PurchaseInvitationMutation) OrderID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *PurchaseInvitationMutation) OldOrderID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldOrderID is only allowed on UpdateOne operations")
+		return v, errors.New("OldOrderID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldOrderID requires an ID field in the mutation")
+		return v, errors.New("OldOrderID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -6381,10 +6534,10 @@ func (m *PurchaseInvitationMutation) InvitationCodeID() (r uuid.UUID, exists boo
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *PurchaseInvitationMutation) OldInvitationCodeID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldInvitationCodeID is only allowed on UpdateOne operations")
+		return v, errors.New("OldInvitationCodeID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldInvitationCodeID requires an ID field in the mutation")
+		return v, errors.New("OldInvitationCodeID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -6418,10 +6571,10 @@ func (m *PurchaseInvitationMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *PurchaseInvitationMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -6431,7 +6584,7 @@ func (m *PurchaseInvitationMutation) OldCreateAt(ctx context.Context) (v uint32,
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *PurchaseInvitationMutation) AddCreateAt(u uint32) {
+func (m *PurchaseInvitationMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -6440,7 +6593,7 @@ func (m *PurchaseInvitationMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *PurchaseInvitationMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *PurchaseInvitationMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -6474,10 +6627,10 @@ func (m *PurchaseInvitationMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *PurchaseInvitationMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -6487,7 +6640,7 @@ func (m *PurchaseInvitationMutation) OldUpdateAt(ctx context.Context) (v uint32,
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *PurchaseInvitationMutation) AddUpdateAt(u uint32) {
+func (m *PurchaseInvitationMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -6496,7 +6649,7 @@ func (m *PurchaseInvitationMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *PurchaseInvitationMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *PurchaseInvitationMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -6530,10 +6683,10 @@ func (m *PurchaseInvitationMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *PurchaseInvitationMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -6543,7 +6696,7 @@ func (m *PurchaseInvitationMutation) OldDeleteAt(ctx context.Context) (v uint32,
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *PurchaseInvitationMutation) AddDeleteAt(u uint32) {
+func (m *PurchaseInvitationMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -6552,7 +6705,7 @@ func (m *PurchaseInvitationMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *PurchaseInvitationMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *PurchaseInvitationMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -6737,21 +6890,21 @@ func (m *PurchaseInvitationMutation) AddedField(name string) (ent.Value, bool) {
 func (m *PurchaseInvitationMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case purchaseinvitation.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case purchaseinvitation.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case purchaseinvitation.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -6861,11 +7014,11 @@ type RegistrationInvitationMutation struct {
 	typ           string
 	id            *uuid.UUID
 	create_at     *uint32
-	addcreate_at  *uint32
+	addcreate_at  *int32
 	update_at     *uint32
-	addupdate_at  *uint32
+	addupdate_at  *int32
 	delete_at     *uint32
-	adddelete_at  *uint32
+	adddelete_at  *int32
 	inviter_id    *uuid.UUID
 	invitee_id    *uuid.UUID
 	app_id        *uuid.UUID
@@ -6905,7 +7058,7 @@ func withRegistrationInvitationID(id uuid.UUID) registrationinvitationOption {
 		m.oldValue = func(ctx context.Context) (*RegistrationInvitation, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().RegistrationInvitation.Get(ctx, id)
 				}
@@ -6938,7 +7091,7 @@ func (m RegistrationInvitationMutation) Client() *Client {
 // it returns an error otherwise.
 func (m RegistrationInvitationMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -6958,6 +7111,25 @@ func (m *RegistrationInvitationMutation) ID() (id uuid.UUID, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *RegistrationInvitationMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().RegistrationInvitation.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
 }
 
 // SetCreateAt sets the "create_at" field.
@@ -6980,10 +7152,10 @@ func (m *RegistrationInvitationMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *RegistrationInvitationMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -6993,7 +7165,7 @@ func (m *RegistrationInvitationMutation) OldCreateAt(ctx context.Context) (v uin
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *RegistrationInvitationMutation) AddCreateAt(u uint32) {
+func (m *RegistrationInvitationMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -7002,7 +7174,7 @@ func (m *RegistrationInvitationMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *RegistrationInvitationMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *RegistrationInvitationMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -7036,10 +7208,10 @@ func (m *RegistrationInvitationMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *RegistrationInvitationMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7049,7 +7221,7 @@ func (m *RegistrationInvitationMutation) OldUpdateAt(ctx context.Context) (v uin
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *RegistrationInvitationMutation) AddUpdateAt(u uint32) {
+func (m *RegistrationInvitationMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -7058,7 +7230,7 @@ func (m *RegistrationInvitationMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *RegistrationInvitationMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *RegistrationInvitationMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -7092,10 +7264,10 @@ func (m *RegistrationInvitationMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *RegistrationInvitationMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7105,7 +7277,7 @@ func (m *RegistrationInvitationMutation) OldDeleteAt(ctx context.Context) (v uin
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *RegistrationInvitationMutation) AddDeleteAt(u uint32) {
+func (m *RegistrationInvitationMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -7114,7 +7286,7 @@ func (m *RegistrationInvitationMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *RegistrationInvitationMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *RegistrationInvitationMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -7147,10 +7319,10 @@ func (m *RegistrationInvitationMutation) InviterID() (r uuid.UUID, exists bool) 
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *RegistrationInvitationMutation) OldInviterID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldInviterID is only allowed on UpdateOne operations")
+		return v, errors.New("OldInviterID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldInviterID requires an ID field in the mutation")
+		return v, errors.New("OldInviterID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7183,10 +7355,10 @@ func (m *RegistrationInvitationMutation) InviteeID() (r uuid.UUID, exists bool) 
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *RegistrationInvitationMutation) OldInviteeID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldInviteeID is only allowed on UpdateOne operations")
+		return v, errors.New("OldInviteeID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldInviteeID requires an ID field in the mutation")
+		return v, errors.New("OldInviteeID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7219,10 +7391,10 @@ func (m *RegistrationInvitationMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *RegistrationInvitationMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7407,21 +7579,21 @@ func (m *RegistrationInvitationMutation) AddedField(name string) (ent.Value, boo
 func (m *RegistrationInvitationMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case registrationinvitation.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case registrationinvitation.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case registrationinvitation.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -7534,11 +7706,11 @@ type UserInvitationCodeMutation struct {
 	app_id          *uuid.UUID
 	invitation_code *string
 	create_at       *uint32
-	addcreate_at    *uint32
+	addcreate_at    *int32
 	update_at       *uint32
-	addupdate_at    *uint32
+	addupdate_at    *int32
 	delete_at       *uint32
-	adddelete_at    *uint32
+	adddelete_at    *int32
 	clearedFields   map[string]struct{}
 	done            bool
 	oldValue        func(context.Context) (*UserInvitationCode, error)
@@ -7575,7 +7747,7 @@ func withUserInvitationCodeID(id uuid.UUID) userinvitationcodeOption {
 		m.oldValue = func(ctx context.Context) (*UserInvitationCode, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().UserInvitationCode.Get(ctx, id)
 				}
@@ -7608,7 +7780,7 @@ func (m UserInvitationCodeMutation) Client() *Client {
 // it returns an error otherwise.
 func (m UserInvitationCodeMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -7630,6 +7802,25 @@ func (m *UserInvitationCodeMutation) ID() (id uuid.UUID, exists bool) {
 	return *m.id, true
 }
 
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *UserInvitationCodeMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().UserInvitationCode.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
 // SetUserID sets the "user_id" field.
 func (m *UserInvitationCodeMutation) SetUserID(u uuid.UUID) {
 	m.user_id = &u
@@ -7649,10 +7840,10 @@ func (m *UserInvitationCodeMutation) UserID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserInvitationCodeMutation) OldUserID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUserID is only allowed on UpdateOne operations")
+		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUserID requires an ID field in the mutation")
+		return v, errors.New("OldUserID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7685,10 +7876,10 @@ func (m *UserInvitationCodeMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserInvitationCodeMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7721,10 +7912,10 @@ func (m *UserInvitationCodeMutation) InvitationCode() (r string, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserInvitationCodeMutation) OldInvitationCode(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldInvitationCode is only allowed on UpdateOne operations")
+		return v, errors.New("OldInvitationCode is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldInvitationCode requires an ID field in the mutation")
+		return v, errors.New("OldInvitationCode requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7758,10 +7949,10 @@ func (m *UserInvitationCodeMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserInvitationCodeMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7771,7 +7962,7 @@ func (m *UserInvitationCodeMutation) OldCreateAt(ctx context.Context) (v uint32,
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *UserInvitationCodeMutation) AddCreateAt(u uint32) {
+func (m *UserInvitationCodeMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -7780,7 +7971,7 @@ func (m *UserInvitationCodeMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *UserInvitationCodeMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *UserInvitationCodeMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -7814,10 +8005,10 @@ func (m *UserInvitationCodeMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserInvitationCodeMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7827,7 +8018,7 @@ func (m *UserInvitationCodeMutation) OldUpdateAt(ctx context.Context) (v uint32,
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *UserInvitationCodeMutation) AddUpdateAt(u uint32) {
+func (m *UserInvitationCodeMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -7836,7 +8027,7 @@ func (m *UserInvitationCodeMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *UserInvitationCodeMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *UserInvitationCodeMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -7870,10 +8061,10 @@ func (m *UserInvitationCodeMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserInvitationCodeMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -7883,7 +8074,7 @@ func (m *UserInvitationCodeMutation) OldDeleteAt(ctx context.Context) (v uint32,
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *UserInvitationCodeMutation) AddDeleteAt(u uint32) {
+func (m *UserInvitationCodeMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -7892,7 +8083,7 @@ func (m *UserInvitationCodeMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *UserInvitationCodeMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *UserInvitationCodeMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -8077,21 +8268,21 @@ func (m *UserInvitationCodeMutation) AddedField(name string) (ent.Value, bool) {
 func (m *UserInvitationCodeMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case userinvitationcode.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case userinvitationcode.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case userinvitationcode.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -8201,18 +8392,18 @@ type UserKpiSettingMutation struct {
 	typ           string
 	id            *uuid.UUID
 	amount        *uint64
-	addamount     *uint64
+	addamount     *int64
 	percent       *int32
 	addpercent    *int32
 	app_id        *uuid.UUID
 	good_id       *uuid.UUID
 	user_id       *uuid.UUID
 	create_at     *uint32
-	addcreate_at  *uint32
+	addcreate_at  *int32
 	update_at     *uint32
-	addupdate_at  *uint32
+	addupdate_at  *int32
 	delete_at     *uint32
-	adddelete_at  *uint32
+	adddelete_at  *int32
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*UserKpiSetting, error)
@@ -8249,7 +8440,7 @@ func withUserKpiSettingID(id uuid.UUID) userkpisettingOption {
 		m.oldValue = func(ctx context.Context) (*UserKpiSetting, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().UserKpiSetting.Get(ctx, id)
 				}
@@ -8282,7 +8473,7 @@ func (m UserKpiSettingMutation) Client() *Client {
 // it returns an error otherwise.
 func (m UserKpiSettingMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -8302,6 +8493,25 @@ func (m *UserKpiSettingMutation) ID() (id uuid.UUID, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *UserKpiSettingMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().UserKpiSetting.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
 }
 
 // SetAmount sets the "amount" field.
@@ -8324,10 +8534,10 @@ func (m *UserKpiSettingMutation) Amount() (r uint64, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserKpiSettingMutation) OldAmount(ctx context.Context) (v uint64, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAmount is only allowed on UpdateOne operations")
+		return v, errors.New("OldAmount is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAmount requires an ID field in the mutation")
+		return v, errors.New("OldAmount requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -8337,7 +8547,7 @@ func (m *UserKpiSettingMutation) OldAmount(ctx context.Context) (v uint64, err e
 }
 
 // AddAmount adds u to the "amount" field.
-func (m *UserKpiSettingMutation) AddAmount(u uint64) {
+func (m *UserKpiSettingMutation) AddAmount(u int64) {
 	if m.addamount != nil {
 		*m.addamount += u
 	} else {
@@ -8346,7 +8556,7 @@ func (m *UserKpiSettingMutation) AddAmount(u uint64) {
 }
 
 // AddedAmount returns the value that was added to the "amount" field in this mutation.
-func (m *UserKpiSettingMutation) AddedAmount() (r uint64, exists bool) {
+func (m *UserKpiSettingMutation) AddedAmount() (r int64, exists bool) {
 	v := m.addamount
 	if v == nil {
 		return
@@ -8380,10 +8590,10 @@ func (m *UserKpiSettingMutation) Percent() (r int32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserKpiSettingMutation) OldPercent(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldPercent is only allowed on UpdateOne operations")
+		return v, errors.New("OldPercent is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldPercent requires an ID field in the mutation")
+		return v, errors.New("OldPercent requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -8435,10 +8645,10 @@ func (m *UserKpiSettingMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserKpiSettingMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -8471,10 +8681,10 @@ func (m *UserKpiSettingMutation) GoodID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserKpiSettingMutation) OldGoodID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldGoodID is only allowed on UpdateOne operations")
+		return v, errors.New("OldGoodID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldGoodID requires an ID field in the mutation")
+		return v, errors.New("OldGoodID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -8507,10 +8717,10 @@ func (m *UserKpiSettingMutation) UserID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserKpiSettingMutation) OldUserID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUserID is only allowed on UpdateOne operations")
+		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUserID requires an ID field in the mutation")
+		return v, errors.New("OldUserID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -8544,10 +8754,10 @@ func (m *UserKpiSettingMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserKpiSettingMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -8557,7 +8767,7 @@ func (m *UserKpiSettingMutation) OldCreateAt(ctx context.Context) (v uint32, err
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *UserKpiSettingMutation) AddCreateAt(u uint32) {
+func (m *UserKpiSettingMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -8566,7 +8776,7 @@ func (m *UserKpiSettingMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *UserKpiSettingMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *UserKpiSettingMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -8600,10 +8810,10 @@ func (m *UserKpiSettingMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserKpiSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -8613,7 +8823,7 @@ func (m *UserKpiSettingMutation) OldUpdateAt(ctx context.Context) (v uint32, err
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *UserKpiSettingMutation) AddUpdateAt(u uint32) {
+func (m *UserKpiSettingMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -8622,7 +8832,7 @@ func (m *UserKpiSettingMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *UserKpiSettingMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *UserKpiSettingMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -8656,10 +8866,10 @@ func (m *UserKpiSettingMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserKpiSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -8669,7 +8879,7 @@ func (m *UserKpiSettingMutation) OldDeleteAt(ctx context.Context) (v uint32, err
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *UserKpiSettingMutation) AddDeleteAt(u uint32) {
+func (m *UserKpiSettingMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -8678,7 +8888,7 @@ func (m *UserKpiSettingMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *UserKpiSettingMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *UserKpiSettingMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -8901,7 +9111,7 @@ func (m *UserKpiSettingMutation) AddedField(name string) (ent.Value, bool) {
 func (m *UserKpiSettingMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case userkpisetting.FieldAmount:
-		v, ok := value.(uint64)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -8915,21 +9125,21 @@ func (m *UserKpiSettingMutation) AddField(name string, value ent.Value) error {
 		m.AddPercent(v)
 		return nil
 	case userkpisetting.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case userkpisetting.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case userkpisetting.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -9047,19 +9257,19 @@ type UserSpecialReductionMutation struct {
 	app_id             *uuid.UUID
 	user_id            *uuid.UUID
 	amount             *uint64
-	addamount          *uint64
+	addamount          *int64
 	release_by_user_id *uuid.UUID
 	start              *uint32
-	addstart           *uint32
+	addstart           *int32
 	duration_days      *int32
 	addduration_days   *int32
 	message            *string
 	create_at          *uint32
-	addcreate_at       *uint32
+	addcreate_at       *int32
 	update_at          *uint32
-	addupdate_at       *uint32
+	addupdate_at       *int32
 	delete_at          *uint32
-	adddelete_at       *uint32
+	adddelete_at       *int32
 	clearedFields      map[string]struct{}
 	done               bool
 	oldValue           func(context.Context) (*UserSpecialReduction, error)
@@ -9096,7 +9306,7 @@ func withUserSpecialReductionID(id uuid.UUID) userspecialreductionOption {
 		m.oldValue = func(ctx context.Context) (*UserSpecialReduction, error) {
 			once.Do(func() {
 				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
+					err = errors.New("querying old values post mutation is not allowed")
 				} else {
 					value, err = m.Client().UserSpecialReduction.Get(ctx, id)
 				}
@@ -9129,7 +9339,7 @@ func (m UserSpecialReductionMutation) Client() *Client {
 // it returns an error otherwise.
 func (m UserSpecialReductionMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
 	tx := &Tx{config: m.config}
 	tx.init()
@@ -9151,6 +9361,25 @@ func (m *UserSpecialReductionMutation) ID() (id uuid.UUID, exists bool) {
 	return *m.id, true
 }
 
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *UserSpecialReductionMutation) IDs(ctx context.Context) ([]uuid.UUID, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uuid.UUID{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().UserSpecialReduction.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
 // SetAppID sets the "app_id" field.
 func (m *UserSpecialReductionMutation) SetAppID(u uuid.UUID) {
 	m.app_id = &u
@@ -9170,10 +9399,10 @@ func (m *UserSpecialReductionMutation) AppID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserSpecialReductionMutation) OldAppID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAppID is only allowed on UpdateOne operations")
+		return v, errors.New("OldAppID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAppID requires an ID field in the mutation")
+		return v, errors.New("OldAppID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -9206,10 +9435,10 @@ func (m *UserSpecialReductionMutation) UserID() (r uuid.UUID, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserSpecialReductionMutation) OldUserID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUserID is only allowed on UpdateOne operations")
+		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUserID requires an ID field in the mutation")
+		return v, errors.New("OldUserID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -9243,10 +9472,10 @@ func (m *UserSpecialReductionMutation) Amount() (r uint64, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserSpecialReductionMutation) OldAmount(ctx context.Context) (v uint64, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAmount is only allowed on UpdateOne operations")
+		return v, errors.New("OldAmount is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAmount requires an ID field in the mutation")
+		return v, errors.New("OldAmount requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -9256,7 +9485,7 @@ func (m *UserSpecialReductionMutation) OldAmount(ctx context.Context) (v uint64,
 }
 
 // AddAmount adds u to the "amount" field.
-func (m *UserSpecialReductionMutation) AddAmount(u uint64) {
+func (m *UserSpecialReductionMutation) AddAmount(u int64) {
 	if m.addamount != nil {
 		*m.addamount += u
 	} else {
@@ -9265,7 +9494,7 @@ func (m *UserSpecialReductionMutation) AddAmount(u uint64) {
 }
 
 // AddedAmount returns the value that was added to the "amount" field in this mutation.
-func (m *UserSpecialReductionMutation) AddedAmount() (r uint64, exists bool) {
+func (m *UserSpecialReductionMutation) AddedAmount() (r int64, exists bool) {
 	v := m.addamount
 	if v == nil {
 		return
@@ -9298,10 +9527,10 @@ func (m *UserSpecialReductionMutation) ReleaseByUserID() (r uuid.UUID, exists bo
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserSpecialReductionMutation) OldReleaseByUserID(ctx context.Context) (v uuid.UUID, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldReleaseByUserID is only allowed on UpdateOne operations")
+		return v, errors.New("OldReleaseByUserID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldReleaseByUserID requires an ID field in the mutation")
+		return v, errors.New("OldReleaseByUserID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -9335,10 +9564,10 @@ func (m *UserSpecialReductionMutation) Start() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserSpecialReductionMutation) OldStart(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldStart is only allowed on UpdateOne operations")
+		return v, errors.New("OldStart is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldStart requires an ID field in the mutation")
+		return v, errors.New("OldStart requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -9348,7 +9577,7 @@ func (m *UserSpecialReductionMutation) OldStart(ctx context.Context) (v uint32, 
 }
 
 // AddStart adds u to the "start" field.
-func (m *UserSpecialReductionMutation) AddStart(u uint32) {
+func (m *UserSpecialReductionMutation) AddStart(u int32) {
 	if m.addstart != nil {
 		*m.addstart += u
 	} else {
@@ -9357,7 +9586,7 @@ func (m *UserSpecialReductionMutation) AddStart(u uint32) {
 }
 
 // AddedStart returns the value that was added to the "start" field in this mutation.
-func (m *UserSpecialReductionMutation) AddedStart() (r uint32, exists bool) {
+func (m *UserSpecialReductionMutation) AddedStart() (r int32, exists bool) {
 	v := m.addstart
 	if v == nil {
 		return
@@ -9391,10 +9620,10 @@ func (m *UserSpecialReductionMutation) DurationDays() (r int32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserSpecialReductionMutation) OldDurationDays(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDurationDays is only allowed on UpdateOne operations")
+		return v, errors.New("OldDurationDays is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDurationDays requires an ID field in the mutation")
+		return v, errors.New("OldDurationDays requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -9446,10 +9675,10 @@ func (m *UserSpecialReductionMutation) Message() (r string, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserSpecialReductionMutation) OldMessage(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldMessage is only allowed on UpdateOne operations")
+		return v, errors.New("OldMessage is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldMessage requires an ID field in the mutation")
+		return v, errors.New("OldMessage requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -9483,10 +9712,10 @@ func (m *UserSpecialReductionMutation) CreateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserSpecialReductionMutation) OldCreateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldCreateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldCreateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldCreateAt requires an ID field in the mutation")
+		return v, errors.New("OldCreateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -9496,7 +9725,7 @@ func (m *UserSpecialReductionMutation) OldCreateAt(ctx context.Context) (v uint3
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (m *UserSpecialReductionMutation) AddCreateAt(u uint32) {
+func (m *UserSpecialReductionMutation) AddCreateAt(u int32) {
 	if m.addcreate_at != nil {
 		*m.addcreate_at += u
 	} else {
@@ -9505,7 +9734,7 @@ func (m *UserSpecialReductionMutation) AddCreateAt(u uint32) {
 }
 
 // AddedCreateAt returns the value that was added to the "create_at" field in this mutation.
-func (m *UserSpecialReductionMutation) AddedCreateAt() (r uint32, exists bool) {
+func (m *UserSpecialReductionMutation) AddedCreateAt() (r int32, exists bool) {
 	v := m.addcreate_at
 	if v == nil {
 		return
@@ -9539,10 +9768,10 @@ func (m *UserSpecialReductionMutation) UpdateAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserSpecialReductionMutation) OldUpdateAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldUpdateAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldUpdateAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldUpdateAt requires an ID field in the mutation")
+		return v, errors.New("OldUpdateAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -9552,7 +9781,7 @@ func (m *UserSpecialReductionMutation) OldUpdateAt(ctx context.Context) (v uint3
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (m *UserSpecialReductionMutation) AddUpdateAt(u uint32) {
+func (m *UserSpecialReductionMutation) AddUpdateAt(u int32) {
 	if m.addupdate_at != nil {
 		*m.addupdate_at += u
 	} else {
@@ -9561,7 +9790,7 @@ func (m *UserSpecialReductionMutation) AddUpdateAt(u uint32) {
 }
 
 // AddedUpdateAt returns the value that was added to the "update_at" field in this mutation.
-func (m *UserSpecialReductionMutation) AddedUpdateAt() (r uint32, exists bool) {
+func (m *UserSpecialReductionMutation) AddedUpdateAt() (r int32, exists bool) {
 	v := m.addupdate_at
 	if v == nil {
 		return
@@ -9595,10 +9824,10 @@ func (m *UserSpecialReductionMutation) DeleteAt() (r uint32, exists bool) {
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *UserSpecialReductionMutation) OldDeleteAt(ctx context.Context) (v uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDeleteAt is only allowed on UpdateOne operations")
+		return v, errors.New("OldDeleteAt is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDeleteAt requires an ID field in the mutation")
+		return v, errors.New("OldDeleteAt requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
@@ -9608,7 +9837,7 @@ func (m *UserSpecialReductionMutation) OldDeleteAt(ctx context.Context) (v uint3
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (m *UserSpecialReductionMutation) AddDeleteAt(u uint32) {
+func (m *UserSpecialReductionMutation) AddDeleteAt(u int32) {
 	if m.adddelete_at != nil {
 		*m.adddelete_at += u
 	} else {
@@ -9617,7 +9846,7 @@ func (m *UserSpecialReductionMutation) AddDeleteAt(u uint32) {
 }
 
 // AddedDeleteAt returns the value that was added to the "delete_at" field in this mutation.
-func (m *UserSpecialReductionMutation) AddedDeleteAt() (r uint32, exists bool) {
+func (m *UserSpecialReductionMutation) AddedDeleteAt() (r int32, exists bool) {
 	v := m.adddelete_at
 	if v == nil {
 		return
@@ -9873,14 +10102,14 @@ func (m *UserSpecialReductionMutation) AddedField(name string) (ent.Value, bool)
 func (m *UserSpecialReductionMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case userspecialreduction.FieldAmount:
-		v, ok := value.(uint64)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddAmount(v)
 		return nil
 	case userspecialreduction.FieldStart:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -9894,21 +10123,21 @@ func (m *UserSpecialReductionMutation) AddField(name string, value ent.Value) er
 		m.AddDurationDays(v)
 		return nil
 	case userspecialreduction.FieldCreateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateAt(v)
 		return nil
 	case userspecialreduction.FieldUpdateAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUpdateAt(v)
 		return nil
 	case userspecialreduction.FieldDeleteAt:
-		v, ok := value.(uint32)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

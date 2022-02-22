@@ -95,6 +95,14 @@ func (dksc *DefaultKpiSettingCreate) SetID(u uuid.UUID) *DefaultKpiSettingCreate
 	return dksc
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (dksc *DefaultKpiSettingCreate) SetNillableID(u *uuid.UUID) *DefaultKpiSettingCreate {
+	if u != nil {
+		dksc.SetID(*u)
+	}
+	return dksc
+}
+
 // Mutation returns the DefaultKpiSettingMutation object of the builder.
 func (dksc *DefaultKpiSettingCreate) Mutation() *DefaultKpiSettingMutation {
 	return dksc.mutation
@@ -187,25 +195,25 @@ func (dksc *DefaultKpiSettingCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (dksc *DefaultKpiSettingCreate) check() error {
 	if _, ok := dksc.mutation.Amount(); !ok {
-		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "amount"`)}
+		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "DefaultKpiSetting.amount"`)}
 	}
 	if _, ok := dksc.mutation.Percent(); !ok {
-		return &ValidationError{Name: "percent", err: errors.New(`ent: missing required field "percent"`)}
+		return &ValidationError{Name: "percent", err: errors.New(`ent: missing required field "DefaultKpiSetting.percent"`)}
 	}
 	if _, ok := dksc.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "DefaultKpiSetting.app_id"`)}
 	}
 	if _, ok := dksc.mutation.GoodID(); !ok {
-		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "good_id"`)}
+		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "DefaultKpiSetting.good_id"`)}
 	}
 	if _, ok := dksc.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "DefaultKpiSetting.create_at"`)}
 	}
 	if _, ok := dksc.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "DefaultKpiSetting.update_at"`)}
 	}
 	if _, ok := dksc.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "DefaultKpiSetting.delete_at"`)}
 	}
 	return nil
 }
@@ -219,7 +227,11 @@ func (dksc *DefaultKpiSettingCreate) sqlSave(ctx context.Context) (*DefaultKpiSe
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -238,7 +250,7 @@ func (dksc *DefaultKpiSettingCreate) createSpec() (*DefaultKpiSetting, *sqlgraph
 	_spec.OnConflict = dksc.conflict
 	if id, ok := dksc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
 	}
 	if value, ok := dksc.mutation.Amount(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -362,6 +374,12 @@ func (u *DefaultKpiSettingUpsert) UpdateAmount() *DefaultKpiSettingUpsert {
 	return u
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *DefaultKpiSettingUpsert) AddAmount(v uint64) *DefaultKpiSettingUpsert {
+	u.Add(defaultkpisetting.FieldAmount, v)
+	return u
+}
+
 // SetPercent sets the "percent" field.
 func (u *DefaultKpiSettingUpsert) SetPercent(v int32) *DefaultKpiSettingUpsert {
 	u.Set(defaultkpisetting.FieldPercent, v)
@@ -371,6 +389,12 @@ func (u *DefaultKpiSettingUpsert) SetPercent(v int32) *DefaultKpiSettingUpsert {
 // UpdatePercent sets the "percent" field to the value that was provided on create.
 func (u *DefaultKpiSettingUpsert) UpdatePercent() *DefaultKpiSettingUpsert {
 	u.SetExcluded(defaultkpisetting.FieldPercent)
+	return u
+}
+
+// AddPercent adds v to the "percent" field.
+func (u *DefaultKpiSettingUpsert) AddPercent(v int32) *DefaultKpiSettingUpsert {
+	u.Add(defaultkpisetting.FieldPercent, v)
 	return u
 }
 
@@ -410,6 +434,12 @@ func (u *DefaultKpiSettingUpsert) UpdateCreateAt() *DefaultKpiSettingUpsert {
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *DefaultKpiSettingUpsert) AddCreateAt(v uint32) *DefaultKpiSettingUpsert {
+	u.Add(defaultkpisetting.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *DefaultKpiSettingUpsert) SetUpdateAt(v uint32) *DefaultKpiSettingUpsert {
 	u.Set(defaultkpisetting.FieldUpdateAt, v)
@@ -419,6 +449,12 @@ func (u *DefaultKpiSettingUpsert) SetUpdateAt(v uint32) *DefaultKpiSettingUpsert
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *DefaultKpiSettingUpsert) UpdateUpdateAt() *DefaultKpiSettingUpsert {
 	u.SetExcluded(defaultkpisetting.FieldUpdateAt)
+	return u
+}
+
+// AddUpdateAt adds v to the "update_at" field.
+func (u *DefaultKpiSettingUpsert) AddUpdateAt(v uint32) *DefaultKpiSettingUpsert {
+	u.Add(defaultkpisetting.FieldUpdateAt, v)
 	return u
 }
 
@@ -434,7 +470,13 @@ func (u *DefaultKpiSettingUpsert) UpdateDeleteAt() *DefaultKpiSettingUpsert {
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *DefaultKpiSettingUpsert) AddDeleteAt(v uint32) *DefaultKpiSettingUpsert {
+	u.Add(defaultkpisetting.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.DefaultKpiSetting.Create().
@@ -491,6 +533,13 @@ func (u *DefaultKpiSettingUpsertOne) SetAmount(v uint64) *DefaultKpiSettingUpser
 	})
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *DefaultKpiSettingUpsertOne) AddAmount(v uint64) *DefaultKpiSettingUpsertOne {
+	return u.Update(func(s *DefaultKpiSettingUpsert) {
+		s.AddAmount(v)
+	})
+}
+
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *DefaultKpiSettingUpsertOne) UpdateAmount() *DefaultKpiSettingUpsertOne {
 	return u.Update(func(s *DefaultKpiSettingUpsert) {
@@ -502,6 +551,13 @@ func (u *DefaultKpiSettingUpsertOne) UpdateAmount() *DefaultKpiSettingUpsertOne 
 func (u *DefaultKpiSettingUpsertOne) SetPercent(v int32) *DefaultKpiSettingUpsertOne {
 	return u.Update(func(s *DefaultKpiSettingUpsert) {
 		s.SetPercent(v)
+	})
+}
+
+// AddPercent adds v to the "percent" field.
+func (u *DefaultKpiSettingUpsertOne) AddPercent(v int32) *DefaultKpiSettingUpsertOne {
+	return u.Update(func(s *DefaultKpiSettingUpsert) {
+		s.AddPercent(v)
 	})
 }
 
@@ -547,6 +603,13 @@ func (u *DefaultKpiSettingUpsertOne) SetCreateAt(v uint32) *DefaultKpiSettingUps
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *DefaultKpiSettingUpsertOne) AddCreateAt(v uint32) *DefaultKpiSettingUpsertOne {
+	return u.Update(func(s *DefaultKpiSettingUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *DefaultKpiSettingUpsertOne) UpdateCreateAt() *DefaultKpiSettingUpsertOne {
 	return u.Update(func(s *DefaultKpiSettingUpsert) {
@@ -561,6 +624,13 @@ func (u *DefaultKpiSettingUpsertOne) SetUpdateAt(v uint32) *DefaultKpiSettingUps
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *DefaultKpiSettingUpsertOne) AddUpdateAt(v uint32) *DefaultKpiSettingUpsertOne {
+	return u.Update(func(s *DefaultKpiSettingUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *DefaultKpiSettingUpsertOne) UpdateUpdateAt() *DefaultKpiSettingUpsertOne {
 	return u.Update(func(s *DefaultKpiSettingUpsert) {
@@ -572,6 +642,13 @@ func (u *DefaultKpiSettingUpsertOne) UpdateUpdateAt() *DefaultKpiSettingUpsertOn
 func (u *DefaultKpiSettingUpsertOne) SetDeleteAt(v uint32) *DefaultKpiSettingUpsertOne {
 	return u.Update(func(s *DefaultKpiSettingUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *DefaultKpiSettingUpsertOne) AddDeleteAt(v uint32) *DefaultKpiSettingUpsertOne {
+	return u.Update(func(s *DefaultKpiSettingUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -745,7 +822,7 @@ type DefaultKpiSettingUpsertBulk struct {
 	create *DefaultKpiSettingCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.DefaultKpiSetting.Create().
@@ -805,6 +882,13 @@ func (u *DefaultKpiSettingUpsertBulk) SetAmount(v uint64) *DefaultKpiSettingUpse
 	})
 }
 
+// AddAmount adds v to the "amount" field.
+func (u *DefaultKpiSettingUpsertBulk) AddAmount(v uint64) *DefaultKpiSettingUpsertBulk {
+	return u.Update(func(s *DefaultKpiSettingUpsert) {
+		s.AddAmount(v)
+	})
+}
+
 // UpdateAmount sets the "amount" field to the value that was provided on create.
 func (u *DefaultKpiSettingUpsertBulk) UpdateAmount() *DefaultKpiSettingUpsertBulk {
 	return u.Update(func(s *DefaultKpiSettingUpsert) {
@@ -816,6 +900,13 @@ func (u *DefaultKpiSettingUpsertBulk) UpdateAmount() *DefaultKpiSettingUpsertBul
 func (u *DefaultKpiSettingUpsertBulk) SetPercent(v int32) *DefaultKpiSettingUpsertBulk {
 	return u.Update(func(s *DefaultKpiSettingUpsert) {
 		s.SetPercent(v)
+	})
+}
+
+// AddPercent adds v to the "percent" field.
+func (u *DefaultKpiSettingUpsertBulk) AddPercent(v int32) *DefaultKpiSettingUpsertBulk {
+	return u.Update(func(s *DefaultKpiSettingUpsert) {
+		s.AddPercent(v)
 	})
 }
 
@@ -861,6 +952,13 @@ func (u *DefaultKpiSettingUpsertBulk) SetCreateAt(v uint32) *DefaultKpiSettingUp
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *DefaultKpiSettingUpsertBulk) AddCreateAt(v uint32) *DefaultKpiSettingUpsertBulk {
+	return u.Update(func(s *DefaultKpiSettingUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *DefaultKpiSettingUpsertBulk) UpdateCreateAt() *DefaultKpiSettingUpsertBulk {
 	return u.Update(func(s *DefaultKpiSettingUpsert) {
@@ -875,6 +973,13 @@ func (u *DefaultKpiSettingUpsertBulk) SetUpdateAt(v uint32) *DefaultKpiSettingUp
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *DefaultKpiSettingUpsertBulk) AddUpdateAt(v uint32) *DefaultKpiSettingUpsertBulk {
+	return u.Update(func(s *DefaultKpiSettingUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *DefaultKpiSettingUpsertBulk) UpdateUpdateAt() *DefaultKpiSettingUpsertBulk {
 	return u.Update(func(s *DefaultKpiSettingUpsert) {
@@ -886,6 +991,13 @@ func (u *DefaultKpiSettingUpsertBulk) UpdateUpdateAt() *DefaultKpiSettingUpsertB
 func (u *DefaultKpiSettingUpsertBulk) SetDeleteAt(v uint32) *DefaultKpiSettingUpsertBulk {
 	return u.Update(func(s *DefaultKpiSettingUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *DefaultKpiSettingUpsertBulk) AddDeleteAt(v uint32) *DefaultKpiSettingUpsertBulk {
+	return u.Update(func(s *DefaultKpiSettingUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

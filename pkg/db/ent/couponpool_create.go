@@ -23,6 +23,12 @@ type CouponPoolCreate struct {
 	conflict []sql.ConflictOption
 }
 
+// SetAppID sets the "app_id" field.
+func (cpc *CouponPoolCreate) SetAppID(u uuid.UUID) *CouponPoolCreate {
+	cpc.mutation.SetAppID(u)
+	return cpc
+}
+
 // SetDenomination sets the "denomination" field.
 func (cpc *CouponPoolCreate) SetDenomination(u uint64) *CouponPoolCreate {
 	cpc.mutation.SetDenomination(u)
@@ -50,12 +56,6 @@ func (cpc *CouponPoolCreate) SetStart(u uint32) *CouponPoolCreate {
 // SetDurationDays sets the "duration_days" field.
 func (cpc *CouponPoolCreate) SetDurationDays(i int32) *CouponPoolCreate {
 	cpc.mutation.SetDurationDays(i)
-	return cpc
-}
-
-// SetAppID sets the "app_id" field.
-func (cpc *CouponPoolCreate) SetAppID(u uuid.UUID) *CouponPoolCreate {
-	cpc.mutation.SetAppID(u)
 	return cpc
 }
 
@@ -116,6 +116,14 @@ func (cpc *CouponPoolCreate) SetNillableDeleteAt(u *uint32) *CouponPoolCreate {
 // SetID sets the "id" field.
 func (cpc *CouponPoolCreate) SetID(u uuid.UUID) *CouponPoolCreate {
 	cpc.mutation.SetID(u)
+	return cpc
+}
+
+// SetNillableID sets the "id" field if the given value is not nil.
+func (cpc *CouponPoolCreate) SetNillableID(u *uuid.UUID) *CouponPoolCreate {
+	if u != nil {
+		cpc.SetID(*u)
+	}
 	return cpc
 }
 
@@ -210,48 +218,48 @@ func (cpc *CouponPoolCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (cpc *CouponPoolCreate) check() error {
+	if _, ok := cpc.mutation.AppID(); !ok {
+		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "CouponPool.app_id"`)}
+	}
 	if _, ok := cpc.mutation.Denomination(); !ok {
-		return &ValidationError{Name: "denomination", err: errors.New(`ent: missing required field "denomination"`)}
+		return &ValidationError{Name: "denomination", err: errors.New(`ent: missing required field "CouponPool.denomination"`)}
 	}
 	if _, ok := cpc.mutation.Circulation(); !ok {
-		return &ValidationError{Name: "circulation", err: errors.New(`ent: missing required field "circulation"`)}
+		return &ValidationError{Name: "circulation", err: errors.New(`ent: missing required field "CouponPool.circulation"`)}
 	}
 	if _, ok := cpc.mutation.ReleaseByUserID(); !ok {
-		return &ValidationError{Name: "release_by_user_id", err: errors.New(`ent: missing required field "release_by_user_id"`)}
+		return &ValidationError{Name: "release_by_user_id", err: errors.New(`ent: missing required field "CouponPool.release_by_user_id"`)}
 	}
 	if _, ok := cpc.mutation.Start(); !ok {
-		return &ValidationError{Name: "start", err: errors.New(`ent: missing required field "start"`)}
+		return &ValidationError{Name: "start", err: errors.New(`ent: missing required field "CouponPool.start"`)}
 	}
 	if _, ok := cpc.mutation.DurationDays(); !ok {
-		return &ValidationError{Name: "duration_days", err: errors.New(`ent: missing required field "duration_days"`)}
-	}
-	if _, ok := cpc.mutation.AppID(); !ok {
-		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "app_id"`)}
+		return &ValidationError{Name: "duration_days", err: errors.New(`ent: missing required field "CouponPool.duration_days"`)}
 	}
 	if _, ok := cpc.mutation.Message(); !ok {
-		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "message"`)}
+		return &ValidationError{Name: "message", err: errors.New(`ent: missing required field "CouponPool.message"`)}
 	}
 	if v, ok := cpc.mutation.Message(); ok {
 		if err := couponpool.MessageValidator(v); err != nil {
-			return &ValidationError{Name: "message", err: fmt.Errorf(`ent: validator failed for field "message": %w`, err)}
+			return &ValidationError{Name: "message", err: fmt.Errorf(`ent: validator failed for field "CouponPool.message": %w`, err)}
 		}
 	}
 	if _, ok := cpc.mutation.Name(); !ok {
-		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "name"`)}
+		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "CouponPool.name"`)}
 	}
 	if v, ok := cpc.mutation.Name(); ok {
 		if err := couponpool.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "name": %w`, err)}
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "CouponPool.name": %w`, err)}
 		}
 	}
 	if _, ok := cpc.mutation.CreateAt(); !ok {
-		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "create_at"`)}
+		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "CouponPool.create_at"`)}
 	}
 	if _, ok := cpc.mutation.UpdateAt(); !ok {
-		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "update_at"`)}
+		return &ValidationError{Name: "update_at", err: errors.New(`ent: missing required field "CouponPool.update_at"`)}
 	}
 	if _, ok := cpc.mutation.DeleteAt(); !ok {
-		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "delete_at"`)}
+		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "CouponPool.delete_at"`)}
 	}
 	return nil
 }
@@ -265,7 +273,11 @@ func (cpc *CouponPoolCreate) sqlSave(ctx context.Context) (*CouponPool, error) {
 		return nil, err
 	}
 	if _spec.ID.Value != nil {
-		_node.ID = _spec.ID.Value.(uuid.UUID)
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	return _node, nil
 }
@@ -284,7 +296,15 @@ func (cpc *CouponPoolCreate) createSpec() (*CouponPool, *sqlgraph.CreateSpec) {
 	_spec.OnConflict = cpc.conflict
 	if id, ok := cpc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
+	}
+	if value, ok := cpc.mutation.AppID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: couponpool.FieldAppID,
+		})
+		_node.AppID = value
 	}
 	if value, ok := cpc.mutation.Denomination(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -325,14 +345,6 @@ func (cpc *CouponPoolCreate) createSpec() (*CouponPool, *sqlgraph.CreateSpec) {
 			Column: couponpool.FieldDurationDays,
 		})
 		_node.DurationDays = value
-	}
-	if value, ok := cpc.mutation.AppID(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeUUID,
-			Value:  value,
-			Column: couponpool.FieldAppID,
-		})
-		_node.AppID = value
 	}
 	if value, ok := cpc.mutation.Message(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -381,7 +393,7 @@ func (cpc *CouponPoolCreate) createSpec() (*CouponPool, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.CouponPool.Create().
-//		SetDenomination(v).
+//		SetAppID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -390,7 +402,7 @@ func (cpc *CouponPoolCreate) createSpec() (*CouponPool, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.CouponPoolUpsert) {
-//			SetDenomination(v+v).
+//			SetAppID(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -428,6 +440,18 @@ type (
 	}
 )
 
+// SetAppID sets the "app_id" field.
+func (u *CouponPoolUpsert) SetAppID(v uuid.UUID) *CouponPoolUpsert {
+	u.Set(couponpool.FieldAppID, v)
+	return u
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *CouponPoolUpsert) UpdateAppID() *CouponPoolUpsert {
+	u.SetExcluded(couponpool.FieldAppID)
+	return u
+}
+
 // SetDenomination sets the "denomination" field.
 func (u *CouponPoolUpsert) SetDenomination(v uint64) *CouponPoolUpsert {
 	u.Set(couponpool.FieldDenomination, v)
@@ -440,6 +464,12 @@ func (u *CouponPoolUpsert) UpdateDenomination() *CouponPoolUpsert {
 	return u
 }
 
+// AddDenomination adds v to the "denomination" field.
+func (u *CouponPoolUpsert) AddDenomination(v uint64) *CouponPoolUpsert {
+	u.Add(couponpool.FieldDenomination, v)
+	return u
+}
+
 // SetCirculation sets the "circulation" field.
 func (u *CouponPoolUpsert) SetCirculation(v int32) *CouponPoolUpsert {
 	u.Set(couponpool.FieldCirculation, v)
@@ -449,6 +479,12 @@ func (u *CouponPoolUpsert) SetCirculation(v int32) *CouponPoolUpsert {
 // UpdateCirculation sets the "circulation" field to the value that was provided on create.
 func (u *CouponPoolUpsert) UpdateCirculation() *CouponPoolUpsert {
 	u.SetExcluded(couponpool.FieldCirculation)
+	return u
+}
+
+// AddCirculation adds v to the "circulation" field.
+func (u *CouponPoolUpsert) AddCirculation(v int32) *CouponPoolUpsert {
+	u.Add(couponpool.FieldCirculation, v)
 	return u
 }
 
@@ -476,6 +512,12 @@ func (u *CouponPoolUpsert) UpdateStart() *CouponPoolUpsert {
 	return u
 }
 
+// AddStart adds v to the "start" field.
+func (u *CouponPoolUpsert) AddStart(v uint32) *CouponPoolUpsert {
+	u.Add(couponpool.FieldStart, v)
+	return u
+}
+
 // SetDurationDays sets the "duration_days" field.
 func (u *CouponPoolUpsert) SetDurationDays(v int32) *CouponPoolUpsert {
 	u.Set(couponpool.FieldDurationDays, v)
@@ -488,15 +530,9 @@ func (u *CouponPoolUpsert) UpdateDurationDays() *CouponPoolUpsert {
 	return u
 }
 
-// SetAppID sets the "app_id" field.
-func (u *CouponPoolUpsert) SetAppID(v uuid.UUID) *CouponPoolUpsert {
-	u.Set(couponpool.FieldAppID, v)
-	return u
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *CouponPoolUpsert) UpdateAppID() *CouponPoolUpsert {
-	u.SetExcluded(couponpool.FieldAppID)
+// AddDurationDays adds v to the "duration_days" field.
+func (u *CouponPoolUpsert) AddDurationDays(v int32) *CouponPoolUpsert {
+	u.Add(couponpool.FieldDurationDays, v)
 	return u
 }
 
@@ -536,6 +572,12 @@ func (u *CouponPoolUpsert) UpdateCreateAt() *CouponPoolUpsert {
 	return u
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *CouponPoolUpsert) AddCreateAt(v uint32) *CouponPoolUpsert {
+	u.Add(couponpool.FieldCreateAt, v)
+	return u
+}
+
 // SetUpdateAt sets the "update_at" field.
 func (u *CouponPoolUpsert) SetUpdateAt(v uint32) *CouponPoolUpsert {
 	u.Set(couponpool.FieldUpdateAt, v)
@@ -545,6 +587,12 @@ func (u *CouponPoolUpsert) SetUpdateAt(v uint32) *CouponPoolUpsert {
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *CouponPoolUpsert) UpdateUpdateAt() *CouponPoolUpsert {
 	u.SetExcluded(couponpool.FieldUpdateAt)
+	return u
+}
+
+// AddUpdateAt adds v to the "update_at" field.
+func (u *CouponPoolUpsert) AddUpdateAt(v uint32) *CouponPoolUpsert {
+	u.Add(couponpool.FieldUpdateAt, v)
 	return u
 }
 
@@ -560,7 +608,13 @@ func (u *CouponPoolUpsert) UpdateDeleteAt() *CouponPoolUpsert {
 	return u
 }
 
-// UpdateNewValues updates the fields using the new values that were set on create except the ID field.
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *CouponPoolUpsert) AddDeleteAt(v uint32) *CouponPoolUpsert {
+	u.Add(couponpool.FieldDeleteAt, v)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.CouponPool.Create().
@@ -610,10 +664,31 @@ func (u *CouponPoolUpsertOne) Update(set func(*CouponPoolUpsert)) *CouponPoolUps
 	return u
 }
 
+// SetAppID sets the "app_id" field.
+func (u *CouponPoolUpsertOne) SetAppID(v uuid.UUID) *CouponPoolUpsertOne {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *CouponPoolUpsertOne) UpdateAppID() *CouponPoolUpsertOne {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.UpdateAppID()
+	})
+}
+
 // SetDenomination sets the "denomination" field.
 func (u *CouponPoolUpsertOne) SetDenomination(v uint64) *CouponPoolUpsertOne {
 	return u.Update(func(s *CouponPoolUpsert) {
 		s.SetDenomination(v)
+	})
+}
+
+// AddDenomination adds v to the "denomination" field.
+func (u *CouponPoolUpsertOne) AddDenomination(v uint64) *CouponPoolUpsertOne {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddDenomination(v)
 	})
 }
 
@@ -628,6 +703,13 @@ func (u *CouponPoolUpsertOne) UpdateDenomination() *CouponPoolUpsertOne {
 func (u *CouponPoolUpsertOne) SetCirculation(v int32) *CouponPoolUpsertOne {
 	return u.Update(func(s *CouponPoolUpsert) {
 		s.SetCirculation(v)
+	})
+}
+
+// AddCirculation adds v to the "circulation" field.
+func (u *CouponPoolUpsertOne) AddCirculation(v int32) *CouponPoolUpsertOne {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddCirculation(v)
 	})
 }
 
@@ -659,6 +741,13 @@ func (u *CouponPoolUpsertOne) SetStart(v uint32) *CouponPoolUpsertOne {
 	})
 }
 
+// AddStart adds v to the "start" field.
+func (u *CouponPoolUpsertOne) AddStart(v uint32) *CouponPoolUpsertOne {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddStart(v)
+	})
+}
+
 // UpdateStart sets the "start" field to the value that was provided on create.
 func (u *CouponPoolUpsertOne) UpdateStart() *CouponPoolUpsertOne {
 	return u.Update(func(s *CouponPoolUpsert) {
@@ -673,24 +762,17 @@ func (u *CouponPoolUpsertOne) SetDurationDays(v int32) *CouponPoolUpsertOne {
 	})
 }
 
+// AddDurationDays adds v to the "duration_days" field.
+func (u *CouponPoolUpsertOne) AddDurationDays(v int32) *CouponPoolUpsertOne {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddDurationDays(v)
+	})
+}
+
 // UpdateDurationDays sets the "duration_days" field to the value that was provided on create.
 func (u *CouponPoolUpsertOne) UpdateDurationDays() *CouponPoolUpsertOne {
 	return u.Update(func(s *CouponPoolUpsert) {
 		s.UpdateDurationDays()
-	})
-}
-
-// SetAppID sets the "app_id" field.
-func (u *CouponPoolUpsertOne) SetAppID(v uuid.UUID) *CouponPoolUpsertOne {
-	return u.Update(func(s *CouponPoolUpsert) {
-		s.SetAppID(v)
-	})
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *CouponPoolUpsertOne) UpdateAppID() *CouponPoolUpsertOne {
-	return u.Update(func(s *CouponPoolUpsert) {
-		s.UpdateAppID()
 	})
 }
 
@@ -729,6 +811,13 @@ func (u *CouponPoolUpsertOne) SetCreateAt(v uint32) *CouponPoolUpsertOne {
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *CouponPoolUpsertOne) AddCreateAt(v uint32) *CouponPoolUpsertOne {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *CouponPoolUpsertOne) UpdateCreateAt() *CouponPoolUpsertOne {
 	return u.Update(func(s *CouponPoolUpsert) {
@@ -743,6 +832,13 @@ func (u *CouponPoolUpsertOne) SetUpdateAt(v uint32) *CouponPoolUpsertOne {
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *CouponPoolUpsertOne) AddUpdateAt(v uint32) *CouponPoolUpsertOne {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *CouponPoolUpsertOne) UpdateUpdateAt() *CouponPoolUpsertOne {
 	return u.Update(func(s *CouponPoolUpsert) {
@@ -754,6 +850,13 @@ func (u *CouponPoolUpsertOne) UpdateUpdateAt() *CouponPoolUpsertOne {
 func (u *CouponPoolUpsertOne) SetDeleteAt(v uint32) *CouponPoolUpsertOne {
 	return u.Update(func(s *CouponPoolUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *CouponPoolUpsertOne) AddDeleteAt(v uint32) *CouponPoolUpsertOne {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 
@@ -896,7 +999,7 @@ func (cpcb *CouponPoolCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.CouponPoolUpsert) {
-//			SetDenomination(v+v).
+//			SetAppID(v+v).
 //		}).
 //		Exec(ctx)
 //
@@ -927,7 +1030,7 @@ type CouponPoolUpsertBulk struct {
 	create *CouponPoolCreateBulk
 }
 
-// UpdateNewValues updates the fields using the new values that
+// UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
 //	client.CouponPool.Create().
@@ -980,10 +1083,31 @@ func (u *CouponPoolUpsertBulk) Update(set func(*CouponPoolUpsert)) *CouponPoolUp
 	return u
 }
 
+// SetAppID sets the "app_id" field.
+func (u *CouponPoolUpsertBulk) SetAppID(v uuid.UUID) *CouponPoolUpsertBulk {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.SetAppID(v)
+	})
+}
+
+// UpdateAppID sets the "app_id" field to the value that was provided on create.
+func (u *CouponPoolUpsertBulk) UpdateAppID() *CouponPoolUpsertBulk {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.UpdateAppID()
+	})
+}
+
 // SetDenomination sets the "denomination" field.
 func (u *CouponPoolUpsertBulk) SetDenomination(v uint64) *CouponPoolUpsertBulk {
 	return u.Update(func(s *CouponPoolUpsert) {
 		s.SetDenomination(v)
+	})
+}
+
+// AddDenomination adds v to the "denomination" field.
+func (u *CouponPoolUpsertBulk) AddDenomination(v uint64) *CouponPoolUpsertBulk {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddDenomination(v)
 	})
 }
 
@@ -998,6 +1122,13 @@ func (u *CouponPoolUpsertBulk) UpdateDenomination() *CouponPoolUpsertBulk {
 func (u *CouponPoolUpsertBulk) SetCirculation(v int32) *CouponPoolUpsertBulk {
 	return u.Update(func(s *CouponPoolUpsert) {
 		s.SetCirculation(v)
+	})
+}
+
+// AddCirculation adds v to the "circulation" field.
+func (u *CouponPoolUpsertBulk) AddCirculation(v int32) *CouponPoolUpsertBulk {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddCirculation(v)
 	})
 }
 
@@ -1029,6 +1160,13 @@ func (u *CouponPoolUpsertBulk) SetStart(v uint32) *CouponPoolUpsertBulk {
 	})
 }
 
+// AddStart adds v to the "start" field.
+func (u *CouponPoolUpsertBulk) AddStart(v uint32) *CouponPoolUpsertBulk {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddStart(v)
+	})
+}
+
 // UpdateStart sets the "start" field to the value that was provided on create.
 func (u *CouponPoolUpsertBulk) UpdateStart() *CouponPoolUpsertBulk {
 	return u.Update(func(s *CouponPoolUpsert) {
@@ -1043,24 +1181,17 @@ func (u *CouponPoolUpsertBulk) SetDurationDays(v int32) *CouponPoolUpsertBulk {
 	})
 }
 
+// AddDurationDays adds v to the "duration_days" field.
+func (u *CouponPoolUpsertBulk) AddDurationDays(v int32) *CouponPoolUpsertBulk {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddDurationDays(v)
+	})
+}
+
 // UpdateDurationDays sets the "duration_days" field to the value that was provided on create.
 func (u *CouponPoolUpsertBulk) UpdateDurationDays() *CouponPoolUpsertBulk {
 	return u.Update(func(s *CouponPoolUpsert) {
 		s.UpdateDurationDays()
-	})
-}
-
-// SetAppID sets the "app_id" field.
-func (u *CouponPoolUpsertBulk) SetAppID(v uuid.UUID) *CouponPoolUpsertBulk {
-	return u.Update(func(s *CouponPoolUpsert) {
-		s.SetAppID(v)
-	})
-}
-
-// UpdateAppID sets the "app_id" field to the value that was provided on create.
-func (u *CouponPoolUpsertBulk) UpdateAppID() *CouponPoolUpsertBulk {
-	return u.Update(func(s *CouponPoolUpsert) {
-		s.UpdateAppID()
 	})
 }
 
@@ -1099,6 +1230,13 @@ func (u *CouponPoolUpsertBulk) SetCreateAt(v uint32) *CouponPoolUpsertBulk {
 	})
 }
 
+// AddCreateAt adds v to the "create_at" field.
+func (u *CouponPoolUpsertBulk) AddCreateAt(v uint32) *CouponPoolUpsertBulk {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddCreateAt(v)
+	})
+}
+
 // UpdateCreateAt sets the "create_at" field to the value that was provided on create.
 func (u *CouponPoolUpsertBulk) UpdateCreateAt() *CouponPoolUpsertBulk {
 	return u.Update(func(s *CouponPoolUpsert) {
@@ -1113,6 +1251,13 @@ func (u *CouponPoolUpsertBulk) SetUpdateAt(v uint32) *CouponPoolUpsertBulk {
 	})
 }
 
+// AddUpdateAt adds v to the "update_at" field.
+func (u *CouponPoolUpsertBulk) AddUpdateAt(v uint32) *CouponPoolUpsertBulk {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddUpdateAt(v)
+	})
+}
+
 // UpdateUpdateAt sets the "update_at" field to the value that was provided on create.
 func (u *CouponPoolUpsertBulk) UpdateUpdateAt() *CouponPoolUpsertBulk {
 	return u.Update(func(s *CouponPoolUpsert) {
@@ -1124,6 +1269,13 @@ func (u *CouponPoolUpsertBulk) UpdateUpdateAt() *CouponPoolUpsertBulk {
 func (u *CouponPoolUpsertBulk) SetDeleteAt(v uint32) *CouponPoolUpsertBulk {
 	return u.Update(func(s *CouponPoolUpsert) {
 		s.SetDeleteAt(v)
+	})
+}
+
+// AddDeleteAt adds v to the "delete_at" field.
+func (u *CouponPoolUpsertBulk) AddDeleteAt(v uint32) *CouponPoolUpsertBulk {
+	return u.Update(func(s *CouponPoolUpsert) {
+		s.AddDeleteAt(v)
 	})
 }
 

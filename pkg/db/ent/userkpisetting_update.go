@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
@@ -35,7 +36,7 @@ func (uksu *UserKpiSettingUpdate) SetAmount(u uint64) *UserKpiSettingUpdate {
 }
 
 // AddAmount adds u to the "amount" field.
-func (uksu *UserKpiSettingUpdate) AddAmount(u uint64) *UserKpiSettingUpdate {
+func (uksu *UserKpiSettingUpdate) AddAmount(u int64) *UserKpiSettingUpdate {
 	uksu.mutation.AddAmount(u)
 	return uksu
 }
@@ -87,7 +88,7 @@ func (uksu *UserKpiSettingUpdate) SetNillableCreateAt(u *uint32) *UserKpiSetting
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (uksu *UserKpiSettingUpdate) AddCreateAt(u uint32) *UserKpiSettingUpdate {
+func (uksu *UserKpiSettingUpdate) AddCreateAt(u int32) *UserKpiSettingUpdate {
 	uksu.mutation.AddCreateAt(u)
 	return uksu
 }
@@ -100,7 +101,7 @@ func (uksu *UserKpiSettingUpdate) SetUpdateAt(u uint32) *UserKpiSettingUpdate {
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (uksu *UserKpiSettingUpdate) AddUpdateAt(u uint32) *UserKpiSettingUpdate {
+func (uksu *UserKpiSettingUpdate) AddUpdateAt(u int32) *UserKpiSettingUpdate {
 	uksu.mutation.AddUpdateAt(u)
 	return uksu
 }
@@ -121,7 +122,7 @@ func (uksu *UserKpiSettingUpdate) SetNillableDeleteAt(u *uint32) *UserKpiSetting
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (uksu *UserKpiSettingUpdate) AddDeleteAt(u uint32) *UserKpiSettingUpdate {
+func (uksu *UserKpiSettingUpdate) AddDeleteAt(u int32) *UserKpiSettingUpdate {
 	uksu.mutation.AddDeleteAt(u)
 	return uksu
 }
@@ -330,7 +331,7 @@ func (uksuo *UserKpiSettingUpdateOne) SetAmount(u uint64) *UserKpiSettingUpdateO
 }
 
 // AddAmount adds u to the "amount" field.
-func (uksuo *UserKpiSettingUpdateOne) AddAmount(u uint64) *UserKpiSettingUpdateOne {
+func (uksuo *UserKpiSettingUpdateOne) AddAmount(u int64) *UserKpiSettingUpdateOne {
 	uksuo.mutation.AddAmount(u)
 	return uksuo
 }
@@ -382,7 +383,7 @@ func (uksuo *UserKpiSettingUpdateOne) SetNillableCreateAt(u *uint32) *UserKpiSet
 }
 
 // AddCreateAt adds u to the "create_at" field.
-func (uksuo *UserKpiSettingUpdateOne) AddCreateAt(u uint32) *UserKpiSettingUpdateOne {
+func (uksuo *UserKpiSettingUpdateOne) AddCreateAt(u int32) *UserKpiSettingUpdateOne {
 	uksuo.mutation.AddCreateAt(u)
 	return uksuo
 }
@@ -395,7 +396,7 @@ func (uksuo *UserKpiSettingUpdateOne) SetUpdateAt(u uint32) *UserKpiSettingUpdat
 }
 
 // AddUpdateAt adds u to the "update_at" field.
-func (uksuo *UserKpiSettingUpdateOne) AddUpdateAt(u uint32) *UserKpiSettingUpdateOne {
+func (uksuo *UserKpiSettingUpdateOne) AddUpdateAt(u int32) *UserKpiSettingUpdateOne {
 	uksuo.mutation.AddUpdateAt(u)
 	return uksuo
 }
@@ -416,7 +417,7 @@ func (uksuo *UserKpiSettingUpdateOne) SetNillableDeleteAt(u *uint32) *UserKpiSet
 }
 
 // AddDeleteAt adds u to the "delete_at" field.
-func (uksuo *UserKpiSettingUpdateOne) AddDeleteAt(u uint32) *UserKpiSettingUpdateOne {
+func (uksuo *UserKpiSettingUpdateOne) AddDeleteAt(u int32) *UserKpiSettingUpdateOne {
 	uksuo.mutation.AddDeleteAt(u)
 	return uksuo
 }
@@ -509,7 +510,7 @@ func (uksuo *UserKpiSettingUpdateOne) sqlSave(ctx context.Context) (_node *UserK
 	}
 	id, ok := uksuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing UserKpiSetting.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "UserKpiSetting.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := uksuo.fields; len(fields) > 0 {

@@ -337,6 +337,10 @@ func (dpq *DiscountPoolQuery) sqlAll(ctx context.Context) ([]*DiscountPool, erro
 
 func (dpq *DiscountPoolQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := dpq.querySpec()
+	_spec.Node.Columns = dpq.fields
+	if len(dpq.fields) > 0 {
+		_spec.Unique = dpq.unique != nil && *dpq.unique
+	}
 	return sqlgraph.CountNodes(ctx, dpq.driver, _spec)
 }
 
@@ -407,6 +411,9 @@ func (dpq *DiscountPoolQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if dpq.sql != nil {
 		selector = dpq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if dpq.unique != nil && *dpq.unique {
+		selector.Distinct()
 	}
 	for _, p := range dpq.predicates {
 		p(selector)
@@ -686,9 +693,7 @@ func (dpgb *DiscountPoolGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range dpgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(dpgb.fields...)...)
