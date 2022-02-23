@@ -23,6 +23,22 @@ func (s *Server) CreateCouponPool(ctx context.Context, in *npool.CreateCouponPoo
 	return resp, nil
 }
 
+func (s *Server) CreateCouponPoolForOtherApp(ctx context.Context, in *npool.CreateCouponPoolForOtherAppRequest) (*npool.CreateCouponPoolForOtherAppResponse, error) {
+	info := in.GetInfo()
+	info.AppID = in.GetTargetAppID()
+
+	resp, err := crud.Create(ctx, &npool.CreateCouponPoolRequest{
+		Info: info,
+	})
+	if err != nil {
+		logger.Sugar().Errorw("create coupon pool error: %w", err)
+		return &npool.CreateCouponPoolForOtherAppResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return &npool.CreateCouponPoolForOtherAppResponse{
+		Info: resp.Info,
+	}, nil
+}
+
 func (s *Server) UpdateCouponPool(ctx context.Context, in *npool.UpdateCouponPoolRequest) (*npool.UpdateCouponPoolResponse, error) {
 	resp, err := crud.Update(ctx, in)
 	if err != nil {
@@ -50,6 +66,19 @@ func (s *Server) GetCouponPoolsByApp(ctx context.Context, in *npool.GetCouponPoo
 	return resp, nil
 }
 
+func (s *Server) GetCouponPoolsByOtherApp(ctx context.Context, in *npool.GetCouponPoolsByOtherAppRequest) (*npool.GetCouponPoolsByOtherAppResponse, error) {
+	resp, err := crud.GetByApp(ctx, &npool.GetCouponPoolsByAppRequest{
+		AppID: in.GetTargetAppID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorw("get coupon pool by app error: %w", err)
+		return &npool.GetCouponPoolsByOtherAppResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return &npool.GetCouponPoolsByOtherAppResponse{
+		Infos: resp.Infos,
+	}, nil
+}
+
 func (s *Server) GetCouponPoolsByAppReleaser(ctx context.Context, in *npool.GetCouponPoolsByAppReleaserRequest) (*npool.GetCouponPoolsByAppReleaserResponse, error) {
 	resp, err := crud.GetByAppReleaser(ctx, in)
 	if err != nil {
@@ -57,4 +86,18 @@ func (s *Server) GetCouponPoolsByAppReleaser(ctx context.Context, in *npool.GetC
 		return &npool.GetCouponPoolsByAppReleaserResponse{}, status.Error(codes.Internal, "internal server error")
 	}
 	return resp, nil
+}
+
+func (s *Server) GetCouponPoolsByOtherAppReleaser(ctx context.Context, in *npool.GetCouponPoolsByOtherAppReleaserRequest) (*npool.GetCouponPoolsByOtherAppReleaserResponse, error) {
+	resp, err := crud.GetByAppReleaser(ctx, &npool.GetCouponPoolsByAppReleaserRequest{
+		AppID:  in.GetTargetAppID(),
+		UserID: in.GetTargetUserID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorw("get coupon pool by app releaser error: %w", err)
+		return &npool.GetCouponPoolsByOtherAppReleaserResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return &npool.GetCouponPoolsByOtherAppReleaserResponse{
+		Infos: resp.Infos,
+	}, nil
 }
