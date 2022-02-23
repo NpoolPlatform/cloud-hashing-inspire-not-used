@@ -39,8 +39,10 @@ func TestCRUD(t *testing.T) {
 	coupon := npool.EventCoupon{
 		AppID:      uuid.New().String(),
 		ActivityID: uuid.New().String(),
-		Event:      uuid.New().String(),
+		Event:      "sharing",
 		CouponID:   uuid.New().String(),
+		Count:      1,
+		Type:       "discount",
 	}
 
 	resp, err := Create(context.Background(), &npool.CreateEventCouponRequest{

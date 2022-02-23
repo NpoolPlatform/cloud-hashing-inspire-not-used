@@ -139,18 +139,12 @@ func (ecu *EventCouponUpdate) Save(ctx context.Context) (int, error) {
 	)
 	ecu.defaults()
 	if len(ecu.hooks) == 0 {
-		if err = ecu.check(); err != nil {
-			return 0, err
-		}
 		affected, err = ecu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*EventCouponMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
-			}
-			if err = ecu.check(); err != nil {
-				return 0, err
 			}
 			ecu.mutation = mutation
 			affected, err = ecu.sqlSave(ctx)
@@ -198,16 +192,6 @@ func (ecu *EventCouponUpdate) defaults() {
 		v := eventcoupon.UpdateDefaultUpdateAt()
 		ecu.mutation.SetUpdateAt(v)
 	}
-}
-
-// check runs all checks and user-defined validators on the builder.
-func (ecu *EventCouponUpdate) check() error {
-	if v, ok := ecu.mutation.Event(); ok {
-		if err := eventcoupon.EventValidator(v); err != nil {
-			return &ValidationError{Name: "event", err: fmt.Errorf(`ent: validator failed for field "EventCoupon.event": %w`, err)}
-		}
-	}
-	return nil
 }
 
 func (ecu *EventCouponUpdate) sqlSave(ctx context.Context) (n int, err error) {
@@ -456,18 +440,12 @@ func (ecuo *EventCouponUpdateOne) Save(ctx context.Context) (*EventCoupon, error
 	)
 	ecuo.defaults()
 	if len(ecuo.hooks) == 0 {
-		if err = ecuo.check(); err != nil {
-			return nil, err
-		}
 		node, err = ecuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*EventCouponMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
-			}
-			if err = ecuo.check(); err != nil {
-				return nil, err
 			}
 			ecuo.mutation = mutation
 			node, err = ecuo.sqlSave(ctx)
@@ -515,16 +493,6 @@ func (ecuo *EventCouponUpdateOne) defaults() {
 		v := eventcoupon.UpdateDefaultUpdateAt()
 		ecuo.mutation.SetUpdateAt(v)
 	}
-}
-
-// check runs all checks and user-defined validators on the builder.
-func (ecuo *EventCouponUpdateOne) check() error {
-	if v, ok := ecuo.mutation.Event(); ok {
-		if err := eventcoupon.EventValidator(v); err != nil {
-			return &ValidationError{Name: "event", err: fmt.Errorf(`ent: validator failed for field "EventCoupon.event": %w`, err)}
-		}
-	}
-	return nil
 }
 
 func (ecuo *EventCouponUpdateOne) sqlSave(ctx context.Context) (_node *EventCoupon, err error) {

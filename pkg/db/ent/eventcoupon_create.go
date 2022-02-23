@@ -221,11 +221,6 @@ func (ecc *EventCouponCreate) check() error {
 	if _, ok := ecc.mutation.Event(); !ok {
 		return &ValidationError{Name: "event", err: errors.New(`ent: missing required field "EventCoupon.event"`)}
 	}
-	if v, ok := ecc.mutation.Event(); ok {
-		if err := eventcoupon.EventValidator(v); err != nil {
-			return &ValidationError{Name: "event", err: fmt.Errorf(`ent: validator failed for field "EventCoupon.event": %w`, err)}
-		}
-	}
 	if _, ok := ecc.mutation.Count(); !ok {
 		return &ValidationError{Name: "count", err: errors.New(`ent: missing required field "EventCoupon.count"`)}
 	}

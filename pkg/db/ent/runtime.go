@@ -183,10 +183,6 @@ func init() {
 	discountpool.DefaultID = discountpoolDescID.Default.(func() uuid.UUID)
 	eventcouponFields := schema.EventCoupon{}.Fields()
 	_ = eventcouponFields
-	// eventcouponDescEvent is the schema descriptor for event field.
-	eventcouponDescEvent := eventcouponFields[5].Descriptor()
-	// eventcoupon.EventValidator is a validator for the "event" field. It is called by the builders before save.
-	eventcoupon.EventValidator = eventcouponDescEvent.Validators[0].(func(string) error)
 	// eventcouponDescCreateAt is the schema descriptor for create_at field.
 	eventcouponDescCreateAt := eventcouponFields[7].Descriptor()
 	// eventcoupon.DefaultCreateAt holds the default value on creation for the create_at field.
