@@ -17,8 +17,8 @@ import (
 func (s *Server) CreateCouponPool(ctx context.Context, in *npool.CreateCouponPoolRequest) (*npool.CreateCouponPoolResponse, error) {
 	resp, err := crud.Create(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("create coupon pool error: %w", err)
-		return &npool.CreateCouponPoolResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("create coupon pool error: %v", err)
+		return &npool.CreateCouponPoolResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -31,8 +31,8 @@ func (s *Server) CreateCouponPoolForOtherApp(ctx context.Context, in *npool.Crea
 		Info: info,
 	})
 	if err != nil {
-		logger.Sugar().Errorw("create coupon pool error: %w", err)
-		return &npool.CreateCouponPoolForOtherAppResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("create coupon pool error: %v", err)
+		return &npool.CreateCouponPoolForOtherAppResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return &npool.CreateCouponPoolForOtherAppResponse{
 		Info: resp.Info,
@@ -42,8 +42,8 @@ func (s *Server) CreateCouponPoolForOtherApp(ctx context.Context, in *npool.Crea
 func (s *Server) UpdateCouponPool(ctx context.Context, in *npool.UpdateCouponPoolRequest) (*npool.UpdateCouponPoolResponse, error) {
 	resp, err := crud.Update(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("update coupon pool error: %w", err)
-		return &npool.UpdateCouponPoolResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("update coupon pool error: %v", err)
+		return &npool.UpdateCouponPoolResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -51,8 +51,8 @@ func (s *Server) UpdateCouponPool(ctx context.Context, in *npool.UpdateCouponPoo
 func (s *Server) GetCouponPool(ctx context.Context, in *npool.GetCouponPoolRequest) (*npool.GetCouponPoolResponse, error) {
 	resp, err := crud.Get(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("get coupon pool error: %w", err)
-		return &npool.GetCouponPoolResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("get coupon pool error: %v", err)
+		return &npool.GetCouponPoolResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -60,8 +60,8 @@ func (s *Server) GetCouponPool(ctx context.Context, in *npool.GetCouponPoolReque
 func (s *Server) GetCouponPoolsByApp(ctx context.Context, in *npool.GetCouponPoolsByAppRequest) (*npool.GetCouponPoolsByAppResponse, error) {
 	resp, err := crud.GetByApp(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("get coupon pool by app error: %w", err)
-		return &npool.GetCouponPoolsByAppResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("get coupon pool by app error: %v", err)
+		return &npool.GetCouponPoolsByAppResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -71,8 +71,8 @@ func (s *Server) GetCouponPoolsByOtherApp(ctx context.Context, in *npool.GetCoup
 		AppID: in.GetTargetAppID(),
 	})
 	if err != nil {
-		logger.Sugar().Errorw("get coupon pool by app error: %w", err)
-		return &npool.GetCouponPoolsByOtherAppResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("get coupon pool by app error: %v", err)
+		return &npool.GetCouponPoolsByOtherAppResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return &npool.GetCouponPoolsByOtherAppResponse{
 		Infos: resp.Infos,
@@ -82,8 +82,8 @@ func (s *Server) GetCouponPoolsByOtherApp(ctx context.Context, in *npool.GetCoup
 func (s *Server) GetCouponPoolsByAppReleaser(ctx context.Context, in *npool.GetCouponPoolsByAppReleaserRequest) (*npool.GetCouponPoolsByAppReleaserResponse, error) {
 	resp, err := crud.GetByAppReleaser(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("get coupon pool by app releaser error: %w", err)
-		return &npool.GetCouponPoolsByAppReleaserResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("get coupon pool by app releaser error: %v", err)
+		return &npool.GetCouponPoolsByAppReleaserResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -94,8 +94,8 @@ func (s *Server) GetCouponPoolsByOtherAppReleaser(ctx context.Context, in *npool
 		UserID: in.GetTargetUserID(),
 	})
 	if err != nil {
-		logger.Sugar().Errorw("get coupon pool by app releaser error: %w", err)
-		return &npool.GetCouponPoolsByOtherAppReleaserResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("get coupon pool by app releaser error: %v", err)
+		return &npool.GetCouponPoolsByOtherAppReleaserResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return &npool.GetCouponPoolsByOtherAppReleaserResponse{
 		Infos: resp.Infos,
