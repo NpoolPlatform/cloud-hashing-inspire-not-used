@@ -58,6 +58,19 @@ func (ecu *EventCouponUpdate) SetEvent(s string) *EventCouponUpdate {
 	return ecu
 }
 
+// SetCount sets the "count" field.
+func (ecu *EventCouponUpdate) SetCount(u uint32) *EventCouponUpdate {
+	ecu.mutation.ResetCount()
+	ecu.mutation.SetCount(u)
+	return ecu
+}
+
+// AddCount adds u to the "count" field.
+func (ecu *EventCouponUpdate) AddCount(u int32) *EventCouponUpdate {
+	ecu.mutation.AddCount(u)
+	return ecu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (ecu *EventCouponUpdate) SetCreateAt(u uint32) *EventCouponUpdate {
 	ecu.mutation.ResetCreateAt()
@@ -250,6 +263,20 @@ func (ecu *EventCouponUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: eventcoupon.FieldEvent,
 		})
 	}
+	if value, ok := ecu.mutation.Count(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: eventcoupon.FieldCount,
+		})
+	}
+	if value, ok := ecu.mutation.AddedCount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: eventcoupon.FieldCount,
+		})
+	}
 	if value, ok := ecu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -338,6 +365,19 @@ func (ecuo *EventCouponUpdateOne) SetCouponID(u uuid.UUID) *EventCouponUpdateOne
 // SetEvent sets the "event" field.
 func (ecuo *EventCouponUpdateOne) SetEvent(s string) *EventCouponUpdateOne {
 	ecuo.mutation.SetEvent(s)
+	return ecuo
+}
+
+// SetCount sets the "count" field.
+func (ecuo *EventCouponUpdateOne) SetCount(u uint32) *EventCouponUpdateOne {
+	ecuo.mutation.ResetCount()
+	ecuo.mutation.SetCount(u)
+	return ecuo
+}
+
+// AddCount adds u to the "count" field.
+func (ecuo *EventCouponUpdateOne) AddCount(u int32) *EventCouponUpdateOne {
+	ecuo.mutation.AddCount(u)
 	return ecuo
 }
 
@@ -555,6 +595,20 @@ func (ecuo *EventCouponUpdateOne) sqlSave(ctx context.Context) (_node *EventCoup
 			Type:   field.TypeString,
 			Value:  value,
 			Column: eventcoupon.FieldEvent,
+		})
+	}
+	if value, ok := ecuo.mutation.Count(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: eventcoupon.FieldCount,
+		})
+	}
+	if value, ok := ecuo.mutation.AddedCount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: eventcoupon.FieldCount,
 		})
 	}
 	if value, ok := ecuo.mutation.CreateAt(); ok {

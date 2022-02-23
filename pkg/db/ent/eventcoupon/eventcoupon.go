@@ -21,6 +21,8 @@ const (
 	FieldCouponID = "coupon_id"
 	// FieldEvent holds the string denoting the event field in the database.
 	FieldEvent = "event"
+	// FieldCount holds the string denoting the count field in the database.
+	FieldCount = "count"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -39,6 +41,7 @@ var Columns = []string{
 	FieldType,
 	FieldCouponID,
 	FieldEvent,
+	FieldCount,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

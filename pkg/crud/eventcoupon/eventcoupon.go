@@ -29,6 +29,9 @@ func validateEventCoupon(info *npool.EventCoupon) error {
 	if info.GetEvent() == "" {
 		return xerrors.Errorf("invalid event")
 	}
+	if info.GetCount() == 0 {
+		return xerrors.Errorf("invalid count")
+	}
 	if info.GetType() != constant.CouponTypeCoupon && info.GetType() != constant.CouponTypeDiscount {
 		return xerrors.Errorf("invalid coupon type")
 	}
@@ -43,6 +46,7 @@ func dbRowToEventCoupon(row *ent.EventCoupon) *npool.EventCoupon {
 		CouponID:   row.CouponID.String(),
 		Event:      row.Event,
 		Type:       row.Type,
+		Count:      row.Count,
 	}
 }
 
@@ -64,6 +68,7 @@ func Create(ctx context.Context, in *npool.CreateEventCouponRequest) (*npool.Cre
 		SetCouponID(uuid.MustParse(in.GetInfo().GetCouponID())).
 		SetEvent(in.GetInfo().GetEvent()).
 		SetType(in.GetInfo().GetType()).
+		SetCount(in.GetInfo().GetCount()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create event coupon: %v", err)
@@ -92,6 +97,7 @@ func Update(ctx context.Context, in *npool.UpdateEventCouponRequest) (*npool.Upd
 	info, err := cli.
 		EventCoupon.
 		UpdateOneID(id).
+		SetCount(in.GetInfo().GetCount()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update event coupon: %v", err)

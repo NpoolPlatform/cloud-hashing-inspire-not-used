@@ -27,6 +27,7 @@ func (EventCoupon) Fields() []ent.Field {
 		field.UUID("coupon_id", uuid.UUID{}),
 		field.String("event").
 			MaxLen(32),
+		field.Uint32("count"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

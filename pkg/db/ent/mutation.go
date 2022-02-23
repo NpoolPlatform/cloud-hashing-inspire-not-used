@@ -6507,6 +6507,8 @@ type EventCouponMutation struct {
 	_type         *string
 	coupon_id     *uuid.UUID
 	event         *string
+	count         *uint32
+	addcount      *int32
 	create_at     *uint32
 	addcreate_at  *int32
 	update_at     *uint32
@@ -6803,6 +6805,62 @@ func (m *EventCouponMutation) ResetEvent() {
 	m.event = nil
 }
 
+// SetCount sets the "count" field.
+func (m *EventCouponMutation) SetCount(u uint32) {
+	m.count = &u
+	m.addcount = nil
+}
+
+// Count returns the value of the "count" field in the mutation.
+func (m *EventCouponMutation) Count() (r uint32, exists bool) {
+	v := m.count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCount returns the old "count" field's value of the EventCoupon entity.
+// If the EventCoupon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EventCouponMutation) OldCount(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCount: %w", err)
+	}
+	return oldValue.Count, nil
+}
+
+// AddCount adds u to the "count" field.
+func (m *EventCouponMutation) AddCount(u int32) {
+	if m.addcount != nil {
+		*m.addcount += u
+	} else {
+		m.addcount = &u
+	}
+}
+
+// AddedCount returns the value that was added to the "count" field in this mutation.
+func (m *EventCouponMutation) AddedCount() (r int32, exists bool) {
+	v := m.addcount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCount resets all changes to the "count" field.
+func (m *EventCouponMutation) ResetCount() {
+	m.count = nil
+	m.addcount = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *EventCouponMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -6990,7 +7048,7 @@ func (m *EventCouponMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *EventCouponMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
 	if m.app_id != nil {
 		fields = append(fields, eventcoupon.FieldAppID)
 	}
@@ -7005,6 +7063,9 @@ func (m *EventCouponMutation) Fields() []string {
 	}
 	if m.event != nil {
 		fields = append(fields, eventcoupon.FieldEvent)
+	}
+	if m.count != nil {
+		fields = append(fields, eventcoupon.FieldCount)
 	}
 	if m.create_at != nil {
 		fields = append(fields, eventcoupon.FieldCreateAt)
@@ -7033,6 +7094,8 @@ func (m *EventCouponMutation) Field(name string) (ent.Value, bool) {
 		return m.CouponID()
 	case eventcoupon.FieldEvent:
 		return m.Event()
+	case eventcoupon.FieldCount:
+		return m.Count()
 	case eventcoupon.FieldCreateAt:
 		return m.CreateAt()
 	case eventcoupon.FieldUpdateAt:
@@ -7058,6 +7121,8 @@ func (m *EventCouponMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldCouponID(ctx)
 	case eventcoupon.FieldEvent:
 		return m.OldEvent(ctx)
+	case eventcoupon.FieldCount:
+		return m.OldCount(ctx)
 	case eventcoupon.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case eventcoupon.FieldUpdateAt:
@@ -7108,6 +7173,13 @@ func (m *EventCouponMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetEvent(v)
 		return nil
+	case eventcoupon.FieldCount:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCount(v)
+		return nil
 	case eventcoupon.FieldCreateAt:
 		v, ok := value.(uint32)
 		if !ok {
@@ -7137,6 +7209,9 @@ func (m *EventCouponMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *EventCouponMutation) AddedFields() []string {
 	var fields []string
+	if m.addcount != nil {
+		fields = append(fields, eventcoupon.FieldCount)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, eventcoupon.FieldCreateAt)
 	}
@@ -7154,6 +7229,8 @@ func (m *EventCouponMutation) AddedFields() []string {
 // was not set, or was not defined in the schema.
 func (m *EventCouponMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
+	case eventcoupon.FieldCount:
+		return m.AddedCount()
 	case eventcoupon.FieldCreateAt:
 		return m.AddedCreateAt()
 	case eventcoupon.FieldUpdateAt:
@@ -7169,6 +7246,13 @@ func (m *EventCouponMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *EventCouponMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case eventcoupon.FieldCount:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCount(v)
+		return nil
 	case eventcoupon.FieldCreateAt:
 		v, ok := value.(int32)
 		if !ok {
@@ -7231,6 +7315,9 @@ func (m *EventCouponMutation) ResetField(name string) error {
 		return nil
 	case eventcoupon.FieldEvent:
 		m.ResetEvent()
+		return nil
+	case eventcoupon.FieldCount:
+		m.ResetCount()
 		return nil
 	case eventcoupon.FieldCreateAt:
 		m.ResetCreateAt()

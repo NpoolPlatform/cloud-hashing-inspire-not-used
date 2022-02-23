@@ -26,6 +26,8 @@ type EventCoupon struct {
 	CouponID uuid.UUID `json:"coupon_id,omitempty"`
 	// Event holds the value of the "event" field.
 	Event string `json:"event,omitempty"`
+	// Count holds the value of the "count" field.
+	Count uint32 `json:"count,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -39,7 +41,7 @@ func (*EventCoupon) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case eventcoupon.FieldCreateAt, eventcoupon.FieldUpdateAt, eventcoupon.FieldDeleteAt:
+		case eventcoupon.FieldCount, eventcoupon.FieldCreateAt, eventcoupon.FieldUpdateAt, eventcoupon.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case eventcoupon.FieldType, eventcoupon.FieldEvent:
 			values[i] = new(sql.NullString)
@@ -95,6 +97,12 @@ func (ec *EventCoupon) assignValues(columns []string, values []interface{}) erro
 				return fmt.Errorf("unexpected type %T for field event", values[i])
 			} else if value.Valid {
 				ec.Event = value.String
+			}
+		case eventcoupon.FieldCount:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field count", values[i])
+			} else if value.Valid {
+				ec.Count = uint32(value.Int64)
 			}
 		case eventcoupon.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -152,6 +160,8 @@ func (ec *EventCoupon) String() string {
 	builder.WriteString(fmt.Sprintf("%v", ec.CouponID))
 	builder.WriteString(", event=")
 	builder.WriteString(ec.Event)
+	builder.WriteString(", count=")
+	builder.WriteString(fmt.Sprintf("%v", ec.Count))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", ec.CreateAt))
 	builder.WriteString(", update_at=")

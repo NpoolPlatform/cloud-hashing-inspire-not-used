@@ -53,6 +53,12 @@ func (ecc *EventCouponCreate) SetEvent(s string) *EventCouponCreate {
 	return ecc
 }
 
+// SetCount sets the "count" field.
+func (ecc *EventCouponCreate) SetCount(u uint32) *EventCouponCreate {
+	ecc.mutation.SetCount(u)
+	return ecc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (ecc *EventCouponCreate) SetCreateAt(u uint32) *EventCouponCreate {
 	ecc.mutation.SetCreateAt(u)
@@ -220,6 +226,9 @@ func (ecc *EventCouponCreate) check() error {
 			return &ValidationError{Name: "event", err: fmt.Errorf(`ent: validator failed for field "EventCoupon.event": %w`, err)}
 		}
 	}
+	if _, ok := ecc.mutation.Count(); !ok {
+		return &ValidationError{Name: "count", err: errors.New(`ent: missing required field "EventCoupon.count"`)}
+	}
 	if _, ok := ecc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "EventCoupon.create_at"`)}
 	}
@@ -305,6 +314,14 @@ func (ecc *EventCouponCreate) createSpec() (*EventCoupon, *sqlgraph.CreateSpec) 
 			Column: eventcoupon.FieldEvent,
 		})
 		_node.Event = value
+	}
+	if value, ok := ecc.mutation.Count(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: eventcoupon.FieldCount,
+		})
+		_node.Count = value
 	}
 	if value, ok := ecc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -441,6 +458,24 @@ func (u *EventCouponUpsert) SetEvent(v string) *EventCouponUpsert {
 // UpdateEvent sets the "event" field to the value that was provided on create.
 func (u *EventCouponUpsert) UpdateEvent() *EventCouponUpsert {
 	u.SetExcluded(eventcoupon.FieldEvent)
+	return u
+}
+
+// SetCount sets the "count" field.
+func (u *EventCouponUpsert) SetCount(v uint32) *EventCouponUpsert {
+	u.Set(eventcoupon.FieldCount, v)
+	return u
+}
+
+// UpdateCount sets the "count" field to the value that was provided on create.
+func (u *EventCouponUpsert) UpdateCount() *EventCouponUpsert {
+	u.SetExcluded(eventcoupon.FieldCount)
+	return u
+}
+
+// AddCount adds v to the "count" field.
+func (u *EventCouponUpsert) AddCount(v uint32) *EventCouponUpsert {
+	u.Add(eventcoupon.FieldCount, v)
 	return u
 }
 
@@ -615,6 +650,27 @@ func (u *EventCouponUpsertOne) SetEvent(v string) *EventCouponUpsertOne {
 func (u *EventCouponUpsertOne) UpdateEvent() *EventCouponUpsertOne {
 	return u.Update(func(s *EventCouponUpsert) {
 		s.UpdateEvent()
+	})
+}
+
+// SetCount sets the "count" field.
+func (u *EventCouponUpsertOne) SetCount(v uint32) *EventCouponUpsertOne {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.SetCount(v)
+	})
+}
+
+// AddCount adds v to the "count" field.
+func (u *EventCouponUpsertOne) AddCount(v uint32) *EventCouponUpsertOne {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.AddCount(v)
+	})
+}
+
+// UpdateCount sets the "count" field to the value that was provided on create.
+func (u *EventCouponUpsertOne) UpdateCount() *EventCouponUpsertOne {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.UpdateCount()
 	})
 }
 
@@ -964,6 +1020,27 @@ func (u *EventCouponUpsertBulk) SetEvent(v string) *EventCouponUpsertBulk {
 func (u *EventCouponUpsertBulk) UpdateEvent() *EventCouponUpsertBulk {
 	return u.Update(func(s *EventCouponUpsert) {
 		s.UpdateEvent()
+	})
+}
+
+// SetCount sets the "count" field.
+func (u *EventCouponUpsertBulk) SetCount(v uint32) *EventCouponUpsertBulk {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.SetCount(v)
+	})
+}
+
+// AddCount adds v to the "count" field.
+func (u *EventCouponUpsertBulk) AddCount(v uint32) *EventCouponUpsertBulk {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.AddCount(v)
+	})
+}
+
+// UpdateCount sets the "count" field to the value that was provided on create.
+func (u *EventCouponUpsertBulk) UpdateCount() *EventCouponUpsertBulk {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.UpdateCount()
 	})
 }
 
