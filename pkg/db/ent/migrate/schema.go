@@ -16,6 +16,7 @@ var (
 		{Name: "name", Type: field.TypeString, Unique: true},
 		{Name: "start", Type: field.TypeUint32},
 		{Name: "end", Type: field.TypeUint32},
+		{Name: "system_activity", Type: field.TypeBool},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

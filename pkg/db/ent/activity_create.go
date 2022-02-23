@@ -53,6 +53,12 @@ func (ac *ActivityCreate) SetEnd(u uint32) *ActivityCreate {
 	return ac
 }
 
+// SetSystemActivity sets the "system_activity" field.
+func (ac *ActivityCreate) SetSystemActivity(b bool) *ActivityCreate {
+	ac.mutation.SetSystemActivity(b)
+	return ac
+}
+
 // SetCreateAt sets the "create_at" field.
 func (ac *ActivityCreate) SetCreateAt(u uint32) *ActivityCreate {
 	ac.mutation.SetCreateAt(u)
@@ -215,6 +221,9 @@ func (ac *ActivityCreate) check() error {
 	if _, ok := ac.mutation.End(); !ok {
 		return &ValidationError{Name: "end", err: errors.New(`ent: missing required field "Activity.end"`)}
 	}
+	if _, ok := ac.mutation.SystemActivity(); !ok {
+		return &ValidationError{Name: "system_activity", err: errors.New(`ent: missing required field "Activity.system_activity"`)}
+	}
 	if _, ok := ac.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "Activity.create_at"`)}
 	}
@@ -300,6 +309,14 @@ func (ac *ActivityCreate) createSpec() (*Activity, *sqlgraph.CreateSpec) {
 			Column: activity.FieldEnd,
 		})
 		_node.End = value
+	}
+	if value, ok := ac.mutation.SystemActivity(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: activity.FieldSystemActivity,
+		})
+		_node.SystemActivity = value
 	}
 	if value, ok := ac.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -448,6 +465,18 @@ func (u *ActivityUpsert) UpdateEnd() *ActivityUpsert {
 // AddEnd adds v to the "end" field.
 func (u *ActivityUpsert) AddEnd(v uint32) *ActivityUpsert {
 	u.Add(activity.FieldEnd, v)
+	return u
+}
+
+// SetSystemActivity sets the "system_activity" field.
+func (u *ActivityUpsert) SetSystemActivity(v bool) *ActivityUpsert {
+	u.Set(activity.FieldSystemActivity, v)
+	return u
+}
+
+// UpdateSystemActivity sets the "system_activity" field to the value that was provided on create.
+func (u *ActivityUpsert) UpdateSystemActivity() *ActivityUpsert {
+	u.SetExcluded(activity.FieldSystemActivity)
 	return u
 }
 
@@ -636,6 +665,20 @@ func (u *ActivityUpsertOne) AddEnd(v uint32) *ActivityUpsertOne {
 func (u *ActivityUpsertOne) UpdateEnd() *ActivityUpsertOne {
 	return u.Update(func(s *ActivityUpsert) {
 		s.UpdateEnd()
+	})
+}
+
+// SetSystemActivity sets the "system_activity" field.
+func (u *ActivityUpsertOne) SetSystemActivity(v bool) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetSystemActivity(v)
+	})
+}
+
+// UpdateSystemActivity sets the "system_activity" field to the value that was provided on create.
+func (u *ActivityUpsertOne) UpdateSystemActivity() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateSystemActivity()
 	})
 }
 
@@ -999,6 +1042,20 @@ func (u *ActivityUpsertBulk) AddEnd(v uint32) *ActivityUpsertBulk {
 func (u *ActivityUpsertBulk) UpdateEnd() *ActivityUpsertBulk {
 	return u.Update(func(s *ActivityUpsert) {
 		s.UpdateEnd()
+	})
+}
+
+// SetSystemActivity sets the "system_activity" field.
+func (u *ActivityUpsertBulk) SetSystemActivity(v bool) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetSystemActivity(v)
+	})
+}
+
+// UpdateSystemActivity sets the "system_activity" field to the value that was provided on create.
+func (u *ActivityUpsertBulk) UpdateSystemActivity() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateSystemActivity()
 	})
 }
 

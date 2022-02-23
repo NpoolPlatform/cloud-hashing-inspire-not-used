@@ -36,12 +36,13 @@ func validateActivity(info *npool.Activity) error {
 
 func dbRowToActivity(row *ent.Activity) *npool.Activity {
 	return &npool.Activity{
-		ID:        row.ID.String(),
-		AppID:     row.AppID.String(),
-		CreatedBy: row.CreatedBy.String(),
-		Name:      row.Name,
-		Start:     row.Start,
-		End:       row.End,
+		ID:             row.ID.String(),
+		AppID:          row.AppID.String(),
+		CreatedBy:      row.CreatedBy.String(),
+		Name:           row.Name,
+		Start:          row.Start,
+		End:            row.End,
+		SystemActivity: row.SystemActivity,
 	}
 }
 
@@ -63,6 +64,7 @@ func Create(ctx context.Context, in *npool.CreateActivityRequest) (*npool.Create
 		SetName(in.GetInfo().GetName()).
 		SetStart(in.GetInfo().GetStart()).
 		SetEnd(in.GetInfo().GetEnd()).
+		SetSystemActivity(in.GetInfo().GetSystemActivity()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create activity: %v", err)
@@ -94,6 +96,7 @@ func Update(ctx context.Context, in *npool.UpdateActivityRequest) (*npool.Update
 		SetName(in.GetInfo().GetName()).
 		SetStart(in.GetInfo().GetStart()).
 		SetEnd(in.GetInfo().GetEnd()).
+		SetSystemActivity(in.GetInfo().GetSystemActivity()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update activity: %v", err)

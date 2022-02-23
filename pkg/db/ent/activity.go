@@ -26,6 +26,8 @@ type Activity struct {
 	Start uint32 `json:"start,omitempty"`
 	// End holds the value of the "end" field.
 	End uint32 `json:"end,omitempty"`
+	// SystemActivity holds the value of the "system_activity" field.
+	SystemActivity bool `json:"system_activity,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -39,6 +41,8 @@ func (*Activity) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case activity.FieldSystemActivity:
+			values[i] = new(sql.NullBool)
 		case activity.FieldStart, activity.FieldEnd, activity.FieldCreateAt, activity.FieldUpdateAt, activity.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case activity.FieldName:
@@ -96,6 +100,12 @@ func (a *Activity) assignValues(columns []string, values []interface{}) error {
 			} else if value.Valid {
 				a.End = uint32(value.Int64)
 			}
+		case activity.FieldSystemActivity:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field system_activity", values[i])
+			} else if value.Valid {
+				a.SystemActivity = value.Bool
+			}
 		case activity.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_at", values[i])
@@ -152,6 +162,8 @@ func (a *Activity) String() string {
 	builder.WriteString(fmt.Sprintf("%v", a.Start))
 	builder.WriteString(", end=")
 	builder.WriteString(fmt.Sprintf("%v", a.End))
+	builder.WriteString(", system_activity=")
+	builder.WriteString(fmt.Sprintf("%v", a.SystemActivity))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", a.CreateAt))
 	builder.WriteString(", update_at=")

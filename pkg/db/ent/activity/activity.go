@@ -21,6 +21,8 @@ const (
 	FieldStart = "start"
 	// FieldEnd holds the string denoting the end field in the database.
 	FieldEnd = "end"
+	// FieldSystemActivity holds the string denoting the system_activity field in the database.
+	FieldSystemActivity = "system_activity"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -39,6 +41,7 @@ var Columns = []string{
 	FieldName,
 	FieldStart,
 	FieldEnd,
+	FieldSystemActivity,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

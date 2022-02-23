@@ -25,6 +25,7 @@ func (Activity) Fields() []ent.Field {
 		field.String("name").Unique(),
 		field.Uint32("start"),
 		field.Uint32("end"),
+		field.Bool("system_activity"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

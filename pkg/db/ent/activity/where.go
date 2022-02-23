@@ -126,6 +126,13 @@ func End(v uint32) predicate.Activity {
 	})
 }
 
+// SystemActivity applies equality check predicate on the "system_activity" field. It's identical to SystemActivityEQ.
+func SystemActivity(v bool) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldSystemActivity), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.Activity {
 	return predicate.Activity(func(s *sql.Selector) {
@@ -559,6 +566,20 @@ func EndLT(v uint32) predicate.Activity {
 func EndLTE(v uint32) predicate.Activity {
 	return predicate.Activity(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldEnd), v))
+	})
+}
+
+// SystemActivityEQ applies the EQ predicate on the "system_activity" field.
+func SystemActivityEQ(v bool) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldSystemActivity), v))
+	})
+}
+
+// SystemActivityNEQ applies the NEQ predicate on the "system_activity" field.
+func SystemActivityNEQ(v bool) predicate.Activity {
+	return predicate.Activity(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldSystemActivity), v))
 	})
 }
 

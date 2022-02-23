@@ -56,26 +56,27 @@ const (
 // ActivityMutation represents an operation that mutates the Activity nodes in the graph.
 type ActivityMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *uuid.UUID
-	app_id        *uuid.UUID
-	created_by    *uuid.UUID
-	name          *string
-	start         *uint32
-	addstart      *int32
-	end           *uint32
-	addend        *int32
-	create_at     *uint32
-	addcreate_at  *int32
-	update_at     *uint32
-	addupdate_at  *int32
-	delete_at     *uint32
-	adddelete_at  *int32
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*Activity, error)
-	predicates    []predicate.Activity
+	op              Op
+	typ             string
+	id              *uuid.UUID
+	app_id          *uuid.UUID
+	created_by      *uuid.UUID
+	name            *string
+	start           *uint32
+	addstart        *int32
+	end             *uint32
+	addend          *int32
+	system_activity *bool
+	create_at       *uint32
+	addcreate_at    *int32
+	update_at       *uint32
+	addupdate_at    *int32
+	delete_at       *uint32
+	adddelete_at    *int32
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*Activity, error)
+	predicates      []predicate.Activity
 }
 
 var _ ent.Mutation = (*ActivityMutation)(nil)
@@ -402,6 +403,42 @@ func (m *ActivityMutation) ResetEnd() {
 	m.addend = nil
 }
 
+// SetSystemActivity sets the "system_activity" field.
+func (m *ActivityMutation) SetSystemActivity(b bool) {
+	m.system_activity = &b
+}
+
+// SystemActivity returns the value of the "system_activity" field in the mutation.
+func (m *ActivityMutation) SystemActivity() (r bool, exists bool) {
+	v := m.system_activity
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSystemActivity returns the old "system_activity" field's value of the Activity entity.
+// If the Activity object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ActivityMutation) OldSystemActivity(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSystemActivity is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSystemActivity requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSystemActivity: %w", err)
+	}
+	return oldValue.SystemActivity, nil
+}
+
+// ResetSystemActivity resets all changes to the "system_activity" field.
+func (m *ActivityMutation) ResetSystemActivity() {
+	m.system_activity = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *ActivityMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -589,7 +626,7 @@ func (m *ActivityMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ActivityMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
 	if m.app_id != nil {
 		fields = append(fields, activity.FieldAppID)
 	}
@@ -604,6 +641,9 @@ func (m *ActivityMutation) Fields() []string {
 	}
 	if m.end != nil {
 		fields = append(fields, activity.FieldEnd)
+	}
+	if m.system_activity != nil {
+		fields = append(fields, activity.FieldSystemActivity)
 	}
 	if m.create_at != nil {
 		fields = append(fields, activity.FieldCreateAt)
@@ -632,6 +672,8 @@ func (m *ActivityMutation) Field(name string) (ent.Value, bool) {
 		return m.Start()
 	case activity.FieldEnd:
 		return m.End()
+	case activity.FieldSystemActivity:
+		return m.SystemActivity()
 	case activity.FieldCreateAt:
 		return m.CreateAt()
 	case activity.FieldUpdateAt:
@@ -657,6 +699,8 @@ func (m *ActivityMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldStart(ctx)
 	case activity.FieldEnd:
 		return m.OldEnd(ctx)
+	case activity.FieldSystemActivity:
+		return m.OldSystemActivity(ctx)
 	case activity.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case activity.FieldUpdateAt:
@@ -706,6 +750,13 @@ func (m *ActivityMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetEnd(v)
+		return nil
+	case activity.FieldSystemActivity:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSystemActivity(v)
 		return nil
 	case activity.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -854,6 +905,9 @@ func (m *ActivityMutation) ResetField(name string) error {
 		return nil
 	case activity.FieldEnd:
 		m.ResetEnd()
+		return nil
+	case activity.FieldSystemActivity:
+		m.ResetSystemActivity()
 		return nil
 	case activity.FieldCreateAt:
 		m.ResetCreateAt()

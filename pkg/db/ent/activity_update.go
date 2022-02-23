@@ -72,6 +72,12 @@ func (au *ActivityUpdate) AddEnd(u int32) *ActivityUpdate {
 	return au
 }
 
+// SetSystemActivity sets the "system_activity" field.
+func (au *ActivityUpdate) SetSystemActivity(b bool) *ActivityUpdate {
+	au.mutation.SetSystemActivity(b)
+	return au
+}
+
 // SetCreateAt sets the "create_at" field.
 func (au *ActivityUpdate) SetCreateAt(u uint32) *ActivityUpdate {
 	au.mutation.ResetCreateAt()
@@ -262,6 +268,13 @@ func (au *ActivityUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: activity.FieldEnd,
 		})
 	}
+	if value, ok := au.mutation.SystemActivity(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: activity.FieldSystemActivity,
+		})
+	}
 	if value, ok := au.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -364,6 +377,12 @@ func (auo *ActivityUpdateOne) SetEnd(u uint32) *ActivityUpdateOne {
 // AddEnd adds u to the "end" field.
 func (auo *ActivityUpdateOne) AddEnd(u int32) *ActivityUpdateOne {
 	auo.mutation.AddEnd(u)
+	return auo
+}
+
+// SetSystemActivity sets the "system_activity" field.
+func (auo *ActivityUpdateOne) SetSystemActivity(b bool) *ActivityUpdateOne {
+	auo.mutation.SetSystemActivity(b)
 	return auo
 }
 
@@ -579,6 +598,13 @@ func (auo *ActivityUpdateOne) sqlSave(ctx context.Context) (_node *Activity, err
 			Type:   field.TypeUint32,
 			Value:  value,
 			Column: activity.FieldEnd,
+		})
+	}
+	if value, ok := auo.mutation.SystemActivity(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: activity.FieldSystemActivity,
 		})
 	}
 	if value, ok := auo.mutation.CreateAt(); ok {
