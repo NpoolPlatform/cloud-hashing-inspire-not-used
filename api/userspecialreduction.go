@@ -23,6 +23,23 @@ func (s *Server) CreateUserSpecialReduction(ctx context.Context, in *npool.Creat
 	return resp, nil
 }
 
+func (s *Server) CreateUserSpecialReductionForOtherAppUser(ctx context.Context, in *npool.CreateUserSpecialReductionForOtherAppUserRequest) (*npool.CreateUserSpecialReductionForOtherAppUserResponse, error) {
+	info := in.GetInfo()
+	info.AppID = in.GetTargetAppID()
+	info.UserID = in.GetTargetUserID()
+
+	resp, err := crud.Create(ctx, &npool.CreateUserSpecialReductionRequest{
+		Info: info,
+	})
+	if err != nil {
+		logger.Sugar().Errorw("create coupon pool error: %w", err)
+		return &npool.CreateUserSpecialReductionForOtherAppUserResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return &npool.CreateUserSpecialReductionForOtherAppUserResponse{
+		Info: resp.Info,
+	}, nil
+}
+
 func (s *Server) UpdateUserSpecialReduction(ctx context.Context, in *npool.UpdateUserSpecialReductionRequest) (*npool.UpdateUserSpecialReductionResponse, error) {
 	resp, err := crud.Update(ctx, in)
 	if err != nil {
@@ -48,6 +65,19 @@ func (s *Server) GetUserSpecialReductionsByApp(ctx context.Context, in *npool.Ge
 		return &npool.GetUserSpecialReductionsByAppResponse{}, status.Error(codes.Internal, "internal server error")
 	}
 	return resp, nil
+}
+
+func (s *Server) GetUserSpecialReductionsByOtherApp(ctx context.Context, in *npool.GetUserSpecialReductionsByOtherAppRequest) (*npool.GetUserSpecialReductionsByOtherAppResponse, error) {
+	resp, err := crud.GetByApp(ctx, &npool.GetUserSpecialReductionsByAppRequest{
+		AppID: in.GetTargetAppID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorw("get coupon pool by app error: %w", err)
+		return &npool.GetUserSpecialReductionsByOtherAppResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return &npool.GetUserSpecialReductionsByOtherAppResponse{
+		Infos: resp.Infos,
+	}, nil
 }
 
 func (s *Server) GetUserSpecialReductionsByAppReleaser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppReleaserRequest) (*npool.GetUserSpecialReductionsByAppReleaserResponse, error) {
