@@ -21,7 +21,7 @@ type CouponAllocated struct {
 	// UserID holds the value of the "user_id" field.
 	UserID uuid.UUID `json:"user_id,omitempty"`
 	// Type holds the value of the "type" field.
-	Type couponallocated.Type `json:"type,omitempty"`
+	Type string `json:"type,omitempty"`
 	// CouponID holds the value of the "coupon_id" field.
 	CouponID uuid.UUID `json:"coupon_id,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
@@ -80,7 +80,7 @@ func (ca *CouponAllocated) assignValues(columns []string, values []interface{}) 
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				ca.Type = couponallocated.Type(value.String)
+				ca.Type = value.String
 			}
 		case couponallocated.FieldCouponID:
 			if value, ok := values[i].(*uuid.UUID); !ok {
@@ -139,7 +139,7 @@ func (ca *CouponAllocated) String() string {
 	builder.WriteString(", user_id=")
 	builder.WriteString(fmt.Sprintf("%v", ca.UserID))
 	builder.WriteString(", type=")
-	builder.WriteString(fmt.Sprintf("%v", ca.Type))
+	builder.WriteString(ca.Type)
 	builder.WriteString(", coupon_id=")
 	builder.WriteString(fmt.Sprintf("%v", ca.CouponID))
 	builder.WriteString(", create_at=")

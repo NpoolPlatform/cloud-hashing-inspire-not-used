@@ -3,8 +3,6 @@
 package couponallocated
 
 import (
-	"fmt"
-
 	"github.com/google/uuid"
 )
 
@@ -65,26 +63,3 @@ var (
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() uuid.UUID
 )
-
-// Type defines the type for the "type" enum field.
-type Type string
-
-// Type values.
-const (
-	TypeDiscount Type = "discount"
-	TypeCoupon   Type = "coupon"
-)
-
-func (_type Type) String() string {
-	return string(_type)
-}
-
-// TypeValidator is a validator for the "type" field enum values. It is called by the builders before save.
-func TypeValidator(_type Type) error {
-	switch _type {
-	case TypeDiscount, TypeCoupon:
-		return nil
-	default:
-		return fmt.Errorf("couponallocated: invalid enum value for type field: %q", _type)
-	}
-}

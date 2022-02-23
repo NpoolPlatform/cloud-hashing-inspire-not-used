@@ -5,6 +5,8 @@ import (
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
+	constant "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
+
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
@@ -24,6 +26,9 @@ func validateCouponAllocated(info *npool.CouponAllocated) error {
 	if _, err := uuid.Parse(info.GetCouponID()); err != nil {
 		return xerrors.Errorf("invlaid coupon id: %v", err)
 	}
+	if info.GetType() != constant.CouponTypeCoupon && info.GetType() != constant.CouponTypeDiscount {
+		return xerrors.Errorf("invalid coupon type")
+	}
 	return nil
 }
 
@@ -32,7 +37,7 @@ func dbRowToCouponAllocated(row *ent.CouponAllocated) *npool.CouponAllocated {
 		ID:       row.ID.String(),
 		UserID:   row.UserID.String(),
 		AppID:    row.AppID.String(),
-		Type:     string(row.Type),
+		Type:     row.Type,
 		CouponID: row.CouponID.String(),
 	}
 }
@@ -52,7 +57,7 @@ func Create(ctx context.Context, in *npool.CreateCouponAllocatedRequest) (*npool
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
 		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
-		SetType(couponallocated.Type(in.GetInfo().GetType())).
+		SetType(in.GetInfo().GetType()).
 		SetCouponID(uuid.MustParse(in.GetInfo().GetCouponID())).
 		Save(ctx)
 	if err != nil {

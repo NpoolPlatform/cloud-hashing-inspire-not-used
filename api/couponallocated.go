@@ -22,6 +22,23 @@ func (s *Server) CreateCouponAllocated(ctx context.Context, in *npool.CreateCoup
 	return resp, nil
 }
 
+func (s *Server) CreateCouponAllocatedForOtherAppUser(ctx context.Context, in *npool.CreateCouponAllocatedForOtherAppUserRequest) (*npool.CreateCouponAllocatedForOtherAppUserResponse, error) {
+	info := in.GetInfo()
+	info.AppID = in.GetTargetAppID()
+	info.UserID = in.GetTargetUserID()
+
+	resp, err := crud.Create(ctx, &npool.CreateCouponAllocatedRequest{
+		Info: info,
+	})
+	if err != nil {
+		logger.Sugar().Errorw("create coupon allocated error: %w", err)
+		return &npool.CreateCouponAllocatedForOtherAppUserResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return &npool.CreateCouponAllocatedForOtherAppUserResponse{
+		Info: resp.Info,
+	}, nil
+}
+
 func (s *Server) GetCouponAllocated(ctx context.Context, in *npool.GetCouponAllocatedRequest) (*npool.GetCouponAllocatedResponse, error) {
 	resp, err := crud.Get(ctx, in)
 	if err != nil {
@@ -38,6 +55,19 @@ func (s *Server) GetCouponsAllocatedByApp(ctx context.Context, in *npool.GetCoup
 		return &npool.GetCouponsAllocatedByAppResponse{}, status.Error(codes.Internal, "internal server error")
 	}
 	return resp, nil
+}
+
+func (s *Server) GetCouponsAllocatedByOtherApp(ctx context.Context, in *npool.GetCouponsAllocatedByOtherAppRequest) (*npool.GetCouponsAllocatedByOtherAppResponse, error) {
+	resp, err := crud.GetByApp(ctx, &npool.GetCouponsAllocatedByAppRequest{
+		AppID: in.GetTargetAppID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorw("get coupon allocated by app error: %w", err)
+		return &npool.GetCouponsAllocatedByOtherAppResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return &npool.GetCouponsAllocatedByOtherAppResponse{
+		Infos: resp.Infos,
+	}, nil
 }
 
 func (s *Server) GetCouponsAllocatedByAppUser(ctx context.Context, in *npool.GetCouponsAllocatedByAppUserRequest) (*npool.GetCouponsAllocatedByAppUserResponse, error) {

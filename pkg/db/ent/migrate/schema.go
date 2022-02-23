@@ -69,7 +69,7 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "user_id", Type: field.TypeUUID},
-		{Name: "type", Type: field.TypeEnum, Enums: []string{"discount", "coupon"}},
+		{Name: "type", Type: field.TypeString},
 		{Name: "coupon_id", Type: field.TypeUUID},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},

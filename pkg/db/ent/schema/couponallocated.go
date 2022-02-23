@@ -3,8 +3,6 @@ package schema
 import (
 	"time"
 
-	constant "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
-
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
 
@@ -24,8 +22,7 @@ func (CouponAllocated) Fields() []ent.Field {
 			Unique(),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("user_id", uuid.UUID{}),
-		field.Enum("type").
-			Values(constant.CouponTypeDiscount, constant.CouponTypeCoupon),
+		field.String("type"),
 		field.UUID("coupon_id", uuid.UUID{}),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {

@@ -36,8 +36,8 @@ func (cac *CouponAllocatedCreate) SetUserID(u uuid.UUID) *CouponAllocatedCreate 
 }
 
 // SetType sets the "type" field.
-func (cac *CouponAllocatedCreate) SetType(c couponallocated.Type) *CouponAllocatedCreate {
-	cac.mutation.SetType(c)
+func (cac *CouponAllocatedCreate) SetType(s string) *CouponAllocatedCreate {
+	cac.mutation.SetType(s)
 	return cac
 }
 
@@ -203,11 +203,6 @@ func (cac *CouponAllocatedCreate) check() error {
 	if _, ok := cac.mutation.GetType(); !ok {
 		return &ValidationError{Name: "type", err: errors.New(`ent: missing required field "CouponAllocated.type"`)}
 	}
-	if v, ok := cac.mutation.GetType(); ok {
-		if err := couponallocated.TypeValidator(v); err != nil {
-			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "CouponAllocated.type": %w`, err)}
-		}
-	}
 	if _, ok := cac.mutation.CouponID(); !ok {
 		return &ValidationError{Name: "coupon_id", err: errors.New(`ent: missing required field "CouponAllocated.coupon_id"`)}
 	}
@@ -275,7 +270,7 @@ func (cac *CouponAllocatedCreate) createSpec() (*CouponAllocated, *sqlgraph.Crea
 	}
 	if value, ok := cac.mutation.GetType(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeEnum,
+			Type:   field.TypeString,
 			Value:  value,
 			Column: couponallocated.FieldType,
 		})
@@ -392,7 +387,7 @@ func (u *CouponAllocatedUpsert) UpdateUserID() *CouponAllocatedUpsert {
 }
 
 // SetType sets the "type" field.
-func (u *CouponAllocatedUpsert) SetType(v couponallocated.Type) *CouponAllocatedUpsert {
+func (u *CouponAllocatedUpsert) SetType(v string) *CouponAllocatedUpsert {
 	u.Set(couponallocated.FieldType, v)
 	return u
 }
@@ -548,7 +543,7 @@ func (u *CouponAllocatedUpsertOne) UpdateUserID() *CouponAllocatedUpsertOne {
 }
 
 // SetType sets the "type" field.
-func (u *CouponAllocatedUpsertOne) SetType(v couponallocated.Type) *CouponAllocatedUpsertOne {
+func (u *CouponAllocatedUpsertOne) SetType(v string) *CouponAllocatedUpsertOne {
 	return u.Update(func(s *CouponAllocatedUpsert) {
 		s.SetType(v)
 	})
@@ -883,7 +878,7 @@ func (u *CouponAllocatedUpsertBulk) UpdateUserID() *CouponAllocatedUpsertBulk {
 }
 
 // SetType sets the "type" field.
-func (u *CouponAllocatedUpsertBulk) SetType(v couponallocated.Type) *CouponAllocatedUpsertBulk {
+func (u *CouponAllocatedUpsertBulk) SetType(v string) *CouponAllocatedUpsertBulk {
 	return u.Update(func(s *CouponAllocatedUpsert) {
 		s.SetType(v)
 	})

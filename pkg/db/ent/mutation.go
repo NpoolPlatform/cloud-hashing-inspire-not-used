@@ -2857,7 +2857,7 @@ type CouponAllocatedMutation struct {
 	id            *uuid.UUID
 	app_id        *uuid.UUID
 	user_id       *uuid.UUID
-	_type         *couponallocated.Type
+	_type         *string
 	coupon_id     *uuid.UUID
 	create_at     *uint32
 	addcreate_at  *int32
@@ -3048,12 +3048,12 @@ func (m *CouponAllocatedMutation) ResetUserID() {
 }
 
 // SetType sets the "type" field.
-func (m *CouponAllocatedMutation) SetType(c couponallocated.Type) {
-	m._type = &c
+func (m *CouponAllocatedMutation) SetType(s string) {
+	m._type = &s
 }
 
 // GetType returns the value of the "type" field in the mutation.
-func (m *CouponAllocatedMutation) GetType() (r couponallocated.Type, exists bool) {
+func (m *CouponAllocatedMutation) GetType() (r string, exists bool) {
 	v := m._type
 	if v == nil {
 		return
@@ -3064,7 +3064,7 @@ func (m *CouponAllocatedMutation) GetType() (r couponallocated.Type, exists bool
 // OldType returns the old "type" field's value of the CouponAllocated entity.
 // If the CouponAllocated object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CouponAllocatedMutation) OldType(ctx context.Context) (v couponallocated.Type, err error) {
+func (m *CouponAllocatedMutation) OldType(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldType is only allowed on UpdateOne operations")
 	}
@@ -3397,7 +3397,7 @@ func (m *CouponAllocatedMutation) SetField(name string, value ent.Value) error {
 		m.SetUserID(v)
 		return nil
 	case couponallocated.FieldType:
-		v, ok := value.(couponallocated.Type)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
