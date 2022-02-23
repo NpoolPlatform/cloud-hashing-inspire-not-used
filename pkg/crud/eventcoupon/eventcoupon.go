@@ -3,6 +3,8 @@ package eventcoupon
 import (
 	"context"
 
+	constant "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
+
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
@@ -27,6 +29,9 @@ func validateEventCoupon(info *npool.EventCoupon) error {
 	if info.GetEvent() == "" {
 		return xerrors.Errorf("invalid event")
 	}
+	if info.GetType() != constant.CouponTypeCoupon && info.GetType() != constant.CouponTypeDiscount {
+		return xerrors.Errorf("invalid coupon type")
+	}
 	return nil
 }
 
@@ -37,6 +42,7 @@ func dbRowToEventCoupon(row *ent.EventCoupon) *npool.EventCoupon {
 		ActivityID: row.ActivityID.String(),
 		CouponID:   row.CouponID.String(),
 		Event:      row.Event,
+		Type:       row.Type,
 	}
 }
 
@@ -57,6 +63,7 @@ func Create(ctx context.Context, in *npool.CreateEventCouponRequest) (*npool.Cre
 		SetActivityID(uuid.MustParse(in.GetInfo().GetActivityID())).
 		SetCouponID(uuid.MustParse(in.GetInfo().GetCouponID())).
 		SetEvent(in.GetInfo().GetEvent()).
+		SetType(in.GetInfo().GetType()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create event coupon: %v", err)
@@ -85,7 +92,6 @@ func Update(ctx context.Context, in *npool.UpdateEventCouponRequest) (*npool.Upd
 	info, err := cli.
 		EventCoupon.
 		UpdateOneID(id).
-		SetEvent(in.GetInfo().GetEvent()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update event coupon: %v", err)

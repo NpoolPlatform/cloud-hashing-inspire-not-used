@@ -183,18 +183,22 @@ func init() {
 	discountpool.DefaultID = discountpoolDescID.Default.(func() uuid.UUID)
 	eventcouponFields := schema.EventCoupon{}.Fields()
 	_ = eventcouponFields
+	// eventcouponDescEvent is the schema descriptor for event field.
+	eventcouponDescEvent := eventcouponFields[5].Descriptor()
+	// eventcoupon.EventValidator is a validator for the "event" field. It is called by the builders before save.
+	eventcoupon.EventValidator = eventcouponDescEvent.Validators[0].(func(string) error)
 	// eventcouponDescCreateAt is the schema descriptor for create_at field.
-	eventcouponDescCreateAt := eventcouponFields[5].Descriptor()
+	eventcouponDescCreateAt := eventcouponFields[6].Descriptor()
 	// eventcoupon.DefaultCreateAt holds the default value on creation for the create_at field.
 	eventcoupon.DefaultCreateAt = eventcouponDescCreateAt.Default.(func() uint32)
 	// eventcouponDescUpdateAt is the schema descriptor for update_at field.
-	eventcouponDescUpdateAt := eventcouponFields[6].Descriptor()
+	eventcouponDescUpdateAt := eventcouponFields[7].Descriptor()
 	// eventcoupon.DefaultUpdateAt holds the default value on creation for the update_at field.
 	eventcoupon.DefaultUpdateAt = eventcouponDescUpdateAt.Default.(func() uint32)
 	// eventcoupon.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	eventcoupon.UpdateDefaultUpdateAt = eventcouponDescUpdateAt.UpdateDefault.(func() uint32)
 	// eventcouponDescDeleteAt is the schema descriptor for delete_at field.
-	eventcouponDescDeleteAt := eventcouponFields[7].Descriptor()
+	eventcouponDescDeleteAt := eventcouponFields[8].Descriptor()
 	// eventcoupon.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	eventcoupon.DefaultDeleteAt = eventcouponDescDeleteAt.Default.(func() uint32)
 	// eventcouponDescID is the schema descriptor for id field.

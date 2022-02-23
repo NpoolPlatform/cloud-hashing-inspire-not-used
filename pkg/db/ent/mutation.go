@@ -6504,6 +6504,7 @@ type EventCouponMutation struct {
 	id            *uuid.UUID
 	app_id        *uuid.UUID
 	activity_id   *uuid.UUID
+	_type         *string
 	coupon_id     *uuid.UUID
 	event         *string
 	create_at     *uint32
@@ -6692,6 +6693,42 @@ func (m *EventCouponMutation) OldActivityID(ctx context.Context) (v uuid.UUID, e
 // ResetActivityID resets all changes to the "activity_id" field.
 func (m *EventCouponMutation) ResetActivityID() {
 	m.activity_id = nil
+}
+
+// SetType sets the "type" field.
+func (m *EventCouponMutation) SetType(s string) {
+	m._type = &s
+}
+
+// GetType returns the value of the "type" field in the mutation.
+func (m *EventCouponMutation) GetType() (r string, exists bool) {
+	v := m._type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldType returns the old "type" field's value of the EventCoupon entity.
+// If the EventCoupon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *EventCouponMutation) OldType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldType: %w", err)
+	}
+	return oldValue.Type, nil
+}
+
+// ResetType resets all changes to the "type" field.
+func (m *EventCouponMutation) ResetType() {
+	m._type = nil
 }
 
 // SetCouponID sets the "coupon_id" field.
@@ -6953,12 +6990,15 @@ func (m *EventCouponMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *EventCouponMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 8)
 	if m.app_id != nil {
 		fields = append(fields, eventcoupon.FieldAppID)
 	}
 	if m.activity_id != nil {
 		fields = append(fields, eventcoupon.FieldActivityID)
+	}
+	if m._type != nil {
+		fields = append(fields, eventcoupon.FieldType)
 	}
 	if m.coupon_id != nil {
 		fields = append(fields, eventcoupon.FieldCouponID)
@@ -6987,6 +7027,8 @@ func (m *EventCouponMutation) Field(name string) (ent.Value, bool) {
 		return m.AppID()
 	case eventcoupon.FieldActivityID:
 		return m.ActivityID()
+	case eventcoupon.FieldType:
+		return m.GetType()
 	case eventcoupon.FieldCouponID:
 		return m.CouponID()
 	case eventcoupon.FieldEvent:
@@ -7010,6 +7052,8 @@ func (m *EventCouponMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldAppID(ctx)
 	case eventcoupon.FieldActivityID:
 		return m.OldActivityID(ctx)
+	case eventcoupon.FieldType:
+		return m.OldType(ctx)
 	case eventcoupon.FieldCouponID:
 		return m.OldCouponID(ctx)
 	case eventcoupon.FieldEvent:
@@ -7042,6 +7086,13 @@ func (m *EventCouponMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetActivityID(v)
+		return nil
+	case eventcoupon.FieldType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetType(v)
 		return nil
 	case eventcoupon.FieldCouponID:
 		v, ok := value.(uuid.UUID)
@@ -7171,6 +7222,9 @@ func (m *EventCouponMutation) ResetField(name string) error {
 		return nil
 	case eventcoupon.FieldActivityID:
 		m.ResetActivityID()
+		return nil
+	case eventcoupon.FieldType:
+		m.ResetType()
 		return nil
 	case eventcoupon.FieldCouponID:
 		m.ResetCouponID()

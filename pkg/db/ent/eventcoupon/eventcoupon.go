@@ -15,6 +15,8 @@ const (
 	FieldAppID = "app_id"
 	// FieldActivityID holds the string denoting the activity_id field in the database.
 	FieldActivityID = "activity_id"
+	// FieldType holds the string denoting the type field in the database.
+	FieldType = "type"
 	// FieldCouponID holds the string denoting the coupon_id field in the database.
 	FieldCouponID = "coupon_id"
 	// FieldEvent holds the string denoting the event field in the database.
@@ -34,6 +36,7 @@ var Columns = []string{
 	FieldID,
 	FieldAppID,
 	FieldActivityID,
+	FieldType,
 	FieldCouponID,
 	FieldEvent,
 	FieldCreateAt,
@@ -52,6 +55,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// EventValidator is a validator for the "event" field. It is called by the builders before save.
+	EventValidator func(string) error
 	// DefaultCreateAt holds the default value on creation for the "create_at" field.
 	DefaultCreateAt func() uint32
 	// DefaultUpdateAt holds the default value on creation for the "update_at" field.

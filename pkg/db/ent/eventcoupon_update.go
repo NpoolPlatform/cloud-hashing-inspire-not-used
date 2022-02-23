@@ -40,6 +40,12 @@ func (ecu *EventCouponUpdate) SetActivityID(u uuid.UUID) *EventCouponUpdate {
 	return ecu
 }
 
+// SetType sets the "type" field.
+func (ecu *EventCouponUpdate) SetType(s string) *EventCouponUpdate {
+	ecu.mutation.SetType(s)
+	return ecu
+}
+
 // SetCouponID sets the "coupon_id" field.
 func (ecu *EventCouponUpdate) SetCouponID(u uuid.UUID) *EventCouponUpdate {
 	ecu.mutation.SetCouponID(u)
@@ -120,12 +126,18 @@ func (ecu *EventCouponUpdate) Save(ctx context.Context) (int, error) {
 	)
 	ecu.defaults()
 	if len(ecu.hooks) == 0 {
+		if err = ecu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = ecu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*EventCouponMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = ecu.check(); err != nil {
+				return 0, err
 			}
 			ecu.mutation = mutation
 			affected, err = ecu.sqlSave(ctx)
@@ -175,6 +187,16 @@ func (ecu *EventCouponUpdate) defaults() {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (ecu *EventCouponUpdate) check() error {
+	if v, ok := ecu.mutation.Event(); ok {
+		if err := eventcoupon.EventValidator(v); err != nil {
+			return &ValidationError{Name: "event", err: fmt.Errorf(`ent: validator failed for field "EventCoupon.event": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (ecu *EventCouponUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -205,6 +227,13 @@ func (ecu *EventCouponUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: eventcoupon.FieldActivityID,
+		})
+	}
+	if value, ok := ecu.mutation.GetType(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: eventcoupon.FieldType,
 		})
 	}
 	if value, ok := ecu.mutation.CouponID(); ok {
@@ -291,6 +320,12 @@ func (ecuo *EventCouponUpdateOne) SetAppID(u uuid.UUID) *EventCouponUpdateOne {
 // SetActivityID sets the "activity_id" field.
 func (ecuo *EventCouponUpdateOne) SetActivityID(u uuid.UUID) *EventCouponUpdateOne {
 	ecuo.mutation.SetActivityID(u)
+	return ecuo
+}
+
+// SetType sets the "type" field.
+func (ecuo *EventCouponUpdateOne) SetType(s string) *EventCouponUpdateOne {
+	ecuo.mutation.SetType(s)
 	return ecuo
 }
 
@@ -381,12 +416,18 @@ func (ecuo *EventCouponUpdateOne) Save(ctx context.Context) (*EventCoupon, error
 	)
 	ecuo.defaults()
 	if len(ecuo.hooks) == 0 {
+		if err = ecuo.check(); err != nil {
+			return nil, err
+		}
 		node, err = ecuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*EventCouponMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = ecuo.check(); err != nil {
+				return nil, err
 			}
 			ecuo.mutation = mutation
 			node, err = ecuo.sqlSave(ctx)
@@ -436,6 +477,16 @@ func (ecuo *EventCouponUpdateOne) defaults() {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (ecuo *EventCouponUpdateOne) check() error {
+	if v, ok := ecuo.mutation.Event(); ok {
+		if err := eventcoupon.EventValidator(v); err != nil {
+			return &ValidationError{Name: "event", err: fmt.Errorf(`ent: validator failed for field "EventCoupon.event": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (ecuo *EventCouponUpdateOne) sqlSave(ctx context.Context) (_node *EventCoupon, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -483,6 +534,13 @@ func (ecuo *EventCouponUpdateOne) sqlSave(ctx context.Context) (_node *EventCoup
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: eventcoupon.FieldActivityID,
+		})
+	}
+	if value, ok := ecuo.mutation.GetType(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: eventcoupon.FieldType,
 		})
 	}
 	if value, ok := ecuo.mutation.CouponID(); ok {

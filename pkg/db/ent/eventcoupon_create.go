@@ -35,6 +35,12 @@ func (ecc *EventCouponCreate) SetActivityID(u uuid.UUID) *EventCouponCreate {
 	return ecc
 }
 
+// SetType sets the "type" field.
+func (ecc *EventCouponCreate) SetType(s string) *EventCouponCreate {
+	ecc.mutation.SetType(s)
+	return ecc
+}
+
 // SetCouponID sets the "coupon_id" field.
 func (ecc *EventCouponCreate) SetCouponID(u uuid.UUID) *EventCouponCreate {
 	ecc.mutation.SetCouponID(u)
@@ -200,11 +206,19 @@ func (ecc *EventCouponCreate) check() error {
 	if _, ok := ecc.mutation.ActivityID(); !ok {
 		return &ValidationError{Name: "activity_id", err: errors.New(`ent: missing required field "EventCoupon.activity_id"`)}
 	}
+	if _, ok := ecc.mutation.GetType(); !ok {
+		return &ValidationError{Name: "type", err: errors.New(`ent: missing required field "EventCoupon.type"`)}
+	}
 	if _, ok := ecc.mutation.CouponID(); !ok {
 		return &ValidationError{Name: "coupon_id", err: errors.New(`ent: missing required field "EventCoupon.coupon_id"`)}
 	}
 	if _, ok := ecc.mutation.Event(); !ok {
 		return &ValidationError{Name: "event", err: errors.New(`ent: missing required field "EventCoupon.event"`)}
+	}
+	if v, ok := ecc.mutation.Event(); ok {
+		if err := eventcoupon.EventValidator(v); err != nil {
+			return &ValidationError{Name: "event", err: fmt.Errorf(`ent: validator failed for field "EventCoupon.event": %w`, err)}
+		}
 	}
 	if _, ok := ecc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "EventCoupon.create_at"`)}
@@ -267,6 +281,14 @@ func (ecc *EventCouponCreate) createSpec() (*EventCoupon, *sqlgraph.CreateSpec) 
 			Column: eventcoupon.FieldActivityID,
 		})
 		_node.ActivityID = value
+	}
+	if value, ok := ecc.mutation.GetType(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: eventcoupon.FieldType,
+		})
+		_node.Type = value
 	}
 	if value, ok := ecc.mutation.CouponID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -383,6 +405,18 @@ func (u *EventCouponUpsert) SetActivityID(v uuid.UUID) *EventCouponUpsert {
 // UpdateActivityID sets the "activity_id" field to the value that was provided on create.
 func (u *EventCouponUpsert) UpdateActivityID() *EventCouponUpsert {
 	u.SetExcluded(eventcoupon.FieldActivityID)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *EventCouponUpsert) SetType(v string) *EventCouponUpsert {
+	u.Set(eventcoupon.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *EventCouponUpsert) UpdateType() *EventCouponUpsert {
+	u.SetExcluded(eventcoupon.FieldType)
 	return u
 }
 
@@ -539,6 +573,20 @@ func (u *EventCouponUpsertOne) SetActivityID(v uuid.UUID) *EventCouponUpsertOne 
 func (u *EventCouponUpsertOne) UpdateActivityID() *EventCouponUpsertOne {
 	return u.Update(func(s *EventCouponUpsert) {
 		s.UpdateActivityID()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *EventCouponUpsertOne) SetType(v string) *EventCouponUpsertOne {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *EventCouponUpsertOne) UpdateType() *EventCouponUpsertOne {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.UpdateType()
 	})
 }
 
@@ -874,6 +922,20 @@ func (u *EventCouponUpsertBulk) SetActivityID(v uuid.UUID) *EventCouponUpsertBul
 func (u *EventCouponUpsertBulk) UpdateActivityID() *EventCouponUpsertBulk {
 	return u.Update(func(s *EventCouponUpsert) {
 		s.UpdateActivityID()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *EventCouponUpsertBulk) SetType(v string) *EventCouponUpsertBulk {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *EventCouponUpsertBulk) UpdateType() *EventCouponUpsertBulk {
+	return u.Update(func(s *EventCouponUpsert) {
+		s.UpdateType()
 	})
 }
 

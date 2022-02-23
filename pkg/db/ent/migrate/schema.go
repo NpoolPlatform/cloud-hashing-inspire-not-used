@@ -151,8 +151,9 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "activity_id", Type: field.TypeUUID},
+		{Name: "type", Type: field.TypeString},
 		{Name: "coupon_id", Type: field.TypeUUID},
-		{Name: "event", Type: field.TypeString},
+		{Name: "event", Type: field.TypeString, Size: 32},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},
@@ -164,9 +165,9 @@ var (
 		PrimaryKey: []*schema.Column{EventCouponsColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "eventcoupon_app_id_activity_id_coupon_id_event",
+				Name:    "eventcoupon_app_id_activity_id_type_coupon_id_event",
 				Unique:  true,
-				Columns: []*schema.Column{EventCouponsColumns[1], EventCouponsColumns[2], EventCouponsColumns[3], EventCouponsColumns[4]},
+				Columns: []*schema.Column{EventCouponsColumns[1], EventCouponsColumns[2], EventCouponsColumns[3], EventCouponsColumns[4], EventCouponsColumns[5]},
 			},
 		},
 	}

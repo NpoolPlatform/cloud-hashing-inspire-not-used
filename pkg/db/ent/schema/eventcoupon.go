@@ -23,8 +23,10 @@ func (EventCoupon) Fields() []ent.Field {
 			Unique(),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("activity_id", uuid.UUID{}),
+		field.String("type"),
 		field.UUID("coupon_id", uuid.UUID{}),
-		field.String("event"),
+		field.String("event").
+			MaxLen(32),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())
@@ -51,7 +53,7 @@ func (EventCoupon) Edges() []ent.Edge {
 // Indexes of the EventCoupon.
 func (EventCoupon) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("app_id", "activity_id", "coupon_id", "event").
+		index.Fields("app_id", "activity_id", "type", "coupon_id", "event").
 			Unique(),
 	}
 }
