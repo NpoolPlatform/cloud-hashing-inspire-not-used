@@ -125,6 +125,18 @@ spec:
             backend:
               serviceName: cloud-hashing-inspire
               servicePort: 50130
+          - path: /api/cloud-hashing-inspire/v1/create/event/coupon
+            backend:
+              serviceName: cloud-hashing-inspire
+              servicePort: 50130
+          - path: /api/cloud-hashing-inspire/v1/update/event/coupon
+            backend:
+              serviceName: cloud-hashing-inspire
+              servicePort: 50130
+          - path: /api/cloud-hashing-inspire/v1/get/event/coupons
+            backend:
+              serviceName: cloud-hashing-inspire
+              servicePort: 50130
     - host: api.procyon.vip
       http: *http_rules
     - host: api.xpool.top
