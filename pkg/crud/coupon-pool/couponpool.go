@@ -116,9 +116,7 @@ func Get(ctx context.Context, in *npool.GetCouponPoolRequest) (*npool.GetCouponP
 		CouponPool.
 		Query().
 		Where(
-			couponpool.And(
-				couponpool.ID(id),
-			),
+			couponpool.ID(id),
 		).
 		All(ctx)
 	if err != nil {
@@ -128,8 +126,14 @@ func Get(ctx context.Context, in *npool.GetCouponPoolRequest) (*npool.GetCouponP
 		return nil, xerrors.Errorf("empty coupon pool")
 	}
 
+	var coupon *npool.CouponPool
+	for _, info := range infos {
+		coupon = dbRowToCouponPool(info)
+		break
+	}
+
 	return &npool.GetCouponPoolResponse{
-		Info: dbRowToCouponPool(infos[0]),
+		Info: coupon,
 	}, nil
 }
 
@@ -155,9 +159,6 @@ func GetByApp(ctx context.Context, in *npool.GetCouponPoolsByAppRequest) (*npool
 		All(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail query coupon pool: %v", err)
-	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty coupon pool")
 	}
 
 	coupons := []*npool.CouponPool{}
@@ -198,9 +199,6 @@ func GetByAppReleaser(ctx context.Context, in *npool.GetCouponPoolsByAppReleaser
 		All(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail query coupon pool: %v", err)
-	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty coupon pool")
 	}
 
 	coupons := []*npool.CouponPool{}
