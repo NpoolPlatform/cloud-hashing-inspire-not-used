@@ -13,16 +13,9 @@ import (
 
 func constructDetail(setting *npool.AgencySetting, regCouponPool, kycCouponPool *npool.CouponPool) *npool.AgencySettingDetail {
 	return &npool.AgencySettingDetail{
-		ID:                          setting.ID,
-		AppID:                       setting.AppID,
-		GoodID:                      setting.GoodID,
-		RegistrationRewardThreshold: setting.RegistrationRewardThreshold,
-		KycRewardThreshold:          setting.KycRewardThreshold,
-		RegistrationCoupon:          regCouponPool,
-		KycCoupon:                   kycCouponPool,
-		TotalPurchaseRewardPercent:  setting.TotalPurchaseRewardPercent,
-		PurchaseRewardChainLevels:   setting.PurchaseRewardChainLevels,
-		LevelPurchaseRewardPercent:  setting.LevelPurchaseRewardPercent,
+		Setting:            setting,
+		RegistrationCoupon: regCouponPool,
+		KycCoupon:          kycCouponPool,
 	}
 }
 

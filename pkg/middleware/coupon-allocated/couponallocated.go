@@ -15,12 +15,9 @@ import (
 
 func constructDetail(allocated *npool.CouponAllocated, pool *npool.CouponPool, discount *npool.DiscountPool) *npool.CouponAllocatedDetail {
 	return &npool.CouponAllocatedDetail{
-		ID:       allocated.ID,
-		AppID:    allocated.AppID,
-		UserID:   allocated.UserID,
-		Type:     allocated.Type,
-		Coupon:   pool,
-		Discount: discount,
+		Allocated: allocated,
+		Coupon:    pool,
+		Discount:  discount,
 	}
 }
 

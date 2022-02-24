@@ -28,13 +28,13 @@ func init() {
 }
 
 func assertAgencySettingDetail(t *testing.T, info *npool.AgencySettingDetail, setting *npool.AgencySetting, regCoupon, kycCoupon *npool.CouponPool) {
-	assert.Equal(t, info.AppID, setting.AppID)
-	assert.Equal(t, info.GoodID, setting.GoodID)
-	assert.Equal(t, info.RegistrationRewardThreshold, setting.RegistrationRewardThreshold)
-	assert.Equal(t, info.KycRewardThreshold, setting.KycRewardThreshold)
-	assert.Equal(t, info.TotalPurchaseRewardPercent, setting.TotalPurchaseRewardPercent)
-	assert.Equal(t, info.PurchaseRewardChainLevels, setting.PurchaseRewardChainLevels)
-	assert.Equal(t, info.LevelPurchaseRewardPercent, setting.LevelPurchaseRewardPercent)
+	assert.Equal(t, info.Setting.AppID, setting.AppID)
+	assert.Equal(t, info.Setting.GoodID, setting.GoodID)
+	assert.Equal(t, info.Setting.RegistrationRewardThreshold, setting.RegistrationRewardThreshold)
+	assert.Equal(t, info.Setting.KycRewardThreshold, setting.KycRewardThreshold)
+	assert.Equal(t, info.Setting.TotalPurchaseRewardPercent, setting.TotalPurchaseRewardPercent)
+	assert.Equal(t, info.Setting.PurchaseRewardChainLevels, setting.PurchaseRewardChainLevels)
+	assert.Equal(t, info.Setting.LevelPurchaseRewardPercent, setting.LevelPurchaseRewardPercent)
 
 	assert.Equal(t, info.RegistrationCoupon.ID, regCoupon.ID)
 	assert.Equal(t, info.RegistrationCoupon.Denomination, regCoupon.Denomination)
@@ -112,7 +112,7 @@ func TestGetDetail(t *testing.T) {
 		ID: settingResp.Info.ID,
 	})
 	if assert.Nil(t, err) {
-		assert.Equal(t, resp.Info.ID, settingResp.Info.ID)
+		assert.Equal(t, resp.Info.Setting.ID, settingResp.Info.ID)
 		assertAgencySettingDetail(t, resp.Info, settingResp.Info, regCouponResp.Info, kycCouponResp.Info)
 	}
 
@@ -120,7 +120,7 @@ func TestGetDetail(t *testing.T) {
 		AppID: settingResp.Info.AppID,
 	})
 	if assert.Nil(t, err) {
-		assert.Equal(t, resp1.Info.ID, settingResp.Info.ID)
+		assert.Equal(t, resp1.Info.Setting.ID, settingResp.Info.ID)
 		assertAgencySettingDetail(t, resp1.Info, settingResp.Info, regCouponResp.Info, kycCouponResp.Info)
 	}
 }

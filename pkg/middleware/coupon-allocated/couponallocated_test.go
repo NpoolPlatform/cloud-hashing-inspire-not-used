@@ -28,9 +28,9 @@ func init() {
 }
 
 func assertCouponAllocatedDetail(t *testing.T, info *npool.CouponAllocatedDetail, coupon *npool.CouponAllocated, couponPool *npool.CouponPool) {
-	assert.Equal(t, info.AppID, coupon.AppID)
-	assert.Equal(t, info.UserID, coupon.UserID)
-	assert.Equal(t, info.Type, coupon.Type)
+	assert.Equal(t, info.Allocated.AppID, coupon.AppID)
+	assert.Equal(t, info.Allocated.UserID, coupon.UserID)
+	assert.Equal(t, info.Allocated.Type, coupon.Type)
 
 	assert.Equal(t, info.Coupon.ID, couponPool.ID)
 	assert.Equal(t, info.Coupon.Denomination, couponPool.Denomination)
@@ -79,7 +79,7 @@ func TestGetDetail(t *testing.T) {
 		ID: allocatedResp.Info.ID,
 	})
 	if assert.Nil(t, err) {
-		assert.NotEqual(t, resp.Info.ID, uuid.UUID{}.String())
+		assert.NotEqual(t, resp.Info.Allocated.ID, uuid.UUID{}.String())
 		assertCouponAllocatedDetail(t, resp.Info, allocatedResp.Info, couponResp.Info)
 	}
 

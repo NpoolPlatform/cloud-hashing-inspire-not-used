@@ -28,8 +28,8 @@ func init() {
 }
 
 func assertNewUserRewardSettingDetail(t *testing.T, info *npool.NewUserRewardSettingDetail, setting *npool.NewUserRewardSetting, regCoupon, kycCoupon *npool.CouponPool) {
-	assert.Equal(t, info.AppID, setting.AppID)
-	assert.Equal(t, info.AutoGenerateInvitationCode, setting.AutoGenerateInvitationCode)
+	assert.Equal(t, info.Setting.AppID, setting.AppID)
+	assert.Equal(t, info.Setting.AutoGenerateInvitationCode, setting.AutoGenerateInvitationCode)
 
 	assert.Equal(t, info.RegistrationCoupon.ID, regCoupon.ID)
 	assert.Equal(t, info.RegistrationCoupon.Denomination, regCoupon.Denomination)
@@ -102,7 +102,7 @@ func TestGetDetail(t *testing.T) {
 		ID: settingResp.Info.ID,
 	})
 	if assert.Nil(t, err) {
-		assert.Equal(t, resp.Info.ID, settingResp.Info.ID)
+		assert.Equal(t, resp.Info.Setting.ID, settingResp.Info.ID)
 		assertNewUserRewardSettingDetail(t, resp.Info, settingResp.Info, regCouponResp.Info, kycCouponResp.Info)
 	}
 }

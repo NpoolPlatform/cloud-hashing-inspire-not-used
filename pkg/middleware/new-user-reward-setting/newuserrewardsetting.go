@@ -35,11 +35,9 @@ func Get(ctx context.Context, in *npool.GetNewUserRewardSettingDetailRequest) (*
 
 	return &npool.GetNewUserRewardSettingDetailResponse{
 		Info: &npool.NewUserRewardSettingDetail{
-			ID:                         info.Info.ID,
-			AppID:                      info.Info.AppID,
-			AutoGenerateInvitationCode: info.Info.AutoGenerateInvitationCode,
-			RegistrationCoupon:         registrationCouponPool.Info,
-			KycCoupon:                  kycCouponPool.Info,
+			Setting:            info.Info,
+			RegistrationCoupon: registrationCouponPool.Info,
+			KycCoupon:          kycCouponPool.Info,
 		},
 	}, nil
 }
