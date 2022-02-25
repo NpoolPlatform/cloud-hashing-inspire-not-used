@@ -16,8 +16,14 @@ type Tx struct {
 	Activity *ActivityClient
 	// AgencySetting is the client for interacting with the AgencySetting builders.
 	AgencySetting *AgencySettingClient
+	// AppCommissionSetting is the client for interacting with the AppCommissionSetting builders.
+	AppCommissionSetting *AppCommissionSettingClient
 	// AppCouponSetting is the client for interacting with the AppCouponSetting builders.
 	AppCouponSetting *AppCouponSettingClient
+	// AppInvitationSetting is the client for interacting with the AppInvitationSetting builders.
+	AppInvitationSetting *AppInvitationSettingClient
+	// AppPurchaseAmountSetting is the client for interacting with the AppPurchaseAmountSetting builders.
+	AppPurchaseAmountSetting *AppPurchaseAmountSettingClient
 	// CouponAllocated is the client for interacting with the CouponAllocated builders.
 	CouponAllocated *CouponAllocatedClient
 	// CouponPool is the client for interacting with the CouponPool builders.
@@ -177,7 +183,10 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.Activity = NewActivityClient(tx.config)
 	tx.AgencySetting = NewAgencySettingClient(tx.config)
+	tx.AppCommissionSetting = NewAppCommissionSettingClient(tx.config)
 	tx.AppCouponSetting = NewAppCouponSettingClient(tx.config)
+	tx.AppInvitationSetting = NewAppInvitationSettingClient(tx.config)
+	tx.AppPurchaseAmountSetting = NewAppPurchaseAmountSettingClient(tx.config)
 	tx.CouponAllocated = NewCouponAllocatedClient(tx.config)
 	tx.CouponPool = NewCouponPoolClient(tx.config)
 	tx.DefaultKpiSetting = NewDefaultKpiSettingClient(tx.config)

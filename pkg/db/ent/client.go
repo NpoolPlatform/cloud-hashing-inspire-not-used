@@ -12,7 +12,10 @@ import (
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/activity"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/agencysetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcommissionsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appinvitationsetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/apppurchaseamountsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
@@ -38,8 +41,14 @@ type Client struct {
 	Activity *ActivityClient
 	// AgencySetting is the client for interacting with the AgencySetting builders.
 	AgencySetting *AgencySettingClient
+	// AppCommissionSetting is the client for interacting with the AppCommissionSetting builders.
+	AppCommissionSetting *AppCommissionSettingClient
 	// AppCouponSetting is the client for interacting with the AppCouponSetting builders.
 	AppCouponSetting *AppCouponSettingClient
+	// AppInvitationSetting is the client for interacting with the AppInvitationSetting builders.
+	AppInvitationSetting *AppInvitationSettingClient
+	// AppPurchaseAmountSetting is the client for interacting with the AppPurchaseAmountSetting builders.
+	AppPurchaseAmountSetting *AppPurchaseAmountSettingClient
 	// CouponAllocated is the client for interacting with the CouponAllocated builders.
 	CouponAllocated *CouponAllocatedClient
 	// CouponPool is the client for interacting with the CouponPool builders.
@@ -77,7 +86,10 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Activity = NewActivityClient(c.config)
 	c.AgencySetting = NewAgencySettingClient(c.config)
+	c.AppCommissionSetting = NewAppCommissionSettingClient(c.config)
 	c.AppCouponSetting = NewAppCouponSettingClient(c.config)
+	c.AppInvitationSetting = NewAppInvitationSettingClient(c.config)
+	c.AppPurchaseAmountSetting = NewAppPurchaseAmountSettingClient(c.config)
 	c.CouponAllocated = NewCouponAllocatedClient(c.config)
 	c.CouponPool = NewCouponPoolClient(c.config)
 	c.DefaultKpiSetting = NewDefaultKpiSettingClient(c.config)
@@ -120,22 +132,25 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:                    ctx,
-		config:                 cfg,
-		Activity:               NewActivityClient(cfg),
-		AgencySetting:          NewAgencySettingClient(cfg),
-		AppCouponSetting:       NewAppCouponSettingClient(cfg),
-		CouponAllocated:        NewCouponAllocatedClient(cfg),
-		CouponPool:             NewCouponPoolClient(cfg),
-		DefaultKpiSetting:      NewDefaultKpiSettingClient(cfg),
-		DiscountPool:           NewDiscountPoolClient(cfg),
-		EventCoupon:            NewEventCouponClient(cfg),
-		NewUserRewardSetting:   NewNewUserRewardSettingClient(cfg),
-		PurchaseInvitation:     NewPurchaseInvitationClient(cfg),
-		RegistrationInvitation: NewRegistrationInvitationClient(cfg),
-		UserInvitationCode:     NewUserInvitationCodeClient(cfg),
-		UserKpiSetting:         NewUserKpiSettingClient(cfg),
-		UserSpecialReduction:   NewUserSpecialReductionClient(cfg),
+		ctx:                      ctx,
+		config:                   cfg,
+		Activity:                 NewActivityClient(cfg),
+		AgencySetting:            NewAgencySettingClient(cfg),
+		AppCommissionSetting:     NewAppCommissionSettingClient(cfg),
+		AppCouponSetting:         NewAppCouponSettingClient(cfg),
+		AppInvitationSetting:     NewAppInvitationSettingClient(cfg),
+		AppPurchaseAmountSetting: NewAppPurchaseAmountSettingClient(cfg),
+		CouponAllocated:          NewCouponAllocatedClient(cfg),
+		CouponPool:               NewCouponPoolClient(cfg),
+		DefaultKpiSetting:        NewDefaultKpiSettingClient(cfg),
+		DiscountPool:             NewDiscountPoolClient(cfg),
+		EventCoupon:              NewEventCouponClient(cfg),
+		NewUserRewardSetting:     NewNewUserRewardSettingClient(cfg),
+		PurchaseInvitation:       NewPurchaseInvitationClient(cfg),
+		RegistrationInvitation:   NewRegistrationInvitationClient(cfg),
+		UserInvitationCode:       NewUserInvitationCodeClient(cfg),
+		UserKpiSetting:           NewUserKpiSettingClient(cfg),
+		UserSpecialReduction:     NewUserSpecialReductionClient(cfg),
 	}, nil
 }
 
@@ -153,22 +168,25 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:                    ctx,
-		config:                 cfg,
-		Activity:               NewActivityClient(cfg),
-		AgencySetting:          NewAgencySettingClient(cfg),
-		AppCouponSetting:       NewAppCouponSettingClient(cfg),
-		CouponAllocated:        NewCouponAllocatedClient(cfg),
-		CouponPool:             NewCouponPoolClient(cfg),
-		DefaultKpiSetting:      NewDefaultKpiSettingClient(cfg),
-		DiscountPool:           NewDiscountPoolClient(cfg),
-		EventCoupon:            NewEventCouponClient(cfg),
-		NewUserRewardSetting:   NewNewUserRewardSettingClient(cfg),
-		PurchaseInvitation:     NewPurchaseInvitationClient(cfg),
-		RegistrationInvitation: NewRegistrationInvitationClient(cfg),
-		UserInvitationCode:     NewUserInvitationCodeClient(cfg),
-		UserKpiSetting:         NewUserKpiSettingClient(cfg),
-		UserSpecialReduction:   NewUserSpecialReductionClient(cfg),
+		ctx:                      ctx,
+		config:                   cfg,
+		Activity:                 NewActivityClient(cfg),
+		AgencySetting:            NewAgencySettingClient(cfg),
+		AppCommissionSetting:     NewAppCommissionSettingClient(cfg),
+		AppCouponSetting:         NewAppCouponSettingClient(cfg),
+		AppInvitationSetting:     NewAppInvitationSettingClient(cfg),
+		AppPurchaseAmountSetting: NewAppPurchaseAmountSettingClient(cfg),
+		CouponAllocated:          NewCouponAllocatedClient(cfg),
+		CouponPool:               NewCouponPoolClient(cfg),
+		DefaultKpiSetting:        NewDefaultKpiSettingClient(cfg),
+		DiscountPool:             NewDiscountPoolClient(cfg),
+		EventCoupon:              NewEventCouponClient(cfg),
+		NewUserRewardSetting:     NewNewUserRewardSettingClient(cfg),
+		PurchaseInvitation:       NewPurchaseInvitationClient(cfg),
+		RegistrationInvitation:   NewRegistrationInvitationClient(cfg),
+		UserInvitationCode:       NewUserInvitationCodeClient(cfg),
+		UserKpiSetting:           NewUserKpiSettingClient(cfg),
+		UserSpecialReduction:     NewUserSpecialReductionClient(cfg),
 	}, nil
 }
 
@@ -200,7 +218,10 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	c.Activity.Use(hooks...)
 	c.AgencySetting.Use(hooks...)
+	c.AppCommissionSetting.Use(hooks...)
 	c.AppCouponSetting.Use(hooks...)
+	c.AppInvitationSetting.Use(hooks...)
+	c.AppPurchaseAmountSetting.Use(hooks...)
 	c.CouponAllocated.Use(hooks...)
 	c.CouponPool.Use(hooks...)
 	c.DefaultKpiSetting.Use(hooks...)
@@ -394,6 +415,96 @@ func (c *AgencySettingClient) Hooks() []Hook {
 	return c.hooks.AgencySetting
 }
 
+// AppCommissionSettingClient is a client for the AppCommissionSetting schema.
+type AppCommissionSettingClient struct {
+	config
+}
+
+// NewAppCommissionSettingClient returns a client for the AppCommissionSetting from the given config.
+func NewAppCommissionSettingClient(c config) *AppCommissionSettingClient {
+	return &AppCommissionSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `appcommissionsetting.Hooks(f(g(h())))`.
+func (c *AppCommissionSettingClient) Use(hooks ...Hook) {
+	c.hooks.AppCommissionSetting = append(c.hooks.AppCommissionSetting, hooks...)
+}
+
+// Create returns a create builder for AppCommissionSetting.
+func (c *AppCommissionSettingClient) Create() *AppCommissionSettingCreate {
+	mutation := newAppCommissionSettingMutation(c.config, OpCreate)
+	return &AppCommissionSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of AppCommissionSetting entities.
+func (c *AppCommissionSettingClient) CreateBulk(builders ...*AppCommissionSettingCreate) *AppCommissionSettingCreateBulk {
+	return &AppCommissionSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for AppCommissionSetting.
+func (c *AppCommissionSettingClient) Update() *AppCommissionSettingUpdate {
+	mutation := newAppCommissionSettingMutation(c.config, OpUpdate)
+	return &AppCommissionSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *AppCommissionSettingClient) UpdateOne(acs *AppCommissionSetting) *AppCommissionSettingUpdateOne {
+	mutation := newAppCommissionSettingMutation(c.config, OpUpdateOne, withAppCommissionSetting(acs))
+	return &AppCommissionSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *AppCommissionSettingClient) UpdateOneID(id uuid.UUID) *AppCommissionSettingUpdateOne {
+	mutation := newAppCommissionSettingMutation(c.config, OpUpdateOne, withAppCommissionSettingID(id))
+	return &AppCommissionSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for AppCommissionSetting.
+func (c *AppCommissionSettingClient) Delete() *AppCommissionSettingDelete {
+	mutation := newAppCommissionSettingMutation(c.config, OpDelete)
+	return &AppCommissionSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *AppCommissionSettingClient) DeleteOne(acs *AppCommissionSetting) *AppCommissionSettingDeleteOne {
+	return c.DeleteOneID(acs.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *AppCommissionSettingClient) DeleteOneID(id uuid.UUID) *AppCommissionSettingDeleteOne {
+	builder := c.Delete().Where(appcommissionsetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &AppCommissionSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for AppCommissionSetting.
+func (c *AppCommissionSettingClient) Query() *AppCommissionSettingQuery {
+	return &AppCommissionSettingQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a AppCommissionSetting entity by its id.
+func (c *AppCommissionSettingClient) Get(ctx context.Context, id uuid.UUID) (*AppCommissionSetting, error) {
+	return c.Query().Where(appcommissionsetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *AppCommissionSettingClient) GetX(ctx context.Context, id uuid.UUID) *AppCommissionSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *AppCommissionSettingClient) Hooks() []Hook {
+	return c.hooks.AppCommissionSetting
+}
+
 // AppCouponSettingClient is a client for the AppCouponSetting schema.
 type AppCouponSettingClient struct {
 	config
@@ -482,6 +593,186 @@ func (c *AppCouponSettingClient) GetX(ctx context.Context, id uuid.UUID) *AppCou
 // Hooks returns the client hooks.
 func (c *AppCouponSettingClient) Hooks() []Hook {
 	return c.hooks.AppCouponSetting
+}
+
+// AppInvitationSettingClient is a client for the AppInvitationSetting schema.
+type AppInvitationSettingClient struct {
+	config
+}
+
+// NewAppInvitationSettingClient returns a client for the AppInvitationSetting from the given config.
+func NewAppInvitationSettingClient(c config) *AppInvitationSettingClient {
+	return &AppInvitationSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `appinvitationsetting.Hooks(f(g(h())))`.
+func (c *AppInvitationSettingClient) Use(hooks ...Hook) {
+	c.hooks.AppInvitationSetting = append(c.hooks.AppInvitationSetting, hooks...)
+}
+
+// Create returns a create builder for AppInvitationSetting.
+func (c *AppInvitationSettingClient) Create() *AppInvitationSettingCreate {
+	mutation := newAppInvitationSettingMutation(c.config, OpCreate)
+	return &AppInvitationSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of AppInvitationSetting entities.
+func (c *AppInvitationSettingClient) CreateBulk(builders ...*AppInvitationSettingCreate) *AppInvitationSettingCreateBulk {
+	return &AppInvitationSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for AppInvitationSetting.
+func (c *AppInvitationSettingClient) Update() *AppInvitationSettingUpdate {
+	mutation := newAppInvitationSettingMutation(c.config, OpUpdate)
+	return &AppInvitationSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *AppInvitationSettingClient) UpdateOne(ais *AppInvitationSetting) *AppInvitationSettingUpdateOne {
+	mutation := newAppInvitationSettingMutation(c.config, OpUpdateOne, withAppInvitationSetting(ais))
+	return &AppInvitationSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *AppInvitationSettingClient) UpdateOneID(id uuid.UUID) *AppInvitationSettingUpdateOne {
+	mutation := newAppInvitationSettingMutation(c.config, OpUpdateOne, withAppInvitationSettingID(id))
+	return &AppInvitationSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for AppInvitationSetting.
+func (c *AppInvitationSettingClient) Delete() *AppInvitationSettingDelete {
+	mutation := newAppInvitationSettingMutation(c.config, OpDelete)
+	return &AppInvitationSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *AppInvitationSettingClient) DeleteOne(ais *AppInvitationSetting) *AppInvitationSettingDeleteOne {
+	return c.DeleteOneID(ais.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *AppInvitationSettingClient) DeleteOneID(id uuid.UUID) *AppInvitationSettingDeleteOne {
+	builder := c.Delete().Where(appinvitationsetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &AppInvitationSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for AppInvitationSetting.
+func (c *AppInvitationSettingClient) Query() *AppInvitationSettingQuery {
+	return &AppInvitationSettingQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a AppInvitationSetting entity by its id.
+func (c *AppInvitationSettingClient) Get(ctx context.Context, id uuid.UUID) (*AppInvitationSetting, error) {
+	return c.Query().Where(appinvitationsetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *AppInvitationSettingClient) GetX(ctx context.Context, id uuid.UUID) *AppInvitationSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *AppInvitationSettingClient) Hooks() []Hook {
+	return c.hooks.AppInvitationSetting
+}
+
+// AppPurchaseAmountSettingClient is a client for the AppPurchaseAmountSetting schema.
+type AppPurchaseAmountSettingClient struct {
+	config
+}
+
+// NewAppPurchaseAmountSettingClient returns a client for the AppPurchaseAmountSetting from the given config.
+func NewAppPurchaseAmountSettingClient(c config) *AppPurchaseAmountSettingClient {
+	return &AppPurchaseAmountSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `apppurchaseamountsetting.Hooks(f(g(h())))`.
+func (c *AppPurchaseAmountSettingClient) Use(hooks ...Hook) {
+	c.hooks.AppPurchaseAmountSetting = append(c.hooks.AppPurchaseAmountSetting, hooks...)
+}
+
+// Create returns a create builder for AppPurchaseAmountSetting.
+func (c *AppPurchaseAmountSettingClient) Create() *AppPurchaseAmountSettingCreate {
+	mutation := newAppPurchaseAmountSettingMutation(c.config, OpCreate)
+	return &AppPurchaseAmountSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of AppPurchaseAmountSetting entities.
+func (c *AppPurchaseAmountSettingClient) CreateBulk(builders ...*AppPurchaseAmountSettingCreate) *AppPurchaseAmountSettingCreateBulk {
+	return &AppPurchaseAmountSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for AppPurchaseAmountSetting.
+func (c *AppPurchaseAmountSettingClient) Update() *AppPurchaseAmountSettingUpdate {
+	mutation := newAppPurchaseAmountSettingMutation(c.config, OpUpdate)
+	return &AppPurchaseAmountSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *AppPurchaseAmountSettingClient) UpdateOne(apas *AppPurchaseAmountSetting) *AppPurchaseAmountSettingUpdateOne {
+	mutation := newAppPurchaseAmountSettingMutation(c.config, OpUpdateOne, withAppPurchaseAmountSetting(apas))
+	return &AppPurchaseAmountSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *AppPurchaseAmountSettingClient) UpdateOneID(id uuid.UUID) *AppPurchaseAmountSettingUpdateOne {
+	mutation := newAppPurchaseAmountSettingMutation(c.config, OpUpdateOne, withAppPurchaseAmountSettingID(id))
+	return &AppPurchaseAmountSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for AppPurchaseAmountSetting.
+func (c *AppPurchaseAmountSettingClient) Delete() *AppPurchaseAmountSettingDelete {
+	mutation := newAppPurchaseAmountSettingMutation(c.config, OpDelete)
+	return &AppPurchaseAmountSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *AppPurchaseAmountSettingClient) DeleteOne(apas *AppPurchaseAmountSetting) *AppPurchaseAmountSettingDeleteOne {
+	return c.DeleteOneID(apas.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *AppPurchaseAmountSettingClient) DeleteOneID(id uuid.UUID) *AppPurchaseAmountSettingDeleteOne {
+	builder := c.Delete().Where(apppurchaseamountsetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &AppPurchaseAmountSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for AppPurchaseAmountSetting.
+func (c *AppPurchaseAmountSettingClient) Query() *AppPurchaseAmountSettingQuery {
+	return &AppPurchaseAmountSettingQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a AppPurchaseAmountSetting entity by its id.
+func (c *AppPurchaseAmountSettingClient) Get(ctx context.Context, id uuid.UUID) (*AppPurchaseAmountSetting, error) {
+	return c.Query().Where(apppurchaseamountsetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *AppPurchaseAmountSettingClient) GetX(ctx context.Context, id uuid.UUID) *AppPurchaseAmountSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *AppPurchaseAmountSettingClient) Hooks() []Hook {
+	return c.hooks.AppPurchaseAmountSetting
 }
 
 // CouponAllocatedClient is a client for the CouponAllocated schema.

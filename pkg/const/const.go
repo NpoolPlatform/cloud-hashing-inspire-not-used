@@ -11,4 +11,6 @@ const (
 	EventKYCAuthenticate         = "kyc-authenticate"
 	EventTotalAmount             = "total-amount"
 	EventSingleAmount            = "single-amount"
+
+	CommissionByAmount = "commission-by-amount"
 )

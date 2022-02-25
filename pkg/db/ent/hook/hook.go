@@ -35,6 +35,19 @@ func (f AgencySettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Valu
 	return f(ctx, mv)
 }
 
+// The AppCommissionSettingFunc type is an adapter to allow the use of ordinary
+// function as AppCommissionSetting mutator.
+type AppCommissionSettingFunc func(context.Context, *ent.AppCommissionSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AppCommissionSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.AppCommissionSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AppCommissionSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The AppCouponSettingFunc type is an adapter to allow the use of ordinary
 // function as AppCouponSetting mutator.
 type AppCouponSettingFunc func(context.Context, *ent.AppCouponSettingMutation) (ent.Value, error)
@@ -44,6 +57,32 @@ func (f AppCouponSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.V
 	mv, ok := m.(*ent.AppCouponSettingMutation)
 	if !ok {
 		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AppCouponSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The AppInvitationSettingFunc type is an adapter to allow the use of ordinary
+// function as AppInvitationSetting mutator.
+type AppInvitationSettingFunc func(context.Context, *ent.AppInvitationSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AppInvitationSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.AppInvitationSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AppInvitationSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The AppPurchaseAmountSettingFunc type is an adapter to allow the use of ordinary
+// function as AppPurchaseAmountSetting mutator.
+type AppPurchaseAmountSettingFunc func(context.Context, *ent.AppPurchaseAmountSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AppPurchaseAmountSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.AppPurchaseAmountSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AppPurchaseAmountSettingMutation", m)
 	}
 	return f(ctx, mv)
 }

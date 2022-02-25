@@ -12,8 +12,17 @@ type Activity func(*sql.Selector)
 // AgencySetting is the predicate function for agencysetting builders.
 type AgencySetting func(*sql.Selector)
 
+// AppCommissionSetting is the predicate function for appcommissionsetting builders.
+type AppCommissionSetting func(*sql.Selector)
+
 // AppCouponSetting is the predicate function for appcouponsetting builders.
 type AppCouponSetting func(*sql.Selector)
+
+// AppInvitationSetting is the predicate function for appinvitationsetting builders.
+type AppInvitationSetting func(*sql.Selector)
+
+// AppPurchaseAmountSetting is the predicate function for apppurchaseamountsetting builders.
+type AppPurchaseAmountSetting func(*sql.Selector)
 
 // CouponAllocated is the predicate function for couponallocated builders.
 type CouponAllocated func(*sql.Selector)

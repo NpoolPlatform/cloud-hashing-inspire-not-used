@@ -10,7 +10,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/activity"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/agencysetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcommissionsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appinvitationsetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/apppurchaseamountsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
@@ -42,20 +45,23 @@ type OrderFunc func(*sql.Selector)
 // columnChecker returns a function indicates if the column exists in the given column.
 func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
-		activity.Table:               activity.ValidColumn,
-		agencysetting.Table:          agencysetting.ValidColumn,
-		appcouponsetting.Table:       appcouponsetting.ValidColumn,
-		couponallocated.Table:        couponallocated.ValidColumn,
-		couponpool.Table:             couponpool.ValidColumn,
-		defaultkpisetting.Table:      defaultkpisetting.ValidColumn,
-		discountpool.Table:           discountpool.ValidColumn,
-		eventcoupon.Table:            eventcoupon.ValidColumn,
-		newuserrewardsetting.Table:   newuserrewardsetting.ValidColumn,
-		purchaseinvitation.Table:     purchaseinvitation.ValidColumn,
-		registrationinvitation.Table: registrationinvitation.ValidColumn,
-		userinvitationcode.Table:     userinvitationcode.ValidColumn,
-		userkpisetting.Table:         userkpisetting.ValidColumn,
-		userspecialreduction.Table:   userspecialreduction.ValidColumn,
+		activity.Table:                 activity.ValidColumn,
+		agencysetting.Table:            agencysetting.ValidColumn,
+		appcommissionsetting.Table:     appcommissionsetting.ValidColumn,
+		appcouponsetting.Table:         appcouponsetting.ValidColumn,
+		appinvitationsetting.Table:     appinvitationsetting.ValidColumn,
+		apppurchaseamountsetting.Table: apppurchaseamountsetting.ValidColumn,
+		couponallocated.Table:          couponallocated.ValidColumn,
+		couponpool.Table:               couponpool.ValidColumn,
+		defaultkpisetting.Table:        defaultkpisetting.ValidColumn,
+		discountpool.Table:             discountpool.ValidColumn,
+		eventcoupon.Table:              eventcoupon.ValidColumn,
+		newuserrewardsetting.Table:     newuserrewardsetting.ValidColumn,
+		purchaseinvitation.Table:       purchaseinvitation.ValidColumn,
+		registrationinvitation.Table:   registrationinvitation.ValidColumn,
+		userinvitationcode.Table:       userinvitationcode.ValidColumn,
+		userkpisetting.Table:           userkpisetting.ValidColumn,
+		userspecialreduction.Table:     userspecialreduction.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {
