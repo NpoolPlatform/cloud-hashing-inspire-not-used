@@ -167,6 +167,20 @@ var (
 			},
 		},
 	}
+	// CommissionCoinSettingsColumns holds the columns for the "commission_coin_settings" table.
+	CommissionCoinSettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "coin_type_id", Type: field.TypeUUID, Unique: true},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// CommissionCoinSettingsTable holds the schema information for the "commission_coin_settings" table.
+	CommissionCoinSettingsTable = &schema.Table{
+		Name:       "commission_coin_settings",
+		Columns:    CommissionCoinSettingsColumns,
+		PrimaryKey: []*schema.Column{CommissionCoinSettingsColumns[0]},
+	}
 	// CouponAllocatedsColumns holds the columns for the "coupon_allocateds" table.
 	CouponAllocatedsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -375,6 +389,7 @@ var (
 		AppPurchaseAmountSettingsTable,
 		AppUserInvitationSettingsTable,
 		AppUserPurchaseAmountSettingsTable,
+		CommissionCoinSettingsTable,
 		CouponAllocatedsTable,
 		CouponPoolsTable,
 		DefaultKpiSettingsTable,

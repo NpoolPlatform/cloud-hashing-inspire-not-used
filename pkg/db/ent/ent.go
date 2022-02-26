@@ -15,6 +15,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/apppurchaseamountsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appuserinvitationsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appuserpurchaseamountsetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/commissioncoinsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
@@ -51,6 +52,7 @@ func columnChecker(table string) func(string) error {
 		apppurchaseamountsetting.Table:     apppurchaseamountsetting.ValidColumn,
 		appuserinvitationsetting.Table:     appuserinvitationsetting.ValidColumn,
 		appuserpurchaseamountsetting.Table: appuserpurchaseamountsetting.ValidColumn,
+		commissioncoinsetting.Table:        commissioncoinsetting.ValidColumn,
 		couponallocated.Table:              couponallocated.ValidColumn,
 		couponpool.Table:                   couponpool.ValidColumn,
 		defaultkpisetting.Table:            defaultkpisetting.ValidColumn,

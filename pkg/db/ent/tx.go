@@ -26,6 +26,8 @@ type Tx struct {
 	AppUserInvitationSetting *AppUserInvitationSettingClient
 	// AppUserPurchaseAmountSetting is the client for interacting with the AppUserPurchaseAmountSetting builders.
 	AppUserPurchaseAmountSetting *AppUserPurchaseAmountSettingClient
+	// CommissionCoinSetting is the client for interacting with the CommissionCoinSetting builders.
+	CommissionCoinSetting *CommissionCoinSettingClient
 	// CouponAllocated is the client for interacting with the CouponAllocated builders.
 	CouponAllocated *CouponAllocatedClient
 	// CouponPool is the client for interacting with the CouponPool builders.
@@ -186,6 +188,7 @@ func (tx *Tx) init() {
 	tx.AppPurchaseAmountSetting = NewAppPurchaseAmountSettingClient(tx.config)
 	tx.AppUserInvitationSetting = NewAppUserInvitationSettingClient(tx.config)
 	tx.AppUserPurchaseAmountSetting = NewAppUserPurchaseAmountSettingClient(tx.config)
+	tx.CommissionCoinSetting = NewCommissionCoinSettingClient(tx.config)
 	tx.CouponAllocated = NewCouponAllocatedClient(tx.config)
 	tx.CouponPool = NewCouponPoolClient(tx.config)
 	tx.DefaultKpiSetting = NewDefaultKpiSettingClient(tx.config)

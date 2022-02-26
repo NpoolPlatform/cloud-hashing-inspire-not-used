@@ -10,6 +10,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/apppurchaseamountsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appuserinvitationsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appuserpurchaseamountsetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/commissioncoinsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
@@ -167,6 +168,26 @@ func init() {
 	appuserpurchaseamountsettingDescID := appuserpurchaseamountsettingFields[0].Descriptor()
 	// appuserpurchaseamountsetting.DefaultID holds the default value on creation for the id field.
 	appuserpurchaseamountsetting.DefaultID = appuserpurchaseamountsettingDescID.Default.(func() uuid.UUID)
+	commissioncoinsettingFields := schema.CommissionCoinSetting{}.Fields()
+	_ = commissioncoinsettingFields
+	// commissioncoinsettingDescCreateAt is the schema descriptor for create_at field.
+	commissioncoinsettingDescCreateAt := commissioncoinsettingFields[2].Descriptor()
+	// commissioncoinsetting.DefaultCreateAt holds the default value on creation for the create_at field.
+	commissioncoinsetting.DefaultCreateAt = commissioncoinsettingDescCreateAt.Default.(func() uint32)
+	// commissioncoinsettingDescUpdateAt is the schema descriptor for update_at field.
+	commissioncoinsettingDescUpdateAt := commissioncoinsettingFields[3].Descriptor()
+	// commissioncoinsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
+	commissioncoinsetting.DefaultUpdateAt = commissioncoinsettingDescUpdateAt.Default.(func() uint32)
+	// commissioncoinsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
+	commissioncoinsetting.UpdateDefaultUpdateAt = commissioncoinsettingDescUpdateAt.UpdateDefault.(func() uint32)
+	// commissioncoinsettingDescDeleteAt is the schema descriptor for delete_at field.
+	commissioncoinsettingDescDeleteAt := commissioncoinsettingFields[4].Descriptor()
+	// commissioncoinsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
+	commissioncoinsetting.DefaultDeleteAt = commissioncoinsettingDescDeleteAt.Default.(func() uint32)
+	// commissioncoinsettingDescID is the schema descriptor for id field.
+	commissioncoinsettingDescID := commissioncoinsettingFields[0].Descriptor()
+	// commissioncoinsetting.DefaultID holds the default value on creation for the id field.
+	commissioncoinsetting.DefaultID = commissioncoinsettingDescID.Default.(func() uuid.UUID)
 	couponallocatedFields := schema.CouponAllocated{}.Fields()
 	_ = couponallocatedFields
 	// couponallocatedDescCreateAt is the schema descriptor for create_at field.

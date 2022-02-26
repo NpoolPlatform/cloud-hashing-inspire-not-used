@@ -17,6 +17,7 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/apppurchaseamountsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appuserinvitationsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appuserpurchaseamountsetting"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/commissioncoinsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
@@ -50,6 +51,8 @@ type Client struct {
 	AppUserInvitationSetting *AppUserInvitationSettingClient
 	// AppUserPurchaseAmountSetting is the client for interacting with the AppUserPurchaseAmountSetting builders.
 	AppUserPurchaseAmountSetting *AppUserPurchaseAmountSettingClient
+	// CommissionCoinSetting is the client for interacting with the CommissionCoinSetting builders.
+	CommissionCoinSetting *CommissionCoinSettingClient
 	// CouponAllocated is the client for interacting with the CouponAllocated builders.
 	CouponAllocated *CouponAllocatedClient
 	// CouponPool is the client for interacting with the CouponPool builders.
@@ -88,6 +91,7 @@ func (c *Client) init() {
 	c.AppPurchaseAmountSetting = NewAppPurchaseAmountSettingClient(c.config)
 	c.AppUserInvitationSetting = NewAppUserInvitationSettingClient(c.config)
 	c.AppUserPurchaseAmountSetting = NewAppUserPurchaseAmountSettingClient(c.config)
+	c.CommissionCoinSetting = NewCommissionCoinSettingClient(c.config)
 	c.CouponAllocated = NewCouponAllocatedClient(c.config)
 	c.CouponPool = NewCouponPoolClient(c.config)
 	c.DefaultKpiSetting = NewDefaultKpiSettingClient(c.config)
@@ -137,6 +141,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		AppPurchaseAmountSetting:     NewAppPurchaseAmountSettingClient(cfg),
 		AppUserInvitationSetting:     NewAppUserInvitationSettingClient(cfg),
 		AppUserPurchaseAmountSetting: NewAppUserPurchaseAmountSettingClient(cfg),
+		CommissionCoinSetting:        NewCommissionCoinSettingClient(cfg),
 		CouponAllocated:              NewCouponAllocatedClient(cfg),
 		CouponPool:                   NewCouponPoolClient(cfg),
 		DefaultKpiSetting:            NewDefaultKpiSettingClient(cfg),
@@ -172,6 +177,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		AppPurchaseAmountSetting:     NewAppPurchaseAmountSettingClient(cfg),
 		AppUserInvitationSetting:     NewAppUserInvitationSettingClient(cfg),
 		AppUserPurchaseAmountSetting: NewAppUserPurchaseAmountSettingClient(cfg),
+		CommissionCoinSetting:        NewCommissionCoinSettingClient(cfg),
 		CouponAllocated:              NewCouponAllocatedClient(cfg),
 		CouponPool:                   NewCouponPoolClient(cfg),
 		DefaultKpiSetting:            NewDefaultKpiSettingClient(cfg),
@@ -217,6 +223,7 @@ func (c *Client) Use(hooks ...Hook) {
 	c.AppPurchaseAmountSetting.Use(hooks...)
 	c.AppUserInvitationSetting.Use(hooks...)
 	c.AppUserPurchaseAmountSetting.Use(hooks...)
+	c.CommissionCoinSetting.Use(hooks...)
 	c.CouponAllocated.Use(hooks...)
 	c.CouponPool.Use(hooks...)
 	c.DefaultKpiSetting.Use(hooks...)
@@ -856,6 +863,96 @@ func (c *AppUserPurchaseAmountSettingClient) GetX(ctx context.Context, id uuid.U
 // Hooks returns the client hooks.
 func (c *AppUserPurchaseAmountSettingClient) Hooks() []Hook {
 	return c.hooks.AppUserPurchaseAmountSetting
+}
+
+// CommissionCoinSettingClient is a client for the CommissionCoinSetting schema.
+type CommissionCoinSettingClient struct {
+	config
+}
+
+// NewCommissionCoinSettingClient returns a client for the CommissionCoinSetting from the given config.
+func NewCommissionCoinSettingClient(c config) *CommissionCoinSettingClient {
+	return &CommissionCoinSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `commissioncoinsetting.Hooks(f(g(h())))`.
+func (c *CommissionCoinSettingClient) Use(hooks ...Hook) {
+	c.hooks.CommissionCoinSetting = append(c.hooks.CommissionCoinSetting, hooks...)
+}
+
+// Create returns a create builder for CommissionCoinSetting.
+func (c *CommissionCoinSettingClient) Create() *CommissionCoinSettingCreate {
+	mutation := newCommissionCoinSettingMutation(c.config, OpCreate)
+	return &CommissionCoinSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of CommissionCoinSetting entities.
+func (c *CommissionCoinSettingClient) CreateBulk(builders ...*CommissionCoinSettingCreate) *CommissionCoinSettingCreateBulk {
+	return &CommissionCoinSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for CommissionCoinSetting.
+func (c *CommissionCoinSettingClient) Update() *CommissionCoinSettingUpdate {
+	mutation := newCommissionCoinSettingMutation(c.config, OpUpdate)
+	return &CommissionCoinSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *CommissionCoinSettingClient) UpdateOne(ccs *CommissionCoinSetting) *CommissionCoinSettingUpdateOne {
+	mutation := newCommissionCoinSettingMutation(c.config, OpUpdateOne, withCommissionCoinSetting(ccs))
+	return &CommissionCoinSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *CommissionCoinSettingClient) UpdateOneID(id uuid.UUID) *CommissionCoinSettingUpdateOne {
+	mutation := newCommissionCoinSettingMutation(c.config, OpUpdateOne, withCommissionCoinSettingID(id))
+	return &CommissionCoinSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for CommissionCoinSetting.
+func (c *CommissionCoinSettingClient) Delete() *CommissionCoinSettingDelete {
+	mutation := newCommissionCoinSettingMutation(c.config, OpDelete)
+	return &CommissionCoinSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *CommissionCoinSettingClient) DeleteOne(ccs *CommissionCoinSetting) *CommissionCoinSettingDeleteOne {
+	return c.DeleteOneID(ccs.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *CommissionCoinSettingClient) DeleteOneID(id uuid.UUID) *CommissionCoinSettingDeleteOne {
+	builder := c.Delete().Where(commissioncoinsetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &CommissionCoinSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for CommissionCoinSetting.
+func (c *CommissionCoinSettingClient) Query() *CommissionCoinSettingQuery {
+	return &CommissionCoinSettingQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a CommissionCoinSetting entity by its id.
+func (c *CommissionCoinSettingClient) Get(ctx context.Context, id uuid.UUID) (*CommissionCoinSetting, error) {
+	return c.Query().Where(commissioncoinsetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *CommissionCoinSettingClient) GetX(ctx context.Context, id uuid.UUID) *CommissionCoinSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *CommissionCoinSettingClient) Hooks() []Hook {
+	return c.hooks.CommissionCoinSetting
 }
 
 // CouponAllocatedClient is a client for the CouponAllocated schema.

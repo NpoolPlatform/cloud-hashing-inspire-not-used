@@ -100,6 +100,19 @@ func (f AppUserPurchaseAmountSettingFunc) Mutate(ctx context.Context, m ent.Muta
 	return f(ctx, mv)
 }
 
+// The CommissionCoinSettingFunc type is an adapter to allow the use of ordinary
+// function as CommissionCoinSetting mutator.
+type CommissionCoinSettingFunc func(context.Context, *ent.CommissionCoinSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CommissionCoinSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.CommissionCoinSettingMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CommissionCoinSettingMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The CouponAllocatedFunc type is an adapter to allow the use of ordinary
 // function as CouponAllocated mutator.
 type CouponAllocatedFunc func(context.Context, *ent.CouponAllocatedMutation) (ent.Value, error)
