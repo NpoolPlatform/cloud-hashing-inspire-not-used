@@ -112,6 +112,60 @@ var (
 			},
 		},
 	}
+	// AppUserInvitationSettingsColumns holds the columns for the "app_user_invitation_settings" table.
+	AppUserInvitationSettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "count", Type: field.TypeUint32},
+		{Name: "discount", Type: field.TypeUint32},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+		{Name: "title", Type: field.TypeString},
+		{Name: "badge_large", Type: field.TypeString},
+		{Name: "badge_small", Type: field.TypeString},
+	}
+	// AppUserInvitationSettingsTable holds the schema information for the "app_user_invitation_settings" table.
+	AppUserInvitationSettingsTable = &schema.Table{
+		Name:       "app_user_invitation_settings",
+		Columns:    AppUserInvitationSettingsColumns,
+		PrimaryKey: []*schema.Column{AppUserInvitationSettingsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "appuserinvitationsetting_app_id_user_id_count",
+				Unique:  true,
+				Columns: []*schema.Column{AppUserInvitationSettingsColumns[1], AppUserInvitationSettingsColumns[2], AppUserInvitationSettingsColumns[3]},
+			},
+		},
+	}
+	// AppUserPurchaseAmountSettingsColumns holds the columns for the "app_user_purchase_amount_settings" table.
+	AppUserPurchaseAmountSettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "title", Type: field.TypeString},
+		{Name: "badge_large", Type: field.TypeString},
+		{Name: "badge_small", Type: field.TypeString},
+		{Name: "amount", Type: field.TypeUint64},
+		{Name: "percent", Type: field.TypeUint32},
+		{Name: "create_at", Type: field.TypeUint32},
+		{Name: "update_at", Type: field.TypeUint32},
+		{Name: "delete_at", Type: field.TypeUint32},
+	}
+	// AppUserPurchaseAmountSettingsTable holds the schema information for the "app_user_purchase_amount_settings" table.
+	AppUserPurchaseAmountSettingsTable = &schema.Table{
+		Name:       "app_user_purchase_amount_settings",
+		Columns:    AppUserPurchaseAmountSettingsColumns,
+		PrimaryKey: []*schema.Column{AppUserPurchaseAmountSettingsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "appuserpurchaseamountsetting_app_id_user_id_amount",
+				Unique:  true,
+				Columns: []*schema.Column{AppUserPurchaseAmountSettingsColumns[1], AppUserPurchaseAmountSettingsColumns[2], AppUserPurchaseAmountSettingsColumns[6]},
+			},
+		},
+	}
 	// CouponAllocatedsColumns holds the columns for the "coupon_allocateds" table.
 	CouponAllocatedsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -318,6 +372,8 @@ var (
 		AppCouponSettingsTable,
 		AppInvitationSettingsTable,
 		AppPurchaseAmountSettingsTable,
+		AppUserInvitationSettingsTable,
+		AppUserPurchaseAmountSettingsTable,
 		CouponAllocatedsTable,
 		CouponPoolsTable,
 		DefaultKpiSettingsTable,
