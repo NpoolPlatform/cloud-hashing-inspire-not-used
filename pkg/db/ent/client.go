@@ -11,7 +11,6 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/activity"
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/agencysetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcommissionsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appinvitationsetting"
@@ -21,8 +20,6 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/discountpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/eventcoupon"
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userkpisetting"
@@ -39,8 +36,6 @@ type Client struct {
 	Schema *migrate.Schema
 	// Activity is the client for interacting with the Activity builders.
 	Activity *ActivityClient
-	// AgencySetting is the client for interacting with the AgencySetting builders.
-	AgencySetting *AgencySettingClient
 	// AppCommissionSetting is the client for interacting with the AppCommissionSetting builders.
 	AppCommissionSetting *AppCommissionSettingClient
 	// AppCouponSetting is the client for interacting with the AppCouponSetting builders.
@@ -59,10 +54,6 @@ type Client struct {
 	DiscountPool *DiscountPoolClient
 	// EventCoupon is the client for interacting with the EventCoupon builders.
 	EventCoupon *EventCouponClient
-	// NewUserRewardSetting is the client for interacting with the NewUserRewardSetting builders.
-	NewUserRewardSetting *NewUserRewardSettingClient
-	// PurchaseInvitation is the client for interacting with the PurchaseInvitation builders.
-	PurchaseInvitation *PurchaseInvitationClient
 	// RegistrationInvitation is the client for interacting with the RegistrationInvitation builders.
 	RegistrationInvitation *RegistrationInvitationClient
 	// UserInvitationCode is the client for interacting with the UserInvitationCode builders.
@@ -85,7 +76,6 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Activity = NewActivityClient(c.config)
-	c.AgencySetting = NewAgencySettingClient(c.config)
 	c.AppCommissionSetting = NewAppCommissionSettingClient(c.config)
 	c.AppCouponSetting = NewAppCouponSettingClient(c.config)
 	c.AppInvitationSetting = NewAppInvitationSettingClient(c.config)
@@ -95,8 +85,6 @@ func (c *Client) init() {
 	c.DefaultKpiSetting = NewDefaultKpiSettingClient(c.config)
 	c.DiscountPool = NewDiscountPoolClient(c.config)
 	c.EventCoupon = NewEventCouponClient(c.config)
-	c.NewUserRewardSetting = NewNewUserRewardSettingClient(c.config)
-	c.PurchaseInvitation = NewPurchaseInvitationClient(c.config)
 	c.RegistrationInvitation = NewRegistrationInvitationClient(c.config)
 	c.UserInvitationCode = NewUserInvitationCodeClient(c.config)
 	c.UserKpiSetting = NewUserKpiSettingClient(c.config)
@@ -135,7 +123,6 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		ctx:                      ctx,
 		config:                   cfg,
 		Activity:                 NewActivityClient(cfg),
-		AgencySetting:            NewAgencySettingClient(cfg),
 		AppCommissionSetting:     NewAppCommissionSettingClient(cfg),
 		AppCouponSetting:         NewAppCouponSettingClient(cfg),
 		AppInvitationSetting:     NewAppInvitationSettingClient(cfg),
@@ -145,8 +132,6 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		DefaultKpiSetting:        NewDefaultKpiSettingClient(cfg),
 		DiscountPool:             NewDiscountPoolClient(cfg),
 		EventCoupon:              NewEventCouponClient(cfg),
-		NewUserRewardSetting:     NewNewUserRewardSettingClient(cfg),
-		PurchaseInvitation:       NewPurchaseInvitationClient(cfg),
 		RegistrationInvitation:   NewRegistrationInvitationClient(cfg),
 		UserInvitationCode:       NewUserInvitationCodeClient(cfg),
 		UserKpiSetting:           NewUserKpiSettingClient(cfg),
@@ -171,7 +156,6 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		ctx:                      ctx,
 		config:                   cfg,
 		Activity:                 NewActivityClient(cfg),
-		AgencySetting:            NewAgencySettingClient(cfg),
 		AppCommissionSetting:     NewAppCommissionSettingClient(cfg),
 		AppCouponSetting:         NewAppCouponSettingClient(cfg),
 		AppInvitationSetting:     NewAppInvitationSettingClient(cfg),
@@ -181,8 +165,6 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		DefaultKpiSetting:        NewDefaultKpiSettingClient(cfg),
 		DiscountPool:             NewDiscountPoolClient(cfg),
 		EventCoupon:              NewEventCouponClient(cfg),
-		NewUserRewardSetting:     NewNewUserRewardSettingClient(cfg),
-		PurchaseInvitation:       NewPurchaseInvitationClient(cfg),
 		RegistrationInvitation:   NewRegistrationInvitationClient(cfg),
 		UserInvitationCode:       NewUserInvitationCodeClient(cfg),
 		UserKpiSetting:           NewUserKpiSettingClient(cfg),
@@ -217,7 +199,6 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	c.Activity.Use(hooks...)
-	c.AgencySetting.Use(hooks...)
 	c.AppCommissionSetting.Use(hooks...)
 	c.AppCouponSetting.Use(hooks...)
 	c.AppInvitationSetting.Use(hooks...)
@@ -227,8 +208,6 @@ func (c *Client) Use(hooks ...Hook) {
 	c.DefaultKpiSetting.Use(hooks...)
 	c.DiscountPool.Use(hooks...)
 	c.EventCoupon.Use(hooks...)
-	c.NewUserRewardSetting.Use(hooks...)
-	c.PurchaseInvitation.Use(hooks...)
 	c.RegistrationInvitation.Use(hooks...)
 	c.UserInvitationCode.Use(hooks...)
 	c.UserKpiSetting.Use(hooks...)
@@ -323,96 +302,6 @@ func (c *ActivityClient) GetX(ctx context.Context, id uuid.UUID) *Activity {
 // Hooks returns the client hooks.
 func (c *ActivityClient) Hooks() []Hook {
 	return c.hooks.Activity
-}
-
-// AgencySettingClient is a client for the AgencySetting schema.
-type AgencySettingClient struct {
-	config
-}
-
-// NewAgencySettingClient returns a client for the AgencySetting from the given config.
-func NewAgencySettingClient(c config) *AgencySettingClient {
-	return &AgencySettingClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `agencysetting.Hooks(f(g(h())))`.
-func (c *AgencySettingClient) Use(hooks ...Hook) {
-	c.hooks.AgencySetting = append(c.hooks.AgencySetting, hooks...)
-}
-
-// Create returns a create builder for AgencySetting.
-func (c *AgencySettingClient) Create() *AgencySettingCreate {
-	mutation := newAgencySettingMutation(c.config, OpCreate)
-	return &AgencySettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of AgencySetting entities.
-func (c *AgencySettingClient) CreateBulk(builders ...*AgencySettingCreate) *AgencySettingCreateBulk {
-	return &AgencySettingCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for AgencySetting.
-func (c *AgencySettingClient) Update() *AgencySettingUpdate {
-	mutation := newAgencySettingMutation(c.config, OpUpdate)
-	return &AgencySettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *AgencySettingClient) UpdateOne(as *AgencySetting) *AgencySettingUpdateOne {
-	mutation := newAgencySettingMutation(c.config, OpUpdateOne, withAgencySetting(as))
-	return &AgencySettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *AgencySettingClient) UpdateOneID(id uuid.UUID) *AgencySettingUpdateOne {
-	mutation := newAgencySettingMutation(c.config, OpUpdateOne, withAgencySettingID(id))
-	return &AgencySettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for AgencySetting.
-func (c *AgencySettingClient) Delete() *AgencySettingDelete {
-	mutation := newAgencySettingMutation(c.config, OpDelete)
-	return &AgencySettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a delete builder for the given entity.
-func (c *AgencySettingClient) DeleteOne(as *AgencySetting) *AgencySettingDeleteOne {
-	return c.DeleteOneID(as.ID)
-}
-
-// DeleteOneID returns a delete builder for the given id.
-func (c *AgencySettingClient) DeleteOneID(id uuid.UUID) *AgencySettingDeleteOne {
-	builder := c.Delete().Where(agencysetting.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &AgencySettingDeleteOne{builder}
-}
-
-// Query returns a query builder for AgencySetting.
-func (c *AgencySettingClient) Query() *AgencySettingQuery {
-	return &AgencySettingQuery{
-		config: c.config,
-	}
-}
-
-// Get returns a AgencySetting entity by its id.
-func (c *AgencySettingClient) Get(ctx context.Context, id uuid.UUID) (*AgencySetting, error) {
-	return c.Query().Where(agencysetting.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *AgencySettingClient) GetX(ctx context.Context, id uuid.UUID) *AgencySetting {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *AgencySettingClient) Hooks() []Hook {
-	return c.hooks.AgencySetting
 }
 
 // AppCommissionSettingClient is a client for the AppCommissionSetting schema.
@@ -1223,186 +1112,6 @@ func (c *EventCouponClient) GetX(ctx context.Context, id uuid.UUID) *EventCoupon
 // Hooks returns the client hooks.
 func (c *EventCouponClient) Hooks() []Hook {
 	return c.hooks.EventCoupon
-}
-
-// NewUserRewardSettingClient is a client for the NewUserRewardSetting schema.
-type NewUserRewardSettingClient struct {
-	config
-}
-
-// NewNewUserRewardSettingClient returns a client for the NewUserRewardSetting from the given config.
-func NewNewUserRewardSettingClient(c config) *NewUserRewardSettingClient {
-	return &NewUserRewardSettingClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `newuserrewardsetting.Hooks(f(g(h())))`.
-func (c *NewUserRewardSettingClient) Use(hooks ...Hook) {
-	c.hooks.NewUserRewardSetting = append(c.hooks.NewUserRewardSetting, hooks...)
-}
-
-// Create returns a create builder for NewUserRewardSetting.
-func (c *NewUserRewardSettingClient) Create() *NewUserRewardSettingCreate {
-	mutation := newNewUserRewardSettingMutation(c.config, OpCreate)
-	return &NewUserRewardSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of NewUserRewardSetting entities.
-func (c *NewUserRewardSettingClient) CreateBulk(builders ...*NewUserRewardSettingCreate) *NewUserRewardSettingCreateBulk {
-	return &NewUserRewardSettingCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for NewUserRewardSetting.
-func (c *NewUserRewardSettingClient) Update() *NewUserRewardSettingUpdate {
-	mutation := newNewUserRewardSettingMutation(c.config, OpUpdate)
-	return &NewUserRewardSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *NewUserRewardSettingClient) UpdateOne(nurs *NewUserRewardSetting) *NewUserRewardSettingUpdateOne {
-	mutation := newNewUserRewardSettingMutation(c.config, OpUpdateOne, withNewUserRewardSetting(nurs))
-	return &NewUserRewardSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *NewUserRewardSettingClient) UpdateOneID(id uuid.UUID) *NewUserRewardSettingUpdateOne {
-	mutation := newNewUserRewardSettingMutation(c.config, OpUpdateOne, withNewUserRewardSettingID(id))
-	return &NewUserRewardSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for NewUserRewardSetting.
-func (c *NewUserRewardSettingClient) Delete() *NewUserRewardSettingDelete {
-	mutation := newNewUserRewardSettingMutation(c.config, OpDelete)
-	return &NewUserRewardSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a delete builder for the given entity.
-func (c *NewUserRewardSettingClient) DeleteOne(nurs *NewUserRewardSetting) *NewUserRewardSettingDeleteOne {
-	return c.DeleteOneID(nurs.ID)
-}
-
-// DeleteOneID returns a delete builder for the given id.
-func (c *NewUserRewardSettingClient) DeleteOneID(id uuid.UUID) *NewUserRewardSettingDeleteOne {
-	builder := c.Delete().Where(newuserrewardsetting.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &NewUserRewardSettingDeleteOne{builder}
-}
-
-// Query returns a query builder for NewUserRewardSetting.
-func (c *NewUserRewardSettingClient) Query() *NewUserRewardSettingQuery {
-	return &NewUserRewardSettingQuery{
-		config: c.config,
-	}
-}
-
-// Get returns a NewUserRewardSetting entity by its id.
-func (c *NewUserRewardSettingClient) Get(ctx context.Context, id uuid.UUID) (*NewUserRewardSetting, error) {
-	return c.Query().Where(newuserrewardsetting.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *NewUserRewardSettingClient) GetX(ctx context.Context, id uuid.UUID) *NewUserRewardSetting {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *NewUserRewardSettingClient) Hooks() []Hook {
-	return c.hooks.NewUserRewardSetting
-}
-
-// PurchaseInvitationClient is a client for the PurchaseInvitation schema.
-type PurchaseInvitationClient struct {
-	config
-}
-
-// NewPurchaseInvitationClient returns a client for the PurchaseInvitation from the given config.
-func NewPurchaseInvitationClient(c config) *PurchaseInvitationClient {
-	return &PurchaseInvitationClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `purchaseinvitation.Hooks(f(g(h())))`.
-func (c *PurchaseInvitationClient) Use(hooks ...Hook) {
-	c.hooks.PurchaseInvitation = append(c.hooks.PurchaseInvitation, hooks...)
-}
-
-// Create returns a create builder for PurchaseInvitation.
-func (c *PurchaseInvitationClient) Create() *PurchaseInvitationCreate {
-	mutation := newPurchaseInvitationMutation(c.config, OpCreate)
-	return &PurchaseInvitationCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of PurchaseInvitation entities.
-func (c *PurchaseInvitationClient) CreateBulk(builders ...*PurchaseInvitationCreate) *PurchaseInvitationCreateBulk {
-	return &PurchaseInvitationCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for PurchaseInvitation.
-func (c *PurchaseInvitationClient) Update() *PurchaseInvitationUpdate {
-	mutation := newPurchaseInvitationMutation(c.config, OpUpdate)
-	return &PurchaseInvitationUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *PurchaseInvitationClient) UpdateOne(pi *PurchaseInvitation) *PurchaseInvitationUpdateOne {
-	mutation := newPurchaseInvitationMutation(c.config, OpUpdateOne, withPurchaseInvitation(pi))
-	return &PurchaseInvitationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *PurchaseInvitationClient) UpdateOneID(id uuid.UUID) *PurchaseInvitationUpdateOne {
-	mutation := newPurchaseInvitationMutation(c.config, OpUpdateOne, withPurchaseInvitationID(id))
-	return &PurchaseInvitationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for PurchaseInvitation.
-func (c *PurchaseInvitationClient) Delete() *PurchaseInvitationDelete {
-	mutation := newPurchaseInvitationMutation(c.config, OpDelete)
-	return &PurchaseInvitationDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a delete builder for the given entity.
-func (c *PurchaseInvitationClient) DeleteOne(pi *PurchaseInvitation) *PurchaseInvitationDeleteOne {
-	return c.DeleteOneID(pi.ID)
-}
-
-// DeleteOneID returns a delete builder for the given id.
-func (c *PurchaseInvitationClient) DeleteOneID(id uuid.UUID) *PurchaseInvitationDeleteOne {
-	builder := c.Delete().Where(purchaseinvitation.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &PurchaseInvitationDeleteOne{builder}
-}
-
-// Query returns a query builder for PurchaseInvitation.
-func (c *PurchaseInvitationClient) Query() *PurchaseInvitationQuery {
-	return &PurchaseInvitationQuery{
-		config: c.config,
-	}
-}
-
-// Get returns a PurchaseInvitation entity by its id.
-func (c *PurchaseInvitationClient) Get(ctx context.Context, id uuid.UUID) (*PurchaseInvitation, error) {
-	return c.Query().Where(purchaseinvitation.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *PurchaseInvitationClient) GetX(ctx context.Context, id uuid.UUID) *PurchaseInvitation {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *PurchaseInvitationClient) Hooks() []Hook {
-	return c.hooks.PurchaseInvitation
 }
 
 // RegistrationInvitationClient is a client for the RegistrationInvitation schema.

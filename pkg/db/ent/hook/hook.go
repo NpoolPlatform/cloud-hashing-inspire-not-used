@@ -22,19 +22,6 @@ func (f ActivityFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, er
 	return f(ctx, mv)
 }
 
-// The AgencySettingFunc type is an adapter to allow the use of ordinary
-// function as AgencySetting mutator.
-type AgencySettingFunc func(context.Context, *ent.AgencySettingMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f AgencySettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.AgencySettingMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AgencySettingMutation", m)
-	}
-	return f(ctx, mv)
-}
-
 // The AppCommissionSettingFunc type is an adapter to allow the use of ordinary
 // function as AppCommissionSetting mutator.
 type AppCommissionSettingFunc func(context.Context, *ent.AppCommissionSettingMutation) (ent.Value, error)
@@ -148,32 +135,6 @@ func (f EventCouponFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 	mv, ok := m.(*ent.EventCouponMutation)
 	if !ok {
 		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.EventCouponMutation", m)
-	}
-	return f(ctx, mv)
-}
-
-// The NewUserRewardSettingFunc type is an adapter to allow the use of ordinary
-// function as NewUserRewardSetting mutator.
-type NewUserRewardSettingFunc func(context.Context, *ent.NewUserRewardSettingMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f NewUserRewardSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.NewUserRewardSettingMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.NewUserRewardSettingMutation", m)
-	}
-	return f(ctx, mv)
-}
-
-// The PurchaseInvitationFunc type is an adapter to allow the use of ordinary
-// function as PurchaseInvitation mutator.
-type PurchaseInvitationFunc func(context.Context, *ent.PurchaseInvitationMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f PurchaseInvitationFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.PurchaseInvitationMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PurchaseInvitationMutation", m)
 	}
 	return f(ctx, mv)
 }

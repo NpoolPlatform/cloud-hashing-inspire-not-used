@@ -13,6 +13,12 @@ const (
 	FieldID = "id"
 	// FieldAppID holds the string denoting the app_id field in the database.
 	FieldAppID = "app_id"
+	// FieldTitle holds the string denoting the title field in the database.
+	FieldTitle = "title"
+	// FieldBadgeLarge holds the string denoting the badge_large field in the database.
+	FieldBadgeLarge = "badge_large"
+	// FieldBadgeSmall holds the string denoting the badge_small field in the database.
+	FieldBadgeSmall = "badge_small"
 	// FieldAmount holds the string denoting the amount field in the database.
 	FieldAmount = "amount"
 	// FieldPercent holds the string denoting the percent field in the database.
@@ -31,6 +37,9 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldAppID,
+	FieldTitle,
+	FieldBadgeLarge,
+	FieldBadgeSmall,
 	FieldAmount,
 	FieldPercent,
 	FieldCreateAt,

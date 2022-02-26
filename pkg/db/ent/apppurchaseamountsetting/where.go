@@ -98,6 +98,27 @@ func AppID(v uuid.UUID) predicate.AppPurchaseAmountSetting {
 	})
 }
 
+// Title applies equality check predicate on the "title" field. It's identical to TitleEQ.
+func Title(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTitle), v))
+	})
+}
+
+// BadgeLarge applies equality check predicate on the "badge_large" field. It's identical to BadgeLargeEQ.
+func BadgeLarge(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeSmall applies equality check predicate on the "badge_small" field. It's identical to BadgeSmallEQ.
+func BadgeSmall(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldBadgeSmall), v))
+	})
+}
+
 // Amount applies equality check predicate on the "amount" field. It's identical to AmountEQ.
 func Amount(v uint64) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
@@ -106,7 +127,7 @@ func Amount(v uint64) predicate.AppPurchaseAmountSetting {
 }
 
 // Percent applies equality check predicate on the "percent" field. It's identical to PercentEQ.
-func Percent(v uint64) predicate.AppPurchaseAmountSetting {
+func Percent(v uint32) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldPercent), v))
 	})
@@ -209,6 +230,339 @@ func AppIDLTE(v uuid.UUID) predicate.AppPurchaseAmountSetting {
 	})
 }
 
+// TitleEQ applies the EQ predicate on the "title" field.
+func TitleEQ(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTitle), v))
+	})
+}
+
+// TitleNEQ applies the NEQ predicate on the "title" field.
+func TitleNEQ(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldTitle), v))
+	})
+}
+
+// TitleIn applies the In predicate on the "title" field.
+func TitleIn(vs ...string) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldTitle), v...))
+	})
+}
+
+// TitleNotIn applies the NotIn predicate on the "title" field.
+func TitleNotIn(vs ...string) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldTitle), v...))
+	})
+}
+
+// TitleGT applies the GT predicate on the "title" field.
+func TitleGT(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldTitle), v))
+	})
+}
+
+// TitleGTE applies the GTE predicate on the "title" field.
+func TitleGTE(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldTitle), v))
+	})
+}
+
+// TitleLT applies the LT predicate on the "title" field.
+func TitleLT(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldTitle), v))
+	})
+}
+
+// TitleLTE applies the LTE predicate on the "title" field.
+func TitleLTE(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldTitle), v))
+	})
+}
+
+// TitleContains applies the Contains predicate on the "title" field.
+func TitleContains(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldTitle), v))
+	})
+}
+
+// TitleHasPrefix applies the HasPrefix predicate on the "title" field.
+func TitleHasPrefix(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldTitle), v))
+	})
+}
+
+// TitleHasSuffix applies the HasSuffix predicate on the "title" field.
+func TitleHasSuffix(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldTitle), v))
+	})
+}
+
+// TitleEqualFold applies the EqualFold predicate on the "title" field.
+func TitleEqualFold(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldTitle), v))
+	})
+}
+
+// TitleContainsFold applies the ContainsFold predicate on the "title" field.
+func TitleContainsFold(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldTitle), v))
+	})
+}
+
+// BadgeLargeEQ applies the EQ predicate on the "badge_large" field.
+func BadgeLargeEQ(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeLargeNEQ applies the NEQ predicate on the "badge_large" field.
+func BadgeLargeNEQ(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeLargeIn applies the In predicate on the "badge_large" field.
+func BadgeLargeIn(vs ...string) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldBadgeLarge), v...))
+	})
+}
+
+// BadgeLargeNotIn applies the NotIn predicate on the "badge_large" field.
+func BadgeLargeNotIn(vs ...string) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldBadgeLarge), v...))
+	})
+}
+
+// BadgeLargeGT applies the GT predicate on the "badge_large" field.
+func BadgeLargeGT(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeLargeGTE applies the GTE predicate on the "badge_large" field.
+func BadgeLargeGTE(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeLargeLT applies the LT predicate on the "badge_large" field.
+func BadgeLargeLT(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeLargeLTE applies the LTE predicate on the "badge_large" field.
+func BadgeLargeLTE(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeLargeContains applies the Contains predicate on the "badge_large" field.
+func BadgeLargeContains(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeLargeHasPrefix applies the HasPrefix predicate on the "badge_large" field.
+func BadgeLargeHasPrefix(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeLargeHasSuffix applies the HasSuffix predicate on the "badge_large" field.
+func BadgeLargeHasSuffix(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeLargeEqualFold applies the EqualFold predicate on the "badge_large" field.
+func BadgeLargeEqualFold(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeLargeContainsFold applies the ContainsFold predicate on the "badge_large" field.
+func BadgeLargeContainsFold(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeSmallEQ applies the EQ predicate on the "badge_small" field.
+func BadgeSmallEQ(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldBadgeSmall), v))
+	})
+}
+
+// BadgeSmallNEQ applies the NEQ predicate on the "badge_small" field.
+func BadgeSmallNEQ(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldBadgeSmall), v))
+	})
+}
+
+// BadgeSmallIn applies the In predicate on the "badge_small" field.
+func BadgeSmallIn(vs ...string) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldBadgeSmall), v...))
+	})
+}
+
+// BadgeSmallNotIn applies the NotIn predicate on the "badge_small" field.
+func BadgeSmallNotIn(vs ...string) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldBadgeSmall), v...))
+	})
+}
+
+// BadgeSmallGT applies the GT predicate on the "badge_small" field.
+func BadgeSmallGT(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldBadgeSmall), v))
+	})
+}
+
+// BadgeSmallGTE applies the GTE predicate on the "badge_small" field.
+func BadgeSmallGTE(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldBadgeSmall), v))
+	})
+}
+
+// BadgeSmallLT applies the LT predicate on the "badge_small" field.
+func BadgeSmallLT(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldBadgeSmall), v))
+	})
+}
+
+// BadgeSmallLTE applies the LTE predicate on the "badge_small" field.
+func BadgeSmallLTE(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldBadgeSmall), v))
+	})
+}
+
+// BadgeSmallContains applies the Contains predicate on the "badge_small" field.
+func BadgeSmallContains(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldBadgeSmall), v))
+	})
+}
+
+// BadgeSmallHasPrefix applies the HasPrefix predicate on the "badge_small" field.
+func BadgeSmallHasPrefix(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldBadgeSmall), v))
+	})
+}
+
+// BadgeSmallHasSuffix applies the HasSuffix predicate on the "badge_small" field.
+func BadgeSmallHasSuffix(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldBadgeSmall), v))
+	})
+}
+
+// BadgeSmallEqualFold applies the EqualFold predicate on the "badge_small" field.
+func BadgeSmallEqualFold(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldBadgeSmall), v))
+	})
+}
+
+// BadgeSmallContainsFold applies the ContainsFold predicate on the "badge_small" field.
+func BadgeSmallContainsFold(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldBadgeSmall), v))
+	})
+}
+
 // AmountEQ applies the EQ predicate on the "amount" field.
 func AmountEQ(v uint64) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
@@ -286,21 +640,21 @@ func AmountLTE(v uint64) predicate.AppPurchaseAmountSetting {
 }
 
 // PercentEQ applies the EQ predicate on the "percent" field.
-func PercentEQ(v uint64) predicate.AppPurchaseAmountSetting {
+func PercentEQ(v uint32) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldPercent), v))
 	})
 }
 
 // PercentNEQ applies the NEQ predicate on the "percent" field.
-func PercentNEQ(v uint64) predicate.AppPurchaseAmountSetting {
+func PercentNEQ(v uint32) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldPercent), v))
 	})
 }
 
 // PercentIn applies the In predicate on the "percent" field.
-func PercentIn(vs ...uint64) predicate.AppPurchaseAmountSetting {
+func PercentIn(vs ...uint32) predicate.AppPurchaseAmountSetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -317,7 +671,7 @@ func PercentIn(vs ...uint64) predicate.AppPurchaseAmountSetting {
 }
 
 // PercentNotIn applies the NotIn predicate on the "percent" field.
-func PercentNotIn(vs ...uint64) predicate.AppPurchaseAmountSetting {
+func PercentNotIn(vs ...uint32) predicate.AppPurchaseAmountSetting {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -334,28 +688,28 @@ func PercentNotIn(vs ...uint64) predicate.AppPurchaseAmountSetting {
 }
 
 // PercentGT applies the GT predicate on the "percent" field.
-func PercentGT(v uint64) predicate.AppPurchaseAmountSetting {
+func PercentGT(v uint32) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldPercent), v))
 	})
 }
 
 // PercentGTE applies the GTE predicate on the "percent" field.
-func PercentGTE(v uint64) predicate.AppPurchaseAmountSetting {
+func PercentGTE(v uint32) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldPercent), v))
 	})
 }
 
 // PercentLT applies the LT predicate on the "percent" field.
-func PercentLT(v uint64) predicate.AppPurchaseAmountSetting {
+func PercentLT(v uint32) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldPercent), v))
 	})
 }
 
 // PercentLTE applies the LTE predicate on the "percent" field.
-func PercentLTE(v uint64) predicate.AppPurchaseAmountSetting {
+func PercentLTE(v uint32) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldPercent), v))
 	})

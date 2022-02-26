@@ -18,10 +18,16 @@ type AppPurchaseAmountSetting struct {
 	ID uuid.UUID `json:"id,omitempty"`
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
+	// Title holds the value of the "title" field.
+	Title string `json:"title,omitempty"`
+	// BadgeLarge holds the value of the "badge_large" field.
+	BadgeLarge string `json:"badge_large,omitempty"`
+	// BadgeSmall holds the value of the "badge_small" field.
+	BadgeSmall string `json:"badge_small,omitempty"`
 	// Amount holds the value of the "amount" field.
 	Amount uint64 `json:"amount,omitempty"`
 	// Percent holds the value of the "percent" field.
-	Percent uint64 `json:"percent,omitempty"`
+	Percent uint32 `json:"percent,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -37,6 +43,8 @@ func (*AppPurchaseAmountSetting) scanValues(columns []string) ([]interface{}, er
 		switch columns[i] {
 		case apppurchaseamountsetting.FieldAmount, apppurchaseamountsetting.FieldPercent, apppurchaseamountsetting.FieldCreateAt, apppurchaseamountsetting.FieldUpdateAt, apppurchaseamountsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
+		case apppurchaseamountsetting.FieldTitle, apppurchaseamountsetting.FieldBadgeLarge, apppurchaseamountsetting.FieldBadgeSmall:
+			values[i] = new(sql.NullString)
 		case apppurchaseamountsetting.FieldID, apppurchaseamountsetting.FieldAppID:
 			values[i] = new(uuid.UUID)
 		default:
@@ -66,6 +74,24 @@ func (apas *AppPurchaseAmountSetting) assignValues(columns []string, values []in
 			} else if value != nil {
 				apas.AppID = *value
 			}
+		case apppurchaseamountsetting.FieldTitle:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field title", values[i])
+			} else if value.Valid {
+				apas.Title = value.String
+			}
+		case apppurchaseamountsetting.FieldBadgeLarge:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field badge_large", values[i])
+			} else if value.Valid {
+				apas.BadgeLarge = value.String
+			}
+		case apppurchaseamountsetting.FieldBadgeSmall:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field badge_small", values[i])
+			} else if value.Valid {
+				apas.BadgeSmall = value.String
+			}
 		case apppurchaseamountsetting.FieldAmount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field amount", values[i])
@@ -76,7 +102,7 @@ func (apas *AppPurchaseAmountSetting) assignValues(columns []string, values []in
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field percent", values[i])
 			} else if value.Valid {
-				apas.Percent = uint64(value.Int64)
+				apas.Percent = uint32(value.Int64)
 			}
 		case apppurchaseamountsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -126,6 +152,12 @@ func (apas *AppPurchaseAmountSetting) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", apas.ID))
 	builder.WriteString(", app_id=")
 	builder.WriteString(fmt.Sprintf("%v", apas.AppID))
+	builder.WriteString(", title=")
+	builder.WriteString(apas.Title)
+	builder.WriteString(", badge_large=")
+	builder.WriteString(apas.BadgeLarge)
+	builder.WriteString(", badge_small=")
+	builder.WriteString(apas.BadgeSmall)
 	builder.WriteString(", amount=")
 	builder.WriteString(fmt.Sprintf("%v", apas.Amount))
 	builder.WriteString(", percent=")

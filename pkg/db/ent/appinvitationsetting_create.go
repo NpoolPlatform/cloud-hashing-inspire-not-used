@@ -41,24 +41,6 @@ func (aisc *AppInvitationSettingCreate) SetDiscount(u uint32) *AppInvitationSett
 	return aisc
 }
 
-// SetTitle sets the "title" field.
-func (aisc *AppInvitationSettingCreate) SetTitle(s string) *AppInvitationSettingCreate {
-	aisc.mutation.SetTitle(s)
-	return aisc
-}
-
-// SetBadgeLarge sets the "badge_large" field.
-func (aisc *AppInvitationSettingCreate) SetBadgeLarge(s string) *AppInvitationSettingCreate {
-	aisc.mutation.SetBadgeLarge(s)
-	return aisc
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (aisc *AppInvitationSettingCreate) SetBadgeSmall(s string) *AppInvitationSettingCreate {
-	aisc.mutation.SetBadgeSmall(s)
-	return aisc
-}
-
 // SetCreateAt sets the "create_at" field.
 func (aisc *AppInvitationSettingCreate) SetCreateAt(u uint32) *AppInvitationSettingCreate {
 	aisc.mutation.SetCreateAt(u)
@@ -98,6 +80,24 @@ func (aisc *AppInvitationSettingCreate) SetNillableDeleteAt(u *uint32) *AppInvit
 	if u != nil {
 		aisc.SetDeleteAt(*u)
 	}
+	return aisc
+}
+
+// SetTitle sets the "title" field.
+func (aisc *AppInvitationSettingCreate) SetTitle(s string) *AppInvitationSettingCreate {
+	aisc.mutation.SetTitle(s)
+	return aisc
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (aisc *AppInvitationSettingCreate) SetBadgeLarge(s string) *AppInvitationSettingCreate {
+	aisc.mutation.SetBadgeLarge(s)
+	return aisc
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (aisc *AppInvitationSettingCreate) SetBadgeSmall(s string) *AppInvitationSettingCreate {
+	aisc.mutation.SetBadgeSmall(s)
 	return aisc
 }
 
@@ -215,15 +215,6 @@ func (aisc *AppInvitationSettingCreate) check() error {
 	if _, ok := aisc.mutation.Discount(); !ok {
 		return &ValidationError{Name: "discount", err: errors.New(`ent: missing required field "AppInvitationSetting.discount"`)}
 	}
-	if _, ok := aisc.mutation.Title(); !ok {
-		return &ValidationError{Name: "title", err: errors.New(`ent: missing required field "AppInvitationSetting.title"`)}
-	}
-	if _, ok := aisc.mutation.BadgeLarge(); !ok {
-		return &ValidationError{Name: "badge_large", err: errors.New(`ent: missing required field "AppInvitationSetting.badge_large"`)}
-	}
-	if _, ok := aisc.mutation.BadgeSmall(); !ok {
-		return &ValidationError{Name: "badge_small", err: errors.New(`ent: missing required field "AppInvitationSetting.badge_small"`)}
-	}
 	if _, ok := aisc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "AppInvitationSetting.create_at"`)}
 	}
@@ -232,6 +223,15 @@ func (aisc *AppInvitationSettingCreate) check() error {
 	}
 	if _, ok := aisc.mutation.DeleteAt(); !ok {
 		return &ValidationError{Name: "delete_at", err: errors.New(`ent: missing required field "AppInvitationSetting.delete_at"`)}
+	}
+	if _, ok := aisc.mutation.Title(); !ok {
+		return &ValidationError{Name: "title", err: errors.New(`ent: missing required field "AppInvitationSetting.title"`)}
+	}
+	if _, ok := aisc.mutation.BadgeLarge(); !ok {
+		return &ValidationError{Name: "badge_large", err: errors.New(`ent: missing required field "AppInvitationSetting.badge_large"`)}
+	}
+	if _, ok := aisc.mutation.BadgeSmall(); !ok {
+		return &ValidationError{Name: "badge_small", err: errors.New(`ent: missing required field "AppInvitationSetting.badge_small"`)}
 	}
 	return nil
 }
@@ -294,30 +294,6 @@ func (aisc *AppInvitationSettingCreate) createSpec() (*AppInvitationSetting, *sq
 		})
 		_node.Discount = value
 	}
-	if value, ok := aisc.mutation.Title(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appinvitationsetting.FieldTitle,
-		})
-		_node.Title = value
-	}
-	if value, ok := aisc.mutation.BadgeLarge(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appinvitationsetting.FieldBadgeLarge,
-		})
-		_node.BadgeLarge = value
-	}
-	if value, ok := aisc.mutation.BadgeSmall(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appinvitationsetting.FieldBadgeSmall,
-		})
-		_node.BadgeSmall = value
-	}
 	if value, ok := aisc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -341,6 +317,30 @@ func (aisc *AppInvitationSettingCreate) createSpec() (*AppInvitationSetting, *sq
 			Column: appinvitationsetting.FieldDeleteAt,
 		})
 		_node.DeleteAt = value
+	}
+	if value, ok := aisc.mutation.Title(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appinvitationsetting.FieldTitle,
+		})
+		_node.Title = value
+	}
+	if value, ok := aisc.mutation.BadgeLarge(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appinvitationsetting.FieldBadgeLarge,
+		})
+		_node.BadgeLarge = value
+	}
+	if value, ok := aisc.mutation.BadgeSmall(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appinvitationsetting.FieldBadgeSmall,
+		})
+		_node.BadgeSmall = value
 	}
 	return _node, _spec
 }
@@ -444,42 +444,6 @@ func (u *AppInvitationSettingUpsert) AddDiscount(v uint32) *AppInvitationSetting
 	return u
 }
 
-// SetTitle sets the "title" field.
-func (u *AppInvitationSettingUpsert) SetTitle(v string) *AppInvitationSettingUpsert {
-	u.Set(appinvitationsetting.FieldTitle, v)
-	return u
-}
-
-// UpdateTitle sets the "title" field to the value that was provided on create.
-func (u *AppInvitationSettingUpsert) UpdateTitle() *AppInvitationSettingUpsert {
-	u.SetExcluded(appinvitationsetting.FieldTitle)
-	return u
-}
-
-// SetBadgeLarge sets the "badge_large" field.
-func (u *AppInvitationSettingUpsert) SetBadgeLarge(v string) *AppInvitationSettingUpsert {
-	u.Set(appinvitationsetting.FieldBadgeLarge, v)
-	return u
-}
-
-// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
-func (u *AppInvitationSettingUpsert) UpdateBadgeLarge() *AppInvitationSettingUpsert {
-	u.SetExcluded(appinvitationsetting.FieldBadgeLarge)
-	return u
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (u *AppInvitationSettingUpsert) SetBadgeSmall(v string) *AppInvitationSettingUpsert {
-	u.Set(appinvitationsetting.FieldBadgeSmall, v)
-	return u
-}
-
-// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
-func (u *AppInvitationSettingUpsert) UpdateBadgeSmall() *AppInvitationSettingUpsert {
-	u.SetExcluded(appinvitationsetting.FieldBadgeSmall)
-	return u
-}
-
 // SetCreateAt sets the "create_at" field.
 func (u *AppInvitationSettingUpsert) SetCreateAt(v uint32) *AppInvitationSettingUpsert {
 	u.Set(appinvitationsetting.FieldCreateAt, v)
@@ -531,6 +495,42 @@ func (u *AppInvitationSettingUpsert) UpdateDeleteAt() *AppInvitationSettingUpser
 // AddDeleteAt adds v to the "delete_at" field.
 func (u *AppInvitationSettingUpsert) AddDeleteAt(v uint32) *AppInvitationSettingUpsert {
 	u.Add(appinvitationsetting.FieldDeleteAt, v)
+	return u
+}
+
+// SetTitle sets the "title" field.
+func (u *AppInvitationSettingUpsert) SetTitle(v string) *AppInvitationSettingUpsert {
+	u.Set(appinvitationsetting.FieldTitle, v)
+	return u
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *AppInvitationSettingUpsert) UpdateTitle() *AppInvitationSettingUpsert {
+	u.SetExcluded(appinvitationsetting.FieldTitle)
+	return u
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (u *AppInvitationSettingUpsert) SetBadgeLarge(v string) *AppInvitationSettingUpsert {
+	u.Set(appinvitationsetting.FieldBadgeLarge, v)
+	return u
+}
+
+// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
+func (u *AppInvitationSettingUpsert) UpdateBadgeLarge() *AppInvitationSettingUpsert {
+	u.SetExcluded(appinvitationsetting.FieldBadgeLarge)
+	return u
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (u *AppInvitationSettingUpsert) SetBadgeSmall(v string) *AppInvitationSettingUpsert {
+	u.Set(appinvitationsetting.FieldBadgeSmall, v)
+	return u
+}
+
+// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
+func (u *AppInvitationSettingUpsert) UpdateBadgeSmall() *AppInvitationSettingUpsert {
+	u.SetExcluded(appinvitationsetting.FieldBadgeSmall)
 	return u
 }
 
@@ -640,48 +640,6 @@ func (u *AppInvitationSettingUpsertOne) UpdateDiscount() *AppInvitationSettingUp
 	})
 }
 
-// SetTitle sets the "title" field.
-func (u *AppInvitationSettingUpsertOne) SetTitle(v string) *AppInvitationSettingUpsertOne {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.SetTitle(v)
-	})
-}
-
-// UpdateTitle sets the "title" field to the value that was provided on create.
-func (u *AppInvitationSettingUpsertOne) UpdateTitle() *AppInvitationSettingUpsertOne {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.UpdateTitle()
-	})
-}
-
-// SetBadgeLarge sets the "badge_large" field.
-func (u *AppInvitationSettingUpsertOne) SetBadgeLarge(v string) *AppInvitationSettingUpsertOne {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.SetBadgeLarge(v)
-	})
-}
-
-// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
-func (u *AppInvitationSettingUpsertOne) UpdateBadgeLarge() *AppInvitationSettingUpsertOne {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.UpdateBadgeLarge()
-	})
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (u *AppInvitationSettingUpsertOne) SetBadgeSmall(v string) *AppInvitationSettingUpsertOne {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.SetBadgeSmall(v)
-	})
-}
-
-// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
-func (u *AppInvitationSettingUpsertOne) UpdateBadgeSmall() *AppInvitationSettingUpsertOne {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.UpdateBadgeSmall()
-	})
-}
-
 // SetCreateAt sets the "create_at" field.
 func (u *AppInvitationSettingUpsertOne) SetCreateAt(v uint32) *AppInvitationSettingUpsertOne {
 	return u.Update(func(s *AppInvitationSettingUpsert) {
@@ -742,6 +700,48 @@ func (u *AppInvitationSettingUpsertOne) AddDeleteAt(v uint32) *AppInvitationSett
 func (u *AppInvitationSettingUpsertOne) UpdateDeleteAt() *AppInvitationSettingUpsertOne {
 	return u.Update(func(s *AppInvitationSettingUpsert) {
 		s.UpdateDeleteAt()
+	})
+}
+
+// SetTitle sets the "title" field.
+func (u *AppInvitationSettingUpsertOne) SetTitle(v string) *AppInvitationSettingUpsertOne {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.SetTitle(v)
+	})
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *AppInvitationSettingUpsertOne) UpdateTitle() *AppInvitationSettingUpsertOne {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.UpdateTitle()
+	})
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (u *AppInvitationSettingUpsertOne) SetBadgeLarge(v string) *AppInvitationSettingUpsertOne {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.SetBadgeLarge(v)
+	})
+}
+
+// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
+func (u *AppInvitationSettingUpsertOne) UpdateBadgeLarge() *AppInvitationSettingUpsertOne {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.UpdateBadgeLarge()
+	})
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (u *AppInvitationSettingUpsertOne) SetBadgeSmall(v string) *AppInvitationSettingUpsertOne {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.SetBadgeSmall(v)
+	})
+}
+
+// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
+func (u *AppInvitationSettingUpsertOne) UpdateBadgeSmall() *AppInvitationSettingUpsertOne {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.UpdateBadgeSmall()
 	})
 }
 
@@ -1017,48 +1017,6 @@ func (u *AppInvitationSettingUpsertBulk) UpdateDiscount() *AppInvitationSettingU
 	})
 }
 
-// SetTitle sets the "title" field.
-func (u *AppInvitationSettingUpsertBulk) SetTitle(v string) *AppInvitationSettingUpsertBulk {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.SetTitle(v)
-	})
-}
-
-// UpdateTitle sets the "title" field to the value that was provided on create.
-func (u *AppInvitationSettingUpsertBulk) UpdateTitle() *AppInvitationSettingUpsertBulk {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.UpdateTitle()
-	})
-}
-
-// SetBadgeLarge sets the "badge_large" field.
-func (u *AppInvitationSettingUpsertBulk) SetBadgeLarge(v string) *AppInvitationSettingUpsertBulk {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.SetBadgeLarge(v)
-	})
-}
-
-// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
-func (u *AppInvitationSettingUpsertBulk) UpdateBadgeLarge() *AppInvitationSettingUpsertBulk {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.UpdateBadgeLarge()
-	})
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (u *AppInvitationSettingUpsertBulk) SetBadgeSmall(v string) *AppInvitationSettingUpsertBulk {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.SetBadgeSmall(v)
-	})
-}
-
-// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
-func (u *AppInvitationSettingUpsertBulk) UpdateBadgeSmall() *AppInvitationSettingUpsertBulk {
-	return u.Update(func(s *AppInvitationSettingUpsert) {
-		s.UpdateBadgeSmall()
-	})
-}
-
 // SetCreateAt sets the "create_at" field.
 func (u *AppInvitationSettingUpsertBulk) SetCreateAt(v uint32) *AppInvitationSettingUpsertBulk {
 	return u.Update(func(s *AppInvitationSettingUpsert) {
@@ -1119,6 +1077,48 @@ func (u *AppInvitationSettingUpsertBulk) AddDeleteAt(v uint32) *AppInvitationSet
 func (u *AppInvitationSettingUpsertBulk) UpdateDeleteAt() *AppInvitationSettingUpsertBulk {
 	return u.Update(func(s *AppInvitationSettingUpsert) {
 		s.UpdateDeleteAt()
+	})
+}
+
+// SetTitle sets the "title" field.
+func (u *AppInvitationSettingUpsertBulk) SetTitle(v string) *AppInvitationSettingUpsertBulk {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.SetTitle(v)
+	})
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *AppInvitationSettingUpsertBulk) UpdateTitle() *AppInvitationSettingUpsertBulk {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.UpdateTitle()
+	})
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (u *AppInvitationSettingUpsertBulk) SetBadgeLarge(v string) *AppInvitationSettingUpsertBulk {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.SetBadgeLarge(v)
+	})
+}
+
+// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
+func (u *AppInvitationSettingUpsertBulk) UpdateBadgeLarge() *AppInvitationSettingUpsertBulk {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.UpdateBadgeLarge()
+	})
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (u *AppInvitationSettingUpsertBulk) SetBadgeSmall(v string) *AppInvitationSettingUpsertBulk {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.SetBadgeSmall(v)
+	})
+}
+
+// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
+func (u *AppInvitationSettingUpsertBulk) UpdateBadgeSmall() *AppInvitationSettingUpsertBulk {
+	return u.Update(func(s *AppInvitationSettingUpsert) {
+		s.UpdateBadgeSmall()
 	})
 }
 

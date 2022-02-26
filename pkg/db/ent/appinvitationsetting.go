@@ -22,18 +22,18 @@ type AppInvitationSetting struct {
 	Count uint32 `json:"count,omitempty"`
 	// Discount holds the value of the "discount" field.
 	Discount uint32 `json:"discount,omitempty"`
-	// Title holds the value of the "title" field.
-	Title string `json:"title,omitempty"`
-	// BadgeLarge holds the value of the "badge_large" field.
-	BadgeLarge string `json:"badge_large,omitempty"`
-	// BadgeSmall holds the value of the "badge_small" field.
-	BadgeSmall string `json:"badge_small,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
 	UpdateAt uint32 `json:"update_at,omitempty"`
 	// DeleteAt holds the value of the "delete_at" field.
 	DeleteAt uint32 `json:"delete_at,omitempty"`
+	// Title holds the value of the "title" field.
+	Title string `json:"title,omitempty"`
+	// BadgeLarge holds the value of the "badge_large" field.
+	BadgeLarge string `json:"badge_large,omitempty"`
+	// BadgeSmall holds the value of the "badge_small" field.
+	BadgeSmall string `json:"badge_small,omitempty"`
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -86,24 +86,6 @@ func (ais *AppInvitationSetting) assignValues(columns []string, values []interfa
 			} else if value.Valid {
 				ais.Discount = uint32(value.Int64)
 			}
-		case appinvitationsetting.FieldTitle:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field title", values[i])
-			} else if value.Valid {
-				ais.Title = value.String
-			}
-		case appinvitationsetting.FieldBadgeLarge:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field badge_large", values[i])
-			} else if value.Valid {
-				ais.BadgeLarge = value.String
-			}
-		case appinvitationsetting.FieldBadgeSmall:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field badge_small", values[i])
-			} else if value.Valid {
-				ais.BadgeSmall = value.String
-			}
 		case appinvitationsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_at", values[i])
@@ -121,6 +103,24 @@ func (ais *AppInvitationSetting) assignValues(columns []string, values []interfa
 				return fmt.Errorf("unexpected type %T for field delete_at", values[i])
 			} else if value.Valid {
 				ais.DeleteAt = uint32(value.Int64)
+			}
+		case appinvitationsetting.FieldTitle:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field title", values[i])
+			} else if value.Valid {
+				ais.Title = value.String
+			}
+		case appinvitationsetting.FieldBadgeLarge:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field badge_large", values[i])
+			} else if value.Valid {
+				ais.BadgeLarge = value.String
+			}
+		case appinvitationsetting.FieldBadgeSmall:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field badge_small", values[i])
+			} else if value.Valid {
+				ais.BadgeSmall = value.String
 			}
 		}
 	}
@@ -156,18 +156,18 @@ func (ais *AppInvitationSetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", ais.Count))
 	builder.WriteString(", discount=")
 	builder.WriteString(fmt.Sprintf("%v", ais.Discount))
-	builder.WriteString(", title=")
-	builder.WriteString(ais.Title)
-	builder.WriteString(", badge_large=")
-	builder.WriteString(ais.BadgeLarge)
-	builder.WriteString(", badge_small=")
-	builder.WriteString(ais.BadgeSmall)
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", ais.CreateAt))
 	builder.WriteString(", update_at=")
 	builder.WriteString(fmt.Sprintf("%v", ais.UpdateAt))
 	builder.WriteString(", delete_at=")
 	builder.WriteString(fmt.Sprintf("%v", ais.DeleteAt))
+	builder.WriteString(", title=")
+	builder.WriteString(ais.Title)
+	builder.WriteString(", badge_large=")
+	builder.WriteString(ais.BadgeLarge)
+	builder.WriteString(", badge_small=")
+	builder.WriteString(ais.BadgeSmall)
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -34,6 +34,24 @@ func (apasu *AppPurchaseAmountSettingUpdate) SetAppID(u uuid.UUID) *AppPurchaseA
 	return apasu
 }
 
+// SetTitle sets the "title" field.
+func (apasu *AppPurchaseAmountSettingUpdate) SetTitle(s string) *AppPurchaseAmountSettingUpdate {
+	apasu.mutation.SetTitle(s)
+	return apasu
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (apasu *AppPurchaseAmountSettingUpdate) SetBadgeLarge(s string) *AppPurchaseAmountSettingUpdate {
+	apasu.mutation.SetBadgeLarge(s)
+	return apasu
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (apasu *AppPurchaseAmountSettingUpdate) SetBadgeSmall(s string) *AppPurchaseAmountSettingUpdate {
+	apasu.mutation.SetBadgeSmall(s)
+	return apasu
+}
+
 // SetAmount sets the "amount" field.
 func (apasu *AppPurchaseAmountSettingUpdate) SetAmount(u uint64) *AppPurchaseAmountSettingUpdate {
 	apasu.mutation.ResetAmount()
@@ -48,14 +66,14 @@ func (apasu *AppPurchaseAmountSettingUpdate) AddAmount(u int64) *AppPurchaseAmou
 }
 
 // SetPercent sets the "percent" field.
-func (apasu *AppPurchaseAmountSettingUpdate) SetPercent(u uint64) *AppPurchaseAmountSettingUpdate {
+func (apasu *AppPurchaseAmountSettingUpdate) SetPercent(u uint32) *AppPurchaseAmountSettingUpdate {
 	apasu.mutation.ResetPercent()
 	apasu.mutation.SetPercent(u)
 	return apasu
 }
 
 // AddPercent adds u to the "percent" field.
-func (apasu *AppPurchaseAmountSettingUpdate) AddPercent(u int64) *AppPurchaseAmountSettingUpdate {
+func (apasu *AppPurchaseAmountSettingUpdate) AddPercent(u int32) *AppPurchaseAmountSettingUpdate {
 	apasu.mutation.AddPercent(u)
 	return apasu
 }
@@ -208,6 +226,27 @@ func (apasu *AppPurchaseAmountSettingUpdate) sqlSave(ctx context.Context) (n int
 			Column: apppurchaseamountsetting.FieldAppID,
 		})
 	}
+	if value, ok := apasu.mutation.Title(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldTitle,
+		})
+	}
+	if value, ok := apasu.mutation.BadgeLarge(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldBadgeLarge,
+		})
+	}
+	if value, ok := apasu.mutation.BadgeSmall(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldBadgeSmall,
+		})
+	}
 	if value, ok := apasu.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint64,
@@ -224,14 +263,14 @@ func (apasu *AppPurchaseAmountSettingUpdate) sqlSave(ctx context.Context) (n int
 	}
 	if value, ok := apasu.mutation.Percent(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUint64,
+			Type:   field.TypeUint32,
 			Value:  value,
 			Column: apppurchaseamountsetting.FieldPercent,
 		})
 	}
 	if value, ok := apasu.mutation.AddedPercent(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeUint64,
+			Type:   field.TypeUint32,
 			Value:  value,
 			Column: apppurchaseamountsetting.FieldPercent,
 		})
@@ -303,6 +342,24 @@ func (apasuo *AppPurchaseAmountSettingUpdateOne) SetAppID(u uuid.UUID) *AppPurch
 	return apasuo
 }
 
+// SetTitle sets the "title" field.
+func (apasuo *AppPurchaseAmountSettingUpdateOne) SetTitle(s string) *AppPurchaseAmountSettingUpdateOne {
+	apasuo.mutation.SetTitle(s)
+	return apasuo
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (apasuo *AppPurchaseAmountSettingUpdateOne) SetBadgeLarge(s string) *AppPurchaseAmountSettingUpdateOne {
+	apasuo.mutation.SetBadgeLarge(s)
+	return apasuo
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (apasuo *AppPurchaseAmountSettingUpdateOne) SetBadgeSmall(s string) *AppPurchaseAmountSettingUpdateOne {
+	apasuo.mutation.SetBadgeSmall(s)
+	return apasuo
+}
+
 // SetAmount sets the "amount" field.
 func (apasuo *AppPurchaseAmountSettingUpdateOne) SetAmount(u uint64) *AppPurchaseAmountSettingUpdateOne {
 	apasuo.mutation.ResetAmount()
@@ -317,14 +374,14 @@ func (apasuo *AppPurchaseAmountSettingUpdateOne) AddAmount(u int64) *AppPurchase
 }
 
 // SetPercent sets the "percent" field.
-func (apasuo *AppPurchaseAmountSettingUpdateOne) SetPercent(u uint64) *AppPurchaseAmountSettingUpdateOne {
+func (apasuo *AppPurchaseAmountSettingUpdateOne) SetPercent(u uint32) *AppPurchaseAmountSettingUpdateOne {
 	apasuo.mutation.ResetPercent()
 	apasuo.mutation.SetPercent(u)
 	return apasuo
 }
 
 // AddPercent adds u to the "percent" field.
-func (apasuo *AppPurchaseAmountSettingUpdateOne) AddPercent(u int64) *AppPurchaseAmountSettingUpdateOne {
+func (apasuo *AppPurchaseAmountSettingUpdateOne) AddPercent(u int32) *AppPurchaseAmountSettingUpdateOne {
 	apasuo.mutation.AddPercent(u)
 	return apasuo
 }
@@ -501,6 +558,27 @@ func (apasuo *AppPurchaseAmountSettingUpdateOne) sqlSave(ctx context.Context) (_
 			Column: apppurchaseamountsetting.FieldAppID,
 		})
 	}
+	if value, ok := apasuo.mutation.Title(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldTitle,
+		})
+	}
+	if value, ok := apasuo.mutation.BadgeLarge(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldBadgeLarge,
+		})
+	}
+	if value, ok := apasuo.mutation.BadgeSmall(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldBadgeSmall,
+		})
+	}
 	if value, ok := apasuo.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint64,
@@ -517,14 +595,14 @@ func (apasuo *AppPurchaseAmountSettingUpdateOne) sqlSave(ctx context.Context) (_
 	}
 	if value, ok := apasuo.mutation.Percent(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeUint64,
+			Type:   field.TypeUint32,
 			Value:  value,
 			Column: apppurchaseamountsetting.FieldPercent,
 		})
 	}
 	if value, ok := apasuo.mutation.AddedPercent(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeUint64,
+			Type:   field.TypeUint32,
 			Value:  value,
 			Column: apppurchaseamountsetting.FieldPercent,
 		})

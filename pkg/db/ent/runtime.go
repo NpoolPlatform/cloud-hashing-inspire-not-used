@@ -4,7 +4,6 @@ package ent
 
 import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/activity"
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/agencysetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcommissionsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appinvitationsetting"
@@ -14,8 +13,6 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/defaultkpisetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/discountpool"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/eventcoupon"
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/newuserrewardsetting"
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/purchaseinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/schema"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/userinvitationcode"
@@ -48,26 +45,6 @@ func init() {
 	activityDescID := activityFields[0].Descriptor()
 	// activity.DefaultID holds the default value on creation for the id field.
 	activity.DefaultID = activityDescID.Default.(func() uuid.UUID)
-	agencysettingFields := schema.AgencySetting{}.Fields()
-	_ = agencysettingFields
-	// agencysettingDescCreateAt is the schema descriptor for create_at field.
-	agencysettingDescCreateAt := agencysettingFields[9].Descriptor()
-	// agencysetting.DefaultCreateAt holds the default value on creation for the create_at field.
-	agencysetting.DefaultCreateAt = agencysettingDescCreateAt.Default.(func() uint32)
-	// agencysettingDescUpdateAt is the schema descriptor for update_at field.
-	agencysettingDescUpdateAt := agencysettingFields[10].Descriptor()
-	// agencysetting.DefaultUpdateAt holds the default value on creation for the update_at field.
-	agencysetting.DefaultUpdateAt = agencysettingDescUpdateAt.Default.(func() uint32)
-	// agencysetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
-	agencysetting.UpdateDefaultUpdateAt = agencysettingDescUpdateAt.UpdateDefault.(func() uint32)
-	// agencysettingDescDeleteAt is the schema descriptor for delete_at field.
-	agencysettingDescDeleteAt := agencysettingFields[11].Descriptor()
-	// agencysetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
-	agencysetting.DefaultDeleteAt = agencysettingDescDeleteAt.Default.(func() uint32)
-	// agencysettingDescID is the schema descriptor for id field.
-	agencysettingDescID := agencysettingFields[0].Descriptor()
-	// agencysetting.DefaultID holds the default value on creation for the id field.
-	agencysetting.DefaultID = agencysettingDescID.Default.(func() uuid.UUID)
 	appcommissionsettingFields := schema.AppCommissionSetting{}.Fields()
 	_ = appcommissionsettingFields
 	// appcommissionsettingDescCreateAt is the schema descriptor for create_at field.
@@ -111,17 +88,17 @@ func init() {
 	appinvitationsettingFields := schema.AppInvitationSetting{}.Fields()
 	_ = appinvitationsettingFields
 	// appinvitationsettingDescCreateAt is the schema descriptor for create_at field.
-	appinvitationsettingDescCreateAt := appinvitationsettingFields[7].Descriptor()
+	appinvitationsettingDescCreateAt := appinvitationsettingFields[4].Descriptor()
 	// appinvitationsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	appinvitationsetting.DefaultCreateAt = appinvitationsettingDescCreateAt.Default.(func() uint32)
 	// appinvitationsettingDescUpdateAt is the schema descriptor for update_at field.
-	appinvitationsettingDescUpdateAt := appinvitationsettingFields[8].Descriptor()
+	appinvitationsettingDescUpdateAt := appinvitationsettingFields[5].Descriptor()
 	// appinvitationsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	appinvitationsetting.DefaultUpdateAt = appinvitationsettingDescUpdateAt.Default.(func() uint32)
 	// appinvitationsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	appinvitationsetting.UpdateDefaultUpdateAt = appinvitationsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// appinvitationsettingDescDeleteAt is the schema descriptor for delete_at field.
-	appinvitationsettingDescDeleteAt := appinvitationsettingFields[9].Descriptor()
+	appinvitationsettingDescDeleteAt := appinvitationsettingFields[6].Descriptor()
 	// appinvitationsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	appinvitationsetting.DefaultDeleteAt = appinvitationsettingDescDeleteAt.Default.(func() uint32)
 	// appinvitationsettingDescID is the schema descriptor for id field.
@@ -131,17 +108,17 @@ func init() {
 	apppurchaseamountsettingFields := schema.AppPurchaseAmountSetting{}.Fields()
 	_ = apppurchaseamountsettingFields
 	// apppurchaseamountsettingDescCreateAt is the schema descriptor for create_at field.
-	apppurchaseamountsettingDescCreateAt := apppurchaseamountsettingFields[4].Descriptor()
+	apppurchaseamountsettingDescCreateAt := apppurchaseamountsettingFields[7].Descriptor()
 	// apppurchaseamountsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	apppurchaseamountsetting.DefaultCreateAt = apppurchaseamountsettingDescCreateAt.Default.(func() uint32)
 	// apppurchaseamountsettingDescUpdateAt is the schema descriptor for update_at field.
-	apppurchaseamountsettingDescUpdateAt := apppurchaseamountsettingFields[5].Descriptor()
+	apppurchaseamountsettingDescUpdateAt := apppurchaseamountsettingFields[8].Descriptor()
 	// apppurchaseamountsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	apppurchaseamountsetting.DefaultUpdateAt = apppurchaseamountsettingDescUpdateAt.Default.(func() uint32)
 	// apppurchaseamountsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	apppurchaseamountsetting.UpdateDefaultUpdateAt = apppurchaseamountsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// apppurchaseamountsettingDescDeleteAt is the schema descriptor for delete_at field.
-	apppurchaseamountsettingDescDeleteAt := apppurchaseamountsettingFields[6].Descriptor()
+	apppurchaseamountsettingDescDeleteAt := apppurchaseamountsettingFields[9].Descriptor()
 	// apppurchaseamountsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	apppurchaseamountsetting.DefaultDeleteAt = apppurchaseamountsettingDescDeleteAt.Default.(func() uint32)
 	// apppurchaseamountsettingDescID is the schema descriptor for id field.
@@ -264,50 +241,6 @@ func init() {
 	eventcouponDescID := eventcouponFields[0].Descriptor()
 	// eventcoupon.DefaultID holds the default value on creation for the id field.
 	eventcoupon.DefaultID = eventcouponDescID.Default.(func() uuid.UUID)
-	newuserrewardsettingFields := schema.NewUserRewardSetting{}.Fields()
-	_ = newuserrewardsettingFields
-	// newuserrewardsettingDescAutoGenerateInvitationCode is the schema descriptor for auto_generate_invitation_code field.
-	newuserrewardsettingDescAutoGenerateInvitationCode := newuserrewardsettingFields[4].Descriptor()
-	// newuserrewardsetting.DefaultAutoGenerateInvitationCode holds the default value on creation for the auto_generate_invitation_code field.
-	newuserrewardsetting.DefaultAutoGenerateInvitationCode = newuserrewardsettingDescAutoGenerateInvitationCode.Default.(bool)
-	// newuserrewardsettingDescCreateAt is the schema descriptor for create_at field.
-	newuserrewardsettingDescCreateAt := newuserrewardsettingFields[5].Descriptor()
-	// newuserrewardsetting.DefaultCreateAt holds the default value on creation for the create_at field.
-	newuserrewardsetting.DefaultCreateAt = newuserrewardsettingDescCreateAt.Default.(func() uint32)
-	// newuserrewardsettingDescUpdateAt is the schema descriptor for update_at field.
-	newuserrewardsettingDescUpdateAt := newuserrewardsettingFields[6].Descriptor()
-	// newuserrewardsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
-	newuserrewardsetting.DefaultUpdateAt = newuserrewardsettingDescUpdateAt.Default.(func() uint32)
-	// newuserrewardsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
-	newuserrewardsetting.UpdateDefaultUpdateAt = newuserrewardsettingDescUpdateAt.UpdateDefault.(func() uint32)
-	// newuserrewardsettingDescDeleteAt is the schema descriptor for delete_at field.
-	newuserrewardsettingDescDeleteAt := newuserrewardsettingFields[7].Descriptor()
-	// newuserrewardsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
-	newuserrewardsetting.DefaultDeleteAt = newuserrewardsettingDescDeleteAt.Default.(func() uint32)
-	// newuserrewardsettingDescID is the schema descriptor for id field.
-	newuserrewardsettingDescID := newuserrewardsettingFields[0].Descriptor()
-	// newuserrewardsetting.DefaultID holds the default value on creation for the id field.
-	newuserrewardsetting.DefaultID = newuserrewardsettingDescID.Default.(func() uuid.UUID)
-	purchaseinvitationFields := schema.PurchaseInvitation{}.Fields()
-	_ = purchaseinvitationFields
-	// purchaseinvitationDescCreateAt is the schema descriptor for create_at field.
-	purchaseinvitationDescCreateAt := purchaseinvitationFields[4].Descriptor()
-	// purchaseinvitation.DefaultCreateAt holds the default value on creation for the create_at field.
-	purchaseinvitation.DefaultCreateAt = purchaseinvitationDescCreateAt.Default.(func() uint32)
-	// purchaseinvitationDescUpdateAt is the schema descriptor for update_at field.
-	purchaseinvitationDescUpdateAt := purchaseinvitationFields[5].Descriptor()
-	// purchaseinvitation.DefaultUpdateAt holds the default value on creation for the update_at field.
-	purchaseinvitation.DefaultUpdateAt = purchaseinvitationDescUpdateAt.Default.(func() uint32)
-	// purchaseinvitation.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
-	purchaseinvitation.UpdateDefaultUpdateAt = purchaseinvitationDescUpdateAt.UpdateDefault.(func() uint32)
-	// purchaseinvitationDescDeleteAt is the schema descriptor for delete_at field.
-	purchaseinvitationDescDeleteAt := purchaseinvitationFields[6].Descriptor()
-	// purchaseinvitation.DefaultDeleteAt holds the default value on creation for the delete_at field.
-	purchaseinvitation.DefaultDeleteAt = purchaseinvitationDescDeleteAt.Default.(func() uint32)
-	// purchaseinvitationDescID is the schema descriptor for id field.
-	purchaseinvitationDescID := purchaseinvitationFields[0].Descriptor()
-	// purchaseinvitation.DefaultID holds the default value on creation for the id field.
-	purchaseinvitation.DefaultID = purchaseinvitationDescID.Default.(func() uuid.UUID)
 	registrationinvitationFields := schema.RegistrationInvitation{}.Fields()
 	_ = registrationinvitationFields
 	// registrationinvitationDescCreateAt is the schema descriptor for create_at field.

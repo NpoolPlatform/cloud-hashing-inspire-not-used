@@ -60,24 +60,6 @@ func (aisu *AppInvitationSettingUpdate) AddDiscount(u int32) *AppInvitationSetti
 	return aisu
 }
 
-// SetTitle sets the "title" field.
-func (aisu *AppInvitationSettingUpdate) SetTitle(s string) *AppInvitationSettingUpdate {
-	aisu.mutation.SetTitle(s)
-	return aisu
-}
-
-// SetBadgeLarge sets the "badge_large" field.
-func (aisu *AppInvitationSettingUpdate) SetBadgeLarge(s string) *AppInvitationSettingUpdate {
-	aisu.mutation.SetBadgeLarge(s)
-	return aisu
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (aisu *AppInvitationSettingUpdate) SetBadgeSmall(s string) *AppInvitationSettingUpdate {
-	aisu.mutation.SetBadgeSmall(s)
-	return aisu
-}
-
 // SetCreateAt sets the "create_at" field.
 func (aisu *AppInvitationSettingUpdate) SetCreateAt(u uint32) *AppInvitationSettingUpdate {
 	aisu.mutation.ResetCreateAt()
@@ -130,6 +112,24 @@ func (aisu *AppInvitationSettingUpdate) SetNillableDeleteAt(u *uint32) *AppInvit
 // AddDeleteAt adds u to the "delete_at" field.
 func (aisu *AppInvitationSettingUpdate) AddDeleteAt(u int32) *AppInvitationSettingUpdate {
 	aisu.mutation.AddDeleteAt(u)
+	return aisu
+}
+
+// SetTitle sets the "title" field.
+func (aisu *AppInvitationSettingUpdate) SetTitle(s string) *AppInvitationSettingUpdate {
+	aisu.mutation.SetTitle(s)
+	return aisu
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (aisu *AppInvitationSettingUpdate) SetBadgeLarge(s string) *AppInvitationSettingUpdate {
+	aisu.mutation.SetBadgeLarge(s)
+	return aisu
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (aisu *AppInvitationSettingUpdate) SetBadgeSmall(s string) *AppInvitationSettingUpdate {
+	aisu.mutation.SetBadgeSmall(s)
 	return aisu
 }
 
@@ -254,27 +254,6 @@ func (aisu *AppInvitationSettingUpdate) sqlSave(ctx context.Context) (n int, err
 			Column: appinvitationsetting.FieldDiscount,
 		})
 	}
-	if value, ok := aisu.mutation.Title(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appinvitationsetting.FieldTitle,
-		})
-	}
-	if value, ok := aisu.mutation.BadgeLarge(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appinvitationsetting.FieldBadgeLarge,
-		})
-	}
-	if value, ok := aisu.mutation.BadgeSmall(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appinvitationsetting.FieldBadgeSmall,
-		})
-	}
 	if value, ok := aisu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -315,6 +294,27 @@ func (aisu *AppInvitationSettingUpdate) sqlSave(ctx context.Context) (n int, err
 			Type:   field.TypeUint32,
 			Value:  value,
 			Column: appinvitationsetting.FieldDeleteAt,
+		})
+	}
+	if value, ok := aisu.mutation.Title(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appinvitationsetting.FieldTitle,
+		})
+	}
+	if value, ok := aisu.mutation.BadgeLarge(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appinvitationsetting.FieldBadgeLarge,
+		})
+	}
+	if value, ok := aisu.mutation.BadgeSmall(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appinvitationsetting.FieldBadgeSmall,
 		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, aisu.driver, _spec); err != nil {
@@ -365,24 +365,6 @@ func (aisuo *AppInvitationSettingUpdateOne) SetDiscount(u uint32) *AppInvitation
 // AddDiscount adds u to the "discount" field.
 func (aisuo *AppInvitationSettingUpdateOne) AddDiscount(u int32) *AppInvitationSettingUpdateOne {
 	aisuo.mutation.AddDiscount(u)
-	return aisuo
-}
-
-// SetTitle sets the "title" field.
-func (aisuo *AppInvitationSettingUpdateOne) SetTitle(s string) *AppInvitationSettingUpdateOne {
-	aisuo.mutation.SetTitle(s)
-	return aisuo
-}
-
-// SetBadgeLarge sets the "badge_large" field.
-func (aisuo *AppInvitationSettingUpdateOne) SetBadgeLarge(s string) *AppInvitationSettingUpdateOne {
-	aisuo.mutation.SetBadgeLarge(s)
-	return aisuo
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (aisuo *AppInvitationSettingUpdateOne) SetBadgeSmall(s string) *AppInvitationSettingUpdateOne {
-	aisuo.mutation.SetBadgeSmall(s)
 	return aisuo
 }
 
@@ -438,6 +420,24 @@ func (aisuo *AppInvitationSettingUpdateOne) SetNillableDeleteAt(u *uint32) *AppI
 // AddDeleteAt adds u to the "delete_at" field.
 func (aisuo *AppInvitationSettingUpdateOne) AddDeleteAt(u int32) *AppInvitationSettingUpdateOne {
 	aisuo.mutation.AddDeleteAt(u)
+	return aisuo
+}
+
+// SetTitle sets the "title" field.
+func (aisuo *AppInvitationSettingUpdateOne) SetTitle(s string) *AppInvitationSettingUpdateOne {
+	aisuo.mutation.SetTitle(s)
+	return aisuo
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (aisuo *AppInvitationSettingUpdateOne) SetBadgeLarge(s string) *AppInvitationSettingUpdateOne {
+	aisuo.mutation.SetBadgeLarge(s)
+	return aisuo
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (aisuo *AppInvitationSettingUpdateOne) SetBadgeSmall(s string) *AppInvitationSettingUpdateOne {
+	aisuo.mutation.SetBadgeSmall(s)
 	return aisuo
 }
 
@@ -586,27 +586,6 @@ func (aisuo *AppInvitationSettingUpdateOne) sqlSave(ctx context.Context) (_node 
 			Column: appinvitationsetting.FieldDiscount,
 		})
 	}
-	if value, ok := aisuo.mutation.Title(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appinvitationsetting.FieldTitle,
-		})
-	}
-	if value, ok := aisuo.mutation.BadgeLarge(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appinvitationsetting.FieldBadgeLarge,
-		})
-	}
-	if value, ok := aisuo.mutation.BadgeSmall(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appinvitationsetting.FieldBadgeSmall,
-		})
-	}
 	if value, ok := aisuo.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -647,6 +626,27 @@ func (aisuo *AppInvitationSettingUpdateOne) sqlSave(ctx context.Context) (_node 
 			Type:   field.TypeUint32,
 			Value:  value,
 			Column: appinvitationsetting.FieldDeleteAt,
+		})
+	}
+	if value, ok := aisuo.mutation.Title(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appinvitationsetting.FieldTitle,
+		})
+	}
+	if value, ok := aisuo.mutation.BadgeLarge(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appinvitationsetting.FieldBadgeLarge,
+		})
+	}
+	if value, ok := aisuo.mutation.BadgeSmall(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appinvitationsetting.FieldBadgeSmall,
 		})
 	}
 	_node = &AppInvitationSetting{config: aisuo.config}

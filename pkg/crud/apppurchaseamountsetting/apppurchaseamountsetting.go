@@ -1,0 +1,163 @@
+package apppurchaseamountsetting
+
+import (
+	"context"
+
+	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
+
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent"
+	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/apppurchaseamountsetting"
+
+	"github.com/NpoolPlatform/go-service-framework/pkg/price"
+
+	"github.com/google/uuid"
+
+	"golang.org/x/xerrors"
+)
+
+func validateAppPurchaseAmountSetting(info *npool.AppPurchaseAmountSetting) error {
+	if _, err := uuid.Parse(info.GetAppID()); err != nil {
+		return xerrors.Errorf("invalid app id: %v", err)
+	}
+	return nil
+}
+
+func dbRowToAppPurchaseAmountSetting(row *ent.AppPurchaseAmountSetting) *npool.AppPurchaseAmountSetting {
+	return &npool.AppPurchaseAmountSetting{
+		ID:         row.ID.String(),
+		AppID:      row.AppID.String(),
+		Amount:     price.DBPriceToVisualPrice(row.Amount),
+		Percent:    row.Percent,
+		Title:      row.Title,
+		BadgeLarge: row.BadgeLarge,
+		BadgeSmall: row.BadgeSmall,
+	}
+}
+
+func Create(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingRequest) (*npool.CreateAppPurchaseAmountSettingResponse, error) {
+	if err := validateAppPurchaseAmountSetting(in.GetInfo()); err != nil {
+		return nil, xerrors.Errorf("invalid parameter: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
+		AppPurchaseAmountSetting.
+		Create().
+		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
+		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
+		SetPercent(in.GetInfo().GetPercent()).
+		SetTitle(in.GetInfo().GetTitle()).
+		SetBadgeLarge(in.GetInfo().GetBadgeLarge()).
+		SetBadgeSmall(in.GetInfo().GetBadgeSmall()).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail create app purchase amount setting: %v", err)
+	}
+
+	return &npool.CreateAppPurchaseAmountSettingResponse{
+		Info: dbRowToAppPurchaseAmountSetting(info),
+	}, nil
+}
+
+func Update(ctx context.Context, in *npool.UpdateAppPurchaseAmountSettingRequest) (*npool.UpdateAppPurchaseAmountSettingResponse, error) {
+	if err := validateAppPurchaseAmountSetting(in.GetInfo()); err != nil {
+		return nil, xerrors.Errorf("invalid parameter: %v", err)
+	}
+
+	id, err := uuid.Parse(in.GetInfo().GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
+		AppPurchaseAmountSetting.
+		UpdateOneID(id).
+		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
+		SetPercent(in.GetInfo().GetPercent()).
+		SetTitle(in.GetInfo().GetTitle()).
+		SetBadgeLarge(in.GetInfo().GetBadgeLarge()).
+		SetBadgeSmall(in.GetInfo().GetBadgeSmall()).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail update app purchase amount setting: %v", err)
+	}
+
+	return &npool.UpdateAppPurchaseAmountSettingResponse{
+		Info: dbRowToAppPurchaseAmountSetting(info),
+	}, nil
+}
+
+func Get(ctx context.Context, in *npool.GetAppPurchaseAmountSettingRequest) (*npool.GetAppPurchaseAmountSettingResponse, error) {
+	id, err := uuid.Parse(in.GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		AppPurchaseAmountSetting.
+		Query().
+		Where(
+			apppurchaseamountsetting.ID(id),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query app purchase amount setting: %v", err)
+	}
+
+	var setting *npool.AppPurchaseAmountSetting
+	for _, info := range infos {
+		setting = dbRowToAppPurchaseAmountSetting(info)
+		break
+	}
+
+	return &npool.GetAppPurchaseAmountSettingResponse{
+		Info: setting,
+	}, nil
+}
+
+func GetByApp(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByAppRequest) (*npool.GetAppPurchaseAmountSettingsByAppResponse, error) {
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		AppPurchaseAmountSetting.
+		Query().
+		Where(
+			apppurchaseamountsetting.AppID(appID),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query app purchase amount setting: %v", err)
+	}
+
+	invitations := []*npool.AppPurchaseAmountSetting{}
+	for _, info := range infos {
+		invitations = append(invitations, dbRowToAppPurchaseAmountSetting(info))
+	}
+
+	return &npool.GetAppPurchaseAmountSettingsByAppResponse{
+		Infos: invitations,
+	}, nil
+}

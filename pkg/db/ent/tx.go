@@ -14,8 +14,6 @@ type Tx struct {
 	config
 	// Activity is the client for interacting with the Activity builders.
 	Activity *ActivityClient
-	// AgencySetting is the client for interacting with the AgencySetting builders.
-	AgencySetting *AgencySettingClient
 	// AppCommissionSetting is the client for interacting with the AppCommissionSetting builders.
 	AppCommissionSetting *AppCommissionSettingClient
 	// AppCouponSetting is the client for interacting with the AppCouponSetting builders.
@@ -34,10 +32,6 @@ type Tx struct {
 	DiscountPool *DiscountPoolClient
 	// EventCoupon is the client for interacting with the EventCoupon builders.
 	EventCoupon *EventCouponClient
-	// NewUserRewardSetting is the client for interacting with the NewUserRewardSetting builders.
-	NewUserRewardSetting *NewUserRewardSettingClient
-	// PurchaseInvitation is the client for interacting with the PurchaseInvitation builders.
-	PurchaseInvitation *PurchaseInvitationClient
 	// RegistrationInvitation is the client for interacting with the RegistrationInvitation builders.
 	RegistrationInvitation *RegistrationInvitationClient
 	// UserInvitationCode is the client for interacting with the UserInvitationCode builders.
@@ -182,7 +176,6 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.Activity = NewActivityClient(tx.config)
-	tx.AgencySetting = NewAgencySettingClient(tx.config)
 	tx.AppCommissionSetting = NewAppCommissionSettingClient(tx.config)
 	tx.AppCouponSetting = NewAppCouponSettingClient(tx.config)
 	tx.AppInvitationSetting = NewAppInvitationSettingClient(tx.config)
@@ -192,8 +185,6 @@ func (tx *Tx) init() {
 	tx.DefaultKpiSetting = NewDefaultKpiSettingClient(tx.config)
 	tx.DiscountPool = NewDiscountPoolClient(tx.config)
 	tx.EventCoupon = NewEventCouponClient(tx.config)
-	tx.NewUserRewardSetting = NewNewUserRewardSettingClient(tx.config)
-	tx.PurchaseInvitation = NewPurchaseInvitationClient(tx.config)
 	tx.RegistrationInvitation = NewRegistrationInvitationClient(tx.config)
 	tx.UserInvitationCode = NewUserInvitationCodeClient(tx.config)
 	tx.UserKpiSetting = NewUserKpiSettingClient(tx.config)
