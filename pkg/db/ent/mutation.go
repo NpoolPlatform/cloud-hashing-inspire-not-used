@@ -6344,6 +6344,7 @@ type CommissionCoinSettingMutation struct {
 	typ           string
 	id            *uuid.UUID
 	coin_type_id  *uuid.UUID
+	using         *bool
 	create_at     *uint32
 	addcreate_at  *int32
 	update_at     *uint32
@@ -6494,6 +6495,42 @@ func (m *CommissionCoinSettingMutation) OldCoinTypeID(ctx context.Context) (v uu
 // ResetCoinTypeID resets all changes to the "coin_type_id" field.
 func (m *CommissionCoinSettingMutation) ResetCoinTypeID() {
 	m.coin_type_id = nil
+}
+
+// SetUsing sets the "using" field.
+func (m *CommissionCoinSettingMutation) SetUsing(b bool) {
+	m.using = &b
+}
+
+// Using returns the value of the "using" field in the mutation.
+func (m *CommissionCoinSettingMutation) Using() (r bool, exists bool) {
+	v := m.using
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUsing returns the old "using" field's value of the CommissionCoinSetting entity.
+// If the CommissionCoinSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CommissionCoinSettingMutation) OldUsing(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUsing is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUsing requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUsing: %w", err)
+	}
+	return oldValue.Using, nil
+}
+
+// ResetUsing resets all changes to the "using" field.
+func (m *CommissionCoinSettingMutation) ResetUsing() {
+	m.using = nil
 }
 
 // SetCreateAt sets the "create_at" field.
@@ -6683,9 +6720,12 @@ func (m *CommissionCoinSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CommissionCoinSettingMutation) Fields() []string {
-	fields := make([]string, 0, 4)
+	fields := make([]string, 0, 5)
 	if m.coin_type_id != nil {
 		fields = append(fields, commissioncoinsetting.FieldCoinTypeID)
+	}
+	if m.using != nil {
+		fields = append(fields, commissioncoinsetting.FieldUsing)
 	}
 	if m.create_at != nil {
 		fields = append(fields, commissioncoinsetting.FieldCreateAt)
@@ -6706,6 +6746,8 @@ func (m *CommissionCoinSettingMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case commissioncoinsetting.FieldCoinTypeID:
 		return m.CoinTypeID()
+	case commissioncoinsetting.FieldUsing:
+		return m.Using()
 	case commissioncoinsetting.FieldCreateAt:
 		return m.CreateAt()
 	case commissioncoinsetting.FieldUpdateAt:
@@ -6723,6 +6765,8 @@ func (m *CommissionCoinSettingMutation) OldField(ctx context.Context, name strin
 	switch name {
 	case commissioncoinsetting.FieldCoinTypeID:
 		return m.OldCoinTypeID(ctx)
+	case commissioncoinsetting.FieldUsing:
+		return m.OldUsing(ctx)
 	case commissioncoinsetting.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case commissioncoinsetting.FieldUpdateAt:
@@ -6744,6 +6788,13 @@ func (m *CommissionCoinSettingMutation) SetField(name string, value ent.Value) e
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCoinTypeID(v)
+		return nil
+	case commissioncoinsetting.FieldUsing:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUsing(v)
 		return nil
 	case commissioncoinsetting.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -6856,6 +6907,9 @@ func (m *CommissionCoinSettingMutation) ResetField(name string) error {
 	switch name {
 	case commissioncoinsetting.FieldCoinTypeID:
 		m.ResetCoinTypeID()
+		return nil
+	case commissioncoinsetting.FieldUsing:
+		m.ResetUsing()
 		return nil
 	case commissioncoinsetting.FieldCreateAt:
 		m.ResetCreateAt()

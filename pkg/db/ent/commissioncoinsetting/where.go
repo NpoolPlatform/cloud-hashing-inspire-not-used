@@ -98,6 +98,13 @@ func CoinTypeID(v uuid.UUID) predicate.CommissionCoinSetting {
 	})
 }
 
+// Using applies equality check predicate on the "using" field. It's identical to UsingEQ.
+func Using(v bool) predicate.CommissionCoinSetting {
+	return predicate.CommissionCoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUsing), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.CommissionCoinSetting {
 	return predicate.CommissionCoinSetting(func(s *sql.Selector) {
@@ -192,6 +199,20 @@ func CoinTypeIDLT(v uuid.UUID) predicate.CommissionCoinSetting {
 func CoinTypeIDLTE(v uuid.UUID) predicate.CommissionCoinSetting {
 	return predicate.CommissionCoinSetting(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldCoinTypeID), v))
+	})
+}
+
+// UsingEQ applies the EQ predicate on the "using" field.
+func UsingEQ(v bool) predicate.CommissionCoinSetting {
+	return predicate.CommissionCoinSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUsing), v))
+	})
+}
+
+// UsingNEQ applies the NEQ predicate on the "using" field.
+func UsingNEQ(v bool) predicate.CommissionCoinSetting {
+	return predicate.CommissionCoinSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldUsing), v))
 	})
 }
 

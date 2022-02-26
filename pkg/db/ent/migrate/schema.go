@@ -171,6 +171,7 @@ var (
 	CommissionCoinSettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "coin_type_id", Type: field.TypeUUID, Unique: true},
+		{Name: "using", Type: field.TypeBool, Default: false},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

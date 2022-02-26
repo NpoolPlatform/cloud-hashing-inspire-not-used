@@ -24,6 +24,7 @@ func dbRowToCommissionCoinSetting(row *ent.CommissionCoinSetting) *npool.Commiss
 	return &npool.CommissionCoinSetting{
 		ID:         row.ID.String(),
 		CoinTypeID: row.CoinTypeID.String(),
+		Using:      row.Using,
 	}
 }
 
@@ -51,7 +52,7 @@ func Create(ctx context.Context, in *npool.CreateCommissionCoinSettingRequest) (
 	}, nil
 }
 
-func Get(ctx context.Context, in *npool.GetCommissionCoinSettingRequest) (*npool.GetCommissionCoinSettingResponse, error) {
+func GetAll(ctx context.Context, in *npool.GetCommissionCoinSettingsRequest) (*npool.GetCommissionCoinSettingsResponse, error) {
 	cli, err := db.Client()
 	if err != nil {
 		return nil, xerrors.Errorf("fail get db client: %v", err)
@@ -65,14 +66,13 @@ func Get(ctx context.Context, in *npool.GetCommissionCoinSettingRequest) (*npool
 		return nil, xerrors.Errorf("fail query commission coin setting: %v", err)
 	}
 
-	var setting *npool.CommissionCoinSetting
+	settings := []*npool.CommissionCoinSetting{}
 	for _, info := range infos {
-		setting = dbRowToCommissionCoinSetting(info)
-		break
+		settings = append(settings, dbRowToCommissionCoinSetting(info))
 	}
 
-	return &npool.GetCommissionCoinSettingResponse{
-		Info: setting,
+	return &npool.GetCommissionCoinSettingsResponse{
+		Infos: settings,
 	}, nil
 }
 
@@ -95,6 +95,7 @@ func Update(ctx context.Context, in *npool.UpdateCommissionCoinSettingRequest) (
 		CommissionCoinSetting.
 		UpdateOneID(id).
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
+		SetUsing(in.GetInfo().GetUsing()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update commission coin setting: %v", err)

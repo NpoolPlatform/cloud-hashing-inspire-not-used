@@ -18,6 +18,8 @@ type CommissionCoinSetting struct {
 	ID uuid.UUID `json:"id,omitempty"`
 	// CoinTypeID holds the value of the "coin_type_id" field.
 	CoinTypeID uuid.UUID `json:"coin_type_id,omitempty"`
+	// Using holds the value of the "using" field.
+	Using bool `json:"using,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -31,6 +33,8 @@ func (*CommissionCoinSetting) scanValues(columns []string) ([]interface{}, error
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case commissioncoinsetting.FieldUsing:
+			values[i] = new(sql.NullBool)
 		case commissioncoinsetting.FieldCreateAt, commissioncoinsetting.FieldUpdateAt, commissioncoinsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case commissioncoinsetting.FieldID, commissioncoinsetting.FieldCoinTypeID:
@@ -61,6 +65,12 @@ func (ccs *CommissionCoinSetting) assignValues(columns []string, values []interf
 				return fmt.Errorf("unexpected type %T for field coin_type_id", values[i])
 			} else if value != nil {
 				ccs.CoinTypeID = *value
+			}
+		case commissioncoinsetting.FieldUsing:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field using", values[i])
+			} else if value.Valid {
+				ccs.Using = value.Bool
 			}
 		case commissioncoinsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -110,6 +120,8 @@ func (ccs *CommissionCoinSetting) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", ccs.ID))
 	builder.WriteString(", coin_type_id=")
 	builder.WriteString(fmt.Sprintf("%v", ccs.CoinTypeID))
+	builder.WriteString(", using=")
+	builder.WriteString(fmt.Sprintf("%v", ccs.Using))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", ccs.CreateAt))
 	builder.WriteString(", update_at=")

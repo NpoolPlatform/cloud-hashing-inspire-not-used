@@ -29,6 +29,20 @@ func (ccsc *CommissionCoinSettingCreate) SetCoinTypeID(u uuid.UUID) *CommissionC
 	return ccsc
 }
 
+// SetUsing sets the "using" field.
+func (ccsc *CommissionCoinSettingCreate) SetUsing(b bool) *CommissionCoinSettingCreate {
+	ccsc.mutation.SetUsing(b)
+	return ccsc
+}
+
+// SetNillableUsing sets the "using" field if the given value is not nil.
+func (ccsc *CommissionCoinSettingCreate) SetNillableUsing(b *bool) *CommissionCoinSettingCreate {
+	if b != nil {
+		ccsc.SetUsing(*b)
+	}
+	return ccsc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (ccsc *CommissionCoinSettingCreate) SetCreateAt(u uint32) *CommissionCoinSettingCreate {
 	ccsc.mutation.SetCreateAt(u)
@@ -156,6 +170,10 @@ func (ccsc *CommissionCoinSettingCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (ccsc *CommissionCoinSettingCreate) defaults() {
+	if _, ok := ccsc.mutation.Using(); !ok {
+		v := commissioncoinsetting.DefaultUsing
+		ccsc.mutation.SetUsing(v)
+	}
 	if _, ok := ccsc.mutation.CreateAt(); !ok {
 		v := commissioncoinsetting.DefaultCreateAt()
 		ccsc.mutation.SetCreateAt(v)
@@ -178,6 +196,9 @@ func (ccsc *CommissionCoinSettingCreate) defaults() {
 func (ccsc *CommissionCoinSettingCreate) check() error {
 	if _, ok := ccsc.mutation.CoinTypeID(); !ok {
 		return &ValidationError{Name: "coin_type_id", err: errors.New(`ent: missing required field "CommissionCoinSetting.coin_type_id"`)}
+	}
+	if _, ok := ccsc.mutation.Using(); !ok {
+		return &ValidationError{Name: "using", err: errors.New(`ent: missing required field "CommissionCoinSetting.using"`)}
 	}
 	if _, ok := ccsc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "CommissionCoinSetting.create_at"`)}
@@ -232,6 +253,14 @@ func (ccsc *CommissionCoinSettingCreate) createSpec() (*CommissionCoinSetting, *
 			Column: commissioncoinsetting.FieldCoinTypeID,
 		})
 		_node.CoinTypeID = value
+	}
+	if value, ok := ccsc.mutation.Using(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: commissioncoinsetting.FieldUsing,
+		})
+		_node.Using = value
 	}
 	if value, ok := ccsc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -320,6 +349,18 @@ func (u *CommissionCoinSettingUpsert) SetCoinTypeID(v uuid.UUID) *CommissionCoin
 // UpdateCoinTypeID sets the "coin_type_id" field to the value that was provided on create.
 func (u *CommissionCoinSettingUpsert) UpdateCoinTypeID() *CommissionCoinSettingUpsert {
 	u.SetExcluded(commissioncoinsetting.FieldCoinTypeID)
+	return u
+}
+
+// SetUsing sets the "using" field.
+func (u *CommissionCoinSettingUpsert) SetUsing(v bool) *CommissionCoinSettingUpsert {
+	u.Set(commissioncoinsetting.FieldUsing, v)
+	return u
+}
+
+// UpdateUsing sets the "using" field to the value that was provided on create.
+func (u *CommissionCoinSettingUpsert) UpdateUsing() *CommissionCoinSettingUpsert {
+	u.SetExcluded(commissioncoinsetting.FieldUsing)
 	return u
 }
 
@@ -438,6 +479,20 @@ func (u *CommissionCoinSettingUpsertOne) SetCoinTypeID(v uuid.UUID) *CommissionC
 func (u *CommissionCoinSettingUpsertOne) UpdateCoinTypeID() *CommissionCoinSettingUpsertOne {
 	return u.Update(func(s *CommissionCoinSettingUpsert) {
 		s.UpdateCoinTypeID()
+	})
+}
+
+// SetUsing sets the "using" field.
+func (u *CommissionCoinSettingUpsertOne) SetUsing(v bool) *CommissionCoinSettingUpsertOne {
+	return u.Update(func(s *CommissionCoinSettingUpsert) {
+		s.SetUsing(v)
+	})
+}
+
+// UpdateUsing sets the "using" field to the value that was provided on create.
+func (u *CommissionCoinSettingUpsertOne) UpdateUsing() *CommissionCoinSettingUpsertOne {
+	return u.Update(func(s *CommissionCoinSettingUpsert) {
+		s.UpdateUsing()
 	})
 }
 
@@ -731,6 +786,20 @@ func (u *CommissionCoinSettingUpsertBulk) SetCoinTypeID(v uuid.UUID) *Commission
 func (u *CommissionCoinSettingUpsertBulk) UpdateCoinTypeID() *CommissionCoinSettingUpsertBulk {
 	return u.Update(func(s *CommissionCoinSettingUpsert) {
 		s.UpdateCoinTypeID()
+	})
+}
+
+// SetUsing sets the "using" field.
+func (u *CommissionCoinSettingUpsertBulk) SetUsing(v bool) *CommissionCoinSettingUpsertBulk {
+	return u.Update(func(s *CommissionCoinSettingUpsert) {
+		s.SetUsing(v)
+	})
+}
+
+// UpdateUsing sets the "using" field to the value that was provided on create.
+func (u *CommissionCoinSettingUpsertBulk) UpdateUsing() *CommissionCoinSettingUpsertBulk {
+	return u.Update(func(s *CommissionCoinSettingUpsert) {
+		s.UpdateUsing()
 	})
 }
 

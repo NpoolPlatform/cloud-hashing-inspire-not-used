@@ -21,11 +21,11 @@ func (s *Server) CreateCommissionCoinSetting(ctx context.Context, in *npool.Crea
 	return resp, nil
 }
 
-func (s *Server) GetCommissionCoinSetting(ctx context.Context, in *npool.GetCommissionCoinSettingRequest) (*npool.GetCommissionCoinSettingResponse, error) {
-	resp, err := crud.Get(ctx, in)
+func (s *Server) GetCommissionCoinSettings(ctx context.Context, in *npool.GetCommissionCoinSettingsRequest) (*npool.GetCommissionCoinSettingsResponse, error) {
+	resp, err := crud.GetAll(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("get commission coin setting error: %v", err)
-		return &npool.GetCommissionCoinSettingResponse{}, status.Error(codes.Internal, err.Error())
+		return &npool.GetCommissionCoinSettingsResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }

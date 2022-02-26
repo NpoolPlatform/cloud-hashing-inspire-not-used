@@ -34,6 +34,20 @@ func (ccsu *CommissionCoinSettingUpdate) SetCoinTypeID(u uuid.UUID) *CommissionC
 	return ccsu
 }
 
+// SetUsing sets the "using" field.
+func (ccsu *CommissionCoinSettingUpdate) SetUsing(b bool) *CommissionCoinSettingUpdate {
+	ccsu.mutation.SetUsing(b)
+	return ccsu
+}
+
+// SetNillableUsing sets the "using" field if the given value is not nil.
+func (ccsu *CommissionCoinSettingUpdate) SetNillableUsing(b *bool) *CommissionCoinSettingUpdate {
+	if b != nil {
+		ccsu.SetUsing(*b)
+	}
+	return ccsu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (ccsu *CommissionCoinSettingUpdate) SetCreateAt(u uint32) *CommissionCoinSettingUpdate {
 	ccsu.mutation.ResetCreateAt()
@@ -182,6 +196,13 @@ func (ccsu *CommissionCoinSettingUpdate) sqlSave(ctx context.Context) (n int, er
 			Column: commissioncoinsetting.FieldCoinTypeID,
 		})
 	}
+	if value, ok := ccsu.mutation.Using(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: commissioncoinsetting.FieldUsing,
+		})
+	}
 	if value, ok := ccsu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -246,6 +267,20 @@ type CommissionCoinSettingUpdateOne struct {
 // SetCoinTypeID sets the "coin_type_id" field.
 func (ccsuo *CommissionCoinSettingUpdateOne) SetCoinTypeID(u uuid.UUID) *CommissionCoinSettingUpdateOne {
 	ccsuo.mutation.SetCoinTypeID(u)
+	return ccsuo
+}
+
+// SetUsing sets the "using" field.
+func (ccsuo *CommissionCoinSettingUpdateOne) SetUsing(b bool) *CommissionCoinSettingUpdateOne {
+	ccsuo.mutation.SetUsing(b)
+	return ccsuo
+}
+
+// SetNillableUsing sets the "using" field if the given value is not nil.
+func (ccsuo *CommissionCoinSettingUpdateOne) SetNillableUsing(b *bool) *CommissionCoinSettingUpdateOne {
+	if b != nil {
+		ccsuo.SetUsing(*b)
+	}
 	return ccsuo
 }
 
@@ -419,6 +454,13 @@ func (ccsuo *CommissionCoinSettingUpdateOne) sqlSave(ctx context.Context) (_node
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: commissioncoinsetting.FieldCoinTypeID,
+		})
+	}
+	if value, ok := ccsuo.mutation.Using(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: commissioncoinsetting.FieldUsing,
 		})
 	}
 	if value, ok := ccsuo.mutation.CreateAt(); ok {

@@ -13,6 +13,8 @@ const (
 	FieldID = "id"
 	// FieldCoinTypeID holds the string denoting the coin_type_id field in the database.
 	FieldCoinTypeID = "coin_type_id"
+	// FieldUsing holds the string denoting the using field in the database.
+	FieldUsing = "using"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -27,6 +29,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldCoinTypeID,
+	FieldUsing,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,
@@ -43,6 +46,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultUsing holds the default value on creation for the "using" field.
+	DefaultUsing bool
 	// DefaultCreateAt holds the default value on creation for the "create_at" field.
 	DefaultCreateAt func() uint32
 	// DefaultUpdateAt holds the default value on creation for the "update_at" field.

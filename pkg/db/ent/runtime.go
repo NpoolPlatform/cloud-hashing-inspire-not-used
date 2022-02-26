@@ -170,18 +170,22 @@ func init() {
 	appuserpurchaseamountsetting.DefaultID = appuserpurchaseamountsettingDescID.Default.(func() uuid.UUID)
 	commissioncoinsettingFields := schema.CommissionCoinSetting{}.Fields()
 	_ = commissioncoinsettingFields
+	// commissioncoinsettingDescUsing is the schema descriptor for using field.
+	commissioncoinsettingDescUsing := commissioncoinsettingFields[2].Descriptor()
+	// commissioncoinsetting.DefaultUsing holds the default value on creation for the using field.
+	commissioncoinsetting.DefaultUsing = commissioncoinsettingDescUsing.Default.(bool)
 	// commissioncoinsettingDescCreateAt is the schema descriptor for create_at field.
-	commissioncoinsettingDescCreateAt := commissioncoinsettingFields[2].Descriptor()
+	commissioncoinsettingDescCreateAt := commissioncoinsettingFields[3].Descriptor()
 	// commissioncoinsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	commissioncoinsetting.DefaultCreateAt = commissioncoinsettingDescCreateAt.Default.(func() uint32)
 	// commissioncoinsettingDescUpdateAt is the schema descriptor for update_at field.
-	commissioncoinsettingDescUpdateAt := commissioncoinsettingFields[3].Descriptor()
+	commissioncoinsettingDescUpdateAt := commissioncoinsettingFields[4].Descriptor()
 	// commissioncoinsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	commissioncoinsetting.DefaultUpdateAt = commissioncoinsettingDescUpdateAt.Default.(func() uint32)
 	// commissioncoinsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	commissioncoinsetting.UpdateDefaultUpdateAt = commissioncoinsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// commissioncoinsettingDescDeleteAt is the schema descriptor for delete_at field.
-	commissioncoinsettingDescDeleteAt := commissioncoinsettingFields[4].Descriptor()
+	commissioncoinsettingDescDeleteAt := commissioncoinsettingFields[5].Descriptor()
 	// commissioncoinsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	commissioncoinsetting.DefaultDeleteAt = commissioncoinsettingDescDeleteAt.Default.(func() uint32)
 	// commissioncoinsettingDescID is the schema descriptor for id field.
