@@ -119,6 +119,13 @@ func InvitationDiscount(v bool) predicate.AppCommissionSetting {
 	})
 }
 
+// UniqueSetting applies equality check predicate on the "unique_setting" field. It's identical to UniqueSettingEQ.
+func UniqueSetting(v bool) predicate.AppCommissionSetting {
+	return predicate.AppCommissionSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUniqueSetting), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.AppCommissionSetting {
 	return predicate.AppCommissionSetting(func(s *sql.Selector) {
@@ -414,6 +421,20 @@ func InvitationDiscountEQ(v bool) predicate.AppCommissionSetting {
 func InvitationDiscountNEQ(v bool) predicate.AppCommissionSetting {
 	return predicate.AppCommissionSetting(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldInvitationDiscount), v))
+	})
+}
+
+// UniqueSettingEQ applies the EQ predicate on the "unique_setting" field.
+func UniqueSettingEQ(v bool) predicate.AppCommissionSetting {
+	return predicate.AppCommissionSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUniqueSetting), v))
+	})
+}
+
+// UniqueSettingNEQ applies the NEQ predicate on the "unique_setting" field.
+func UniqueSettingNEQ(v bool) predicate.AppCommissionSetting {
+	return predicate.AppCommissionSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldUniqueSetting), v))
 	})
 }
 

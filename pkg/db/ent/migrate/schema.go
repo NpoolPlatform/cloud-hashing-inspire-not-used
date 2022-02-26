@@ -34,6 +34,7 @@ var (
 		{Name: "type", Type: field.TypeString},
 		{Name: "level", Type: field.TypeUint32},
 		{Name: "invitation_discount", Type: field.TypeBool},
+		{Name: "unique_setting", Type: field.TypeBool},
 		{Name: "create_at", Type: field.TypeUint32},
 		{Name: "update_at", Type: field.TypeUint32},
 		{Name: "delete_at", Type: field.TypeUint32},

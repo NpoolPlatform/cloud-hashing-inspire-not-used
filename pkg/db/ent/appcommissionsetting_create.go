@@ -47,6 +47,12 @@ func (acsc *AppCommissionSettingCreate) SetInvitationDiscount(b bool) *AppCommis
 	return acsc
 }
 
+// SetUniqueSetting sets the "unique_setting" field.
+func (acsc *AppCommissionSettingCreate) SetUniqueSetting(b bool) *AppCommissionSettingCreate {
+	acsc.mutation.SetUniqueSetting(b)
+	return acsc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (acsc *AppCommissionSettingCreate) SetCreateAt(u uint32) *AppCommissionSettingCreate {
 	acsc.mutation.SetCreateAt(u)
@@ -206,6 +212,9 @@ func (acsc *AppCommissionSettingCreate) check() error {
 	if _, ok := acsc.mutation.InvitationDiscount(); !ok {
 		return &ValidationError{Name: "invitation_discount", err: errors.New(`ent: missing required field "AppCommissionSetting.invitation_discount"`)}
 	}
+	if _, ok := acsc.mutation.UniqueSetting(); !ok {
+		return &ValidationError{Name: "unique_setting", err: errors.New(`ent: missing required field "AppCommissionSetting.unique_setting"`)}
+	}
 	if _, ok := acsc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "AppCommissionSetting.create_at"`)}
 	}
@@ -283,6 +292,14 @@ func (acsc *AppCommissionSettingCreate) createSpec() (*AppCommissionSetting, *sq
 			Column: appcommissionsetting.FieldInvitationDiscount,
 		})
 		_node.InvitationDiscount = value
+	}
+	if value, ok := acsc.mutation.UniqueSetting(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: appcommissionsetting.FieldUniqueSetting,
+		})
+		_node.UniqueSetting = value
 	}
 	if value, ok := acsc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -413,6 +430,18 @@ func (u *AppCommissionSettingUpsert) SetInvitationDiscount(v bool) *AppCommissio
 // UpdateInvitationDiscount sets the "invitation_discount" field to the value that was provided on create.
 func (u *AppCommissionSettingUpsert) UpdateInvitationDiscount() *AppCommissionSettingUpsert {
 	u.SetExcluded(appcommissionsetting.FieldInvitationDiscount)
+	return u
+}
+
+// SetUniqueSetting sets the "unique_setting" field.
+func (u *AppCommissionSettingUpsert) SetUniqueSetting(v bool) *AppCommissionSettingUpsert {
+	u.Set(appcommissionsetting.FieldUniqueSetting, v)
+	return u
+}
+
+// UpdateUniqueSetting sets the "unique_setting" field to the value that was provided on create.
+func (u *AppCommissionSettingUpsert) UpdateUniqueSetting() *AppCommissionSettingUpsert {
+	u.SetExcluded(appcommissionsetting.FieldUniqueSetting)
 	return u
 }
 
@@ -580,6 +609,20 @@ func (u *AppCommissionSettingUpsertOne) SetInvitationDiscount(v bool) *AppCommis
 func (u *AppCommissionSettingUpsertOne) UpdateInvitationDiscount() *AppCommissionSettingUpsertOne {
 	return u.Update(func(s *AppCommissionSettingUpsert) {
 		s.UpdateInvitationDiscount()
+	})
+}
+
+// SetUniqueSetting sets the "unique_setting" field.
+func (u *AppCommissionSettingUpsertOne) SetUniqueSetting(v bool) *AppCommissionSettingUpsertOne {
+	return u.Update(func(s *AppCommissionSettingUpsert) {
+		s.SetUniqueSetting(v)
+	})
+}
+
+// UpdateUniqueSetting sets the "unique_setting" field to the value that was provided on create.
+func (u *AppCommissionSettingUpsertOne) UpdateUniqueSetting() *AppCommissionSettingUpsertOne {
+	return u.Update(func(s *AppCommissionSettingUpsert) {
+		s.UpdateUniqueSetting()
 	})
 }
 
@@ -922,6 +965,20 @@ func (u *AppCommissionSettingUpsertBulk) SetInvitationDiscount(v bool) *AppCommi
 func (u *AppCommissionSettingUpsertBulk) UpdateInvitationDiscount() *AppCommissionSettingUpsertBulk {
 	return u.Update(func(s *AppCommissionSettingUpsert) {
 		s.UpdateInvitationDiscount()
+	})
+}
+
+// SetUniqueSetting sets the "unique_setting" field.
+func (u *AppCommissionSettingUpsertBulk) SetUniqueSetting(v bool) *AppCommissionSettingUpsertBulk {
+	return u.Update(func(s *AppCommissionSettingUpsert) {
+		s.SetUniqueSetting(v)
+	})
+}
+
+// UpdateUniqueSetting sets the "unique_setting" field to the value that was provided on create.
+func (u *AppCommissionSettingUpsertBulk) UpdateUniqueSetting() *AppCommissionSettingUpsertBulk {
+	return u.Update(func(s *AppCommissionSettingUpsert) {
+		s.UpdateUniqueSetting()
 	})
 }
 

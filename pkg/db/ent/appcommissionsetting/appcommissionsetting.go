@@ -19,6 +19,8 @@ const (
 	FieldLevel = "level"
 	// FieldInvitationDiscount holds the string denoting the invitation_discount field in the database.
 	FieldInvitationDiscount = "invitation_discount"
+	// FieldUniqueSetting holds the string denoting the unique_setting field in the database.
+	FieldUniqueSetting = "unique_setting"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -36,6 +38,7 @@ var Columns = []string{
 	FieldType,
 	FieldLevel,
 	FieldInvitationDiscount,
+	FieldUniqueSetting,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

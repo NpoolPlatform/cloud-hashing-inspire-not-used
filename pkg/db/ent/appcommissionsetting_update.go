@@ -59,6 +59,12 @@ func (acsu *AppCommissionSettingUpdate) SetInvitationDiscount(b bool) *AppCommis
 	return acsu
 }
 
+// SetUniqueSetting sets the "unique_setting" field.
+func (acsu *AppCommissionSettingUpdate) SetUniqueSetting(b bool) *AppCommissionSettingUpdate {
+	acsu.mutation.SetUniqueSetting(b)
+	return acsu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (acsu *AppCommissionSettingUpdate) SetCreateAt(u uint32) *AppCommissionSettingUpdate {
 	acsu.mutation.ResetCreateAt()
@@ -235,6 +241,13 @@ func (acsu *AppCommissionSettingUpdate) sqlSave(ctx context.Context) (n int, err
 			Column: appcommissionsetting.FieldInvitationDiscount,
 		})
 	}
+	if value, ok := acsu.mutation.UniqueSetting(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: appcommissionsetting.FieldUniqueSetting,
+		})
+	}
 	if value, ok := acsu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -324,6 +337,12 @@ func (acsuo *AppCommissionSettingUpdateOne) AddLevel(u int32) *AppCommissionSett
 // SetInvitationDiscount sets the "invitation_discount" field.
 func (acsuo *AppCommissionSettingUpdateOne) SetInvitationDiscount(b bool) *AppCommissionSettingUpdateOne {
 	acsuo.mutation.SetInvitationDiscount(b)
+	return acsuo
+}
+
+// SetUniqueSetting sets the "unique_setting" field.
+func (acsuo *AppCommissionSettingUpdateOne) SetUniqueSetting(b bool) *AppCommissionSettingUpdateOne {
+	acsuo.mutation.SetUniqueSetting(b)
 	return acsuo
 }
 
@@ -525,6 +544,13 @@ func (acsuo *AppCommissionSettingUpdateOne) sqlSave(ctx context.Context) (_node 
 			Type:   field.TypeBool,
 			Value:  value,
 			Column: appcommissionsetting.FieldInvitationDiscount,
+		})
+	}
+	if value, ok := acsuo.mutation.UniqueSetting(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: appcommissionsetting.FieldUniqueSetting,
 		})
 	}
 	if value, ok := acsuo.mutation.CreateAt(); ok {

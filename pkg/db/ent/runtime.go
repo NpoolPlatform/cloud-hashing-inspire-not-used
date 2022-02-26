@@ -50,17 +50,17 @@ func init() {
 	appcommissionsettingFields := schema.AppCommissionSetting{}.Fields()
 	_ = appcommissionsettingFields
 	// appcommissionsettingDescCreateAt is the schema descriptor for create_at field.
-	appcommissionsettingDescCreateAt := appcommissionsettingFields[5].Descriptor()
+	appcommissionsettingDescCreateAt := appcommissionsettingFields[6].Descriptor()
 	// appcommissionsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	appcommissionsetting.DefaultCreateAt = appcommissionsettingDescCreateAt.Default.(func() uint32)
 	// appcommissionsettingDescUpdateAt is the schema descriptor for update_at field.
-	appcommissionsettingDescUpdateAt := appcommissionsettingFields[6].Descriptor()
+	appcommissionsettingDescUpdateAt := appcommissionsettingFields[7].Descriptor()
 	// appcommissionsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	appcommissionsetting.DefaultUpdateAt = appcommissionsettingDescUpdateAt.Default.(func() uint32)
 	// appcommissionsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	appcommissionsetting.UpdateDefaultUpdateAt = appcommissionsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// appcommissionsettingDescDeleteAt is the schema descriptor for delete_at field.
-	appcommissionsettingDescDeleteAt := appcommissionsettingFields[7].Descriptor()
+	appcommissionsettingDescDeleteAt := appcommissionsettingFields[8].Descriptor()
 	// appcommissionsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	appcommissionsetting.DefaultDeleteAt = appcommissionsettingDescDeleteAt.Default.(func() uint32)
 	// appcommissionsettingDescID is the schema descriptor for id field.

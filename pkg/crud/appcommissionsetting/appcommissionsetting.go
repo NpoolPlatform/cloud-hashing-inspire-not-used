@@ -31,6 +31,7 @@ func dbRowToAppCommissionSetting(row *ent.AppCommissionSetting) *npool.AppCommis
 		AppID:              row.AppID.String(),
 		Type:               row.Type,
 		Level:              row.Level,
+		UniqueSetting:      row.UniqueSetting,
 		InvitationDiscount: row.InvitationDiscount,
 	}
 }
@@ -51,6 +52,7 @@ func Create(ctx context.Context, in *npool.CreateAppCommissionSettingRequest) (*
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
 		SetType(in.GetInfo().GetType()).
 		SetLevel(in.GetInfo().GetLevel()).
+		SetUniqueSetting(in.GetInfo().GetUniqueSetting()).
 		SetInvitationDiscount(in.GetInfo().GetInvitationDiscount()).
 		Save(ctx)
 	if err != nil {
@@ -148,6 +150,7 @@ func Update(ctx context.Context, in *npool.UpdateAppCommissionSettingRequest) (*
 		UpdateOneID(id).
 		SetType(in.GetInfo().GetType()).
 		SetLevel(in.GetInfo().GetLevel()).
+		SetUniqueSetting(in.GetInfo().GetUniqueSetting()).
 		SetInvitationDiscount(in.GetInfo().GetInvitationDiscount()).
 		Save(ctx)
 	if err != nil {
