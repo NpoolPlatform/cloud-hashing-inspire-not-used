@@ -45,12 +45,6 @@ func TestCRUD(t *testing.T) {
 		assertCommissionCoinSetting(t, resp.Info, &setting)
 	}
 
-	resp1, err := Get(context.Background(), &npool.GetCommissionCoinSettingRequest{})
-	if assert.Nil(t, err) {
-		assert.Equal(t, resp1.Info.ID, resp.Info.ID)
-		assertCommissionCoinSetting(t, resp1.Info, &setting)
-	}
-
 	setting.ID = resp.Info.ID
 
 	resp3, err := Update(context.Background(), &npool.UpdateCommissionCoinSettingRequest{
