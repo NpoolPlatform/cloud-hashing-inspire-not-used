@@ -157,12 +157,12 @@ func GetByApp(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByAppRe
 		return nil, xerrors.Errorf("fail query app purchase amount setting: %v", err)
 	}
 
-	invitations := []*npool.AppPurchaseAmountSetting{}
+	settings := []*npool.AppPurchaseAmountSetting{}
 	for _, info := range infos {
-		invitations = append(invitations, dbRowToAppPurchaseAmountSetting(info))
+		settings = append(settings, dbRowToAppPurchaseAmountSetting(info))
 	}
 
 	return &npool.GetAppPurchaseAmountSettingsByAppResponse{
-		Infos: invitations,
+		Infos: settings,
 	}, nil
 }

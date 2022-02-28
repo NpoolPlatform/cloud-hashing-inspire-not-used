@@ -6,6 +6,7 @@ import (
 	"context"
 
 	crud "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/apppurchaseamountsetting"
+	mw "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/middleware/purchaseamount"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
@@ -15,7 +16,7 @@ import (
 )
 
 func (s *Server) CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingRequest) (*npool.CreateAppPurchaseAmountSettingResponse, error) {
-	resp, err := crud.Create(ctx, in)
+	resp, err := mw.CreateAppPurchaseAmountSetting(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("create app purchase amount setting error: %v", err)
 		return &npool.CreateAppPurchaseAmountSettingResponse{}, status.Error(codes.Internal, err.Error())
