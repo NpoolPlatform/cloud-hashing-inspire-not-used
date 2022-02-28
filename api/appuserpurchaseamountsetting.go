@@ -27,6 +27,7 @@ func (s *Server) CreateAppUserPurchaseAmountSetting(ctx context.Context, in *npo
 func (s *Server) CreateAppUserPurchaseAmountSettingForOtherAppUser(ctx context.Context, in *npool.CreateAppUserPurchaseAmountSettingForOtherAppUserRequest) (*npool.CreateAppUserPurchaseAmountSettingForOtherAppUserResponse, error) {
 	info := in.GetInfo()
 	info.AppID = in.GetTargetAppID()
+	info.UserID = in.GetTargetUserID()
 
 	resp, err := crud.Create(ctx, &npool.CreateAppUserPurchaseAmountSettingRequest{
 		Info: info,
