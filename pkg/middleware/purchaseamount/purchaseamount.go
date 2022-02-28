@@ -76,6 +76,4 @@ func CreateAppUserPurchaseAmountSetting(ctx context.Context, in *npool.CreateApp
 	return appusersetting.Create(ctx, &npool.CreateAppUserPurchaseAmountSettingRequest{
 		Info: info,
 	})
-
-	return nil, nil
 }
