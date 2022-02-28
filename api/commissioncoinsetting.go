@@ -4,6 +4,7 @@ import (
 	"context"
 
 	crud "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/commissioncoinsetting"
+	mw "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/middleware/commissioncoin"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
@@ -13,7 +14,7 @@ import (
 )
 
 func (s *Server) CreateCommissionCoinSetting(ctx context.Context, in *npool.CreateCommissionCoinSettingRequest) (*npool.CreateCommissionCoinSettingResponse, error) {
-	resp, err := crud.Create(ctx, in)
+	resp, err := mw.CreateCommissionCoinSetting(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorf("create commission coin setting error: %v", err)
 		return &npool.CreateCommissionCoinSettingResponse{}, status.Error(codes.Internal, err.Error())
