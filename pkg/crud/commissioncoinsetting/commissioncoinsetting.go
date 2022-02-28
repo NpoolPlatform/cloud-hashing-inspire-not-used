@@ -42,6 +42,7 @@ func Create(ctx context.Context, in *npool.CreateCommissionCoinSettingRequest) (
 		CommissionCoinSetting.
 		Create().
 		SetCoinTypeID(uuid.MustParse(in.GetInfo().GetCoinTypeID())).
+		SetUsing(true).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create commission coin setting: %v", err)

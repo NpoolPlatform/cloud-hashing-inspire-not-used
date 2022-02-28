@@ -21,6 +21,7 @@ func CreateCommissionCoinSetting(ctx context.Context, in *npool.CreateCommission
 		info.Using = false
 		if info.CoinTypeID == in.GetInfo().GetCoinTypeID() {
 			info.Using = true
+			myInfo = info
 		}
 		_, err := crud.Update(ctx, &npool.UpdateCommissionCoinSettingRequest{
 			Info: info,
@@ -28,8 +29,6 @@ func CreateCommissionCoinSetting(ctx context.Context, in *npool.CreateCommission
 		if err != nil {
 			return nil, xerrors.Errorf("fail update setting: %v", err)
 		}
-
-		myInfo = info
 	}
 
 	if myInfo == nil {
