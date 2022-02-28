@@ -111,17 +111,17 @@ func init() {
 	apppurchaseamountsettingFields := schema.AppPurchaseAmountSetting{}.Fields()
 	_ = apppurchaseamountsettingFields
 	// apppurchaseamountsettingDescCreateAt is the schema descriptor for create_at field.
-	apppurchaseamountsettingDescCreateAt := apppurchaseamountsettingFields[7].Descriptor()
+	apppurchaseamountsettingDescCreateAt := apppurchaseamountsettingFields[9].Descriptor()
 	// apppurchaseamountsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	apppurchaseamountsetting.DefaultCreateAt = apppurchaseamountsettingDescCreateAt.Default.(func() uint32)
 	// apppurchaseamountsettingDescUpdateAt is the schema descriptor for update_at field.
-	apppurchaseamountsettingDescUpdateAt := apppurchaseamountsettingFields[8].Descriptor()
+	apppurchaseamountsettingDescUpdateAt := apppurchaseamountsettingFields[10].Descriptor()
 	// apppurchaseamountsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	apppurchaseamountsetting.DefaultUpdateAt = apppurchaseamountsettingDescUpdateAt.Default.(func() uint32)
 	// apppurchaseamountsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	apppurchaseamountsetting.UpdateDefaultUpdateAt = apppurchaseamountsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// apppurchaseamountsettingDescDeleteAt is the schema descriptor for delete_at field.
-	apppurchaseamountsettingDescDeleteAt := apppurchaseamountsettingFields[9].Descriptor()
+	apppurchaseamountsettingDescDeleteAt := apppurchaseamountsettingFields[11].Descriptor()
 	// apppurchaseamountsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	apppurchaseamountsetting.DefaultDeleteAt = apppurchaseamountsettingDescDeleteAt.Default.(func() uint32)
 	// apppurchaseamountsettingDescID is the schema descriptor for id field.
@@ -151,17 +151,17 @@ func init() {
 	appuserpurchaseamountsettingFields := schema.AppUserPurchaseAmountSetting{}.Fields()
 	_ = appuserpurchaseamountsettingFields
 	// appuserpurchaseamountsettingDescCreateAt is the schema descriptor for create_at field.
-	appuserpurchaseamountsettingDescCreateAt := appuserpurchaseamountsettingFields[8].Descriptor()
+	appuserpurchaseamountsettingDescCreateAt := appuserpurchaseamountsettingFields[10].Descriptor()
 	// appuserpurchaseamountsetting.DefaultCreateAt holds the default value on creation for the create_at field.
 	appuserpurchaseamountsetting.DefaultCreateAt = appuserpurchaseamountsettingDescCreateAt.Default.(func() uint32)
 	// appuserpurchaseamountsettingDescUpdateAt is the schema descriptor for update_at field.
-	appuserpurchaseamountsettingDescUpdateAt := appuserpurchaseamountsettingFields[9].Descriptor()
+	appuserpurchaseamountsettingDescUpdateAt := appuserpurchaseamountsettingFields[11].Descriptor()
 	// appuserpurchaseamountsetting.DefaultUpdateAt holds the default value on creation for the update_at field.
 	appuserpurchaseamountsetting.DefaultUpdateAt = appuserpurchaseamountsettingDescUpdateAt.Default.(func() uint32)
 	// appuserpurchaseamountsetting.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	appuserpurchaseamountsetting.UpdateDefaultUpdateAt = appuserpurchaseamountsettingDescUpdateAt.UpdateDefault.(func() uint32)
 	// appuserpurchaseamountsettingDescDeleteAt is the schema descriptor for delete_at field.
-	appuserpurchaseamountsettingDescDeleteAt := appuserpurchaseamountsettingFields[10].Descriptor()
+	appuserpurchaseamountsettingDescDeleteAt := appuserpurchaseamountsettingFields[12].Descriptor()
 	// appuserpurchaseamountsetting.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	appuserpurchaseamountsetting.DefaultDeleteAt = appuserpurchaseamountsettingDescDeleteAt.Default.(func() uint32)
 	// appuserpurchaseamountsettingDescID is the schema descriptor for id field.

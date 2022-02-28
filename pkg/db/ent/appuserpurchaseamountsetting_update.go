@@ -46,18 +46,6 @@ func (aupasu *AppUserPurchaseAmountSettingUpdate) SetTitle(s string) *AppUserPur
 	return aupasu
 }
 
-// SetBadgeLarge sets the "badge_large" field.
-func (aupasu *AppUserPurchaseAmountSettingUpdate) SetBadgeLarge(s string) *AppUserPurchaseAmountSettingUpdate {
-	aupasu.mutation.SetBadgeLarge(s)
-	return aupasu
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (aupasu *AppUserPurchaseAmountSettingUpdate) SetBadgeSmall(s string) *AppUserPurchaseAmountSettingUpdate {
-	aupasu.mutation.SetBadgeSmall(s)
-	return aupasu
-}
-
 // SetAmount sets the "amount" field.
 func (aupasu *AppUserPurchaseAmountSettingUpdate) SetAmount(u uint64) *AppUserPurchaseAmountSettingUpdate {
 	aupasu.mutation.ResetAmount()
@@ -81,6 +69,44 @@ func (aupasu *AppUserPurchaseAmountSettingUpdate) SetPercent(u uint32) *AppUserP
 // AddPercent adds u to the "percent" field.
 func (aupasu *AppUserPurchaseAmountSettingUpdate) AddPercent(u int32) *AppUserPurchaseAmountSettingUpdate {
 	aupasu.mutation.AddPercent(u)
+	return aupasu
+}
+
+// SetStart sets the "start" field.
+func (aupasu *AppUserPurchaseAmountSettingUpdate) SetStart(u uint32) *AppUserPurchaseAmountSettingUpdate {
+	aupasu.mutation.ResetStart()
+	aupasu.mutation.SetStart(u)
+	return aupasu
+}
+
+// AddStart adds u to the "start" field.
+func (aupasu *AppUserPurchaseAmountSettingUpdate) AddStart(u int32) *AppUserPurchaseAmountSettingUpdate {
+	aupasu.mutation.AddStart(u)
+	return aupasu
+}
+
+// SetEnd sets the "end" field.
+func (aupasu *AppUserPurchaseAmountSettingUpdate) SetEnd(u uint32) *AppUserPurchaseAmountSettingUpdate {
+	aupasu.mutation.ResetEnd()
+	aupasu.mutation.SetEnd(u)
+	return aupasu
+}
+
+// AddEnd adds u to the "end" field.
+func (aupasu *AppUserPurchaseAmountSettingUpdate) AddEnd(u int32) *AppUserPurchaseAmountSettingUpdate {
+	aupasu.mutation.AddEnd(u)
+	return aupasu
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (aupasu *AppUserPurchaseAmountSettingUpdate) SetBadgeLarge(s string) *AppUserPurchaseAmountSettingUpdate {
+	aupasu.mutation.SetBadgeLarge(s)
+	return aupasu
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (aupasu *AppUserPurchaseAmountSettingUpdate) SetBadgeSmall(s string) *AppUserPurchaseAmountSettingUpdate {
+	aupasu.mutation.SetBadgeSmall(s)
 	return aupasu
 }
 
@@ -246,20 +272,6 @@ func (aupasu *AppUserPurchaseAmountSettingUpdate) sqlSave(ctx context.Context) (
 			Column: appuserpurchaseamountsetting.FieldTitle,
 		})
 	}
-	if value, ok := aupasu.mutation.BadgeLarge(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appuserpurchaseamountsetting.FieldBadgeLarge,
-		})
-	}
-	if value, ok := aupasu.mutation.BadgeSmall(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appuserpurchaseamountsetting.FieldBadgeSmall,
-		})
-	}
 	if value, ok := aupasu.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint64,
@@ -286,6 +298,48 @@ func (aupasu *AppUserPurchaseAmountSettingUpdate) sqlSave(ctx context.Context) (
 			Type:   field.TypeUint32,
 			Value:  value,
 			Column: appuserpurchaseamountsetting.FieldPercent,
+		})
+	}
+	if value, ok := aupasu.mutation.Start(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldStart,
+		})
+	}
+	if value, ok := aupasu.mutation.AddedStart(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldStart,
+		})
+	}
+	if value, ok := aupasu.mutation.End(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldEnd,
+		})
+	}
+	if value, ok := aupasu.mutation.AddedEnd(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldEnd,
+		})
+	}
+	if value, ok := aupasu.mutation.BadgeLarge(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldBadgeLarge,
+		})
+	}
+	if value, ok := aupasu.mutation.BadgeSmall(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldBadgeSmall,
 		})
 	}
 	if value, ok := aupasu.mutation.CreateAt(); ok {
@@ -367,18 +421,6 @@ func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) SetTitle(s string) *AppUse
 	return aupasuo
 }
 
-// SetBadgeLarge sets the "badge_large" field.
-func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) SetBadgeLarge(s string) *AppUserPurchaseAmountSettingUpdateOne {
-	aupasuo.mutation.SetBadgeLarge(s)
-	return aupasuo
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) SetBadgeSmall(s string) *AppUserPurchaseAmountSettingUpdateOne {
-	aupasuo.mutation.SetBadgeSmall(s)
-	return aupasuo
-}
-
 // SetAmount sets the "amount" field.
 func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) SetAmount(u uint64) *AppUserPurchaseAmountSettingUpdateOne {
 	aupasuo.mutation.ResetAmount()
@@ -402,6 +444,44 @@ func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) SetPercent(u uint32) *AppU
 // AddPercent adds u to the "percent" field.
 func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) AddPercent(u int32) *AppUserPurchaseAmountSettingUpdateOne {
 	aupasuo.mutation.AddPercent(u)
+	return aupasuo
+}
+
+// SetStart sets the "start" field.
+func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) SetStart(u uint32) *AppUserPurchaseAmountSettingUpdateOne {
+	aupasuo.mutation.ResetStart()
+	aupasuo.mutation.SetStart(u)
+	return aupasuo
+}
+
+// AddStart adds u to the "start" field.
+func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) AddStart(u int32) *AppUserPurchaseAmountSettingUpdateOne {
+	aupasuo.mutation.AddStart(u)
+	return aupasuo
+}
+
+// SetEnd sets the "end" field.
+func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) SetEnd(u uint32) *AppUserPurchaseAmountSettingUpdateOne {
+	aupasuo.mutation.ResetEnd()
+	aupasuo.mutation.SetEnd(u)
+	return aupasuo
+}
+
+// AddEnd adds u to the "end" field.
+func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) AddEnd(u int32) *AppUserPurchaseAmountSettingUpdateOne {
+	aupasuo.mutation.AddEnd(u)
+	return aupasuo
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) SetBadgeLarge(s string) *AppUserPurchaseAmountSettingUpdateOne {
+	aupasuo.mutation.SetBadgeLarge(s)
+	return aupasuo
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) SetBadgeSmall(s string) *AppUserPurchaseAmountSettingUpdateOne {
+	aupasuo.mutation.SetBadgeSmall(s)
 	return aupasuo
 }
 
@@ -591,20 +671,6 @@ func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) sqlSave(ctx context.Contex
 			Column: appuserpurchaseamountsetting.FieldTitle,
 		})
 	}
-	if value, ok := aupasuo.mutation.BadgeLarge(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appuserpurchaseamountsetting.FieldBadgeLarge,
-		})
-	}
-	if value, ok := aupasuo.mutation.BadgeSmall(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: appuserpurchaseamountsetting.FieldBadgeSmall,
-		})
-	}
 	if value, ok := aupasuo.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint64,
@@ -631,6 +697,48 @@ func (aupasuo *AppUserPurchaseAmountSettingUpdateOne) sqlSave(ctx context.Contex
 			Type:   field.TypeUint32,
 			Value:  value,
 			Column: appuserpurchaseamountsetting.FieldPercent,
+		})
+	}
+	if value, ok := aupasuo.mutation.Start(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldStart,
+		})
+	}
+	if value, ok := aupasuo.mutation.AddedStart(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldStart,
+		})
+	}
+	if value, ok := aupasuo.mutation.End(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldEnd,
+		})
+	}
+	if value, ok := aupasuo.mutation.AddedEnd(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldEnd,
+		})
+	}
+	if value, ok := aupasuo.mutation.BadgeLarge(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldBadgeLarge,
+		})
+	}
+	if value, ok := aupasuo.mutation.BadgeSmall(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appuserpurchaseamountsetting.FieldBadgeSmall,
 		})
 	}
 	if value, ok := aupasuo.mutation.CreateAt(); ok {

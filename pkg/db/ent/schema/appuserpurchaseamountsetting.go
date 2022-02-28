@@ -22,10 +22,12 @@ func (AppUserPurchaseAmountSetting) Fields() []ent.Field {
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("user_id", uuid.UUID{}),
 		field.String("title"),
-		field.String("badge_large"),
-		field.String("badge_small"),
 		field.Uint64("amount"),
 		field.Uint32("percent"),
+		field.Uint32("start"),
+		field.Uint32("end"),
+		field.String("badge_large"),
+		field.String("badge_small"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

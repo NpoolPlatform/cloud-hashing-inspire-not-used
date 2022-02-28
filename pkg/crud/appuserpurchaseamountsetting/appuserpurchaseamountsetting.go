@@ -33,6 +33,8 @@ func dbRowToAppUserPurchaseAmountSetting(row *ent.AppUserPurchaseAmountSetting) 
 		Title:      row.Title,
 		BadgeLarge: row.BadgeLarge,
 		BadgeSmall: row.BadgeSmall,
+		Start:      row.Start,
+		End:        row.End,
 	}
 }
 
@@ -56,6 +58,8 @@ func Create(ctx context.Context, in *npool.CreateAppUserPurchaseAmountSettingReq
 		SetTitle(in.GetInfo().GetTitle()).
 		SetBadgeLarge(in.GetInfo().GetBadgeLarge()).
 		SetBadgeSmall(in.GetInfo().GetBadgeSmall()).
+		SetStart(in.GetInfo().GetStart()).
+		SetEnd(0).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create app user purchase amount setting: %v", err)
@@ -89,6 +93,7 @@ func Update(ctx context.Context, in *npool.UpdateAppUserPurchaseAmountSettingReq
 		SetTitle(in.GetInfo().GetTitle()).
 		SetBadgeLarge(in.GetInfo().GetBadgeLarge()).
 		SetBadgeSmall(in.GetInfo().GetBadgeSmall()).
+		SetEnd(in.GetInfo().GetEnd()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update app user purchase amount setting: %v", err)

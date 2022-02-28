@@ -17,14 +17,18 @@ const (
 	FieldUserID = "user_id"
 	// FieldTitle holds the string denoting the title field in the database.
 	FieldTitle = "title"
-	// FieldBadgeLarge holds the string denoting the badge_large field in the database.
-	FieldBadgeLarge = "badge_large"
-	// FieldBadgeSmall holds the string denoting the badge_small field in the database.
-	FieldBadgeSmall = "badge_small"
 	// FieldAmount holds the string denoting the amount field in the database.
 	FieldAmount = "amount"
 	// FieldPercent holds the string denoting the percent field in the database.
 	FieldPercent = "percent"
+	// FieldStart holds the string denoting the start field in the database.
+	FieldStart = "start"
+	// FieldEnd holds the string denoting the end field in the database.
+	FieldEnd = "end"
+	// FieldBadgeLarge holds the string denoting the badge_large field in the database.
+	FieldBadgeLarge = "badge_large"
+	// FieldBadgeSmall holds the string denoting the badge_small field in the database.
+	FieldBadgeSmall = "badge_small"
 	// FieldCreateAt holds the string denoting the create_at field in the database.
 	FieldCreateAt = "create_at"
 	// FieldUpdateAt holds the string denoting the update_at field in the database.
@@ -41,10 +45,12 @@ var Columns = []string{
 	FieldAppID,
 	FieldUserID,
 	FieldTitle,
-	FieldBadgeLarge,
-	FieldBadgeSmall,
 	FieldAmount,
 	FieldPercent,
+	FieldStart,
+	FieldEnd,
+	FieldBadgeLarge,
+	FieldBadgeSmall,
 	FieldCreateAt,
 	FieldUpdateAt,
 	FieldDeleteAt,

@@ -105,20 +105,6 @@ func Title(v string) predicate.AppPurchaseAmountSetting {
 	})
 }
 
-// BadgeLarge applies equality check predicate on the "badge_large" field. It's identical to BadgeLargeEQ.
-func BadgeLarge(v string) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldBadgeLarge), v))
-	})
-}
-
-// BadgeSmall applies equality check predicate on the "badge_small" field. It's identical to BadgeSmallEQ.
-func BadgeSmall(v string) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldBadgeSmall), v))
-	})
-}
-
 // Amount applies equality check predicate on the "amount" field. It's identical to AmountEQ.
 func Amount(v uint64) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
@@ -130,6 +116,34 @@ func Amount(v uint64) predicate.AppPurchaseAmountSetting {
 func Percent(v uint32) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldPercent), v))
+	})
+}
+
+// Start applies equality check predicate on the "start" field. It's identical to StartEQ.
+func Start(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldStart), v))
+	})
+}
+
+// End applies equality check predicate on the "end" field. It's identical to EndEQ.
+func End(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEnd), v))
+	})
+}
+
+// BadgeLarge applies equality check predicate on the "badge_large" field. It's identical to BadgeLargeEQ.
+func BadgeLarge(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldBadgeLarge), v))
+	})
+}
+
+// BadgeSmall applies equality check predicate on the "badge_small" field. It's identical to BadgeSmallEQ.
+func BadgeSmall(v string) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldBadgeSmall), v))
 	})
 }
 
@@ -338,6 +352,310 @@ func TitleEqualFold(v string) predicate.AppPurchaseAmountSetting {
 func TitleContainsFold(v string) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldTitle), v))
+	})
+}
+
+// AmountEQ applies the EQ predicate on the "amount" field.
+func AmountEQ(v uint64) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAmount), v))
+	})
+}
+
+// AmountNEQ applies the NEQ predicate on the "amount" field.
+func AmountNEQ(v uint64) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldAmount), v))
+	})
+}
+
+// AmountIn applies the In predicate on the "amount" field.
+func AmountIn(vs ...uint64) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldAmount), v...))
+	})
+}
+
+// AmountNotIn applies the NotIn predicate on the "amount" field.
+func AmountNotIn(vs ...uint64) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldAmount), v...))
+	})
+}
+
+// AmountGT applies the GT predicate on the "amount" field.
+func AmountGT(v uint64) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldAmount), v))
+	})
+}
+
+// AmountGTE applies the GTE predicate on the "amount" field.
+func AmountGTE(v uint64) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldAmount), v))
+	})
+}
+
+// AmountLT applies the LT predicate on the "amount" field.
+func AmountLT(v uint64) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldAmount), v))
+	})
+}
+
+// AmountLTE applies the LTE predicate on the "amount" field.
+func AmountLTE(v uint64) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldAmount), v))
+	})
+}
+
+// PercentEQ applies the EQ predicate on the "percent" field.
+func PercentEQ(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPercent), v))
+	})
+}
+
+// PercentNEQ applies the NEQ predicate on the "percent" field.
+func PercentNEQ(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPercent), v))
+	})
+}
+
+// PercentIn applies the In predicate on the "percent" field.
+func PercentIn(vs ...uint32) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldPercent), v...))
+	})
+}
+
+// PercentNotIn applies the NotIn predicate on the "percent" field.
+func PercentNotIn(vs ...uint32) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldPercent), v...))
+	})
+}
+
+// PercentGT applies the GT predicate on the "percent" field.
+func PercentGT(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPercent), v))
+	})
+}
+
+// PercentGTE applies the GTE predicate on the "percent" field.
+func PercentGTE(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPercent), v))
+	})
+}
+
+// PercentLT applies the LT predicate on the "percent" field.
+func PercentLT(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPercent), v))
+	})
+}
+
+// PercentLTE applies the LTE predicate on the "percent" field.
+func PercentLTE(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPercent), v))
+	})
+}
+
+// StartEQ applies the EQ predicate on the "start" field.
+func StartEQ(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldStart), v))
+	})
+}
+
+// StartNEQ applies the NEQ predicate on the "start" field.
+func StartNEQ(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldStart), v))
+	})
+}
+
+// StartIn applies the In predicate on the "start" field.
+func StartIn(vs ...uint32) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldStart), v...))
+	})
+}
+
+// StartNotIn applies the NotIn predicate on the "start" field.
+func StartNotIn(vs ...uint32) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldStart), v...))
+	})
+}
+
+// StartGT applies the GT predicate on the "start" field.
+func StartGT(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldStart), v))
+	})
+}
+
+// StartGTE applies the GTE predicate on the "start" field.
+func StartGTE(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldStart), v))
+	})
+}
+
+// StartLT applies the LT predicate on the "start" field.
+func StartLT(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldStart), v))
+	})
+}
+
+// StartLTE applies the LTE predicate on the "start" field.
+func StartLTE(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldStart), v))
+	})
+}
+
+// EndEQ applies the EQ predicate on the "end" field.
+func EndEQ(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEnd), v))
+	})
+}
+
+// EndNEQ applies the NEQ predicate on the "end" field.
+func EndNEQ(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldEnd), v))
+	})
+}
+
+// EndIn applies the In predicate on the "end" field.
+func EndIn(vs ...uint32) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldEnd), v...))
+	})
+}
+
+// EndNotIn applies the NotIn predicate on the "end" field.
+func EndNotIn(vs ...uint32) predicate.AppPurchaseAmountSetting {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldEnd), v...))
+	})
+}
+
+// EndGT applies the GT predicate on the "end" field.
+func EndGT(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldEnd), v))
+	})
+}
+
+// EndGTE applies the GTE predicate on the "end" field.
+func EndGTE(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldEnd), v))
+	})
+}
+
+// EndLT applies the LT predicate on the "end" field.
+func EndLT(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldEnd), v))
+	})
+}
+
+// EndLTE applies the LTE predicate on the "end" field.
+func EndLTE(v uint32) predicate.AppPurchaseAmountSetting {
+	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldEnd), v))
 	})
 }
 
@@ -560,158 +878,6 @@ func BadgeSmallEqualFold(v string) predicate.AppPurchaseAmountSetting {
 func BadgeSmallContainsFold(v string) predicate.AppPurchaseAmountSetting {
 	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldBadgeSmall), v))
-	})
-}
-
-// AmountEQ applies the EQ predicate on the "amount" field.
-func AmountEQ(v uint64) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAmount), v))
-	})
-}
-
-// AmountNEQ applies the NEQ predicate on the "amount" field.
-func AmountNEQ(v uint64) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldAmount), v))
-	})
-}
-
-// AmountIn applies the In predicate on the "amount" field.
-func AmountIn(vs ...uint64) predicate.AppPurchaseAmountSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldAmount), v...))
-	})
-}
-
-// AmountNotIn applies the NotIn predicate on the "amount" field.
-func AmountNotIn(vs ...uint64) predicate.AppPurchaseAmountSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldAmount), v...))
-	})
-}
-
-// AmountGT applies the GT predicate on the "amount" field.
-func AmountGT(v uint64) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldAmount), v))
-	})
-}
-
-// AmountGTE applies the GTE predicate on the "amount" field.
-func AmountGTE(v uint64) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldAmount), v))
-	})
-}
-
-// AmountLT applies the LT predicate on the "amount" field.
-func AmountLT(v uint64) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldAmount), v))
-	})
-}
-
-// AmountLTE applies the LTE predicate on the "amount" field.
-func AmountLTE(v uint64) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldAmount), v))
-	})
-}
-
-// PercentEQ applies the EQ predicate on the "percent" field.
-func PercentEQ(v uint32) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPercent), v))
-	})
-}
-
-// PercentNEQ applies the NEQ predicate on the "percent" field.
-func PercentNEQ(v uint32) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldPercent), v))
-	})
-}
-
-// PercentIn applies the In predicate on the "percent" field.
-func PercentIn(vs ...uint32) predicate.AppPurchaseAmountSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldPercent), v...))
-	})
-}
-
-// PercentNotIn applies the NotIn predicate on the "percent" field.
-func PercentNotIn(vs ...uint32) predicate.AppPurchaseAmountSetting {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldPercent), v...))
-	})
-}
-
-// PercentGT applies the GT predicate on the "percent" field.
-func PercentGT(v uint32) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldPercent), v))
-	})
-}
-
-// PercentGTE applies the GTE predicate on the "percent" field.
-func PercentGTE(v uint32) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldPercent), v))
-	})
-}
-
-// PercentLT applies the LT predicate on the "percent" field.
-func PercentLT(v uint32) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldPercent), v))
-	})
-}
-
-// PercentLTE applies the LTE predicate on the "percent" field.
-func PercentLTE(v uint32) predicate.AppPurchaseAmountSetting {
-	return predicate.AppPurchaseAmountSetting(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldPercent), v))
 	})
 }
 

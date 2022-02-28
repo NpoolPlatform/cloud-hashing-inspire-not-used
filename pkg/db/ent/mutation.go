@@ -3486,12 +3486,16 @@ type AppPurchaseAmountSettingMutation struct {
 	id            *uuid.UUID
 	app_id        *uuid.UUID
 	title         *string
-	badge_large   *string
-	badge_small   *string
 	amount        *uint64
 	addamount     *int64
 	percent       *uint32
 	addpercent    *int32
+	start         *uint32
+	addstart      *int32
+	end           *uint32
+	addend        *int32
+	badge_large   *string
+	badge_small   *string
 	create_at     *uint32
 	addcreate_at  *int32
 	update_at     *uint32
@@ -3680,78 +3684,6 @@ func (m *AppPurchaseAmountSettingMutation) ResetTitle() {
 	m.title = nil
 }
 
-// SetBadgeLarge sets the "badge_large" field.
-func (m *AppPurchaseAmountSettingMutation) SetBadgeLarge(s string) {
-	m.badge_large = &s
-}
-
-// BadgeLarge returns the value of the "badge_large" field in the mutation.
-func (m *AppPurchaseAmountSettingMutation) BadgeLarge() (r string, exists bool) {
-	v := m.badge_large
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldBadgeLarge returns the old "badge_large" field's value of the AppPurchaseAmountSetting entity.
-// If the AppPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AppPurchaseAmountSettingMutation) OldBadgeLarge(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldBadgeLarge is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldBadgeLarge requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldBadgeLarge: %w", err)
-	}
-	return oldValue.BadgeLarge, nil
-}
-
-// ResetBadgeLarge resets all changes to the "badge_large" field.
-func (m *AppPurchaseAmountSettingMutation) ResetBadgeLarge() {
-	m.badge_large = nil
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (m *AppPurchaseAmountSettingMutation) SetBadgeSmall(s string) {
-	m.badge_small = &s
-}
-
-// BadgeSmall returns the value of the "badge_small" field in the mutation.
-func (m *AppPurchaseAmountSettingMutation) BadgeSmall() (r string, exists bool) {
-	v := m.badge_small
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldBadgeSmall returns the old "badge_small" field's value of the AppPurchaseAmountSetting entity.
-// If the AppPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AppPurchaseAmountSettingMutation) OldBadgeSmall(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldBadgeSmall is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldBadgeSmall requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldBadgeSmall: %w", err)
-	}
-	return oldValue.BadgeSmall, nil
-}
-
-// ResetBadgeSmall resets all changes to the "badge_small" field.
-func (m *AppPurchaseAmountSettingMutation) ResetBadgeSmall() {
-	m.badge_small = nil
-}
-
 // SetAmount sets the "amount" field.
 func (m *AppPurchaseAmountSettingMutation) SetAmount(u uint64) {
 	m.amount = &u
@@ -3862,6 +3794,190 @@ func (m *AppPurchaseAmountSettingMutation) AddedPercent() (r int32, exists bool)
 func (m *AppPurchaseAmountSettingMutation) ResetPercent() {
 	m.percent = nil
 	m.addpercent = nil
+}
+
+// SetStart sets the "start" field.
+func (m *AppPurchaseAmountSettingMutation) SetStart(u uint32) {
+	m.start = &u
+	m.addstart = nil
+}
+
+// Start returns the value of the "start" field in the mutation.
+func (m *AppPurchaseAmountSettingMutation) Start() (r uint32, exists bool) {
+	v := m.start
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStart returns the old "start" field's value of the AppPurchaseAmountSetting entity.
+// If the AppPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppPurchaseAmountSettingMutation) OldStart(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStart is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStart requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStart: %w", err)
+	}
+	return oldValue.Start, nil
+}
+
+// AddStart adds u to the "start" field.
+func (m *AppPurchaseAmountSettingMutation) AddStart(u int32) {
+	if m.addstart != nil {
+		*m.addstart += u
+	} else {
+		m.addstart = &u
+	}
+}
+
+// AddedStart returns the value that was added to the "start" field in this mutation.
+func (m *AppPurchaseAmountSettingMutation) AddedStart() (r int32, exists bool) {
+	v := m.addstart
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetStart resets all changes to the "start" field.
+func (m *AppPurchaseAmountSettingMutation) ResetStart() {
+	m.start = nil
+	m.addstart = nil
+}
+
+// SetEnd sets the "end" field.
+func (m *AppPurchaseAmountSettingMutation) SetEnd(u uint32) {
+	m.end = &u
+	m.addend = nil
+}
+
+// End returns the value of the "end" field in the mutation.
+func (m *AppPurchaseAmountSettingMutation) End() (r uint32, exists bool) {
+	v := m.end
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEnd returns the old "end" field's value of the AppPurchaseAmountSetting entity.
+// If the AppPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppPurchaseAmountSettingMutation) OldEnd(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEnd is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEnd requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEnd: %w", err)
+	}
+	return oldValue.End, nil
+}
+
+// AddEnd adds u to the "end" field.
+func (m *AppPurchaseAmountSettingMutation) AddEnd(u int32) {
+	if m.addend != nil {
+		*m.addend += u
+	} else {
+		m.addend = &u
+	}
+}
+
+// AddedEnd returns the value that was added to the "end" field in this mutation.
+func (m *AppPurchaseAmountSettingMutation) AddedEnd() (r int32, exists bool) {
+	v := m.addend
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetEnd resets all changes to the "end" field.
+func (m *AppPurchaseAmountSettingMutation) ResetEnd() {
+	m.end = nil
+	m.addend = nil
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (m *AppPurchaseAmountSettingMutation) SetBadgeLarge(s string) {
+	m.badge_large = &s
+}
+
+// BadgeLarge returns the value of the "badge_large" field in the mutation.
+func (m *AppPurchaseAmountSettingMutation) BadgeLarge() (r string, exists bool) {
+	v := m.badge_large
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBadgeLarge returns the old "badge_large" field's value of the AppPurchaseAmountSetting entity.
+// If the AppPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppPurchaseAmountSettingMutation) OldBadgeLarge(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldBadgeLarge is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldBadgeLarge requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBadgeLarge: %w", err)
+	}
+	return oldValue.BadgeLarge, nil
+}
+
+// ResetBadgeLarge resets all changes to the "badge_large" field.
+func (m *AppPurchaseAmountSettingMutation) ResetBadgeLarge() {
+	m.badge_large = nil
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (m *AppPurchaseAmountSettingMutation) SetBadgeSmall(s string) {
+	m.badge_small = &s
+}
+
+// BadgeSmall returns the value of the "badge_small" field in the mutation.
+func (m *AppPurchaseAmountSettingMutation) BadgeSmall() (r string, exists bool) {
+	v := m.badge_small
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBadgeSmall returns the old "badge_small" field's value of the AppPurchaseAmountSetting entity.
+// If the AppPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppPurchaseAmountSettingMutation) OldBadgeSmall(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldBadgeSmall is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldBadgeSmall requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBadgeSmall: %w", err)
+	}
+	return oldValue.BadgeSmall, nil
+}
+
+// ResetBadgeSmall resets all changes to the "badge_small" field.
+func (m *AppPurchaseAmountSettingMutation) ResetBadgeSmall() {
+	m.badge_small = nil
 }
 
 // SetCreateAt sets the "create_at" field.
@@ -4051,24 +4167,30 @@ func (m *AppPurchaseAmountSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AppPurchaseAmountSettingMutation) Fields() []string {
-	fields := make([]string, 0, 9)
+	fields := make([]string, 0, 11)
 	if m.app_id != nil {
 		fields = append(fields, apppurchaseamountsetting.FieldAppID)
 	}
 	if m.title != nil {
 		fields = append(fields, apppurchaseamountsetting.FieldTitle)
 	}
-	if m.badge_large != nil {
-		fields = append(fields, apppurchaseamountsetting.FieldBadgeLarge)
-	}
-	if m.badge_small != nil {
-		fields = append(fields, apppurchaseamountsetting.FieldBadgeSmall)
-	}
 	if m.amount != nil {
 		fields = append(fields, apppurchaseamountsetting.FieldAmount)
 	}
 	if m.percent != nil {
 		fields = append(fields, apppurchaseamountsetting.FieldPercent)
+	}
+	if m.start != nil {
+		fields = append(fields, apppurchaseamountsetting.FieldStart)
+	}
+	if m.end != nil {
+		fields = append(fields, apppurchaseamountsetting.FieldEnd)
+	}
+	if m.badge_large != nil {
+		fields = append(fields, apppurchaseamountsetting.FieldBadgeLarge)
+	}
+	if m.badge_small != nil {
+		fields = append(fields, apppurchaseamountsetting.FieldBadgeSmall)
 	}
 	if m.create_at != nil {
 		fields = append(fields, apppurchaseamountsetting.FieldCreateAt)
@@ -4091,14 +4213,18 @@ func (m *AppPurchaseAmountSettingMutation) Field(name string) (ent.Value, bool) 
 		return m.AppID()
 	case apppurchaseamountsetting.FieldTitle:
 		return m.Title()
-	case apppurchaseamountsetting.FieldBadgeLarge:
-		return m.BadgeLarge()
-	case apppurchaseamountsetting.FieldBadgeSmall:
-		return m.BadgeSmall()
 	case apppurchaseamountsetting.FieldAmount:
 		return m.Amount()
 	case apppurchaseamountsetting.FieldPercent:
 		return m.Percent()
+	case apppurchaseamountsetting.FieldStart:
+		return m.Start()
+	case apppurchaseamountsetting.FieldEnd:
+		return m.End()
+	case apppurchaseamountsetting.FieldBadgeLarge:
+		return m.BadgeLarge()
+	case apppurchaseamountsetting.FieldBadgeSmall:
+		return m.BadgeSmall()
 	case apppurchaseamountsetting.FieldCreateAt:
 		return m.CreateAt()
 	case apppurchaseamountsetting.FieldUpdateAt:
@@ -4118,14 +4244,18 @@ func (m *AppPurchaseAmountSettingMutation) OldField(ctx context.Context, name st
 		return m.OldAppID(ctx)
 	case apppurchaseamountsetting.FieldTitle:
 		return m.OldTitle(ctx)
-	case apppurchaseamountsetting.FieldBadgeLarge:
-		return m.OldBadgeLarge(ctx)
-	case apppurchaseamountsetting.FieldBadgeSmall:
-		return m.OldBadgeSmall(ctx)
 	case apppurchaseamountsetting.FieldAmount:
 		return m.OldAmount(ctx)
 	case apppurchaseamountsetting.FieldPercent:
 		return m.OldPercent(ctx)
+	case apppurchaseamountsetting.FieldStart:
+		return m.OldStart(ctx)
+	case apppurchaseamountsetting.FieldEnd:
+		return m.OldEnd(ctx)
+	case apppurchaseamountsetting.FieldBadgeLarge:
+		return m.OldBadgeLarge(ctx)
+	case apppurchaseamountsetting.FieldBadgeSmall:
+		return m.OldBadgeSmall(ctx)
 	case apppurchaseamountsetting.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case apppurchaseamountsetting.FieldUpdateAt:
@@ -4155,20 +4285,6 @@ func (m *AppPurchaseAmountSettingMutation) SetField(name string, value ent.Value
 		}
 		m.SetTitle(v)
 		return nil
-	case apppurchaseamountsetting.FieldBadgeLarge:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetBadgeLarge(v)
-		return nil
-	case apppurchaseamountsetting.FieldBadgeSmall:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetBadgeSmall(v)
-		return nil
 	case apppurchaseamountsetting.FieldAmount:
 		v, ok := value.(uint64)
 		if !ok {
@@ -4182,6 +4298,34 @@ func (m *AppPurchaseAmountSettingMutation) SetField(name string, value ent.Value
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPercent(v)
+		return nil
+	case apppurchaseamountsetting.FieldStart:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStart(v)
+		return nil
+	case apppurchaseamountsetting.FieldEnd:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEnd(v)
+		return nil
+	case apppurchaseamountsetting.FieldBadgeLarge:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBadgeLarge(v)
+		return nil
+	case apppurchaseamountsetting.FieldBadgeSmall:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBadgeSmall(v)
 		return nil
 	case apppurchaseamountsetting.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -4218,6 +4362,12 @@ func (m *AppPurchaseAmountSettingMutation) AddedFields() []string {
 	if m.addpercent != nil {
 		fields = append(fields, apppurchaseamountsetting.FieldPercent)
 	}
+	if m.addstart != nil {
+		fields = append(fields, apppurchaseamountsetting.FieldStart)
+	}
+	if m.addend != nil {
+		fields = append(fields, apppurchaseamountsetting.FieldEnd)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, apppurchaseamountsetting.FieldCreateAt)
 	}
@@ -4239,6 +4389,10 @@ func (m *AppPurchaseAmountSettingMutation) AddedField(name string) (ent.Value, b
 		return m.AddedAmount()
 	case apppurchaseamountsetting.FieldPercent:
 		return m.AddedPercent()
+	case apppurchaseamountsetting.FieldStart:
+		return m.AddedStart()
+	case apppurchaseamountsetting.FieldEnd:
+		return m.AddedEnd()
 	case apppurchaseamountsetting.FieldCreateAt:
 		return m.AddedCreateAt()
 	case apppurchaseamountsetting.FieldUpdateAt:
@@ -4267,6 +4421,20 @@ func (m *AppPurchaseAmountSettingMutation) AddField(name string, value ent.Value
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddPercent(v)
+		return nil
+	case apppurchaseamountsetting.FieldStart:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddStart(v)
+		return nil
+	case apppurchaseamountsetting.FieldEnd:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddEnd(v)
 		return nil
 	case apppurchaseamountsetting.FieldCreateAt:
 		v, ok := value.(int32)
@@ -4322,17 +4490,23 @@ func (m *AppPurchaseAmountSettingMutation) ResetField(name string) error {
 	case apppurchaseamountsetting.FieldTitle:
 		m.ResetTitle()
 		return nil
-	case apppurchaseamountsetting.FieldBadgeLarge:
-		m.ResetBadgeLarge()
-		return nil
-	case apppurchaseamountsetting.FieldBadgeSmall:
-		m.ResetBadgeSmall()
-		return nil
 	case apppurchaseamountsetting.FieldAmount:
 		m.ResetAmount()
 		return nil
 	case apppurchaseamountsetting.FieldPercent:
 		m.ResetPercent()
+		return nil
+	case apppurchaseamountsetting.FieldStart:
+		m.ResetStart()
+		return nil
+	case apppurchaseamountsetting.FieldEnd:
+		m.ResetEnd()
+		return nil
+	case apppurchaseamountsetting.FieldBadgeLarge:
+		m.ResetBadgeLarge()
+		return nil
+	case apppurchaseamountsetting.FieldBadgeSmall:
+		m.ResetBadgeSmall()
 		return nil
 	case apppurchaseamountsetting.FieldCreateAt:
 		m.ResetCreateAt()
@@ -5375,12 +5549,16 @@ type AppUserPurchaseAmountSettingMutation struct {
 	app_id        *uuid.UUID
 	user_id       *uuid.UUID
 	title         *string
-	badge_large   *string
-	badge_small   *string
 	amount        *uint64
 	addamount     *int64
 	percent       *uint32
 	addpercent    *int32
+	start         *uint32
+	addstart      *int32
+	end           *uint32
+	addend        *int32
+	badge_large   *string
+	badge_small   *string
 	create_at     *uint32
 	addcreate_at  *int32
 	update_at     *uint32
@@ -5605,78 +5783,6 @@ func (m *AppUserPurchaseAmountSettingMutation) ResetTitle() {
 	m.title = nil
 }
 
-// SetBadgeLarge sets the "badge_large" field.
-func (m *AppUserPurchaseAmountSettingMutation) SetBadgeLarge(s string) {
-	m.badge_large = &s
-}
-
-// BadgeLarge returns the value of the "badge_large" field in the mutation.
-func (m *AppUserPurchaseAmountSettingMutation) BadgeLarge() (r string, exists bool) {
-	v := m.badge_large
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldBadgeLarge returns the old "badge_large" field's value of the AppUserPurchaseAmountSetting entity.
-// If the AppUserPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AppUserPurchaseAmountSettingMutation) OldBadgeLarge(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldBadgeLarge is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldBadgeLarge requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldBadgeLarge: %w", err)
-	}
-	return oldValue.BadgeLarge, nil
-}
-
-// ResetBadgeLarge resets all changes to the "badge_large" field.
-func (m *AppUserPurchaseAmountSettingMutation) ResetBadgeLarge() {
-	m.badge_large = nil
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (m *AppUserPurchaseAmountSettingMutation) SetBadgeSmall(s string) {
-	m.badge_small = &s
-}
-
-// BadgeSmall returns the value of the "badge_small" field in the mutation.
-func (m *AppUserPurchaseAmountSettingMutation) BadgeSmall() (r string, exists bool) {
-	v := m.badge_small
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldBadgeSmall returns the old "badge_small" field's value of the AppUserPurchaseAmountSetting entity.
-// If the AppUserPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AppUserPurchaseAmountSettingMutation) OldBadgeSmall(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldBadgeSmall is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldBadgeSmall requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldBadgeSmall: %w", err)
-	}
-	return oldValue.BadgeSmall, nil
-}
-
-// ResetBadgeSmall resets all changes to the "badge_small" field.
-func (m *AppUserPurchaseAmountSettingMutation) ResetBadgeSmall() {
-	m.badge_small = nil
-}
-
 // SetAmount sets the "amount" field.
 func (m *AppUserPurchaseAmountSettingMutation) SetAmount(u uint64) {
 	m.amount = &u
@@ -5787,6 +5893,190 @@ func (m *AppUserPurchaseAmountSettingMutation) AddedPercent() (r int32, exists b
 func (m *AppUserPurchaseAmountSettingMutation) ResetPercent() {
 	m.percent = nil
 	m.addpercent = nil
+}
+
+// SetStart sets the "start" field.
+func (m *AppUserPurchaseAmountSettingMutation) SetStart(u uint32) {
+	m.start = &u
+	m.addstart = nil
+}
+
+// Start returns the value of the "start" field in the mutation.
+func (m *AppUserPurchaseAmountSettingMutation) Start() (r uint32, exists bool) {
+	v := m.start
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStart returns the old "start" field's value of the AppUserPurchaseAmountSetting entity.
+// If the AppUserPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppUserPurchaseAmountSettingMutation) OldStart(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStart is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStart requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStart: %w", err)
+	}
+	return oldValue.Start, nil
+}
+
+// AddStart adds u to the "start" field.
+func (m *AppUserPurchaseAmountSettingMutation) AddStart(u int32) {
+	if m.addstart != nil {
+		*m.addstart += u
+	} else {
+		m.addstart = &u
+	}
+}
+
+// AddedStart returns the value that was added to the "start" field in this mutation.
+func (m *AppUserPurchaseAmountSettingMutation) AddedStart() (r int32, exists bool) {
+	v := m.addstart
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetStart resets all changes to the "start" field.
+func (m *AppUserPurchaseAmountSettingMutation) ResetStart() {
+	m.start = nil
+	m.addstart = nil
+}
+
+// SetEnd sets the "end" field.
+func (m *AppUserPurchaseAmountSettingMutation) SetEnd(u uint32) {
+	m.end = &u
+	m.addend = nil
+}
+
+// End returns the value of the "end" field in the mutation.
+func (m *AppUserPurchaseAmountSettingMutation) End() (r uint32, exists bool) {
+	v := m.end
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEnd returns the old "end" field's value of the AppUserPurchaseAmountSetting entity.
+// If the AppUserPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppUserPurchaseAmountSettingMutation) OldEnd(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEnd is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEnd requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEnd: %w", err)
+	}
+	return oldValue.End, nil
+}
+
+// AddEnd adds u to the "end" field.
+func (m *AppUserPurchaseAmountSettingMutation) AddEnd(u int32) {
+	if m.addend != nil {
+		*m.addend += u
+	} else {
+		m.addend = &u
+	}
+}
+
+// AddedEnd returns the value that was added to the "end" field in this mutation.
+func (m *AppUserPurchaseAmountSettingMutation) AddedEnd() (r int32, exists bool) {
+	v := m.addend
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetEnd resets all changes to the "end" field.
+func (m *AppUserPurchaseAmountSettingMutation) ResetEnd() {
+	m.end = nil
+	m.addend = nil
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (m *AppUserPurchaseAmountSettingMutation) SetBadgeLarge(s string) {
+	m.badge_large = &s
+}
+
+// BadgeLarge returns the value of the "badge_large" field in the mutation.
+func (m *AppUserPurchaseAmountSettingMutation) BadgeLarge() (r string, exists bool) {
+	v := m.badge_large
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBadgeLarge returns the old "badge_large" field's value of the AppUserPurchaseAmountSetting entity.
+// If the AppUserPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppUserPurchaseAmountSettingMutation) OldBadgeLarge(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldBadgeLarge is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldBadgeLarge requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBadgeLarge: %w", err)
+	}
+	return oldValue.BadgeLarge, nil
+}
+
+// ResetBadgeLarge resets all changes to the "badge_large" field.
+func (m *AppUserPurchaseAmountSettingMutation) ResetBadgeLarge() {
+	m.badge_large = nil
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (m *AppUserPurchaseAmountSettingMutation) SetBadgeSmall(s string) {
+	m.badge_small = &s
+}
+
+// BadgeSmall returns the value of the "badge_small" field in the mutation.
+func (m *AppUserPurchaseAmountSettingMutation) BadgeSmall() (r string, exists bool) {
+	v := m.badge_small
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBadgeSmall returns the old "badge_small" field's value of the AppUserPurchaseAmountSetting entity.
+// If the AppUserPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppUserPurchaseAmountSettingMutation) OldBadgeSmall(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldBadgeSmall is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldBadgeSmall requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBadgeSmall: %w", err)
+	}
+	return oldValue.BadgeSmall, nil
+}
+
+// ResetBadgeSmall resets all changes to the "badge_small" field.
+func (m *AppUserPurchaseAmountSettingMutation) ResetBadgeSmall() {
+	m.badge_small = nil
 }
 
 // SetCreateAt sets the "create_at" field.
@@ -5976,7 +6266,7 @@ func (m *AppUserPurchaseAmountSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AppUserPurchaseAmountSettingMutation) Fields() []string {
-	fields := make([]string, 0, 10)
+	fields := make([]string, 0, 12)
 	if m.app_id != nil {
 		fields = append(fields, appuserpurchaseamountsetting.FieldAppID)
 	}
@@ -5986,17 +6276,23 @@ func (m *AppUserPurchaseAmountSettingMutation) Fields() []string {
 	if m.title != nil {
 		fields = append(fields, appuserpurchaseamountsetting.FieldTitle)
 	}
-	if m.badge_large != nil {
-		fields = append(fields, appuserpurchaseamountsetting.FieldBadgeLarge)
-	}
-	if m.badge_small != nil {
-		fields = append(fields, appuserpurchaseamountsetting.FieldBadgeSmall)
-	}
 	if m.amount != nil {
 		fields = append(fields, appuserpurchaseamountsetting.FieldAmount)
 	}
 	if m.percent != nil {
 		fields = append(fields, appuserpurchaseamountsetting.FieldPercent)
+	}
+	if m.start != nil {
+		fields = append(fields, appuserpurchaseamountsetting.FieldStart)
+	}
+	if m.end != nil {
+		fields = append(fields, appuserpurchaseamountsetting.FieldEnd)
+	}
+	if m.badge_large != nil {
+		fields = append(fields, appuserpurchaseamountsetting.FieldBadgeLarge)
+	}
+	if m.badge_small != nil {
+		fields = append(fields, appuserpurchaseamountsetting.FieldBadgeSmall)
 	}
 	if m.create_at != nil {
 		fields = append(fields, appuserpurchaseamountsetting.FieldCreateAt)
@@ -6021,14 +6317,18 @@ func (m *AppUserPurchaseAmountSettingMutation) Field(name string) (ent.Value, bo
 		return m.UserID()
 	case appuserpurchaseamountsetting.FieldTitle:
 		return m.Title()
-	case appuserpurchaseamountsetting.FieldBadgeLarge:
-		return m.BadgeLarge()
-	case appuserpurchaseamountsetting.FieldBadgeSmall:
-		return m.BadgeSmall()
 	case appuserpurchaseamountsetting.FieldAmount:
 		return m.Amount()
 	case appuserpurchaseamountsetting.FieldPercent:
 		return m.Percent()
+	case appuserpurchaseamountsetting.FieldStart:
+		return m.Start()
+	case appuserpurchaseamountsetting.FieldEnd:
+		return m.End()
+	case appuserpurchaseamountsetting.FieldBadgeLarge:
+		return m.BadgeLarge()
+	case appuserpurchaseamountsetting.FieldBadgeSmall:
+		return m.BadgeSmall()
 	case appuserpurchaseamountsetting.FieldCreateAt:
 		return m.CreateAt()
 	case appuserpurchaseamountsetting.FieldUpdateAt:
@@ -6050,14 +6350,18 @@ func (m *AppUserPurchaseAmountSettingMutation) OldField(ctx context.Context, nam
 		return m.OldUserID(ctx)
 	case appuserpurchaseamountsetting.FieldTitle:
 		return m.OldTitle(ctx)
-	case appuserpurchaseamountsetting.FieldBadgeLarge:
-		return m.OldBadgeLarge(ctx)
-	case appuserpurchaseamountsetting.FieldBadgeSmall:
-		return m.OldBadgeSmall(ctx)
 	case appuserpurchaseamountsetting.FieldAmount:
 		return m.OldAmount(ctx)
 	case appuserpurchaseamountsetting.FieldPercent:
 		return m.OldPercent(ctx)
+	case appuserpurchaseamountsetting.FieldStart:
+		return m.OldStart(ctx)
+	case appuserpurchaseamountsetting.FieldEnd:
+		return m.OldEnd(ctx)
+	case appuserpurchaseamountsetting.FieldBadgeLarge:
+		return m.OldBadgeLarge(ctx)
+	case appuserpurchaseamountsetting.FieldBadgeSmall:
+		return m.OldBadgeSmall(ctx)
 	case appuserpurchaseamountsetting.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case appuserpurchaseamountsetting.FieldUpdateAt:
@@ -6094,20 +6398,6 @@ func (m *AppUserPurchaseAmountSettingMutation) SetField(name string, value ent.V
 		}
 		m.SetTitle(v)
 		return nil
-	case appuserpurchaseamountsetting.FieldBadgeLarge:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetBadgeLarge(v)
-		return nil
-	case appuserpurchaseamountsetting.FieldBadgeSmall:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetBadgeSmall(v)
-		return nil
 	case appuserpurchaseamountsetting.FieldAmount:
 		v, ok := value.(uint64)
 		if !ok {
@@ -6121,6 +6411,34 @@ func (m *AppUserPurchaseAmountSettingMutation) SetField(name string, value ent.V
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPercent(v)
+		return nil
+	case appuserpurchaseamountsetting.FieldStart:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStart(v)
+		return nil
+	case appuserpurchaseamountsetting.FieldEnd:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEnd(v)
+		return nil
+	case appuserpurchaseamountsetting.FieldBadgeLarge:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBadgeLarge(v)
+		return nil
+	case appuserpurchaseamountsetting.FieldBadgeSmall:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBadgeSmall(v)
 		return nil
 	case appuserpurchaseamountsetting.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -6157,6 +6475,12 @@ func (m *AppUserPurchaseAmountSettingMutation) AddedFields() []string {
 	if m.addpercent != nil {
 		fields = append(fields, appuserpurchaseamountsetting.FieldPercent)
 	}
+	if m.addstart != nil {
+		fields = append(fields, appuserpurchaseamountsetting.FieldStart)
+	}
+	if m.addend != nil {
+		fields = append(fields, appuserpurchaseamountsetting.FieldEnd)
+	}
 	if m.addcreate_at != nil {
 		fields = append(fields, appuserpurchaseamountsetting.FieldCreateAt)
 	}
@@ -6178,6 +6502,10 @@ func (m *AppUserPurchaseAmountSettingMutation) AddedField(name string) (ent.Valu
 		return m.AddedAmount()
 	case appuserpurchaseamountsetting.FieldPercent:
 		return m.AddedPercent()
+	case appuserpurchaseamountsetting.FieldStart:
+		return m.AddedStart()
+	case appuserpurchaseamountsetting.FieldEnd:
+		return m.AddedEnd()
 	case appuserpurchaseamountsetting.FieldCreateAt:
 		return m.AddedCreateAt()
 	case appuserpurchaseamountsetting.FieldUpdateAt:
@@ -6206,6 +6534,20 @@ func (m *AppUserPurchaseAmountSettingMutation) AddField(name string, value ent.V
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddPercent(v)
+		return nil
+	case appuserpurchaseamountsetting.FieldStart:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddStart(v)
+		return nil
+	case appuserpurchaseamountsetting.FieldEnd:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddEnd(v)
 		return nil
 	case appuserpurchaseamountsetting.FieldCreateAt:
 		v, ok := value.(int32)
@@ -6264,17 +6606,23 @@ func (m *AppUserPurchaseAmountSettingMutation) ResetField(name string) error {
 	case appuserpurchaseamountsetting.FieldTitle:
 		m.ResetTitle()
 		return nil
-	case appuserpurchaseamountsetting.FieldBadgeLarge:
-		m.ResetBadgeLarge()
-		return nil
-	case appuserpurchaseamountsetting.FieldBadgeSmall:
-		m.ResetBadgeSmall()
-		return nil
 	case appuserpurchaseamountsetting.FieldAmount:
 		m.ResetAmount()
 		return nil
 	case appuserpurchaseamountsetting.FieldPercent:
 		m.ResetPercent()
+		return nil
+	case appuserpurchaseamountsetting.FieldStart:
+		m.ResetStart()
+		return nil
+	case appuserpurchaseamountsetting.FieldEnd:
+		m.ResetEnd()
+		return nil
+	case appuserpurchaseamountsetting.FieldBadgeLarge:
+		m.ResetBadgeLarge()
+		return nil
+	case appuserpurchaseamountsetting.FieldBadgeSmall:
+		m.ResetBadgeSmall()
 		return nil
 	case appuserpurchaseamountsetting.FieldCreateAt:
 		m.ResetCreateAt()

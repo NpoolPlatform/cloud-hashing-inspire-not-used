@@ -35,18 +35,6 @@ func (apasc *AppPurchaseAmountSettingCreate) SetTitle(s string) *AppPurchaseAmou
 	return apasc
 }
 
-// SetBadgeLarge sets the "badge_large" field.
-func (apasc *AppPurchaseAmountSettingCreate) SetBadgeLarge(s string) *AppPurchaseAmountSettingCreate {
-	apasc.mutation.SetBadgeLarge(s)
-	return apasc
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (apasc *AppPurchaseAmountSettingCreate) SetBadgeSmall(s string) *AppPurchaseAmountSettingCreate {
-	apasc.mutation.SetBadgeSmall(s)
-	return apasc
-}
-
 // SetAmount sets the "amount" field.
 func (apasc *AppPurchaseAmountSettingCreate) SetAmount(u uint64) *AppPurchaseAmountSettingCreate {
 	apasc.mutation.SetAmount(u)
@@ -56,6 +44,30 @@ func (apasc *AppPurchaseAmountSettingCreate) SetAmount(u uint64) *AppPurchaseAmo
 // SetPercent sets the "percent" field.
 func (apasc *AppPurchaseAmountSettingCreate) SetPercent(u uint32) *AppPurchaseAmountSettingCreate {
 	apasc.mutation.SetPercent(u)
+	return apasc
+}
+
+// SetStart sets the "start" field.
+func (apasc *AppPurchaseAmountSettingCreate) SetStart(u uint32) *AppPurchaseAmountSettingCreate {
+	apasc.mutation.SetStart(u)
+	return apasc
+}
+
+// SetEnd sets the "end" field.
+func (apasc *AppPurchaseAmountSettingCreate) SetEnd(u uint32) *AppPurchaseAmountSettingCreate {
+	apasc.mutation.SetEnd(u)
+	return apasc
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (apasc *AppPurchaseAmountSettingCreate) SetBadgeLarge(s string) *AppPurchaseAmountSettingCreate {
+	apasc.mutation.SetBadgeLarge(s)
+	return apasc
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (apasc *AppPurchaseAmountSettingCreate) SetBadgeSmall(s string) *AppPurchaseAmountSettingCreate {
+	apasc.mutation.SetBadgeSmall(s)
 	return apasc
 }
 
@@ -212,17 +224,23 @@ func (apasc *AppPurchaseAmountSettingCreate) check() error {
 	if _, ok := apasc.mutation.Title(); !ok {
 		return &ValidationError{Name: "title", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.title"`)}
 	}
-	if _, ok := apasc.mutation.BadgeLarge(); !ok {
-		return &ValidationError{Name: "badge_large", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.badge_large"`)}
-	}
-	if _, ok := apasc.mutation.BadgeSmall(); !ok {
-		return &ValidationError{Name: "badge_small", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.badge_small"`)}
-	}
 	if _, ok := apasc.mutation.Amount(); !ok {
 		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.amount"`)}
 	}
 	if _, ok := apasc.mutation.Percent(); !ok {
 		return &ValidationError{Name: "percent", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.percent"`)}
+	}
+	if _, ok := apasc.mutation.Start(); !ok {
+		return &ValidationError{Name: "start", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.start"`)}
+	}
+	if _, ok := apasc.mutation.End(); !ok {
+		return &ValidationError{Name: "end", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.end"`)}
+	}
+	if _, ok := apasc.mutation.BadgeLarge(); !ok {
+		return &ValidationError{Name: "badge_large", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.badge_large"`)}
+	}
+	if _, ok := apasc.mutation.BadgeSmall(); !ok {
+		return &ValidationError{Name: "badge_small", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.badge_small"`)}
 	}
 	if _, ok := apasc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.create_at"`)}
@@ -286,22 +304,6 @@ func (apasc *AppPurchaseAmountSettingCreate) createSpec() (*AppPurchaseAmountSet
 		})
 		_node.Title = value
 	}
-	if value, ok := apasc.mutation.BadgeLarge(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: apppurchaseamountsetting.FieldBadgeLarge,
-		})
-		_node.BadgeLarge = value
-	}
-	if value, ok := apasc.mutation.BadgeSmall(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: apppurchaseamountsetting.FieldBadgeSmall,
-		})
-		_node.BadgeSmall = value
-	}
 	if value, ok := apasc.mutation.Amount(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint64,
@@ -317,6 +319,38 @@ func (apasc *AppPurchaseAmountSettingCreate) createSpec() (*AppPurchaseAmountSet
 			Column: apppurchaseamountsetting.FieldPercent,
 		})
 		_node.Percent = value
+	}
+	if value, ok := apasc.mutation.Start(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldStart,
+		})
+		_node.Start = value
+	}
+	if value, ok := apasc.mutation.End(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUint32,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldEnd,
+		})
+		_node.End = value
+	}
+	if value, ok := apasc.mutation.BadgeLarge(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldBadgeLarge,
+		})
+		_node.BadgeLarge = value
+	}
+	if value, ok := apasc.mutation.BadgeSmall(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldBadgeSmall,
+		})
+		_node.BadgeSmall = value
 	}
 	if value, ok := apasc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -420,30 +454,6 @@ func (u *AppPurchaseAmountSettingUpsert) UpdateTitle() *AppPurchaseAmountSetting
 	return u
 }
 
-// SetBadgeLarge sets the "badge_large" field.
-func (u *AppPurchaseAmountSettingUpsert) SetBadgeLarge(v string) *AppPurchaseAmountSettingUpsert {
-	u.Set(apppurchaseamountsetting.FieldBadgeLarge, v)
-	return u
-}
-
-// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
-func (u *AppPurchaseAmountSettingUpsert) UpdateBadgeLarge() *AppPurchaseAmountSettingUpsert {
-	u.SetExcluded(apppurchaseamountsetting.FieldBadgeLarge)
-	return u
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (u *AppPurchaseAmountSettingUpsert) SetBadgeSmall(v string) *AppPurchaseAmountSettingUpsert {
-	u.Set(apppurchaseamountsetting.FieldBadgeSmall, v)
-	return u
-}
-
-// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
-func (u *AppPurchaseAmountSettingUpsert) UpdateBadgeSmall() *AppPurchaseAmountSettingUpsert {
-	u.SetExcluded(apppurchaseamountsetting.FieldBadgeSmall)
-	return u
-}
-
 // SetAmount sets the "amount" field.
 func (u *AppPurchaseAmountSettingUpsert) SetAmount(v uint64) *AppPurchaseAmountSettingUpsert {
 	u.Set(apppurchaseamountsetting.FieldAmount, v)
@@ -477,6 +487,66 @@ func (u *AppPurchaseAmountSettingUpsert) UpdatePercent() *AppPurchaseAmountSetti
 // AddPercent adds v to the "percent" field.
 func (u *AppPurchaseAmountSettingUpsert) AddPercent(v uint32) *AppPurchaseAmountSettingUpsert {
 	u.Add(apppurchaseamountsetting.FieldPercent, v)
+	return u
+}
+
+// SetStart sets the "start" field.
+func (u *AppPurchaseAmountSettingUpsert) SetStart(v uint32) *AppPurchaseAmountSettingUpsert {
+	u.Set(apppurchaseamountsetting.FieldStart, v)
+	return u
+}
+
+// UpdateStart sets the "start" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsert) UpdateStart() *AppPurchaseAmountSettingUpsert {
+	u.SetExcluded(apppurchaseamountsetting.FieldStart)
+	return u
+}
+
+// AddStart adds v to the "start" field.
+func (u *AppPurchaseAmountSettingUpsert) AddStart(v uint32) *AppPurchaseAmountSettingUpsert {
+	u.Add(apppurchaseamountsetting.FieldStart, v)
+	return u
+}
+
+// SetEnd sets the "end" field.
+func (u *AppPurchaseAmountSettingUpsert) SetEnd(v uint32) *AppPurchaseAmountSettingUpsert {
+	u.Set(apppurchaseamountsetting.FieldEnd, v)
+	return u
+}
+
+// UpdateEnd sets the "end" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsert) UpdateEnd() *AppPurchaseAmountSettingUpsert {
+	u.SetExcluded(apppurchaseamountsetting.FieldEnd)
+	return u
+}
+
+// AddEnd adds v to the "end" field.
+func (u *AppPurchaseAmountSettingUpsert) AddEnd(v uint32) *AppPurchaseAmountSettingUpsert {
+	u.Add(apppurchaseamountsetting.FieldEnd, v)
+	return u
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (u *AppPurchaseAmountSettingUpsert) SetBadgeLarge(v string) *AppPurchaseAmountSettingUpsert {
+	u.Set(apppurchaseamountsetting.FieldBadgeLarge, v)
+	return u
+}
+
+// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsert) UpdateBadgeLarge() *AppPurchaseAmountSettingUpsert {
+	u.SetExcluded(apppurchaseamountsetting.FieldBadgeLarge)
+	return u
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (u *AppPurchaseAmountSettingUpsert) SetBadgeSmall(v string) *AppPurchaseAmountSettingUpsert {
+	u.Set(apppurchaseamountsetting.FieldBadgeSmall, v)
+	return u
+}
+
+// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsert) UpdateBadgeSmall() *AppPurchaseAmountSettingUpsert {
+	u.SetExcluded(apppurchaseamountsetting.FieldBadgeSmall)
 	return u
 }
 
@@ -612,34 +682,6 @@ func (u *AppPurchaseAmountSettingUpsertOne) UpdateTitle() *AppPurchaseAmountSett
 	})
 }
 
-// SetBadgeLarge sets the "badge_large" field.
-func (u *AppPurchaseAmountSettingUpsertOne) SetBadgeLarge(v string) *AppPurchaseAmountSettingUpsertOne {
-	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
-		s.SetBadgeLarge(v)
-	})
-}
-
-// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
-func (u *AppPurchaseAmountSettingUpsertOne) UpdateBadgeLarge() *AppPurchaseAmountSettingUpsertOne {
-	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
-		s.UpdateBadgeLarge()
-	})
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (u *AppPurchaseAmountSettingUpsertOne) SetBadgeSmall(v string) *AppPurchaseAmountSettingUpsertOne {
-	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
-		s.SetBadgeSmall(v)
-	})
-}
-
-// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
-func (u *AppPurchaseAmountSettingUpsertOne) UpdateBadgeSmall() *AppPurchaseAmountSettingUpsertOne {
-	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
-		s.UpdateBadgeSmall()
-	})
-}
-
 // SetAmount sets the "amount" field.
 func (u *AppPurchaseAmountSettingUpsertOne) SetAmount(v uint64) *AppPurchaseAmountSettingUpsertOne {
 	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
@@ -679,6 +721,76 @@ func (u *AppPurchaseAmountSettingUpsertOne) AddPercent(v uint32) *AppPurchaseAmo
 func (u *AppPurchaseAmountSettingUpsertOne) UpdatePercent() *AppPurchaseAmountSettingUpsertOne {
 	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
 		s.UpdatePercent()
+	})
+}
+
+// SetStart sets the "start" field.
+func (u *AppPurchaseAmountSettingUpsertOne) SetStart(v uint32) *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetStart(v)
+	})
+}
+
+// AddStart adds v to the "start" field.
+func (u *AppPurchaseAmountSettingUpsertOne) AddStart(v uint32) *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.AddStart(v)
+	})
+}
+
+// UpdateStart sets the "start" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertOne) UpdateStart() *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateStart()
+	})
+}
+
+// SetEnd sets the "end" field.
+func (u *AppPurchaseAmountSettingUpsertOne) SetEnd(v uint32) *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetEnd(v)
+	})
+}
+
+// AddEnd adds v to the "end" field.
+func (u *AppPurchaseAmountSettingUpsertOne) AddEnd(v uint32) *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.AddEnd(v)
+	})
+}
+
+// UpdateEnd sets the "end" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertOne) UpdateEnd() *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateEnd()
+	})
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (u *AppPurchaseAmountSettingUpsertOne) SetBadgeLarge(v string) *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetBadgeLarge(v)
+	})
+}
+
+// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertOne) UpdateBadgeLarge() *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateBadgeLarge()
+	})
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (u *AppPurchaseAmountSettingUpsertOne) SetBadgeSmall(v string) *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetBadgeSmall(v)
+	})
+}
+
+// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertOne) UpdateBadgeSmall() *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateBadgeSmall()
 	})
 }
 
@@ -989,34 +1101,6 @@ func (u *AppPurchaseAmountSettingUpsertBulk) UpdateTitle() *AppPurchaseAmountSet
 	})
 }
 
-// SetBadgeLarge sets the "badge_large" field.
-func (u *AppPurchaseAmountSettingUpsertBulk) SetBadgeLarge(v string) *AppPurchaseAmountSettingUpsertBulk {
-	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
-		s.SetBadgeLarge(v)
-	})
-}
-
-// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
-func (u *AppPurchaseAmountSettingUpsertBulk) UpdateBadgeLarge() *AppPurchaseAmountSettingUpsertBulk {
-	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
-		s.UpdateBadgeLarge()
-	})
-}
-
-// SetBadgeSmall sets the "badge_small" field.
-func (u *AppPurchaseAmountSettingUpsertBulk) SetBadgeSmall(v string) *AppPurchaseAmountSettingUpsertBulk {
-	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
-		s.SetBadgeSmall(v)
-	})
-}
-
-// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
-func (u *AppPurchaseAmountSettingUpsertBulk) UpdateBadgeSmall() *AppPurchaseAmountSettingUpsertBulk {
-	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
-		s.UpdateBadgeSmall()
-	})
-}
-
 // SetAmount sets the "amount" field.
 func (u *AppPurchaseAmountSettingUpsertBulk) SetAmount(v uint64) *AppPurchaseAmountSettingUpsertBulk {
 	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
@@ -1056,6 +1140,76 @@ func (u *AppPurchaseAmountSettingUpsertBulk) AddPercent(v uint32) *AppPurchaseAm
 func (u *AppPurchaseAmountSettingUpsertBulk) UpdatePercent() *AppPurchaseAmountSettingUpsertBulk {
 	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
 		s.UpdatePercent()
+	})
+}
+
+// SetStart sets the "start" field.
+func (u *AppPurchaseAmountSettingUpsertBulk) SetStart(v uint32) *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetStart(v)
+	})
+}
+
+// AddStart adds v to the "start" field.
+func (u *AppPurchaseAmountSettingUpsertBulk) AddStart(v uint32) *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.AddStart(v)
+	})
+}
+
+// UpdateStart sets the "start" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertBulk) UpdateStart() *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateStart()
+	})
+}
+
+// SetEnd sets the "end" field.
+func (u *AppPurchaseAmountSettingUpsertBulk) SetEnd(v uint32) *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetEnd(v)
+	})
+}
+
+// AddEnd adds v to the "end" field.
+func (u *AppPurchaseAmountSettingUpsertBulk) AddEnd(v uint32) *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.AddEnd(v)
+	})
+}
+
+// UpdateEnd sets the "end" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertBulk) UpdateEnd() *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateEnd()
+	})
+}
+
+// SetBadgeLarge sets the "badge_large" field.
+func (u *AppPurchaseAmountSettingUpsertBulk) SetBadgeLarge(v string) *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetBadgeLarge(v)
+	})
+}
+
+// UpdateBadgeLarge sets the "badge_large" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertBulk) UpdateBadgeLarge() *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateBadgeLarge()
+	})
+}
+
+// SetBadgeSmall sets the "badge_small" field.
+func (u *AppPurchaseAmountSettingUpsertBulk) SetBadgeSmall(v string) *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetBadgeSmall(v)
+	})
+}
+
+// UpdateBadgeSmall sets the "badge_small" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertBulk) UpdateBadgeSmall() *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateBadgeSmall()
 	})
 }
 
