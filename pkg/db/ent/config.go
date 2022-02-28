@@ -29,7 +29,6 @@ type hooks struct {
 	AppCouponSetting             []ent.Hook
 	AppInvitationSetting         []ent.Hook
 	AppPurchaseAmountSetting     []ent.Hook
-	AppUserInvitationSetting     []ent.Hook
 	AppUserPurchaseAmountSetting []ent.Hook
 	CommissionCoinSetting        []ent.Hook
 	CouponAllocated              []ent.Hook
