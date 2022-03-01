@@ -29,7 +29,7 @@ func (s *Server) CreateAppUserPurchaseAmountSettingForOtherAppUser(ctx context.C
 	info.AppID = in.GetTargetAppID()
 	info.UserID = in.GetTargetUserID()
 
-	resp, err := mw.Create(ctx, &npool.CreateAppUserPurchaseAmountSettingRequest{
+	resp, err := mw.CreateAppUserPurchaseAmountSetting(ctx, &npool.CreateAppUserPurchaseAmountSettingRequest{
 		Info: info,
 	})
 	if err != nil {
