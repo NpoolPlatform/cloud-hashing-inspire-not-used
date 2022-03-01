@@ -32,6 +32,9 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 			}
 		} else {
 			info.End = 0
+			info.Percent = in.GetInfo().GetPercent()
+			info.BadgeLarge = in.GetInfo().GetBadgeLarge()
+			info.BadgeSmall = in.GetInfo().GetBadgeSmall()
 			setting = info
 		}
 		_, err := appsetting.Update(ctx, &npool.UpdateAppPurchaseAmountSettingRequest{
@@ -80,6 +83,9 @@ func CreateAppUserPurchaseAmountSetting(ctx context.Context, in *npool.CreateApp
 			}
 		} else {
 			info.End = 0
+			info.Percent = in.GetInfo().GetPercent()
+			info.BadgeLarge = in.GetInfo().GetBadgeLarge()
+			info.BadgeSmall = in.GetInfo().GetBadgeSmall()
 			setting = info
 		}
 		_, err := appusersetting.Update(ctx, &npool.UpdateAppUserPurchaseAmountSettingRequest{
