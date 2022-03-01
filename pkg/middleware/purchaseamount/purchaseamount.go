@@ -20,12 +20,18 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 	}
 
 	start := uint32(time.Now().Unix())
+	var setting *npool.AppPurchaseAmountSetting
+
 	for _, info := range resp.Infos {
 		if info.Amount != in.GetInfo().GetAmount() {
-			continue
-		}
-		if info.End == 0 {
-			info.End = start
+			if info.End == 0 {
+				info.End = start
+			} else {
+				continue
+			}
+		} else {
+			info.End = 0
+			setting = info
 		}
 		_, err := appsetting.Update(ctx, &npool.UpdateAppPurchaseAmountSettingRequest{
 			Info: info,
@@ -33,6 +39,12 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 		if err != nil {
 			return nil, xerrors.Errorf("fail update setting: %v", err)
 		}
+	}
+
+	if setting != nil {
+		return &npool.CreateAppPurchaseAmountSettingResponse{
+			Info: setting,
+		}, nil
 	}
 
 	info := in.GetInfo()
@@ -54,12 +66,18 @@ func CreateAppUserPurchaseAmountSetting(ctx context.Context, in *npool.CreateApp
 	}
 
 	start := uint32(time.Now().Unix())
+	var setting *npool.AppUserPurchaseAmountSetting
+
 	for _, info := range resp.Infos {
 		if info.Amount != in.GetInfo().GetAmount() {
-			continue
-		}
-		if info.End == 0 {
-			info.End = start
+			if info.End == 0 {
+				info.End = start
+			} else {
+				continue
+			}
+		} else {
+			info.End = 0
+			setting = info
 		}
 		_, err := appusersetting.Update(ctx, &npool.UpdateAppUserPurchaseAmountSettingRequest{
 			Info: info,
@@ -67,6 +85,12 @@ func CreateAppUserPurchaseAmountSetting(ctx context.Context, in *npool.CreateApp
 		if err != nil {
 			return nil, xerrors.Errorf("fail update setting: %v", err)
 		}
+	}
+
+	if setting != nil {
+		return &npool.CreateAppUserPurchaseAmountSettingResponse{
+			Info: setting,
+		}, nil
 	}
 
 	info := in.GetInfo()
