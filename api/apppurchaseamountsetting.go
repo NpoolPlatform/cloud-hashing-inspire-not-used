@@ -28,7 +28,7 @@ func (s *Server) CreateAppPurchaseAmountSettingForOtherApp(ctx context.Context, 
 	info := in.GetInfo()
 	info.AppID = in.GetTargetAppID()
 
-	resp, err := crud.Create(ctx, &npool.CreateAppPurchaseAmountSettingRequest{
+	resp, err := mw.Create(ctx, &npool.CreateAppPurchaseAmountSettingRequest{
 		Info: info,
 	})
 	if err != nil {
