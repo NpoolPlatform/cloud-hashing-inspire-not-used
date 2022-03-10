@@ -106,6 +106,7 @@ func (s *Server) GetAppUserPurchaseAmountSettingsByOtherAppUser(ctx context.Cont
 
 func (s *Server) GetAppUserPurchaseAmountSettingsByAppOtherUser(ctx context.Context, in *npool.GetAppUserPurchaseAmountSettingsByAppOtherUserRequest) (*npool.GetAppUserPurchaseAmountSettingsByAppOtherUserResponse, error) {
 	resp, err := crud.GetByAppUser(ctx, &npool.GetAppUserPurchaseAmountSettingsByAppUserRequest{
+		AppID:  in.GetAppID(),
 		UserID: in.GetTargetUserID(),
 	})
 	if err != nil {
