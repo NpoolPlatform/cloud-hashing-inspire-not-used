@@ -107,7 +107,7 @@ func (usrq *UserSpecialReductionQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single UserSpecialReduction entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one UserSpecialReduction entity is not found.
+// Returns a *NotSingularError when more than one UserSpecialReduction entity is found.
 // Returns a *NotFoundError when no UserSpecialReduction entities are found.
 func (usrq *UserSpecialReductionQuery) Only(ctx context.Context) (*UserSpecialReduction, error) {
 	nodes, err := usrq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (usrq *UserSpecialReductionQuery) OnlyX(ctx context.Context) *UserSpecialRe
 }
 
 // OnlyID is like Only, but returns the only UserSpecialReduction ID in the query.
-// Returns a *NotSingularError when exactly one UserSpecialReduction ID is not found.
+// Returns a *NotSingularError when more than one UserSpecialReduction ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (usrq *UserSpecialReductionQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (usrq *UserSpecialReductionQuery) Clone() *UserSpecialReductionQuery {
 		order:      append([]OrderFunc{}, usrq.order...),
 		predicates: append([]predicate.UserSpecialReduction{}, usrq.predicates...),
 		// clone intermediate query.
-		sql:  usrq.sql.Clone(),
-		path: usrq.path,
+		sql:    usrq.sql.Clone(),
+		path:   usrq.path,
+		unique: usrq.unique,
 	}
 }
 

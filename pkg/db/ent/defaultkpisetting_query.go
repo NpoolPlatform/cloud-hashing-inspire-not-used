@@ -107,7 +107,7 @@ func (dksq *DefaultKpiSettingQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single DefaultKpiSetting entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one DefaultKpiSetting entity is not found.
+// Returns a *NotSingularError when more than one DefaultKpiSetting entity is found.
 // Returns a *NotFoundError when no DefaultKpiSetting entities are found.
 func (dksq *DefaultKpiSettingQuery) Only(ctx context.Context) (*DefaultKpiSetting, error) {
 	nodes, err := dksq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (dksq *DefaultKpiSettingQuery) OnlyX(ctx context.Context) *DefaultKpiSettin
 }
 
 // OnlyID is like Only, but returns the only DefaultKpiSetting ID in the query.
-// Returns a *NotSingularError when exactly one DefaultKpiSetting ID is not found.
+// Returns a *NotSingularError when more than one DefaultKpiSetting ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (dksq *DefaultKpiSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (dksq *DefaultKpiSettingQuery) Clone() *DefaultKpiSettingQuery {
 		order:      append([]OrderFunc{}, dksq.order...),
 		predicates: append([]predicate.DefaultKpiSetting{}, dksq.predicates...),
 		// clone intermediate query.
-		sql:  dksq.sql.Clone(),
-		path: dksq.path,
+		sql:    dksq.sql.Clone(),
+		path:   dksq.path,
+		unique: dksq.unique,
 	}
 }
 

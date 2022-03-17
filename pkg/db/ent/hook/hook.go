@@ -74,19 +74,6 @@ func (f AppPurchaseAmountSettingFunc) Mutate(ctx context.Context, m ent.Mutation
 	return f(ctx, mv)
 }
 
-// The AppUserPurchaseAmountSettingFunc type is an adapter to allow the use of ordinary
-// function as AppUserPurchaseAmountSetting mutator.
-type AppUserPurchaseAmountSettingFunc func(context.Context, *ent.AppUserPurchaseAmountSettingMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f AppUserPurchaseAmountSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.AppUserPurchaseAmountSettingMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AppUserPurchaseAmountSettingMutation", m)
-	}
-	return f(ctx, mv)
-}
-
 // The CommissionCoinSettingFunc type is an adapter to allow the use of ordinary
 // function as CommissionCoinSetting mutator.
 type CommissionCoinSettingFunc func(context.Context, *ent.CommissionCoinSettingMutation) (ent.Value, error)

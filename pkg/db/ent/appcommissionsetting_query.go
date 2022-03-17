@@ -107,7 +107,7 @@ func (acsq *AppCommissionSettingQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single AppCommissionSetting entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one AppCommissionSetting entity is not found.
+// Returns a *NotSingularError when more than one AppCommissionSetting entity is found.
 // Returns a *NotFoundError when no AppCommissionSetting entities are found.
 func (acsq *AppCommissionSettingQuery) Only(ctx context.Context) (*AppCommissionSetting, error) {
 	nodes, err := acsq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (acsq *AppCommissionSettingQuery) OnlyX(ctx context.Context) *AppCommission
 }
 
 // OnlyID is like Only, but returns the only AppCommissionSetting ID in the query.
-// Returns a *NotSingularError when exactly one AppCommissionSetting ID is not found.
+// Returns a *NotSingularError when more than one AppCommissionSetting ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (acsq *AppCommissionSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (acsq *AppCommissionSettingQuery) Clone() *AppCommissionSettingQuery {
 		order:      append([]OrderFunc{}, acsq.order...),
 		predicates: append([]predicate.AppCommissionSetting{}, acsq.predicates...),
 		// clone intermediate query.
-		sql:  acsq.sql.Clone(),
-		path: acsq.path,
+		sql:    acsq.sql.Clone(),
+		path:   acsq.path,
+		unique: acsq.unique,
 	}
 }
 

@@ -107,7 +107,7 @@ func (uicq *UserInvitationCodeQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single UserInvitationCode entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one UserInvitationCode entity is not found.
+// Returns a *NotSingularError when more than one UserInvitationCode entity is found.
 // Returns a *NotFoundError when no UserInvitationCode entities are found.
 func (uicq *UserInvitationCodeQuery) Only(ctx context.Context) (*UserInvitationCode, error) {
 	nodes, err := uicq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (uicq *UserInvitationCodeQuery) OnlyX(ctx context.Context) *UserInvitationC
 }
 
 // OnlyID is like Only, but returns the only UserInvitationCode ID in the query.
-// Returns a *NotSingularError when exactly one UserInvitationCode ID is not found.
+// Returns a *NotSingularError when more than one UserInvitationCode ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (uicq *UserInvitationCodeQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (uicq *UserInvitationCodeQuery) Clone() *UserInvitationCodeQuery {
 		order:      append([]OrderFunc{}, uicq.order...),
 		predicates: append([]predicate.UserInvitationCode{}, uicq.predicates...),
 		// clone intermediate query.
-		sql:  uicq.sql.Clone(),
-		path: uicq.path,
+		sql:    uicq.sql.Clone(),
+		path:   uicq.path,
+		unique: uicq.unique,
 	}
 }
 

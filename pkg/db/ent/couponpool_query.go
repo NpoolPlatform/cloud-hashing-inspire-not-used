@@ -107,7 +107,7 @@ func (cpq *CouponPoolQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single CouponPool entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one CouponPool entity is not found.
+// Returns a *NotSingularError when more than one CouponPool entity is found.
 // Returns a *NotFoundError when no CouponPool entities are found.
 func (cpq *CouponPoolQuery) Only(ctx context.Context) (*CouponPool, error) {
 	nodes, err := cpq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (cpq *CouponPoolQuery) OnlyX(ctx context.Context) *CouponPool {
 }
 
 // OnlyID is like Only, but returns the only CouponPool ID in the query.
-// Returns a *NotSingularError when exactly one CouponPool ID is not found.
+// Returns a *NotSingularError when more than one CouponPool ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (cpq *CouponPoolQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (cpq *CouponPoolQuery) Clone() *CouponPoolQuery {
 		order:      append([]OrderFunc{}, cpq.order...),
 		predicates: append([]predicate.CouponPool{}, cpq.predicates...),
 		// clone intermediate query.
-		sql:  cpq.sql.Clone(),
-		path: cpq.path,
+		sql:    cpq.sql.Clone(),
+		path:   cpq.path,
+		unique: cpq.unique,
 	}
 }
 

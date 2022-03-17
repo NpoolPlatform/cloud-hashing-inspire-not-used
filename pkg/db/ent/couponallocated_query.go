@@ -107,7 +107,7 @@ func (caq *CouponAllocatedQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single CouponAllocated entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one CouponAllocated entity is not found.
+// Returns a *NotSingularError when more than one CouponAllocated entity is found.
 // Returns a *NotFoundError when no CouponAllocated entities are found.
 func (caq *CouponAllocatedQuery) Only(ctx context.Context) (*CouponAllocated, error) {
 	nodes, err := caq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (caq *CouponAllocatedQuery) OnlyX(ctx context.Context) *CouponAllocated {
 }
 
 // OnlyID is like Only, but returns the only CouponAllocated ID in the query.
-// Returns a *NotSingularError when exactly one CouponAllocated ID is not found.
+// Returns a *NotSingularError when more than one CouponAllocated ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (caq *CouponAllocatedQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (caq *CouponAllocatedQuery) Clone() *CouponAllocatedQuery {
 		order:      append([]OrderFunc{}, caq.order...),
 		predicates: append([]predicate.CouponAllocated{}, caq.predicates...),
 		// clone intermediate query.
-		sql:  caq.sql.Clone(),
-		path: caq.path,
+		sql:    caq.sql.Clone(),
+		path:   caq.path,
+		unique: caq.unique,
 	}
 }
 

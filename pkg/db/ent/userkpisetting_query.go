@@ -107,7 +107,7 @@ func (uksq *UserKpiSettingQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single UserKpiSetting entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one UserKpiSetting entity is not found.
+// Returns a *NotSingularError when more than one UserKpiSetting entity is found.
 // Returns a *NotFoundError when no UserKpiSetting entities are found.
 func (uksq *UserKpiSettingQuery) Only(ctx context.Context) (*UserKpiSetting, error) {
 	nodes, err := uksq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (uksq *UserKpiSettingQuery) OnlyX(ctx context.Context) *UserKpiSetting {
 }
 
 // OnlyID is like Only, but returns the only UserKpiSetting ID in the query.
-// Returns a *NotSingularError when exactly one UserKpiSetting ID is not found.
+// Returns a *NotSingularError when more than one UserKpiSetting ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (uksq *UserKpiSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (uksq *UserKpiSettingQuery) Clone() *UserKpiSettingQuery {
 		order:      append([]OrderFunc{}, uksq.order...),
 		predicates: append([]predicate.UserKpiSetting{}, uksq.predicates...),
 		// clone intermediate query.
-		sql:  uksq.sql.Clone(),
-		path: uksq.path,
+		sql:    uksq.sql.Clone(),
+		path:   uksq.path,
+		unique: uksq.unique,
 	}
 }
 

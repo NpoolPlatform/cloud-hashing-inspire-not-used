@@ -91,6 +91,7 @@ var (
 	AppPurchaseAmountSettingsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "app_id", Type: field.TypeUUID},
+		{Name: "user_id", Type: field.TypeUUID},
 		{Name: "title", Type: field.TypeString},
 		{Name: "amount", Type: field.TypeUint64},
 		{Name: "percent", Type: field.TypeUint32},
@@ -111,36 +112,7 @@ var (
 			{
 				Name:    "apppurchaseamountsetting_app_id_amount",
 				Unique:  true,
-				Columns: []*schema.Column{AppPurchaseAmountSettingsColumns[1], AppPurchaseAmountSettingsColumns[3]},
-			},
-		},
-	}
-	// AppUserPurchaseAmountSettingsColumns holds the columns for the "app_user_purchase_amount_settings" table.
-	AppUserPurchaseAmountSettingsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUUID, Unique: true},
-		{Name: "app_id", Type: field.TypeUUID},
-		{Name: "user_id", Type: field.TypeUUID},
-		{Name: "title", Type: field.TypeString},
-		{Name: "amount", Type: field.TypeUint64},
-		{Name: "percent", Type: field.TypeUint32},
-		{Name: "start", Type: field.TypeUint32},
-		{Name: "end", Type: field.TypeUint32},
-		{Name: "badge_large", Type: field.TypeString},
-		{Name: "badge_small", Type: field.TypeString},
-		{Name: "create_at", Type: field.TypeUint32},
-		{Name: "update_at", Type: field.TypeUint32},
-		{Name: "delete_at", Type: field.TypeUint32},
-	}
-	// AppUserPurchaseAmountSettingsTable holds the schema information for the "app_user_purchase_amount_settings" table.
-	AppUserPurchaseAmountSettingsTable = &schema.Table{
-		Name:       "app_user_purchase_amount_settings",
-		Columns:    AppUserPurchaseAmountSettingsColumns,
-		PrimaryKey: []*schema.Column{AppUserPurchaseAmountSettingsColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "appuserpurchaseamountsetting_app_id_user_id_amount",
-				Unique:  true,
-				Columns: []*schema.Column{AppUserPurchaseAmountSettingsColumns[1], AppUserPurchaseAmountSettingsColumns[2], AppUserPurchaseAmountSettingsColumns[4]},
+				Columns: []*schema.Column{AppPurchaseAmountSettingsColumns[1], AppPurchaseAmountSettingsColumns[4]},
 			},
 		},
 	}
@@ -365,7 +337,6 @@ var (
 		AppCouponSettingsTable,
 		AppInvitationSettingsTable,
 		AppPurchaseAmountSettingsTable,
-		AppUserPurchaseAmountSettingsTable,
 		CommissionCoinSettingsTable,
 		CouponAllocatedsTable,
 		CouponPoolsTable,

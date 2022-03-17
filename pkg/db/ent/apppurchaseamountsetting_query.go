@@ -107,7 +107,7 @@ func (apasq *AppPurchaseAmountSettingQuery) FirstIDX(ctx context.Context) uuid.U
 }
 
 // Only returns a single AppPurchaseAmountSetting entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one AppPurchaseAmountSetting entity is not found.
+// Returns a *NotSingularError when more than one AppPurchaseAmountSetting entity is found.
 // Returns a *NotFoundError when no AppPurchaseAmountSetting entities are found.
 func (apasq *AppPurchaseAmountSettingQuery) Only(ctx context.Context) (*AppPurchaseAmountSetting, error) {
 	nodes, err := apasq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (apasq *AppPurchaseAmountSettingQuery) OnlyX(ctx context.Context) *AppPurch
 }
 
 // OnlyID is like Only, but returns the only AppPurchaseAmountSetting ID in the query.
-// Returns a *NotSingularError when exactly one AppPurchaseAmountSetting ID is not found.
+// Returns a *NotSingularError when more than one AppPurchaseAmountSetting ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (apasq *AppPurchaseAmountSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (apasq *AppPurchaseAmountSettingQuery) Clone() *AppPurchaseAmountSettingQue
 		order:      append([]OrderFunc{}, apasq.order...),
 		predicates: append([]predicate.AppPurchaseAmountSetting{}, apasq.predicates...),
 		// clone intermediate query.
-		sql:  apasq.sql.Clone(),
-		path: apasq.path,
+		sql:    apasq.sql.Clone(),
+		path:   apasq.path,
+		unique: apasq.unique,
 	}
 }
 

@@ -24,22 +24,21 @@ type config struct {
 
 // hooks per client, for fast access.
 type hooks struct {
-	Activity                     []ent.Hook
-	AppCommissionSetting         []ent.Hook
-	AppCouponSetting             []ent.Hook
-	AppInvitationSetting         []ent.Hook
-	AppPurchaseAmountSetting     []ent.Hook
-	AppUserPurchaseAmountSetting []ent.Hook
-	CommissionCoinSetting        []ent.Hook
-	CouponAllocated              []ent.Hook
-	CouponPool                   []ent.Hook
-	DefaultKpiSetting            []ent.Hook
-	DiscountPool                 []ent.Hook
-	EventCoupon                  []ent.Hook
-	RegistrationInvitation       []ent.Hook
-	UserInvitationCode           []ent.Hook
-	UserKpiSetting               []ent.Hook
-	UserSpecialReduction         []ent.Hook
+	Activity                 []ent.Hook
+	AppCommissionSetting     []ent.Hook
+	AppCouponSetting         []ent.Hook
+	AppInvitationSetting     []ent.Hook
+	AppPurchaseAmountSetting []ent.Hook
+	CommissionCoinSetting    []ent.Hook
+	CouponAllocated          []ent.Hook
+	CouponPool               []ent.Hook
+	DefaultKpiSetting        []ent.Hook
+	DiscountPool             []ent.Hook
+	EventCoupon              []ent.Hook
+	RegistrationInvitation   []ent.Hook
+	UserInvitationCode       []ent.Hook
+	UserKpiSetting           []ent.Hook
+	UserSpecialReduction     []ent.Hook
 }
 
 // Options applies the options on the config object.

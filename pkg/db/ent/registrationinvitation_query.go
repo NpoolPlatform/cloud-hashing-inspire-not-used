@@ -107,7 +107,7 @@ func (riq *RegistrationInvitationQuery) FirstIDX(ctx context.Context) uuid.UUID 
 }
 
 // Only returns a single RegistrationInvitation entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one RegistrationInvitation entity is not found.
+// Returns a *NotSingularError when more than one RegistrationInvitation entity is found.
 // Returns a *NotFoundError when no RegistrationInvitation entities are found.
 func (riq *RegistrationInvitationQuery) Only(ctx context.Context) (*RegistrationInvitation, error) {
 	nodes, err := riq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (riq *RegistrationInvitationQuery) OnlyX(ctx context.Context) *Registration
 }
 
 // OnlyID is like Only, but returns the only RegistrationInvitation ID in the query.
-// Returns a *NotSingularError when exactly one RegistrationInvitation ID is not found.
+// Returns a *NotSingularError when more than one RegistrationInvitation ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (riq *RegistrationInvitationQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (riq *RegistrationInvitationQuery) Clone() *RegistrationInvitationQuery {
 		order:      append([]OrderFunc{}, riq.order...),
 		predicates: append([]predicate.RegistrationInvitation{}, riq.predicates...),
 		// clone intermediate query.
-		sql:  riq.sql.Clone(),
-		path: riq.path,
+		sql:    riq.sql.Clone(),
+		path:   riq.path,
+		unique: riq.unique,
 	}
 }
 

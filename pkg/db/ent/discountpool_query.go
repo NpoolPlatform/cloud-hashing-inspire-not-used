@@ -107,7 +107,7 @@ func (dpq *DiscountPoolQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single DiscountPool entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one DiscountPool entity is not found.
+// Returns a *NotSingularError when more than one DiscountPool entity is found.
 // Returns a *NotFoundError when no DiscountPool entities are found.
 func (dpq *DiscountPoolQuery) Only(ctx context.Context) (*DiscountPool, error) {
 	nodes, err := dpq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (dpq *DiscountPoolQuery) OnlyX(ctx context.Context) *DiscountPool {
 }
 
 // OnlyID is like Only, but returns the only DiscountPool ID in the query.
-// Returns a *NotSingularError when exactly one DiscountPool ID is not found.
+// Returns a *NotSingularError when more than one DiscountPool ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (dpq *DiscountPoolQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (dpq *DiscountPoolQuery) Clone() *DiscountPoolQuery {
 		order:      append([]OrderFunc{}, dpq.order...),
 		predicates: append([]predicate.DiscountPool{}, dpq.predicates...),
 		// clone intermediate query.
-		sql:  dpq.sql.Clone(),
-		path: dpq.path,
+		sql:    dpq.sql.Clone(),
+		path:   dpq.path,
+		unique: dpq.unique,
 	}
 }
 

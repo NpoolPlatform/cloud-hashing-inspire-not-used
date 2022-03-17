@@ -18,6 +18,8 @@ type AppPurchaseAmountSetting struct {
 	ID uuid.UUID `json:"id,omitempty"`
 	// AppID holds the value of the "app_id" field.
 	AppID uuid.UUID `json:"app_id,omitempty"`
+	// UserID holds the value of the "user_id" field.
+	UserID uuid.UUID `json:"user_id,omitempty"`
 	// Title holds the value of the "title" field.
 	Title string `json:"title,omitempty"`
 	// Amount holds the value of the "amount" field.
@@ -49,7 +51,7 @@ func (*AppPurchaseAmountSetting) scanValues(columns []string) ([]interface{}, er
 			values[i] = new(sql.NullInt64)
 		case apppurchaseamountsetting.FieldTitle, apppurchaseamountsetting.FieldBadgeLarge, apppurchaseamountsetting.FieldBadgeSmall:
 			values[i] = new(sql.NullString)
-		case apppurchaseamountsetting.FieldID, apppurchaseamountsetting.FieldAppID:
+		case apppurchaseamountsetting.FieldID, apppurchaseamountsetting.FieldAppID, apppurchaseamountsetting.FieldUserID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type AppPurchaseAmountSetting", columns[i])
@@ -77,6 +79,12 @@ func (apas *AppPurchaseAmountSetting) assignValues(columns []string, values []in
 				return fmt.Errorf("unexpected type %T for field app_id", values[i])
 			} else if value != nil {
 				apas.AppID = *value
+			}
+		case apppurchaseamountsetting.FieldUserID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field user_id", values[i])
+			} else if value != nil {
+				apas.UserID = *value
 			}
 		case apppurchaseamountsetting.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -168,6 +176,8 @@ func (apas *AppPurchaseAmountSetting) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", apas.ID))
 	builder.WriteString(", app_id=")
 	builder.WriteString(fmt.Sprintf("%v", apas.AppID))
+	builder.WriteString(", user_id=")
+	builder.WriteString(fmt.Sprintf("%v", apas.UserID))
 	builder.WriteString(", title=")
 	builder.WriteString(apas.Title)
 	builder.WriteString(", amount=")

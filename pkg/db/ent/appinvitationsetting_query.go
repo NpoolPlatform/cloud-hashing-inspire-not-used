@@ -107,7 +107,7 @@ func (aisq *AppInvitationSettingQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single AppInvitationSetting entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one AppInvitationSetting entity is not found.
+// Returns a *NotSingularError when more than one AppInvitationSetting entity is found.
 // Returns a *NotFoundError when no AppInvitationSetting entities are found.
 func (aisq *AppInvitationSettingQuery) Only(ctx context.Context) (*AppInvitationSetting, error) {
 	nodes, err := aisq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (aisq *AppInvitationSettingQuery) OnlyX(ctx context.Context) *AppInvitation
 }
 
 // OnlyID is like Only, but returns the only AppInvitationSetting ID in the query.
-// Returns a *NotSingularError when exactly one AppInvitationSetting ID is not found.
+// Returns a *NotSingularError when more than one AppInvitationSetting ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (aisq *AppInvitationSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (aisq *AppInvitationSettingQuery) Clone() *AppInvitationSettingQuery {
 		order:      append([]OrderFunc{}, aisq.order...),
 		predicates: append([]predicate.AppInvitationSetting{}, aisq.predicates...),
 		// clone intermediate query.
-		sql:  aisq.sql.Clone(),
-		path: aisq.path,
+		sql:    aisq.sql.Clone(),
+		path:   aisq.path,
+		unique: aisq.unique,
 	}
 }
 

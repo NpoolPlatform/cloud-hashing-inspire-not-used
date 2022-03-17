@@ -107,7 +107,7 @@ func (ecq *EventCouponQuery) FirstIDX(ctx context.Context) uuid.UUID {
 }
 
 // Only returns a single EventCoupon entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one EventCoupon entity is not found.
+// Returns a *NotSingularError when more than one EventCoupon entity is found.
 // Returns a *NotFoundError when no EventCoupon entities are found.
 func (ecq *EventCouponQuery) Only(ctx context.Context) (*EventCoupon, error) {
 	nodes, err := ecq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (ecq *EventCouponQuery) OnlyX(ctx context.Context) *EventCoupon {
 }
 
 // OnlyID is like Only, but returns the only EventCoupon ID in the query.
-// Returns a *NotSingularError when exactly one EventCoupon ID is not found.
+// Returns a *NotSingularError when more than one EventCoupon ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (ecq *EventCouponQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (ecq *EventCouponQuery) Clone() *EventCouponQuery {
 		order:      append([]OrderFunc{}, ecq.order...),
 		predicates: append([]predicate.EventCoupon{}, ecq.predicates...),
 		// clone intermediate query.
-		sql:  ecq.sql.Clone(),
-		path: ecq.path,
+		sql:    ecq.sql.Clone(),
+		path:   ecq.path,
+		unique: ecq.unique,
 	}
 }
 

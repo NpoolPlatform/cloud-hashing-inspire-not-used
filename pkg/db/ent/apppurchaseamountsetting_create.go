@@ -29,6 +29,12 @@ func (apasc *AppPurchaseAmountSettingCreate) SetAppID(u uuid.UUID) *AppPurchaseA
 	return apasc
 }
 
+// SetUserID sets the "user_id" field.
+func (apasc *AppPurchaseAmountSettingCreate) SetUserID(u uuid.UUID) *AppPurchaseAmountSettingCreate {
+	apasc.mutation.SetUserID(u)
+	return apasc
+}
+
 // SetTitle sets the "title" field.
 func (apasc *AppPurchaseAmountSettingCreate) SetTitle(s string) *AppPurchaseAmountSettingCreate {
 	apasc.mutation.SetTitle(s)
@@ -221,6 +227,9 @@ func (apasc *AppPurchaseAmountSettingCreate) check() error {
 	if _, ok := apasc.mutation.AppID(); !ok {
 		return &ValidationError{Name: "app_id", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.app_id"`)}
 	}
+	if _, ok := apasc.mutation.UserID(); !ok {
+		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.user_id"`)}
+	}
 	if _, ok := apasc.mutation.Title(); !ok {
 		return &ValidationError{Name: "title", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.title"`)}
 	}
@@ -295,6 +304,14 @@ func (apasc *AppPurchaseAmountSettingCreate) createSpec() (*AppPurchaseAmountSet
 			Column: apppurchaseamountsetting.FieldAppID,
 		})
 		_node.AppID = value
+	}
+	if value, ok := apasc.mutation.UserID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldUserID,
+		})
+		_node.UserID = value
 	}
 	if value, ok := apasc.mutation.Title(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -439,6 +456,18 @@ func (u *AppPurchaseAmountSettingUpsert) SetAppID(v uuid.UUID) *AppPurchaseAmoun
 // UpdateAppID sets the "app_id" field to the value that was provided on create.
 func (u *AppPurchaseAmountSettingUpsert) UpdateAppID() *AppPurchaseAmountSettingUpsert {
 	u.SetExcluded(apppurchaseamountsetting.FieldAppID)
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *AppPurchaseAmountSettingUpsert) SetUserID(v uuid.UUID) *AppPurchaseAmountSettingUpsert {
+	u.Set(apppurchaseamountsetting.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsert) UpdateUserID() *AppPurchaseAmountSettingUpsert {
+	u.SetExcluded(apppurchaseamountsetting.FieldUserID)
 	return u
 }
 
@@ -665,6 +694,20 @@ func (u *AppPurchaseAmountSettingUpsertOne) SetAppID(v uuid.UUID) *AppPurchaseAm
 func (u *AppPurchaseAmountSettingUpsertOne) UpdateAppID() *AppPurchaseAmountSettingUpsertOne {
 	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
 		s.UpdateAppID()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *AppPurchaseAmountSettingUpsertOne) SetUserID(v uuid.UUID) *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertOne) UpdateUserID() *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateUserID()
 	})
 }
 
@@ -1084,6 +1127,20 @@ func (u *AppPurchaseAmountSettingUpsertBulk) SetAppID(v uuid.UUID) *AppPurchaseA
 func (u *AppPurchaseAmountSettingUpsertBulk) UpdateAppID() *AppPurchaseAmountSettingUpsertBulk {
 	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
 		s.UpdateAppID()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *AppPurchaseAmountSettingUpsertBulk) SetUserID(v uuid.UUID) *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertBulk) UpdateUserID() *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateUserID()
 	})
 }
 

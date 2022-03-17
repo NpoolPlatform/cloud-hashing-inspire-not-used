@@ -107,7 +107,7 @@ func (ccsq *CommissionCoinSettingQuery) FirstIDX(ctx context.Context) uuid.UUID 
 }
 
 // Only returns a single CommissionCoinSetting entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when exactly one CommissionCoinSetting entity is not found.
+// Returns a *NotSingularError when more than one CommissionCoinSetting entity is found.
 // Returns a *NotFoundError when no CommissionCoinSetting entities are found.
 func (ccsq *CommissionCoinSettingQuery) Only(ctx context.Context) (*CommissionCoinSetting, error) {
 	nodes, err := ccsq.Limit(2).All(ctx)
@@ -134,7 +134,7 @@ func (ccsq *CommissionCoinSettingQuery) OnlyX(ctx context.Context) *CommissionCo
 }
 
 // OnlyID is like Only, but returns the only CommissionCoinSetting ID in the query.
-// Returns a *NotSingularError when exactly one CommissionCoinSetting ID is not found.
+// Returns a *NotSingularError when more than one CommissionCoinSetting ID is found.
 // Returns a *NotFoundError when no entities are found.
 func (ccsq *CommissionCoinSettingQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
@@ -243,8 +243,9 @@ func (ccsq *CommissionCoinSettingQuery) Clone() *CommissionCoinSettingQuery {
 		order:      append([]OrderFunc{}, ccsq.order...),
 		predicates: append([]predicate.CommissionCoinSetting{}, ccsq.predicates...),
 		// clone intermediate query.
-		sql:  ccsq.sql.Clone(),
-		path: ccsq.path,
+		sql:    ccsq.sql.Clone(),
+		path:   ccsq.path,
+		unique: ccsq.unique,
 	}
 }
 

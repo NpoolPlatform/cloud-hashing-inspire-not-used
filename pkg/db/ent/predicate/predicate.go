@@ -21,9 +21,6 @@ type AppInvitationSetting func(*sql.Selector)
 // AppPurchaseAmountSetting is the predicate function for apppurchaseamountsetting builders.
 type AppPurchaseAmountSetting func(*sql.Selector)
 
-// AppUserPurchaseAmountSetting is the predicate function for appuserpurchaseamountsetting builders.
-type AppUserPurchaseAmountSetting func(*sql.Selector)
-
 // CommissionCoinSetting is the predicate function for commissioncoinsetting builders.
 type CommissionCoinSetting func(*sql.Selector)
 

@@ -15,7 +15,6 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcouponsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appinvitationsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/apppurchaseamountsetting"
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appuserpurchaseamountsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/commissioncoinsetting"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponpool"
@@ -46,8 +45,6 @@ type Client struct {
 	AppInvitationSetting *AppInvitationSettingClient
 	// AppPurchaseAmountSetting is the client for interacting with the AppPurchaseAmountSetting builders.
 	AppPurchaseAmountSetting *AppPurchaseAmountSettingClient
-	// AppUserPurchaseAmountSetting is the client for interacting with the AppUserPurchaseAmountSetting builders.
-	AppUserPurchaseAmountSetting *AppUserPurchaseAmountSettingClient
 	// CommissionCoinSetting is the client for interacting with the CommissionCoinSetting builders.
 	CommissionCoinSetting *CommissionCoinSettingClient
 	// CouponAllocated is the client for interacting with the CouponAllocated builders.
@@ -86,7 +83,6 @@ func (c *Client) init() {
 	c.AppCouponSetting = NewAppCouponSettingClient(c.config)
 	c.AppInvitationSetting = NewAppInvitationSettingClient(c.config)
 	c.AppPurchaseAmountSetting = NewAppPurchaseAmountSettingClient(c.config)
-	c.AppUserPurchaseAmountSetting = NewAppUserPurchaseAmountSettingClient(c.config)
 	c.CommissionCoinSetting = NewCommissionCoinSettingClient(c.config)
 	c.CouponAllocated = NewCouponAllocatedClient(c.config)
 	c.CouponPool = NewCouponPoolClient(c.config)
@@ -128,24 +124,23 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:                          ctx,
-		config:                       cfg,
-		Activity:                     NewActivityClient(cfg),
-		AppCommissionSetting:         NewAppCommissionSettingClient(cfg),
-		AppCouponSetting:             NewAppCouponSettingClient(cfg),
-		AppInvitationSetting:         NewAppInvitationSettingClient(cfg),
-		AppPurchaseAmountSetting:     NewAppPurchaseAmountSettingClient(cfg),
-		AppUserPurchaseAmountSetting: NewAppUserPurchaseAmountSettingClient(cfg),
-		CommissionCoinSetting:        NewCommissionCoinSettingClient(cfg),
-		CouponAllocated:              NewCouponAllocatedClient(cfg),
-		CouponPool:                   NewCouponPoolClient(cfg),
-		DefaultKpiSetting:            NewDefaultKpiSettingClient(cfg),
-		DiscountPool:                 NewDiscountPoolClient(cfg),
-		EventCoupon:                  NewEventCouponClient(cfg),
-		RegistrationInvitation:       NewRegistrationInvitationClient(cfg),
-		UserInvitationCode:           NewUserInvitationCodeClient(cfg),
-		UserKpiSetting:               NewUserKpiSettingClient(cfg),
-		UserSpecialReduction:         NewUserSpecialReductionClient(cfg),
+		ctx:                      ctx,
+		config:                   cfg,
+		Activity:                 NewActivityClient(cfg),
+		AppCommissionSetting:     NewAppCommissionSettingClient(cfg),
+		AppCouponSetting:         NewAppCouponSettingClient(cfg),
+		AppInvitationSetting:     NewAppInvitationSettingClient(cfg),
+		AppPurchaseAmountSetting: NewAppPurchaseAmountSettingClient(cfg),
+		CommissionCoinSetting:    NewCommissionCoinSettingClient(cfg),
+		CouponAllocated:          NewCouponAllocatedClient(cfg),
+		CouponPool:               NewCouponPoolClient(cfg),
+		DefaultKpiSetting:        NewDefaultKpiSettingClient(cfg),
+		DiscountPool:             NewDiscountPoolClient(cfg),
+		EventCoupon:              NewEventCouponClient(cfg),
+		RegistrationInvitation:   NewRegistrationInvitationClient(cfg),
+		UserInvitationCode:       NewUserInvitationCodeClient(cfg),
+		UserKpiSetting:           NewUserKpiSettingClient(cfg),
+		UserSpecialReduction:     NewUserSpecialReductionClient(cfg),
 	}, nil
 }
 
@@ -163,24 +158,23 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:                          ctx,
-		config:                       cfg,
-		Activity:                     NewActivityClient(cfg),
-		AppCommissionSetting:         NewAppCommissionSettingClient(cfg),
-		AppCouponSetting:             NewAppCouponSettingClient(cfg),
-		AppInvitationSetting:         NewAppInvitationSettingClient(cfg),
-		AppPurchaseAmountSetting:     NewAppPurchaseAmountSettingClient(cfg),
-		AppUserPurchaseAmountSetting: NewAppUserPurchaseAmountSettingClient(cfg),
-		CommissionCoinSetting:        NewCommissionCoinSettingClient(cfg),
-		CouponAllocated:              NewCouponAllocatedClient(cfg),
-		CouponPool:                   NewCouponPoolClient(cfg),
-		DefaultKpiSetting:            NewDefaultKpiSettingClient(cfg),
-		DiscountPool:                 NewDiscountPoolClient(cfg),
-		EventCoupon:                  NewEventCouponClient(cfg),
-		RegistrationInvitation:       NewRegistrationInvitationClient(cfg),
-		UserInvitationCode:           NewUserInvitationCodeClient(cfg),
-		UserKpiSetting:               NewUserKpiSettingClient(cfg),
-		UserSpecialReduction:         NewUserSpecialReductionClient(cfg),
+		ctx:                      ctx,
+		config:                   cfg,
+		Activity:                 NewActivityClient(cfg),
+		AppCommissionSetting:     NewAppCommissionSettingClient(cfg),
+		AppCouponSetting:         NewAppCouponSettingClient(cfg),
+		AppInvitationSetting:     NewAppInvitationSettingClient(cfg),
+		AppPurchaseAmountSetting: NewAppPurchaseAmountSettingClient(cfg),
+		CommissionCoinSetting:    NewCommissionCoinSettingClient(cfg),
+		CouponAllocated:          NewCouponAllocatedClient(cfg),
+		CouponPool:               NewCouponPoolClient(cfg),
+		DefaultKpiSetting:        NewDefaultKpiSettingClient(cfg),
+		DiscountPool:             NewDiscountPoolClient(cfg),
+		EventCoupon:              NewEventCouponClient(cfg),
+		RegistrationInvitation:   NewRegistrationInvitationClient(cfg),
+		UserInvitationCode:       NewUserInvitationCodeClient(cfg),
+		UserKpiSetting:           NewUserKpiSettingClient(cfg),
+		UserSpecialReduction:     NewUserSpecialReductionClient(cfg),
 	}, nil
 }
 
@@ -215,7 +209,6 @@ func (c *Client) Use(hooks ...Hook) {
 	c.AppCouponSetting.Use(hooks...)
 	c.AppInvitationSetting.Use(hooks...)
 	c.AppPurchaseAmountSetting.Use(hooks...)
-	c.AppUserPurchaseAmountSetting.Use(hooks...)
 	c.CommissionCoinSetting.Use(hooks...)
 	c.CouponAllocated.Use(hooks...)
 	c.CouponPool.Use(hooks...)
@@ -676,96 +669,6 @@ func (c *AppPurchaseAmountSettingClient) GetX(ctx context.Context, id uuid.UUID)
 // Hooks returns the client hooks.
 func (c *AppPurchaseAmountSettingClient) Hooks() []Hook {
 	return c.hooks.AppPurchaseAmountSetting
-}
-
-// AppUserPurchaseAmountSettingClient is a client for the AppUserPurchaseAmountSetting schema.
-type AppUserPurchaseAmountSettingClient struct {
-	config
-}
-
-// NewAppUserPurchaseAmountSettingClient returns a client for the AppUserPurchaseAmountSetting from the given config.
-func NewAppUserPurchaseAmountSettingClient(c config) *AppUserPurchaseAmountSettingClient {
-	return &AppUserPurchaseAmountSettingClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `appuserpurchaseamountsetting.Hooks(f(g(h())))`.
-func (c *AppUserPurchaseAmountSettingClient) Use(hooks ...Hook) {
-	c.hooks.AppUserPurchaseAmountSetting = append(c.hooks.AppUserPurchaseAmountSetting, hooks...)
-}
-
-// Create returns a create builder for AppUserPurchaseAmountSetting.
-func (c *AppUserPurchaseAmountSettingClient) Create() *AppUserPurchaseAmountSettingCreate {
-	mutation := newAppUserPurchaseAmountSettingMutation(c.config, OpCreate)
-	return &AppUserPurchaseAmountSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of AppUserPurchaseAmountSetting entities.
-func (c *AppUserPurchaseAmountSettingClient) CreateBulk(builders ...*AppUserPurchaseAmountSettingCreate) *AppUserPurchaseAmountSettingCreateBulk {
-	return &AppUserPurchaseAmountSettingCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for AppUserPurchaseAmountSetting.
-func (c *AppUserPurchaseAmountSettingClient) Update() *AppUserPurchaseAmountSettingUpdate {
-	mutation := newAppUserPurchaseAmountSettingMutation(c.config, OpUpdate)
-	return &AppUserPurchaseAmountSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *AppUserPurchaseAmountSettingClient) UpdateOne(aupas *AppUserPurchaseAmountSetting) *AppUserPurchaseAmountSettingUpdateOne {
-	mutation := newAppUserPurchaseAmountSettingMutation(c.config, OpUpdateOne, withAppUserPurchaseAmountSetting(aupas))
-	return &AppUserPurchaseAmountSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *AppUserPurchaseAmountSettingClient) UpdateOneID(id uuid.UUID) *AppUserPurchaseAmountSettingUpdateOne {
-	mutation := newAppUserPurchaseAmountSettingMutation(c.config, OpUpdateOne, withAppUserPurchaseAmountSettingID(id))
-	return &AppUserPurchaseAmountSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for AppUserPurchaseAmountSetting.
-func (c *AppUserPurchaseAmountSettingClient) Delete() *AppUserPurchaseAmountSettingDelete {
-	mutation := newAppUserPurchaseAmountSettingMutation(c.config, OpDelete)
-	return &AppUserPurchaseAmountSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a delete builder for the given entity.
-func (c *AppUserPurchaseAmountSettingClient) DeleteOne(aupas *AppUserPurchaseAmountSetting) *AppUserPurchaseAmountSettingDeleteOne {
-	return c.DeleteOneID(aupas.ID)
-}
-
-// DeleteOneID returns a delete builder for the given id.
-func (c *AppUserPurchaseAmountSettingClient) DeleteOneID(id uuid.UUID) *AppUserPurchaseAmountSettingDeleteOne {
-	builder := c.Delete().Where(appuserpurchaseamountsetting.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &AppUserPurchaseAmountSettingDeleteOne{builder}
-}
-
-// Query returns a query builder for AppUserPurchaseAmountSetting.
-func (c *AppUserPurchaseAmountSettingClient) Query() *AppUserPurchaseAmountSettingQuery {
-	return &AppUserPurchaseAmountSettingQuery{
-		config: c.config,
-	}
-}
-
-// Get returns a AppUserPurchaseAmountSetting entity by its id.
-func (c *AppUserPurchaseAmountSettingClient) Get(ctx context.Context, id uuid.UUID) (*AppUserPurchaseAmountSetting, error) {
-	return c.Query().Where(appuserpurchaseamountsetting.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *AppUserPurchaseAmountSettingClient) GetX(ctx context.Context, id uuid.UUID) *AppUserPurchaseAmountSetting {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *AppUserPurchaseAmountSettingClient) Hooks() []Hook {
-	return c.hooks.AppUserPurchaseAmountSetting
 }
 
 // CommissionCoinSettingClient is a client for the CommissionCoinSetting schema.

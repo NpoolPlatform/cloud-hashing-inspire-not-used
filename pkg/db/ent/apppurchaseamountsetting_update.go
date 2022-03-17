@@ -34,6 +34,12 @@ func (apasu *AppPurchaseAmountSettingUpdate) SetAppID(u uuid.UUID) *AppPurchaseA
 	return apasu
 }
 
+// SetUserID sets the "user_id" field.
+func (apasu *AppPurchaseAmountSettingUpdate) SetUserID(u uuid.UUID) *AppPurchaseAmountSettingUpdate {
+	apasu.mutation.SetUserID(u)
+	return apasu
+}
+
 // SetTitle sets the "title" field.
 func (apasu *AppPurchaseAmountSettingUpdate) SetTitle(s string) *AppPurchaseAmountSettingUpdate {
 	apasu.mutation.SetTitle(s)
@@ -252,6 +258,13 @@ func (apasu *AppPurchaseAmountSettingUpdate) sqlSave(ctx context.Context) (n int
 			Column: apppurchaseamountsetting.FieldAppID,
 		})
 	}
+	if value, ok := apasu.mutation.UserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldUserID,
+		})
+	}
 	if value, ok := apasu.mutation.Title(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -393,6 +406,12 @@ type AppPurchaseAmountSettingUpdateOne struct {
 // SetAppID sets the "app_id" field.
 func (apasuo *AppPurchaseAmountSettingUpdateOne) SetAppID(u uuid.UUID) *AppPurchaseAmountSettingUpdateOne {
 	apasuo.mutation.SetAppID(u)
+	return apasuo
+}
+
+// SetUserID sets the "user_id" field.
+func (apasuo *AppPurchaseAmountSettingUpdateOne) SetUserID(u uuid.UUID) *AppPurchaseAmountSettingUpdateOne {
+	apasuo.mutation.SetUserID(u)
 	return apasuo
 }
 
@@ -636,6 +655,13 @@ func (apasuo *AppPurchaseAmountSettingUpdateOne) sqlSave(ctx context.Context) (_
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: apppurchaseamountsetting.FieldAppID,
+		})
+	}
+	if value, ok := apasuo.mutation.UserID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldUserID,
 		})
 	}
 	if value, ok := apasuo.mutation.Title(); ok {

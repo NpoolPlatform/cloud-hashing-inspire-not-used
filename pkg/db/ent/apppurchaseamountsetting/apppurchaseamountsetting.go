@@ -13,6 +13,8 @@ const (
 	FieldID = "id"
 	// FieldAppID holds the string denoting the app_id field in the database.
 	FieldAppID = "app_id"
+	// FieldUserID holds the string denoting the user_id field in the database.
+	FieldUserID = "user_id"
 	// FieldTitle holds the string denoting the title field in the database.
 	FieldTitle = "title"
 	// FieldAmount holds the string denoting the amount field in the database.
@@ -41,6 +43,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldAppID,
+	FieldUserID,
 	FieldTitle,
 	FieldAmount,
 	FieldPercent,
