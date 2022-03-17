@@ -21,22 +21,24 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 	start := uint32(time.Now().Unix())
 
 	for _, info := range resp.Infos {
-		if info.Amount == in.GetInfo().GetAmount() && info.End == 0 {
-			if info.Percent == in.GetInfo().GetPercent() {
-				return &npool.CreateAppPurchaseAmountSettingResponse{
-					Info: info,
-				}, nil
-			}
-
-			info.End = start
-			_, err := appsetting.Update(ctx, &npool.UpdateAppPurchaseAmountSettingRequest{
-				Info: info,
-			})
-			if err != nil {
-				return nil, xerrors.Errorf("fail update setting: %v", err)
-			}
-			break
+		if info.Amount != in.GetInfo().GetAmount() || info.End != 0 {
+			continue
 		}
+
+		if info.Percent == in.GetInfo().GetPercent() {
+			return &npool.CreateAppPurchaseAmountSettingResponse{
+				Info: info,
+			}, nil
+		}
+
+		info.End = start
+		_, err := appsetting.Update(ctx, &npool.UpdateAppPurchaseAmountSettingRequest{
+			Info: info,
+		})
+		if err != nil {
+			return nil, xerrors.Errorf("fail update setting: %v", err)
+		}
+		break
 	}
 
 	info := in.GetInfo()

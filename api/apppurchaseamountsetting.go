@@ -40,6 +40,39 @@ func (s *Server) CreateAppPurchaseAmountSettingForOtherApp(ctx context.Context, 
 	}, nil
 }
 
+func (s *Server) CreateAppPurchaseAmountSettingForOtherAppUser(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingForOtherAppUserRequest) (*npool.CreateAppPurchaseAmountSettingForOtherAppUserResponse, error) {
+	info := in.GetInfo()
+	info.AppID = in.GetTargetAppID()
+	info.UserID = in.GetTargetUserID()
+
+	resp, err := mw.CreateAppPurchaseAmountSetting(ctx, &npool.CreateAppPurchaseAmountSettingRequest{
+		Info: info,
+	})
+	if err != nil {
+		logger.Sugar().Errorf("create app purchase amount setting error: %v", err)
+		return &npool.CreateAppPurchaseAmountSettingForOtherAppUserResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.CreateAppPurchaseAmountSettingForOtherAppUserResponse{
+		Info: resp.Info,
+	}, nil
+}
+
+func (s *Server) CreateAppPurchaseAmountSettingForAppOtherUser(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingForAppOtherUserRequest) (*npool.CreateAppPurchaseAmountSettingForAppOtherUserResponse, error) {
+	info := in.GetInfo()
+	info.UserID = in.GetTargetUserID()
+
+	resp, err := mw.CreateAppPurchaseAmountSetting(ctx, &npool.CreateAppPurchaseAmountSettingRequest{
+		Info: info,
+	})
+	if err != nil {
+		logger.Sugar().Errorf("create app purchase amount setting error: %v", err)
+		return &npool.CreateAppPurchaseAmountSettingForAppOtherUserResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.CreateAppPurchaseAmountSettingForAppOtherUserResponse{
+		Info: resp.Info,
+	}, nil
+}
+
 func (s *Server) UpdateAppPurchaseAmountSetting(ctx context.Context, in *npool.UpdateAppPurchaseAmountSettingRequest) (*npool.UpdateAppPurchaseAmountSettingResponse, error) {
 	resp, err := crud.Update(ctx, in)
 	if err != nil {
@@ -76,6 +109,20 @@ func (s *Server) GetAppPurchaseAmountSettingsByOtherApp(ctx context.Context, in 
 		return &npool.GetAppPurchaseAmountSettingsByOtherAppResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return &npool.GetAppPurchaseAmountSettingsByOtherAppResponse{
+		Infos: resp.Infos,
+	}, nil
+}
+
+func (s *Server) GetAppPurchaseAmountSettingsByOtherAppUser(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByOtherAppUserRequest) (*npool.GetAppPurchaseAmountSettingsByOtherAppUserResponse, error) {
+	resp, err := crud.GetByAppUser(ctx, &npool.GetAppPurchaseAmountSettingsByAppUserRequest{
+		AppID:  in.GetTargetAppID(),
+		UserID: in.GetTargetUserID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorf("get app purchase amount settings by app error: %v", err)
+		return &npool.GetAppPurchaseAmountSettingsByOtherAppUserResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.GetAppPurchaseAmountSettingsByOtherAppUserResponse{
 		Infos: resp.Infos,
 	}, nil
 }

@@ -173,3 +173,43 @@ func GetByApp(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByAppRe
 		Infos: settings,
 	}, nil
 }
+
+func GetByAppUser(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByAppUserRequest) (*npool.GetAppPurchaseAmountSettingsByAppUserResponse, error) {
+	appID, err := uuid.Parse(in.GetAppID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid app id: %v", err)
+	}
+
+	userID, err := uuid.Parse(in.GetUserID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid user id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		AppPurchaseAmountSetting.
+		Query().
+		Where(
+			apppurchaseamountsetting.And(
+				apppurchaseamountsetting.AppID(appID),
+				apppurchaseamountsetting.UserID(userID),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail query app purchase amount setting: %v", err)
+	}
+
+	settings := []*npool.AppPurchaseAmountSetting{}
+	for _, info := range infos {
+		settings = append(settings, dbRowToAppPurchaseAmountSetting(info))
+	}
+
+	return &npool.GetAppPurchaseAmountSettingsByAppUserResponse{
+		Infos: settings,
+	}, nil
+}
