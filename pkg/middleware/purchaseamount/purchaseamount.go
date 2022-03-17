@@ -22,9 +22,6 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 	var setting *npool.AppPurchaseAmountSetting
 
 	for _, info := range resp.Infos {
-		if info.Start == 0 {
-			info.Start = start
-		}
 		if info.Amount == in.GetInfo().GetAmount() {
 			if info.End == 0 {
 				info.End = start
