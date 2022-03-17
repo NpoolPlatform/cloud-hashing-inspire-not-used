@@ -27,6 +27,7 @@ func dbRowToAppPurchaseAmountSetting(row *ent.AppPurchaseAmountSetting) *npool.A
 	return &npool.AppPurchaseAmountSetting{
 		ID:         row.ID.String(),
 		AppID:      row.AppID.String(),
+		UserID:     row.UserID.String(),
 		Amount:     price.DBPriceToVisualPrice(row.Amount),
 		Percent:    row.Percent,
 		Title:      row.Title,
@@ -47,10 +48,16 @@ func Create(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingRequest
 		return nil, xerrors.Errorf("fail get db client: %v", err)
 	}
 
+	userID, err := uuid.Parse(in.GetInfo().GetUserID())
+	if err != nil {
+		userID = uuid.UUID{}
+	}
+
 	info, err := cli.
 		AppPurchaseAmountSetting.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
+		SetUserID(userID).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetPercent(in.GetInfo().GetPercent()).
 		SetTitle(in.GetInfo().GetTitle()).

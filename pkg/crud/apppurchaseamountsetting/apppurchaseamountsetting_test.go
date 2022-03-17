@@ -26,6 +26,7 @@ func init() {
 
 func assertAppPurchaseAmountSetting(t *testing.T, actual, expected *npool.AppPurchaseAmountSetting) {
 	assert.Equal(t, actual.AppID, expected.AppID)
+	assert.Equal(t, actual.UserID, expected.UserID)
 	assert.Equal(t, actual.Amount, expected.Amount)
 	assert.Equal(t, actual.Percent, expected.Percent)
 	assert.Equal(t, actual.Title, expected.Title)
@@ -40,6 +41,7 @@ func TestCRUD(t *testing.T) {
 
 	setting := npool.AppPurchaseAmountSetting{
 		AppID:      uuid.New().String(),
+		UserID:     uuid.New().String(),
 		Amount:     1000,
 		Percent:    20,
 		Title:      "test test",

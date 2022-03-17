@@ -19,32 +19,24 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 	}
 
 	start := uint32(time.Now().Unix())
-	var setting *npool.AppPurchaseAmountSetting
 
 	for _, info := range resp.Infos {
-		if info.Amount == in.GetInfo().GetAmount() {
-			if info.End == 0 {
-				info.End = start
+		if info.Amount == in.GetInfo().GetAmount() && info.End == 0 {
+			if info.Percent == in.GetInfo().GetPercent() {
+				return &npool.CreateAppPurchaseAmountSettingResponse{
+					Info: info,
+				}, nil
 			}
-		} else {
-			info.End = 0
-			info.Percent = in.GetInfo().GetPercent()
-			info.BadgeLarge = in.GetInfo().GetBadgeLarge()
-			info.BadgeSmall = in.GetInfo().GetBadgeSmall()
-			setting = info
-		}
-		_, err := appsetting.Update(ctx, &npool.UpdateAppPurchaseAmountSettingRequest{
-			Info: info,
-		})
-		if err != nil {
-			return nil, xerrors.Errorf("fail update setting: %v", err)
-		}
-	}
 
-	if setting != nil {
-		return &npool.CreateAppPurchaseAmountSettingResponse{
-			Info: setting,
-		}, nil
+			info.End = start
+			_, err := appsetting.Update(ctx, &npool.UpdateAppPurchaseAmountSettingRequest{
+				Info: info,
+			})
+			if err != nil {
+				return nil, xerrors.Errorf("fail update setting: %v", err)
+			}
+			break
+		}
 	}
 
 	info := in.GetInfo()
