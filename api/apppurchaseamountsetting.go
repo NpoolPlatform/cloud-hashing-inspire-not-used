@@ -113,6 +113,17 @@ func (s *Server) GetAppPurchaseAmountSettingsByOtherApp(ctx context.Context, in 
 	}, nil
 }
 
+func (s *Server) GetAppPurchaseAmountSettingsByAppUser(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByAppUserRequest) (*npool.GetAppPurchaseAmountSettingsByAppUserResponse, error) {
+	resp, err := crud.GetByAppUser(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorf("get app purchase amount settings by app error: %v", err)
+		return &npool.GetAppPurchaseAmountSettingsByAppUserResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return &npool.GetAppPurchaseAmountSettingsByAppUserResponse{
+		Infos: resp.Infos,
+	}, nil
+}
+
 func (s *Server) GetAppPurchaseAmountSettingsByOtherAppUser(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByOtherAppUserRequest) (*npool.GetAppPurchaseAmountSettingsByOtherAppUserResponse, error) {
 	resp, err := crud.GetByAppUser(ctx, &npool.GetAppPurchaseAmountSettingsByAppUserRequest{
 		AppID:  in.GetTargetAppID(),
