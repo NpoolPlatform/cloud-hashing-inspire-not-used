@@ -5,7 +5,6 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
-	"entgo.io/ent/schema/index"
 
 	"github.com/google/uuid"
 )
@@ -53,7 +52,5 @@ func (AppPurchaseAmountSetting) Edges() []ent.Edge {
 
 // Indexes of the AppPurchaseAmountSetting.
 func (AppPurchaseAmountSetting) Indexes() []ent.Index {
-	return []ent.Index{
-		index.Fields("app_id", "amount").Unique(),
-	}
+	return nil
 }

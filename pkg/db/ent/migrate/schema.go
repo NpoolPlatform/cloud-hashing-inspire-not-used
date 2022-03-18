@@ -108,13 +108,6 @@ var (
 		Name:       "app_purchase_amount_settings",
 		Columns:    AppPurchaseAmountSettingsColumns,
 		PrimaryKey: []*schema.Column{AppPurchaseAmountSettingsColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "apppurchaseamountsetting_app_id_amount",
-				Unique:  true,
-				Columns: []*schema.Column{AppPurchaseAmountSettingsColumns[1], AppPurchaseAmountSettingsColumns[4]},
-			},
-		},
 	}
 	// CommissionCoinSettingsColumns holds the columns for the "commission_coin_settings" table.
 	CommissionCoinSettingsColumns = []*schema.Column{
