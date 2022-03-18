@@ -21,6 +21,10 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 	start := uint32(time.Now().Unix())
 
 	for _, info := range resp.Infos {
+		if info.UserID != in.GetInfo().GetUserID() {
+			continue
+		}
+
 		if info.Amount != in.GetInfo().GetAmount() || info.End != 0 {
 			continue
 		}
