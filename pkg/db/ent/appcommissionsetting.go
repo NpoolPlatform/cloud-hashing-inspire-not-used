@@ -26,6 +26,8 @@ type AppCommissionSetting struct {
 	InvitationDiscount bool `json:"invitation_discount,omitempty"`
 	// UniqueSetting holds the value of the "unique_setting" field.
 	UniqueSetting bool `json:"unique_setting,omitempty"`
+	// KpiSetting holds the value of the "kpi_setting" field.
+	KpiSetting bool `json:"kpi_setting,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -39,7 +41,7 @@ func (*AppCommissionSetting) scanValues(columns []string) ([]interface{}, error)
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case appcommissionsetting.FieldInvitationDiscount, appcommissionsetting.FieldUniqueSetting:
+		case appcommissionsetting.FieldInvitationDiscount, appcommissionsetting.FieldUniqueSetting, appcommissionsetting.FieldKpiSetting:
 			values[i] = new(sql.NullBool)
 		case appcommissionsetting.FieldLevel, appcommissionsetting.FieldCreateAt, appcommissionsetting.FieldUpdateAt, appcommissionsetting.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
@@ -98,6 +100,12 @@ func (acs *AppCommissionSetting) assignValues(columns []string, values []interfa
 			} else if value.Valid {
 				acs.UniqueSetting = value.Bool
 			}
+		case appcommissionsetting.FieldKpiSetting:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field kpi_setting", values[i])
+			} else if value.Valid {
+				acs.KpiSetting = value.Bool
+			}
 		case appcommissionsetting.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_at", values[i])
@@ -154,6 +162,8 @@ func (acs *AppCommissionSetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", acs.InvitationDiscount))
 	builder.WriteString(", unique_setting=")
 	builder.WriteString(fmt.Sprintf("%v", acs.UniqueSetting))
+	builder.WriteString(", kpi_setting=")
+	builder.WriteString(fmt.Sprintf("%v", acs.KpiSetting))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", acs.CreateAt))
 	builder.WriteString(", update_at=")

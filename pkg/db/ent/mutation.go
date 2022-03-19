@@ -984,6 +984,7 @@ type AppCommissionSettingMutation struct {
 	addlevel            *int32
 	invitation_discount *bool
 	unique_setting      *bool
+	kpi_setting         *bool
 	create_at           *uint32
 	addcreate_at        *int32
 	update_at           *uint32
@@ -1300,6 +1301,42 @@ func (m *AppCommissionSettingMutation) ResetUniqueSetting() {
 	m.unique_setting = nil
 }
 
+// SetKpiSetting sets the "kpi_setting" field.
+func (m *AppCommissionSettingMutation) SetKpiSetting(b bool) {
+	m.kpi_setting = &b
+}
+
+// KpiSetting returns the value of the "kpi_setting" field in the mutation.
+func (m *AppCommissionSettingMutation) KpiSetting() (r bool, exists bool) {
+	v := m.kpi_setting
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldKpiSetting returns the old "kpi_setting" field's value of the AppCommissionSetting entity.
+// If the AppCommissionSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppCommissionSettingMutation) OldKpiSetting(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldKpiSetting is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldKpiSetting requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldKpiSetting: %w", err)
+	}
+	return oldValue.KpiSetting, nil
+}
+
+// ResetKpiSetting resets all changes to the "kpi_setting" field.
+func (m *AppCommissionSettingMutation) ResetKpiSetting() {
+	m.kpi_setting = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *AppCommissionSettingMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -1487,7 +1524,7 @@ func (m *AppCommissionSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AppCommissionSettingMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
 	if m.app_id != nil {
 		fields = append(fields, appcommissionsetting.FieldAppID)
 	}
@@ -1502,6 +1539,9 @@ func (m *AppCommissionSettingMutation) Fields() []string {
 	}
 	if m.unique_setting != nil {
 		fields = append(fields, appcommissionsetting.FieldUniqueSetting)
+	}
+	if m.kpi_setting != nil {
+		fields = append(fields, appcommissionsetting.FieldKpiSetting)
 	}
 	if m.create_at != nil {
 		fields = append(fields, appcommissionsetting.FieldCreateAt)
@@ -1530,6 +1570,8 @@ func (m *AppCommissionSettingMutation) Field(name string) (ent.Value, bool) {
 		return m.InvitationDiscount()
 	case appcommissionsetting.FieldUniqueSetting:
 		return m.UniqueSetting()
+	case appcommissionsetting.FieldKpiSetting:
+		return m.KpiSetting()
 	case appcommissionsetting.FieldCreateAt:
 		return m.CreateAt()
 	case appcommissionsetting.FieldUpdateAt:
@@ -1555,6 +1597,8 @@ func (m *AppCommissionSettingMutation) OldField(ctx context.Context, name string
 		return m.OldInvitationDiscount(ctx)
 	case appcommissionsetting.FieldUniqueSetting:
 		return m.OldUniqueSetting(ctx)
+	case appcommissionsetting.FieldKpiSetting:
+		return m.OldKpiSetting(ctx)
 	case appcommissionsetting.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case appcommissionsetting.FieldUpdateAt:
@@ -1604,6 +1648,13 @@ func (m *AppCommissionSettingMutation) SetField(name string, value ent.Value) er
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetUniqueSetting(v)
+		return nil
+	case appcommissionsetting.FieldKpiSetting:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetKpiSetting(v)
 		return nil
 	case appcommissionsetting.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -1740,6 +1791,9 @@ func (m *AppCommissionSettingMutation) ResetField(name string) error {
 		return nil
 	case appcommissionsetting.FieldUniqueSetting:
 		m.ResetUniqueSetting()
+		return nil
+	case appcommissionsetting.FieldKpiSetting:
+		m.ResetKpiSetting()
 		return nil
 	case appcommissionsetting.FieldCreateAt:
 		m.ResetCreateAt()

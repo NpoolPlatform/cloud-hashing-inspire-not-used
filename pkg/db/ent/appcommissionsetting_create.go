@@ -53,6 +53,12 @@ func (acsc *AppCommissionSettingCreate) SetUniqueSetting(b bool) *AppCommissionS
 	return acsc
 }
 
+// SetKpiSetting sets the "kpi_setting" field.
+func (acsc *AppCommissionSettingCreate) SetKpiSetting(b bool) *AppCommissionSettingCreate {
+	acsc.mutation.SetKpiSetting(b)
+	return acsc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (acsc *AppCommissionSettingCreate) SetCreateAt(u uint32) *AppCommissionSettingCreate {
 	acsc.mutation.SetCreateAt(u)
@@ -215,6 +221,9 @@ func (acsc *AppCommissionSettingCreate) check() error {
 	if _, ok := acsc.mutation.UniqueSetting(); !ok {
 		return &ValidationError{Name: "unique_setting", err: errors.New(`ent: missing required field "AppCommissionSetting.unique_setting"`)}
 	}
+	if _, ok := acsc.mutation.KpiSetting(); !ok {
+		return &ValidationError{Name: "kpi_setting", err: errors.New(`ent: missing required field "AppCommissionSetting.kpi_setting"`)}
+	}
 	if _, ok := acsc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "AppCommissionSetting.create_at"`)}
 	}
@@ -300,6 +309,14 @@ func (acsc *AppCommissionSettingCreate) createSpec() (*AppCommissionSetting, *sq
 			Column: appcommissionsetting.FieldUniqueSetting,
 		})
 		_node.UniqueSetting = value
+	}
+	if value, ok := acsc.mutation.KpiSetting(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: appcommissionsetting.FieldKpiSetting,
+		})
+		_node.KpiSetting = value
 	}
 	if value, ok := acsc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -442,6 +459,18 @@ func (u *AppCommissionSettingUpsert) SetUniqueSetting(v bool) *AppCommissionSett
 // UpdateUniqueSetting sets the "unique_setting" field to the value that was provided on create.
 func (u *AppCommissionSettingUpsert) UpdateUniqueSetting() *AppCommissionSettingUpsert {
 	u.SetExcluded(appcommissionsetting.FieldUniqueSetting)
+	return u
+}
+
+// SetKpiSetting sets the "kpi_setting" field.
+func (u *AppCommissionSettingUpsert) SetKpiSetting(v bool) *AppCommissionSettingUpsert {
+	u.Set(appcommissionsetting.FieldKpiSetting, v)
+	return u
+}
+
+// UpdateKpiSetting sets the "kpi_setting" field to the value that was provided on create.
+func (u *AppCommissionSettingUpsert) UpdateKpiSetting() *AppCommissionSettingUpsert {
+	u.SetExcluded(appcommissionsetting.FieldKpiSetting)
 	return u
 }
 
@@ -623,6 +652,20 @@ func (u *AppCommissionSettingUpsertOne) SetUniqueSetting(v bool) *AppCommissionS
 func (u *AppCommissionSettingUpsertOne) UpdateUniqueSetting() *AppCommissionSettingUpsertOne {
 	return u.Update(func(s *AppCommissionSettingUpsert) {
 		s.UpdateUniqueSetting()
+	})
+}
+
+// SetKpiSetting sets the "kpi_setting" field.
+func (u *AppCommissionSettingUpsertOne) SetKpiSetting(v bool) *AppCommissionSettingUpsertOne {
+	return u.Update(func(s *AppCommissionSettingUpsert) {
+		s.SetKpiSetting(v)
+	})
+}
+
+// UpdateKpiSetting sets the "kpi_setting" field to the value that was provided on create.
+func (u *AppCommissionSettingUpsertOne) UpdateKpiSetting() *AppCommissionSettingUpsertOne {
+	return u.Update(func(s *AppCommissionSettingUpsert) {
+		s.UpdateKpiSetting()
 	})
 }
 
@@ -979,6 +1022,20 @@ func (u *AppCommissionSettingUpsertBulk) SetUniqueSetting(v bool) *AppCommission
 func (u *AppCommissionSettingUpsertBulk) UpdateUniqueSetting() *AppCommissionSettingUpsertBulk {
 	return u.Update(func(s *AppCommissionSettingUpsert) {
 		s.UpdateUniqueSetting()
+	})
+}
+
+// SetKpiSetting sets the "kpi_setting" field.
+func (u *AppCommissionSettingUpsertBulk) SetKpiSetting(v bool) *AppCommissionSettingUpsertBulk {
+	return u.Update(func(s *AppCommissionSettingUpsert) {
+		s.SetKpiSetting(v)
+	})
+}
+
+// UpdateKpiSetting sets the "kpi_setting" field to the value that was provided on create.
+func (u *AppCommissionSettingUpsertBulk) UpdateKpiSetting() *AppCommissionSettingUpsertBulk {
+	return u.Update(func(s *AppCommissionSettingUpsert) {
+		s.UpdateKpiSetting()
 	})
 }
 

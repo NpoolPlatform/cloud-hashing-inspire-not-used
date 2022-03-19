@@ -126,6 +126,13 @@ func UniqueSetting(v bool) predicate.AppCommissionSetting {
 	})
 }
 
+// KpiSetting applies equality check predicate on the "kpi_setting" field. It's identical to KpiSettingEQ.
+func KpiSetting(v bool) predicate.AppCommissionSetting {
+	return predicate.AppCommissionSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldKpiSetting), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.AppCommissionSetting {
 	return predicate.AppCommissionSetting(func(s *sql.Selector) {
@@ -435,6 +442,20 @@ func UniqueSettingEQ(v bool) predicate.AppCommissionSetting {
 func UniqueSettingNEQ(v bool) predicate.AppCommissionSetting {
 	return predicate.AppCommissionSetting(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldUniqueSetting), v))
+	})
+}
+
+// KpiSettingEQ applies the EQ predicate on the "kpi_setting" field.
+func KpiSettingEQ(v bool) predicate.AppCommissionSetting {
+	return predicate.AppCommissionSetting(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldKpiSetting), v))
+	})
+}
+
+// KpiSettingNEQ applies the NEQ predicate on the "kpi_setting" field.
+func KpiSettingNEQ(v bool) predicate.AppCommissionSetting {
+	return predicate.AppCommissionSetting(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldKpiSetting), v))
 	})
 }
 

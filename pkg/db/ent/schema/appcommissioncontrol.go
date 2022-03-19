@@ -23,6 +23,7 @@ func (AppCommissionSetting) Fields() []ent.Field {
 		field.Uint32("level"),
 		field.Bool("invitation_discount"),
 		field.Bool("unique_setting"),
+		field.Bool("kpi_setting"),
 		field.Uint32("create_at").
 			DefaultFunc(func() uint32 {
 				return uint32(time.Now().Unix())

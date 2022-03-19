@@ -65,6 +65,12 @@ func (acsu *AppCommissionSettingUpdate) SetUniqueSetting(b bool) *AppCommissionS
 	return acsu
 }
 
+// SetKpiSetting sets the "kpi_setting" field.
+func (acsu *AppCommissionSettingUpdate) SetKpiSetting(b bool) *AppCommissionSettingUpdate {
+	acsu.mutation.SetKpiSetting(b)
+	return acsu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (acsu *AppCommissionSettingUpdate) SetCreateAt(u uint32) *AppCommissionSettingUpdate {
 	acsu.mutation.ResetCreateAt()
@@ -248,6 +254,13 @@ func (acsu *AppCommissionSettingUpdate) sqlSave(ctx context.Context) (n int, err
 			Column: appcommissionsetting.FieldUniqueSetting,
 		})
 	}
+	if value, ok := acsu.mutation.KpiSetting(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: appcommissionsetting.FieldKpiSetting,
+		})
+	}
 	if value, ok := acsu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -343,6 +356,12 @@ func (acsuo *AppCommissionSettingUpdateOne) SetInvitationDiscount(b bool) *AppCo
 // SetUniqueSetting sets the "unique_setting" field.
 func (acsuo *AppCommissionSettingUpdateOne) SetUniqueSetting(b bool) *AppCommissionSettingUpdateOne {
 	acsuo.mutation.SetUniqueSetting(b)
+	return acsuo
+}
+
+// SetKpiSetting sets the "kpi_setting" field.
+func (acsuo *AppCommissionSettingUpdateOne) SetKpiSetting(b bool) *AppCommissionSettingUpdateOne {
+	acsuo.mutation.SetKpiSetting(b)
 	return acsuo
 }
 
@@ -551,6 +570,13 @@ func (acsuo *AppCommissionSettingUpdateOne) sqlSave(ctx context.Context) (_node 
 			Type:   field.TypeBool,
 			Value:  value,
 			Column: appcommissionsetting.FieldUniqueSetting,
+		})
+	}
+	if value, ok := acsuo.mutation.KpiSetting(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: appcommissionsetting.FieldKpiSetting,
 		})
 	}
 	if value, ok := acsuo.mutation.CreateAt(); ok {
