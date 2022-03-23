@@ -112,20 +112,21 @@ func Get(ctx context.Context, in *npool.GetDiscountPoolRequest) (*npool.GetDisco
 		DiscountPool.
 		Query().
 		Where(
-			discountpool.And(
-				discountpool.ID(id),
-			),
+			discountpool.ID(id),
 		).
 		All(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail query discount pool: %v", err)
 	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty discount pool")
+
+	var discount *npool.DiscountPool
+	for _, info := range infos {
+		discount = dbRowToDiscountPool(info)
+		break
 	}
 
 	return &npool.GetDiscountPoolResponse{
-		Info: dbRowToDiscountPool(infos[0]),
+		Info: discount,
 	}, nil
 }
 
@@ -144,16 +145,11 @@ func GetByApp(ctx context.Context, in *npool.GetDiscountPoolsByAppRequest) (*npo
 		DiscountPool.
 		Query().
 		Where(
-			discountpool.And(
-				discountpool.AppID(appID),
-			),
+			discountpool.AppID(appID),
 		).
 		All(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail query discount pool: %v", err)
-	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty discount pool")
 	}
 
 	coupons := []*npool.DiscountPool{}
@@ -194,9 +190,6 @@ func GetByAppReleaser(ctx context.Context, in *npool.GetDiscountPoolsByAppReleas
 		All(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail query discount pool: %v", err)
-	}
-	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty discount pool")
 	}
 
 	coupons := []*npool.DiscountPool{}
