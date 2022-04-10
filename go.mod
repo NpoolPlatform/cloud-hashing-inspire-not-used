@@ -8,6 +8,7 @@ require (
 	github.com/NpoolPlatform/api-manager v0.0.0-20220205130236-69d286e72dba
 	github.com/NpoolPlatform/go-service-framework v0.0.0-20220120091626-4e8035637592
 	github.com/NpoolPlatform/message v0.0.0-20220318171140-8a652f948b4a
+	github.com/dtm-labs/dtmcli v1.13.0
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/google/uuid v1.3.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.8.0
