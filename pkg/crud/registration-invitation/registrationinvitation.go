@@ -2,6 +2,7 @@ package registrationinvitation
 
 import (
 	"context"
+	"time"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
@@ -75,12 +76,13 @@ func CreateRevert(ctx context.Context, in *npool.CreateRegistrationInvitationReq
 
 	_, err = cli.
 		RegistrationInvitation.
-		Delete().
+		Update().
+		SetDeleteAt(uint32(time.Now().Unix())).
 		Where(
 			registrationinvitation.AppID(uuid.MustParse(in.GetInfo().GetAppID())),
 			registrationinvitation.InviterID(uuid.MustParse(in.GetInfo().GetInviterID())),
 			registrationinvitation.InviteeID(uuid.MustParse(in.GetInfo().GetInviteeID())),
-		).Exec(ctx)
+		).Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create registration invitation: %v", err)
 	}
