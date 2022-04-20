@@ -112,7 +112,9 @@ func (riu *RegistrationInvitationUpdate) Save(ctx context.Context) (int, error) 
 		err      error
 		affected int
 	)
-	riu.defaults()
+	if err := riu.defaults(); err != nil {
+		return 0, err
+	}
 	if len(riu.hooks) == 0 {
 		affected, err = riu.sqlSave(ctx)
 	} else {
@@ -162,11 +164,15 @@ func (riu *RegistrationInvitationUpdate) ExecX(ctx context.Context) {
 }
 
 // defaults sets the default values of the builder before save.
-func (riu *RegistrationInvitationUpdate) defaults() {
+func (riu *RegistrationInvitationUpdate) defaults() error {
 	if _, ok := riu.mutation.UpdateAt(); !ok {
+		if registrationinvitation.UpdateDefaultUpdateAt == nil {
+			return fmt.Errorf("ent: uninitialized registrationinvitation.UpdateDefaultUpdateAt (forgotten import ent/runtime?)")
+		}
 		v := registrationinvitation.UpdateDefaultUpdateAt()
 		riu.mutation.SetUpdateAt(v)
 	}
+	return nil
 }
 
 func (riu *RegistrationInvitationUpdate) sqlSave(ctx context.Context) (n int, err error) {
@@ -360,7 +366,9 @@ func (riuo *RegistrationInvitationUpdateOne) Save(ctx context.Context) (*Registr
 		err  error
 		node *RegistrationInvitation
 	)
-	riuo.defaults()
+	if err := riuo.defaults(); err != nil {
+		return nil, err
+	}
 	if len(riuo.hooks) == 0 {
 		node, err = riuo.sqlSave(ctx)
 	} else {
@@ -410,11 +418,15 @@ func (riuo *RegistrationInvitationUpdateOne) ExecX(ctx context.Context) {
 }
 
 // defaults sets the default values of the builder before save.
-func (riuo *RegistrationInvitationUpdateOne) defaults() {
+func (riuo *RegistrationInvitationUpdateOne) defaults() error {
 	if _, ok := riuo.mutation.UpdateAt(); !ok {
+		if registrationinvitation.UpdateDefaultUpdateAt == nil {
+			return fmt.Errorf("ent: uninitialized registrationinvitation.UpdateDefaultUpdateAt (forgotten import ent/runtime?)")
+		}
 		v := registrationinvitation.UpdateDefaultUpdateAt()
 		riuo.mutation.SetUpdateAt(v)
 	}
+	return nil
 }
 
 func (riuo *RegistrationInvitationUpdateOne) sqlSave(ctx context.Context) (_node *RegistrationInvitation, err error) {
