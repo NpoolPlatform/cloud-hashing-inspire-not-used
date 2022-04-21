@@ -74,7 +74,7 @@ func CreateRevert(ctx context.Context, in *npool.CreateRegistrationInvitationReq
 		return nil, xerrors.Errorf("fail get db client: %v", err)
 	}
 
-	_, err = cli.
+	err = cli.
 		RegistrationInvitation.
 		Update().
 		SetDeleteAt(uint32(time.Now().Unix())).
@@ -82,7 +82,7 @@ func CreateRevert(ctx context.Context, in *npool.CreateRegistrationInvitationReq
 			registrationinvitation.AppID(uuid.MustParse(in.GetInfo().GetAppID())),
 			registrationinvitation.InviterID(uuid.MustParse(in.GetInfo().GetInviterID())),
 			registrationinvitation.InviteeID(uuid.MustParse(in.GetInfo().GetInviteeID())),
-		).Save(ctx)
+		).Exec(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create registration invitation: %v", err)
 	}
