@@ -22,6 +22,22 @@ func (s *Server) CreateCouponAllocated(ctx context.Context, in *npool.CreateCoup
 	return resp, nil
 }
 
+func (s *Server) CreateCouponAllocatedForAppOtherUser(ctx context.Context, in *npool.CreateCouponAllocatedForAppOtherUserRequest) (*npool.CreateCouponAllocatedForAppOtherUserResponse, error) {
+	info := in.GetInfo()
+	info.UserID = in.GetTargetUserID()
+
+	resp, err := crud.Create(ctx, &npool.CreateCouponAllocatedRequest{
+		Info: info,
+	})
+	if err != nil {
+		logger.Sugar().Errorw("create coupon allocated error: %w", err)
+		return &npool.CreateCouponAllocatedForAppOtherUserResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return &npool.CreateCouponAllocatedForAppOtherUserResponse{
+		Info: resp.Info,
+	}, nil
+}
+
 func (s *Server) CreateCouponAllocatedForOtherAppUser(ctx context.Context, in *npool.CreateCouponAllocatedForOtherAppUserRequest) (*npool.CreateCouponAllocatedForOtherAppUserResponse, error) {
 	info := in.GetInfo()
 	info.AppID = in.GetTargetAppID()
