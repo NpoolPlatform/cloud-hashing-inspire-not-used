@@ -1,3 +1,4 @@
+//go:build !codeanalysis
 // +build !codeanalysis
 
 package api
@@ -21,6 +22,22 @@ func (s *Server) CreateUserSpecialReduction(ctx context.Context, in *npool.Creat
 		return &npool.CreateUserSpecialReductionResponse{}, status.Error(codes.Internal, "internal server error")
 	}
 	return resp, nil
+}
+
+func (s *Server) CreateUserSpecialReductionForAppOtherUser(ctx context.Context, in *npool.CreateUserSpecialReductionForAppOtherUserRequest) (*npool.CreateUserSpecialReductionForAppOtherUserResponse, error) {
+	info := in.GetInfo()
+	info.UserID = in.GetTargetUserID()
+
+	resp, err := crud.Create(ctx, &npool.CreateUserSpecialReductionRequest{
+		Info: info,
+	})
+	if err != nil {
+		logger.Sugar().Errorw("create coupon pool error: %w", err)
+		return &npool.CreateUserSpecialReductionForAppOtherUserResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return &npool.CreateUserSpecialReductionForAppOtherUserResponse{
+		Info: resp.Info,
+	}, nil
 }
 
 func (s *Server) CreateUserSpecialReductionForOtherAppUser(ctx context.Context, in *npool.CreateUserSpecialReductionForOtherAppUserRequest) (*npool.CreateUserSpecialReductionForOtherAppUserResponse, error) {
