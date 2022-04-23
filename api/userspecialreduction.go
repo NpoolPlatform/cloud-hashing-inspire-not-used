@@ -17,8 +17,8 @@ import (
 func (s *Server) CreateUserSpecialReduction(ctx context.Context, in *npool.CreateUserSpecialReductionRequest) (*npool.CreateUserSpecialReductionResponse, error) {
 	resp, err := crud.Create(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("create coupon pool error: %w", err)
-		return &npool.CreateUserSpecialReductionResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("create coupon pool error: %v", err)
+		return &npool.CreateUserSpecialReductionResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -31,8 +31,8 @@ func (s *Server) CreateUserSpecialReductionForAppOtherUser(ctx context.Context, 
 		Info: info,
 	})
 	if err != nil {
-		logger.Sugar().Errorw("create coupon pool error: %w", err)
-		return &npool.CreateUserSpecialReductionForAppOtherUserResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("create coupon pool error: %v", err)
+		return &npool.CreateUserSpecialReductionForAppOtherUserResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return &npool.CreateUserSpecialReductionForAppOtherUserResponse{
 		Info: resp.Info,
@@ -48,8 +48,8 @@ func (s *Server) CreateUserSpecialReductionForOtherAppUser(ctx context.Context, 
 		Info: info,
 	})
 	if err != nil {
-		logger.Sugar().Errorw("create coupon pool error: %w", err)
-		return &npool.CreateUserSpecialReductionForOtherAppUserResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("create coupon pool error: %v", err)
+		return &npool.CreateUserSpecialReductionForOtherAppUserResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return &npool.CreateUserSpecialReductionForOtherAppUserResponse{
 		Info: resp.Info,
@@ -59,8 +59,8 @@ func (s *Server) CreateUserSpecialReductionForOtherAppUser(ctx context.Context, 
 func (s *Server) UpdateUserSpecialReduction(ctx context.Context, in *npool.UpdateUserSpecialReductionRequest) (*npool.UpdateUserSpecialReductionResponse, error) {
 	resp, err := crud.Update(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("update coupon pool error: %w", err)
-		return &npool.UpdateUserSpecialReductionResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("update coupon pool error: %v", err)
+		return &npool.UpdateUserSpecialReductionResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -68,8 +68,8 @@ func (s *Server) UpdateUserSpecialReduction(ctx context.Context, in *npool.Updat
 func (s *Server) GetUserSpecialReduction(ctx context.Context, in *npool.GetUserSpecialReductionRequest) (*npool.GetUserSpecialReductionResponse, error) {
 	resp, err := crud.Get(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("get coupon pool error: %w", err)
-		return &npool.GetUserSpecialReductionResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("get coupon pool error: %v", err)
+		return &npool.GetUserSpecialReductionResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -77,8 +77,8 @@ func (s *Server) GetUserSpecialReduction(ctx context.Context, in *npool.GetUserS
 func (s *Server) GetUserSpecialReductionsByApp(ctx context.Context, in *npool.GetUserSpecialReductionsByAppRequest) (*npool.GetUserSpecialReductionsByAppResponse, error) {
 	resp, err := crud.GetByApp(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("get coupon pool by app error: %w", err)
-		return &npool.GetUserSpecialReductionsByAppResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("get coupon pool by app error: %v", err)
+		return &npool.GetUserSpecialReductionsByAppResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -88,8 +88,8 @@ func (s *Server) GetUserSpecialReductionsByOtherApp(ctx context.Context, in *npo
 		AppID: in.GetTargetAppID(),
 	})
 	if err != nil {
-		logger.Sugar().Errorw("get coupon pool by app error: %w", err)
-		return &npool.GetUserSpecialReductionsByOtherAppResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("get coupon pool by app error: %v", err)
+		return &npool.GetUserSpecialReductionsByOtherAppResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return &npool.GetUserSpecialReductionsByOtherAppResponse{
 		Infos: resp.Infos,
@@ -99,8 +99,8 @@ func (s *Server) GetUserSpecialReductionsByOtherApp(ctx context.Context, in *npo
 func (s *Server) GetUserSpecialReductionsByAppReleaser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppReleaserRequest) (*npool.GetUserSpecialReductionsByAppReleaserResponse, error) {
 	resp, err := crud.GetByAppReleaser(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("get coupon pool by app releaser error: %w", err)
-		return &npool.GetUserSpecialReductionsByAppReleaserResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("get coupon pool by app releaser error: %v", err)
+		return &npool.GetUserSpecialReductionsByAppReleaserResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
@@ -108,8 +108,8 @@ func (s *Server) GetUserSpecialReductionsByAppReleaser(ctx context.Context, in *
 func (s *Server) GetUserSpecialReductionsByAppUser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppUserRequest) (*npool.GetUserSpecialReductionsByAppUserResponse, error) {
 	resp, err := crud.GetByAppUser(ctx, in)
 	if err != nil {
-		logger.Sugar().Errorw("get coupon pool by app user error: %w", err)
-		return &npool.GetUserSpecialReductionsByAppUserResponse{}, status.Error(codes.Internal, "internal server error")
+		logger.Sugar().Errorw("get coupon pool by app user error: %v", err)
+		return &npool.GetUserSpecialReductionsByAppUserResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
 }
