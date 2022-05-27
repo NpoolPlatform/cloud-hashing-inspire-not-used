@@ -22,10 +22,3 @@ const (
 	CreateRegistrationInvitation       = "CreateRegistrationInvitation"
 	CreateRegistrationInvitationRevert = "CreateRegistrationInvitationRevert"
 )
-
-var DTMEntry = map[string]*DTMAction{
-	CreateRegistrationInvitation: &DTMAction{ //nolint
-		Action: CreateRegistrationInvitation,
-		Revert: CreateRegistrationInvitationRevert,
-	},
-}
