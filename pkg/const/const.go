@@ -1,5 +1,10 @@
 package constant
 
+type DTMAction struct {
+	Action string
+	Revert string
+}
+
 const (
 	CouponTypeCoupon   = "coupon"
 	CouponTypeDiscount = "discount"
@@ -13,4 +18,7 @@ const (
 	EventSingleAmount            = "single-amount"
 
 	CommissionByAmount = "commission-by-amount"
+
+	CreateRegistrationInvitation       = "CreateRegistrationInvitation"
+	CreateRegistrationInvitationRevert = "CreateRegistrationInvitationRevert"
 )

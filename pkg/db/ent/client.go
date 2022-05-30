@@ -1298,7 +1298,8 @@ func (c *RegistrationInvitationClient) GetX(ctx context.Context, id uuid.UUID) *
 
 // Hooks returns the client hooks.
 func (c *RegistrationInvitationClient) Hooks() []Hook {
-	return c.hooks.RegistrationInvitation
+	hooks := c.hooks.RegistrationInvitation
+	return append(hooks[:len(hooks):len(hooks)], registrationinvitation.Hooks[:]...)
 }
 
 // UserInvitationCodeClient is a client for the UserInvitationCode schema.

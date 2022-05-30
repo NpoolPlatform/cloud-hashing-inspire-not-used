@@ -108,7 +108,9 @@ func (ric *RegistrationInvitationCreate) Save(ctx context.Context) (*Registratio
 		err  error
 		node *RegistrationInvitation
 	)
-	ric.defaults()
+	if err := ric.defaults(); err != nil {
+		return nil, err
+	}
 	if len(ric.hooks) == 0 {
 		if err = ric.check(); err != nil {
 			return nil, err
@@ -167,23 +169,36 @@ func (ric *RegistrationInvitationCreate) ExecX(ctx context.Context) {
 }
 
 // defaults sets the default values of the builder before save.
-func (ric *RegistrationInvitationCreate) defaults() {
+func (ric *RegistrationInvitationCreate) defaults() error {
 	if _, ok := ric.mutation.CreateAt(); !ok {
+		if registrationinvitation.DefaultCreateAt == nil {
+			return fmt.Errorf("ent: uninitialized registrationinvitation.DefaultCreateAt (forgotten import ent/runtime?)")
+		}
 		v := registrationinvitation.DefaultCreateAt()
 		ric.mutation.SetCreateAt(v)
 	}
 	if _, ok := ric.mutation.UpdateAt(); !ok {
+		if registrationinvitation.DefaultUpdateAt == nil {
+			return fmt.Errorf("ent: uninitialized registrationinvitation.DefaultUpdateAt (forgotten import ent/runtime?)")
+		}
 		v := registrationinvitation.DefaultUpdateAt()
 		ric.mutation.SetUpdateAt(v)
 	}
 	if _, ok := ric.mutation.DeleteAt(); !ok {
+		if registrationinvitation.DefaultDeleteAt == nil {
+			return fmt.Errorf("ent: uninitialized registrationinvitation.DefaultDeleteAt (forgotten import ent/runtime?)")
+		}
 		v := registrationinvitation.DefaultDeleteAt()
 		ric.mutation.SetDeleteAt(v)
 	}
 	if _, ok := ric.mutation.ID(); !ok {
+		if registrationinvitation.DefaultID == nil {
+			return fmt.Errorf("ent: uninitialized registrationinvitation.DefaultID (forgotten import ent/runtime?)")
+		}
 		v := registrationinvitation.DefaultID()
 		ric.mutation.SetID(v)
 	}
+	return nil
 }
 
 // check runs all checks and user-defined validators on the builder.

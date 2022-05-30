@@ -1,9 +1,11 @@
+//go:build !codeanalysis
 // +build !codeanalysis
 
 package api
 
 import (
 	"context"
+	"github.com/dtm-labs/dtmcli"
 
 	crud "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/registration-invitation" //nolint
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
@@ -16,6 +18,15 @@ import (
 
 func (s *Server) CreateRegistrationInvitation(ctx context.Context, in *npool.CreateRegistrationInvitationRequest) (*npool.CreateRegistrationInvitationResponse, error) {
 	resp, err := crud.Create(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorw("create registration invitation error: %w", err)
+		return &npool.CreateRegistrationInvitationResponse{}, status.New(codes.Aborted, dtmcli.ResultFailure).Err()
+	}
+	return resp, nil
+}
+
+func (s *Server) CreateRegistrationInvitationRevert(ctx context.Context, in *npool.CreateRegistrationInvitationRequest) (*npool.CreateRegistrationInvitationResponse, error) {
+	resp, err := crud.CreateRevert(ctx, in)
 	if err != nil {
 		logger.Sugar().Errorw("create registration invitation error: %w", err)
 		return &npool.CreateRegistrationInvitationResponse{}, status.Error(codes.Internal, "internal server error")

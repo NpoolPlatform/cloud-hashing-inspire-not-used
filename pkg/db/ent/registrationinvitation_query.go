@@ -307,6 +307,12 @@ func (riq *RegistrationInvitationQuery) prepareQuery(ctx context.Context) error 
 		}
 		riq.sql = prev
 	}
+	if registrationinvitation.Policy == nil {
+		return errors.New("ent: uninitialized registrationinvitation.Policy (forgotten import ent/runtime?)")
+	}
+	if err := registrationinvitation.Policy.EvalQuery(ctx, riq); err != nil {
+		return err
+	}
 	return nil
 }
 

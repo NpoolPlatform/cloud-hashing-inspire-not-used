@@ -2,6 +2,7 @@ package registrationinvitation
 
 import (
 	"context"
+	"time"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
@@ -61,6 +62,32 @@ func Create(ctx context.Context, in *npool.CreateRegistrationInvitationRequest) 
 	return &npool.CreateRegistrationInvitationResponse{
 		Info: dbRowToRegistrationInvitation(info),
 	}, nil
+}
+
+func CreateRevert(ctx context.Context, in *npool.CreateRegistrationInvitationRequest) (*npool.CreateRegistrationInvitationResponse, error) {
+	if err := validateRegistrationInvitation(in.GetInfo()); err != nil {
+		return nil, xerrors.Errorf("invalid parameter: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	err = cli.
+		RegistrationInvitation.
+		Update().
+		SetDeleteAt(uint32(time.Now().Unix())).
+		Where(
+			registrationinvitation.AppID(uuid.MustParse(in.GetInfo().GetAppID())),
+			registrationinvitation.InviterID(uuid.MustParse(in.GetInfo().GetInviterID())),
+			registrationinvitation.InviteeID(uuid.MustParse(in.GetInfo().GetInviteeID())),
+		).Exec(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail create registration invitation: %v", err)
+	}
+
+	return &npool.CreateRegistrationInvitationResponse{}, nil
 }
 
 func Update(ctx context.Context, in *npool.UpdateRegistrationInvitationRequest) (*npool.UpdateRegistrationInvitationResponse, error) {
