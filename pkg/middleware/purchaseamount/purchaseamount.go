@@ -50,7 +50,7 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 
 	info := in.GetInfo()
 
-	if !found {
+	if found {
 		info.Start = start
 	}
 	info.End = 0
