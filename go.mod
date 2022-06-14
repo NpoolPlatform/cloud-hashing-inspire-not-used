@@ -7,7 +7,7 @@ require (
 	github.com/AmirSoleimani/VoucherCodeGenerator v0.0.0-20201014193813-0206853dccb9
 	github.com/NpoolPlatform/api-manager v0.0.0-20220421114434-bf0e069b0c83
 	github.com/NpoolPlatform/go-service-framework v0.0.0-20220120091626-4e8035637592
-	github.com/NpoolPlatform/message v0.0.0-20220530011435-281c2b6aedd4
+	github.com/NpoolPlatform/message v0.0.0-20220614033021-bc9a652190ed
 	github.com/dtm-labs/dtmcli v1.13.0
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/google/uuid v1.3.0
@@ -16,7 +16,7 @@ require (
 	github.com/stretchr/testify v1.7.1-0.20210427113832-6241f9ab9942
 	github.com/urfave/cli/v2 v2.3.0
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
-	google.golang.org/grpc v1.45.0
+	google.golang.org/grpc v1.46.2
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0
 	google.golang.org/protobuf v1.27.1
 )
@@ -98,7 +98,7 @@ require (
 	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
+	golang.org/x/sys v0.0.0-20220114195835-da31bd327af9 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20220302033224-9aa15565e42a // indirect
 	gopkg.in/ini.v1 v1.66.2 // indirect
@@ -109,5 +109,3 @@ require (
 )
 
 replace google.golang.org/grpc => github.com/grpc/grpc-go v1.41.0
-
-replace github.com/NpoolPlatform/message => github.com/NpoolPlatform/message v0.0.0-20220422062110-ee1c620b36f3

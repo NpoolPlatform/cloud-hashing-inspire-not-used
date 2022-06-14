@@ -61,6 +61,19 @@ func (s *Server) GetRegistrationInvitationsByApp(ctx context.Context, in *npool.
 	return resp, nil
 }
 
+func (s *Server) GetRegistrationInvitationsByOtherApp(ctx context.Context, in *npool.GetRegistrationInvitationsByOtherAppRequest) (*npool.GetRegistrationInvitationsByOtherAppResponse, error) {
+	resp, err := crud.GetByApp(ctx, &npool.GetRegistrationInvitationsByAppRequest{
+		AppID: in.GetTargetAppID(),
+	})
+	if err != nil {
+		logger.Sugar().Errorw("get registration invitations by app error: %w", err)
+		return &npool.GetRegistrationInvitationsByOtherAppResponse{}, status.Error(codes.Internal, "internal server error")
+	}
+	return &npool.GetRegistrationInvitationsByOtherAppResponse{
+		Infos: resp.Infos,
+	}, nil
+}
+
 func (s *Server) GetRegistrationInvitationsByAppInviter(ctx context.Context, in *npool.GetRegistrationInvitationsByAppInviterRequest) (*npool.GetRegistrationInvitationsByAppInviterResponse, error) {
 	resp, err := crud.GetByAppInviter(ctx, in)
 	if err != nil {
