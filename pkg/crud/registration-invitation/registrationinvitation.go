@@ -108,6 +108,7 @@ func Update(ctx context.Context, in *npool.UpdateRegistrationInvitationRequest) 
 	info, err := cli.
 		RegistrationInvitation.
 		UpdateOneID(id).
+		SetInviterID(uuid.MustParse(in.GetInfo().GetInviterID())).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail update registration invitation: %v", err)
