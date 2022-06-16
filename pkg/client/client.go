@@ -41,3 +41,19 @@ func CreateInvitationCode(ctx context.Context, in *npool.UserInvitationCode) (*n
 	}
 	return info.(*npool.UserInvitationCode), nil
 }
+
+func CreateAmountSetting(ctx context.Context, in *npool.AppPurchaseAmountSetting) (*npool.AppPurchaseAmountSetting, error) {
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingInspireClient) (cruder.Any, error) {
+		resp, err := cli.CreateAppPurchaseAmountSetting(ctx, &npool.CreateAppPurchaseAmountSettingRequest{
+			Info: in,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail create amount setting: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail create amount setting: %v", err)
+	}
+	return info.(*npool.AppPurchaseAmountSetting), nil
+}
