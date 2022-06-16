@@ -27,6 +27,7 @@ func dbRowToAppPurchaseAmountSetting(row *ent.AppPurchaseAmountSetting) *npool.A
 	return &npool.AppPurchaseAmountSetting{
 		ID:         row.ID.String(),
 		AppID:      row.AppID.String(),
+		GoodID:     row.GoodID.String(),
 		UserID:     row.UserID.String(),
 		Amount:     price.DBPriceToVisualPrice(row.Amount),
 		Percent:    row.Percent,
@@ -53,11 +54,17 @@ func Create(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingRequest
 		userID = uuid.UUID{}
 	}
 
+	goodID, err := uuid.Parse(in.GetInfo().GetGoodID())
+	if err != nil {
+		goodID = uuid.UUID{}
+	}
+
 	info, err := cli.
 		AppPurchaseAmountSetting.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
 		SetUserID(userID).
+		SetGoodID(goodID).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetPercent(in.GetInfo().GetPercent()).
 		SetTitle(in.GetInfo().GetTitle()).

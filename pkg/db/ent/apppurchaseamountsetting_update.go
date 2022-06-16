@@ -40,6 +40,12 @@ func (apasu *AppPurchaseAmountSettingUpdate) SetUserID(u uuid.UUID) *AppPurchase
 	return apasu
 }
 
+// SetGoodID sets the "good_id" field.
+func (apasu *AppPurchaseAmountSettingUpdate) SetGoodID(u uuid.UUID) *AppPurchaseAmountSettingUpdate {
+	apasu.mutation.SetGoodID(u)
+	return apasu
+}
+
 // SetTitle sets the "title" field.
 func (apasu *AppPurchaseAmountSettingUpdate) SetTitle(s string) *AppPurchaseAmountSettingUpdate {
 	apasu.mutation.SetTitle(s)
@@ -265,6 +271,13 @@ func (apasu *AppPurchaseAmountSettingUpdate) sqlSave(ctx context.Context) (n int
 			Column: apppurchaseamountsetting.FieldUserID,
 		})
 	}
+	if value, ok := apasu.mutation.GoodID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldGoodID,
+		})
+	}
 	if value, ok := apasu.mutation.Title(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -412,6 +425,12 @@ func (apasuo *AppPurchaseAmountSettingUpdateOne) SetAppID(u uuid.UUID) *AppPurch
 // SetUserID sets the "user_id" field.
 func (apasuo *AppPurchaseAmountSettingUpdateOne) SetUserID(u uuid.UUID) *AppPurchaseAmountSettingUpdateOne {
 	apasuo.mutation.SetUserID(u)
+	return apasuo
+}
+
+// SetGoodID sets the "good_id" field.
+func (apasuo *AppPurchaseAmountSettingUpdateOne) SetGoodID(u uuid.UUID) *AppPurchaseAmountSettingUpdateOne {
+	apasuo.mutation.SetGoodID(u)
 	return apasuo
 }
 
@@ -662,6 +681,13 @@ func (apasuo *AppPurchaseAmountSettingUpdateOne) sqlSave(ctx context.Context) (_
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: apppurchaseamountsetting.FieldUserID,
+		})
+	}
+	if value, ok := apasuo.mutation.GoodID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldGoodID,
 		})
 	}
 	if value, ok := apasuo.mutation.Title(); ok {

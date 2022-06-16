@@ -35,6 +35,12 @@ func (apasc *AppPurchaseAmountSettingCreate) SetUserID(u uuid.UUID) *AppPurchase
 	return apasc
 }
 
+// SetGoodID sets the "good_id" field.
+func (apasc *AppPurchaseAmountSettingCreate) SetGoodID(u uuid.UUID) *AppPurchaseAmountSettingCreate {
+	apasc.mutation.SetGoodID(u)
+	return apasc
+}
+
 // SetTitle sets the "title" field.
 func (apasc *AppPurchaseAmountSettingCreate) SetTitle(s string) *AppPurchaseAmountSettingCreate {
 	apasc.mutation.SetTitle(s)
@@ -230,6 +236,9 @@ func (apasc *AppPurchaseAmountSettingCreate) check() error {
 	if _, ok := apasc.mutation.UserID(); !ok {
 		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.user_id"`)}
 	}
+	if _, ok := apasc.mutation.GoodID(); !ok {
+		return &ValidationError{Name: "good_id", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.good_id"`)}
+	}
 	if _, ok := apasc.mutation.Title(); !ok {
 		return &ValidationError{Name: "title", err: errors.New(`ent: missing required field "AppPurchaseAmountSetting.title"`)}
 	}
@@ -312,6 +321,14 @@ func (apasc *AppPurchaseAmountSettingCreate) createSpec() (*AppPurchaseAmountSet
 			Column: apppurchaseamountsetting.FieldUserID,
 		})
 		_node.UserID = value
+	}
+	if value, ok := apasc.mutation.GoodID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldGoodID,
+		})
+		_node.GoodID = value
 	}
 	if value, ok := apasc.mutation.Title(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -468,6 +485,18 @@ func (u *AppPurchaseAmountSettingUpsert) SetUserID(v uuid.UUID) *AppPurchaseAmou
 // UpdateUserID sets the "user_id" field to the value that was provided on create.
 func (u *AppPurchaseAmountSettingUpsert) UpdateUserID() *AppPurchaseAmountSettingUpsert {
 	u.SetExcluded(apppurchaseamountsetting.FieldUserID)
+	return u
+}
+
+// SetGoodID sets the "good_id" field.
+func (u *AppPurchaseAmountSettingUpsert) SetGoodID(v uuid.UUID) *AppPurchaseAmountSettingUpsert {
+	u.Set(apppurchaseamountsetting.FieldGoodID, v)
+	return u
+}
+
+// UpdateGoodID sets the "good_id" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsert) UpdateGoodID() *AppPurchaseAmountSettingUpsert {
+	u.SetExcluded(apppurchaseamountsetting.FieldGoodID)
 	return u
 }
 
@@ -708,6 +737,20 @@ func (u *AppPurchaseAmountSettingUpsertOne) SetUserID(v uuid.UUID) *AppPurchaseA
 func (u *AppPurchaseAmountSettingUpsertOne) UpdateUserID() *AppPurchaseAmountSettingUpsertOne {
 	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
 		s.UpdateUserID()
+	})
+}
+
+// SetGoodID sets the "good_id" field.
+func (u *AppPurchaseAmountSettingUpsertOne) SetGoodID(v uuid.UUID) *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetGoodID(v)
+	})
+}
+
+// UpdateGoodID sets the "good_id" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertOne) UpdateGoodID() *AppPurchaseAmountSettingUpsertOne {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateGoodID()
 	})
 }
 
@@ -1141,6 +1184,20 @@ func (u *AppPurchaseAmountSettingUpsertBulk) SetUserID(v uuid.UUID) *AppPurchase
 func (u *AppPurchaseAmountSettingUpsertBulk) UpdateUserID() *AppPurchaseAmountSettingUpsertBulk {
 	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
 		s.UpdateUserID()
+	})
+}
+
+// SetGoodID sets the "good_id" field.
+func (u *AppPurchaseAmountSettingUpsertBulk) SetGoodID(v uuid.UUID) *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.SetGoodID(v)
+	})
+}
+
+// UpdateGoodID sets the "good_id" field to the value that was provided on create.
+func (u *AppPurchaseAmountSettingUpsertBulk) UpdateGoodID() *AppPurchaseAmountSettingUpsertBulk {
+	return u.Update(func(s *AppPurchaseAmountSettingUpsert) {
+		s.UpdateGoodID()
 	})
 }
 

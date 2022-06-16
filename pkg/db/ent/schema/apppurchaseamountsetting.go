@@ -20,6 +20,7 @@ func (AppPurchaseAmountSetting) Fields() []ent.Field {
 		field.UUID("id", uuid.UUID{}).Default(uuid.New).Unique(),
 		field.UUID("app_id", uuid.UUID{}),
 		field.UUID("user_id", uuid.UUID{}),
+		field.UUID("good_id", uuid.UUID{}),
 		field.String("title"),
 		field.Uint64("amount"),
 		field.Uint32("percent"),

@@ -20,6 +20,8 @@ type AppPurchaseAmountSetting struct {
 	AppID uuid.UUID `json:"app_id,omitempty"`
 	// UserID holds the value of the "user_id" field.
 	UserID uuid.UUID `json:"user_id,omitempty"`
+	// GoodID holds the value of the "good_id" field.
+	GoodID uuid.UUID `json:"good_id,omitempty"`
 	// Title holds the value of the "title" field.
 	Title string `json:"title,omitempty"`
 	// Amount holds the value of the "amount" field.
@@ -51,7 +53,7 @@ func (*AppPurchaseAmountSetting) scanValues(columns []string) ([]interface{}, er
 			values[i] = new(sql.NullInt64)
 		case apppurchaseamountsetting.FieldTitle, apppurchaseamountsetting.FieldBadgeLarge, apppurchaseamountsetting.FieldBadgeSmall:
 			values[i] = new(sql.NullString)
-		case apppurchaseamountsetting.FieldID, apppurchaseamountsetting.FieldAppID, apppurchaseamountsetting.FieldUserID:
+		case apppurchaseamountsetting.FieldID, apppurchaseamountsetting.FieldAppID, apppurchaseamountsetting.FieldUserID, apppurchaseamountsetting.FieldGoodID:
 			values[i] = new(uuid.UUID)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type AppPurchaseAmountSetting", columns[i])
@@ -85,6 +87,12 @@ func (apas *AppPurchaseAmountSetting) assignValues(columns []string, values []in
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value != nil {
 				apas.UserID = *value
+			}
+		case apppurchaseamountsetting.FieldGoodID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field good_id", values[i])
+			} else if value != nil {
+				apas.GoodID = *value
 			}
 		case apppurchaseamountsetting.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -178,6 +186,8 @@ func (apas *AppPurchaseAmountSetting) String() string {
 	builder.WriteString(fmt.Sprintf("%v", apas.AppID))
 	builder.WriteString(", user_id=")
 	builder.WriteString(fmt.Sprintf("%v", apas.UserID))
+	builder.WriteString(", good_id=")
+	builder.WriteString(fmt.Sprintf("%v", apas.GoodID))
 	builder.WriteString(", title=")
 	builder.WriteString(apas.Title)
 	builder.WriteString(", amount=")

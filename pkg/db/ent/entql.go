@@ -126,6 +126,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 		Fields: map[string]*sqlgraph.FieldSpec{
 			apppurchaseamountsetting.FieldAppID:      {Type: field.TypeUUID, Column: apppurchaseamountsetting.FieldAppID},
 			apppurchaseamountsetting.FieldUserID:     {Type: field.TypeUUID, Column: apppurchaseamountsetting.FieldUserID},
+			apppurchaseamountsetting.FieldGoodID:     {Type: field.TypeUUID, Column: apppurchaseamountsetting.FieldGoodID},
 			apppurchaseamountsetting.FieldTitle:      {Type: field.TypeString, Column: apppurchaseamountsetting.FieldTitle},
 			apppurchaseamountsetting.FieldAmount:     {Type: field.TypeUint64, Column: apppurchaseamountsetting.FieldAmount},
 			apppurchaseamountsetting.FieldPercent:    {Type: field.TypeUint32, Column: apppurchaseamountsetting.FieldPercent},
@@ -724,6 +725,11 @@ func (f *AppPurchaseAmountSettingFilter) WhereAppID(p entql.ValueP) {
 // WhereUserID applies the entql [16]byte predicate on the user_id field.
 func (f *AppPurchaseAmountSettingFilter) WhereUserID(p entql.ValueP) {
 	f.Where(p.Field(apppurchaseamountsetting.FieldUserID))
+}
+
+// WhereGoodID applies the entql [16]byte predicate on the good_id field.
+func (f *AppPurchaseAmountSettingFilter) WhereGoodID(p entql.ValueP) {
+	f.Where(p.Field(apppurchaseamountsetting.FieldGoodID))
 }
 
 // WhereTitle applies the entql string predicate on the title field.

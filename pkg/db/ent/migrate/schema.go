@@ -93,6 +93,7 @@ var (
 		{Name: "id", Type: field.TypeUUID, Unique: true},
 		{Name: "app_id", Type: field.TypeUUID},
 		{Name: "user_id", Type: field.TypeUUID},
+		{Name: "good_id", Type: field.TypeUUID},
 		{Name: "title", Type: field.TypeString},
 		{Name: "amount", Type: field.TypeUint64},
 		{Name: "percent", Type: field.TypeUint32},
