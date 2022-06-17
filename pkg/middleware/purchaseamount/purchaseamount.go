@@ -53,6 +53,9 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 	if found {
 		info.Start = start
 	}
+	if info.Start == 0 {
+		info.Start = start
+	}
 	info.End = 0
 
 	return appsetting.Create(ctx, &npool.CreateAppPurchaseAmountSettingRequest{
