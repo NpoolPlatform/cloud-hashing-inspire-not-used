@@ -22,7 +22,7 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 	found := false
 
 	for _, info := range resp.Infos {
-		if info.UserID != in.GetInfo().GetUserID() {
+		if info.UserID != in.GetInfo().GetUserID() || info.GoodID != in.GetInfo().GetGoodID() {
 			continue
 		}
 
