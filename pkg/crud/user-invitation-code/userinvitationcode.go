@@ -67,6 +67,7 @@ func dbRowToUserInvitationCode(row *ent.UserInvitationCode) *npool.UserInvitatio
 		UserID:         row.UserID.String(),
 		AppID:          row.AppID.String(),
 		InvitationCode: row.InvitationCode,
+		CreateAt:       row.CreateAt,
 	}
 }
 
