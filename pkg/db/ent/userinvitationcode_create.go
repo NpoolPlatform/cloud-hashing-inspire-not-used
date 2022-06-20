@@ -41,6 +41,20 @@ func (uicc *UserInvitationCodeCreate) SetInvitationCode(s string) *UserInvitatio
 	return uicc
 }
 
+// SetConfirmed sets the "confirmed" field.
+func (uicc *UserInvitationCodeCreate) SetConfirmed(b bool) *UserInvitationCodeCreate {
+	uicc.mutation.SetConfirmed(b)
+	return uicc
+}
+
+// SetNillableConfirmed sets the "confirmed" field if the given value is not nil.
+func (uicc *UserInvitationCodeCreate) SetNillableConfirmed(b *bool) *UserInvitationCodeCreate {
+	if b != nil {
+		uicc.SetConfirmed(*b)
+	}
+	return uicc
+}
+
 // SetCreateAt sets the "create_at" field.
 func (uicc *UserInvitationCodeCreate) SetCreateAt(u uint32) *UserInvitationCodeCreate {
 	uicc.mutation.SetCreateAt(u)
@@ -168,6 +182,10 @@ func (uicc *UserInvitationCodeCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (uicc *UserInvitationCodeCreate) defaults() {
+	if _, ok := uicc.mutation.Confirmed(); !ok {
+		v := userinvitationcode.DefaultConfirmed
+		uicc.mutation.SetConfirmed(v)
+	}
 	if _, ok := uicc.mutation.CreateAt(); !ok {
 		v := userinvitationcode.DefaultCreateAt()
 		uicc.mutation.SetCreateAt(v)
@@ -196,6 +214,9 @@ func (uicc *UserInvitationCodeCreate) check() error {
 	}
 	if _, ok := uicc.mutation.InvitationCode(); !ok {
 		return &ValidationError{Name: "invitation_code", err: errors.New(`ent: missing required field "UserInvitationCode.invitation_code"`)}
+	}
+	if _, ok := uicc.mutation.Confirmed(); !ok {
+		return &ValidationError{Name: "confirmed", err: errors.New(`ent: missing required field "UserInvitationCode.confirmed"`)}
 	}
 	if _, ok := uicc.mutation.CreateAt(); !ok {
 		return &ValidationError{Name: "create_at", err: errors.New(`ent: missing required field "UserInvitationCode.create_at"`)}
@@ -266,6 +287,14 @@ func (uicc *UserInvitationCodeCreate) createSpec() (*UserInvitationCode, *sqlgra
 			Column: userinvitationcode.FieldInvitationCode,
 		})
 		_node.InvitationCode = value
+	}
+	if value, ok := uicc.mutation.Confirmed(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: userinvitationcode.FieldConfirmed,
+		})
+		_node.Confirmed = value
 	}
 	if value, ok := uicc.mutation.CreateAt(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -378,6 +407,18 @@ func (u *UserInvitationCodeUpsert) SetInvitationCode(v string) *UserInvitationCo
 // UpdateInvitationCode sets the "invitation_code" field to the value that was provided on create.
 func (u *UserInvitationCodeUpsert) UpdateInvitationCode() *UserInvitationCodeUpsert {
 	u.SetExcluded(userinvitationcode.FieldInvitationCode)
+	return u
+}
+
+// SetConfirmed sets the "confirmed" field.
+func (u *UserInvitationCodeUpsert) SetConfirmed(v bool) *UserInvitationCodeUpsert {
+	u.Set(userinvitationcode.FieldConfirmed, v)
+	return u
+}
+
+// UpdateConfirmed sets the "confirmed" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsert) UpdateConfirmed() *UserInvitationCodeUpsert {
+	u.SetExcluded(userinvitationcode.FieldConfirmed)
 	return u
 }
 
@@ -524,6 +565,20 @@ func (u *UserInvitationCodeUpsertOne) SetInvitationCode(v string) *UserInvitatio
 func (u *UserInvitationCodeUpsertOne) UpdateInvitationCode() *UserInvitationCodeUpsertOne {
 	return u.Update(func(s *UserInvitationCodeUpsert) {
 		s.UpdateInvitationCode()
+	})
+}
+
+// SetConfirmed sets the "confirmed" field.
+func (u *UserInvitationCodeUpsertOne) SetConfirmed(v bool) *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetConfirmed(v)
+	})
+}
+
+// UpdateConfirmed sets the "confirmed" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertOne) UpdateConfirmed() *UserInvitationCodeUpsertOne {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateConfirmed()
 	})
 }
 
@@ -845,6 +900,20 @@ func (u *UserInvitationCodeUpsertBulk) SetInvitationCode(v string) *UserInvitati
 func (u *UserInvitationCodeUpsertBulk) UpdateInvitationCode() *UserInvitationCodeUpsertBulk {
 	return u.Update(func(s *UserInvitationCodeUpsert) {
 		s.UpdateInvitationCode()
+	})
+}
+
+// SetConfirmed sets the "confirmed" field.
+func (u *UserInvitationCodeUpsertBulk) SetConfirmed(v bool) *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.SetConfirmed(v)
+	})
+}
+
+// UpdateConfirmed sets the "confirmed" field to the value that was provided on create.
+func (u *UserInvitationCodeUpsertBulk) UpdateConfirmed() *UserInvitationCodeUpsertBulk {
+	return u.Update(func(s *UserInvitationCodeUpsert) {
+		s.UpdateConfirmed()
 	})
 }
 

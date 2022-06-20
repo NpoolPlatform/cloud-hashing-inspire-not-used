@@ -10591,6 +10591,7 @@ type UserInvitationCodeMutation struct {
 	user_id         *uuid.UUID
 	app_id          *uuid.UUID
 	invitation_code *string
+	confirmed       *bool
 	create_at       *uint32
 	addcreate_at    *int32
 	update_at       *uint32
@@ -10815,6 +10816,42 @@ func (m *UserInvitationCodeMutation) ResetInvitationCode() {
 	m.invitation_code = nil
 }
 
+// SetConfirmed sets the "confirmed" field.
+func (m *UserInvitationCodeMutation) SetConfirmed(b bool) {
+	m.confirmed = &b
+}
+
+// Confirmed returns the value of the "confirmed" field in the mutation.
+func (m *UserInvitationCodeMutation) Confirmed() (r bool, exists bool) {
+	v := m.confirmed
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldConfirmed returns the old "confirmed" field's value of the UserInvitationCode entity.
+// If the UserInvitationCode object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserInvitationCodeMutation) OldConfirmed(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldConfirmed is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldConfirmed requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldConfirmed: %w", err)
+	}
+	return oldValue.Confirmed, nil
+}
+
+// ResetConfirmed resets all changes to the "confirmed" field.
+func (m *UserInvitationCodeMutation) ResetConfirmed() {
+	m.confirmed = nil
+}
+
 // SetCreateAt sets the "create_at" field.
 func (m *UserInvitationCodeMutation) SetCreateAt(u uint32) {
 	m.create_at = &u
@@ -11002,7 +11039,7 @@ func (m *UserInvitationCodeMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserInvitationCodeMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 7)
 	if m.user_id != nil {
 		fields = append(fields, userinvitationcode.FieldUserID)
 	}
@@ -11011,6 +11048,9 @@ func (m *UserInvitationCodeMutation) Fields() []string {
 	}
 	if m.invitation_code != nil {
 		fields = append(fields, userinvitationcode.FieldInvitationCode)
+	}
+	if m.confirmed != nil {
+		fields = append(fields, userinvitationcode.FieldConfirmed)
 	}
 	if m.create_at != nil {
 		fields = append(fields, userinvitationcode.FieldCreateAt)
@@ -11035,6 +11075,8 @@ func (m *UserInvitationCodeMutation) Field(name string) (ent.Value, bool) {
 		return m.AppID()
 	case userinvitationcode.FieldInvitationCode:
 		return m.InvitationCode()
+	case userinvitationcode.FieldConfirmed:
+		return m.Confirmed()
 	case userinvitationcode.FieldCreateAt:
 		return m.CreateAt()
 	case userinvitationcode.FieldUpdateAt:
@@ -11056,6 +11098,8 @@ func (m *UserInvitationCodeMutation) OldField(ctx context.Context, name string) 
 		return m.OldAppID(ctx)
 	case userinvitationcode.FieldInvitationCode:
 		return m.OldInvitationCode(ctx)
+	case userinvitationcode.FieldConfirmed:
+		return m.OldConfirmed(ctx)
 	case userinvitationcode.FieldCreateAt:
 		return m.OldCreateAt(ctx)
 	case userinvitationcode.FieldUpdateAt:
@@ -11091,6 +11135,13 @@ func (m *UserInvitationCodeMutation) SetField(name string, value ent.Value) erro
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetInvitationCode(v)
+		return nil
+	case userinvitationcode.FieldConfirmed:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetConfirmed(v)
 		return nil
 	case userinvitationcode.FieldCreateAt:
 		v, ok := value.(uint32)
@@ -11209,6 +11260,9 @@ func (m *UserInvitationCodeMutation) ResetField(name string) error {
 		return nil
 	case userinvitationcode.FieldInvitationCode:
 		m.ResetInvitationCode()
+		return nil
+	case userinvitationcode.FieldConfirmed:
+		m.ResetConfirmed()
 		return nil
 	case userinvitationcode.FieldCreateAt:
 		m.ResetCreateAt()

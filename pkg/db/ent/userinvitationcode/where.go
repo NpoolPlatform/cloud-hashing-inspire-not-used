@@ -112,6 +112,13 @@ func InvitationCode(v string) predicate.UserInvitationCode {
 	})
 }
 
+// Confirmed applies equality check predicate on the "confirmed" field. It's identical to ConfirmedEQ.
+func Confirmed(v bool) predicate.UserInvitationCode {
+	return predicate.UserInvitationCode(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldConfirmed), v))
+	})
+}
+
 // CreateAt applies equality check predicate on the "create_at" field. It's identical to CreateAtEQ.
 func CreateAt(v uint32) predicate.UserInvitationCode {
 	return predicate.UserInvitationCode(func(s *sql.Selector) {
@@ -393,6 +400,20 @@ func InvitationCodeEqualFold(v string) predicate.UserInvitationCode {
 func InvitationCodeContainsFold(v string) predicate.UserInvitationCode {
 	return predicate.UserInvitationCode(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldInvitationCode), v))
+	})
+}
+
+// ConfirmedEQ applies the EQ predicate on the "confirmed" field.
+func ConfirmedEQ(v bool) predicate.UserInvitationCode {
+	return predicate.UserInvitationCode(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldConfirmed), v))
+	})
+}
+
+// ConfirmedNEQ applies the NEQ predicate on the "confirmed" field.
+func ConfirmedNEQ(v bool) predicate.UserInvitationCode {
+	return predicate.UserInvitationCode(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldConfirmed), v))
 	})
 }
 

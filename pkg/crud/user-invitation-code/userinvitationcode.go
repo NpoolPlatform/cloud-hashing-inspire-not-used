@@ -68,6 +68,7 @@ func dbRowToUserInvitationCode(row *ent.UserInvitationCode) *npool.UserInvitatio
 		AppID:          row.AppID.String(),
 		InvitationCode: row.InvitationCode,
 		CreateAt:       row.CreateAt,
+		Confirmed:      row.Confirmed,
 	}
 }
 
@@ -106,12 +107,38 @@ func Create(ctx context.Context, in *npool.CreateUserInvitationCodeRequest) (*np
 		SetUserID(uuid.MustParse(in.GetInfo().GetUserID())).
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
 		SetInvitationCode(code).
+		SetConfirmed(in.GetInfo().GetConfirmed()).
 		Save(ctx)
 	if err != nil {
 		return nil, xerrors.Errorf("fail create invitation code: %v", err)
 	}
 
 	return &npool.CreateUserInvitationCodeResponse{
+		Info: dbRowToUserInvitationCode(info),
+	}, nil
+}
+
+func Update(ctx context.Context, in *npool.UpdateUserInvitationCodeRequest) (*npool.UpdateUserInvitationCodeResponse, error) {
+	id, err := uuid.Parse(in.GetInfo().GetID())
+	if err != nil {
+		return nil, xerrors.Errorf("invalid id: %v", err)
+	}
+
+	cli, err := db.Client()
+	if err != nil {
+		return nil, xerrors.Errorf("fail get db client: %v", err)
+	}
+
+	info, err := cli.
+		UserInvitationCode.
+		UpdateOneID(id).
+		SetConfirmed(in.GetInfo().GetConfirmed()).
+		Save(ctx)
+	if err != nil {
+		return nil, xerrors.Errorf("fail update user invitation code: %v", err)
+	}
+
+	return &npool.UpdateUserInvitationCodeResponse{
 		Info: dbRowToUserInvitationCode(info),
 	}, nil
 }

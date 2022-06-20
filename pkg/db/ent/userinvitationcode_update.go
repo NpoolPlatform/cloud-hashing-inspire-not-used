@@ -46,6 +46,20 @@ func (uicu *UserInvitationCodeUpdate) SetInvitationCode(s string) *UserInvitatio
 	return uicu
 }
 
+// SetConfirmed sets the "confirmed" field.
+func (uicu *UserInvitationCodeUpdate) SetConfirmed(b bool) *UserInvitationCodeUpdate {
+	uicu.mutation.SetConfirmed(b)
+	return uicu
+}
+
+// SetNillableConfirmed sets the "confirmed" field if the given value is not nil.
+func (uicu *UserInvitationCodeUpdate) SetNillableConfirmed(b *bool) *UserInvitationCodeUpdate {
+	if b != nil {
+		uicu.SetConfirmed(*b)
+	}
+	return uicu
+}
+
 // SetCreateAt sets the "create_at" field.
 func (uicu *UserInvitationCodeUpdate) SetCreateAt(u uint32) *UserInvitationCodeUpdate {
 	uicu.mutation.ResetCreateAt()
@@ -208,6 +222,13 @@ func (uicu *UserInvitationCodeUpdate) sqlSave(ctx context.Context) (n int, err e
 			Column: userinvitationcode.FieldInvitationCode,
 		})
 	}
+	if value, ok := uicu.mutation.Confirmed(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: userinvitationcode.FieldConfirmed,
+		})
+	}
 	if value, ok := uicu.mutation.CreateAt(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUint32,
@@ -284,6 +305,20 @@ func (uicuo *UserInvitationCodeUpdateOne) SetAppID(u uuid.UUID) *UserInvitationC
 // SetInvitationCode sets the "invitation_code" field.
 func (uicuo *UserInvitationCodeUpdateOne) SetInvitationCode(s string) *UserInvitationCodeUpdateOne {
 	uicuo.mutation.SetInvitationCode(s)
+	return uicuo
+}
+
+// SetConfirmed sets the "confirmed" field.
+func (uicuo *UserInvitationCodeUpdateOne) SetConfirmed(b bool) *UserInvitationCodeUpdateOne {
+	uicuo.mutation.SetConfirmed(b)
+	return uicuo
+}
+
+// SetNillableConfirmed sets the "confirmed" field if the given value is not nil.
+func (uicuo *UserInvitationCodeUpdateOne) SetNillableConfirmed(b *bool) *UserInvitationCodeUpdateOne {
+	if b != nil {
+		uicuo.SetConfirmed(*b)
+	}
 	return uicuo
 }
 
@@ -471,6 +506,13 @@ func (uicuo *UserInvitationCodeUpdateOne) sqlSave(ctx context.Context) (_node *U
 			Type:   field.TypeString,
 			Value:  value,
 			Column: userinvitationcode.FieldInvitationCode,
+		})
+	}
+	if value, ok := uicuo.mutation.Confirmed(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: userinvitationcode.FieldConfirmed,
 		})
 	}
 	if value, ok := uicuo.mutation.CreateAt(); ok {

@@ -23,6 +23,15 @@ func (s *Server) CreateUserInvitationCode(ctx context.Context, in *npool.CreateU
 	return resp, nil
 }
 
+func (s *Server) UpdateUserInvitationCode(ctx context.Context, in *npool.UpdateUserInvitationCodeRequest) (*npool.UpdateUserInvitationCodeResponse, error) {
+	resp, err := crud.Update(ctx, in)
+	if err != nil {
+		logger.Sugar().Errorw("update user invitation code error: %v", err)
+		return &npool.UpdateUserInvitationCodeResponse{}, status.Error(codes.Internal, err.Error())
+	}
+	return resp, nil
+}
+
 func (s *Server) CreateUserInvitationCodeForOtherAppUser(ctx context.Context, in *npool.CreateUserInvitationCodeForOtherAppUserRequest) (*npool.CreateUserInvitationCodeForOtherAppUserResponse, error) {
 	info := in.GetInfo()
 	info.AppID = in.GetTargetAppID()

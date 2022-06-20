@@ -22,6 +22,8 @@ type UserInvitationCode struct {
 	AppID uuid.UUID `json:"app_id,omitempty"`
 	// InvitationCode holds the value of the "invitation_code" field.
 	InvitationCode string `json:"invitation_code,omitempty"`
+	// Confirmed holds the value of the "confirmed" field.
+	Confirmed bool `json:"confirmed,omitempty"`
 	// CreateAt holds the value of the "create_at" field.
 	CreateAt uint32 `json:"create_at,omitempty"`
 	// UpdateAt holds the value of the "update_at" field.
@@ -35,6 +37,8 @@ func (*UserInvitationCode) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case userinvitationcode.FieldConfirmed:
+			values[i] = new(sql.NullBool)
 		case userinvitationcode.FieldCreateAt, userinvitationcode.FieldUpdateAt, userinvitationcode.FieldDeleteAt:
 			values[i] = new(sql.NullInt64)
 		case userinvitationcode.FieldInvitationCode:
@@ -79,6 +83,12 @@ func (uic *UserInvitationCode) assignValues(columns []string, values []interface
 				return fmt.Errorf("unexpected type %T for field invitation_code", values[i])
 			} else if value.Valid {
 				uic.InvitationCode = value.String
+			}
+		case userinvitationcode.FieldConfirmed:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field confirmed", values[i])
+			} else if value.Valid {
+				uic.Confirmed = value.Bool
 			}
 		case userinvitationcode.FieldCreateAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -132,6 +142,8 @@ func (uic *UserInvitationCode) String() string {
 	builder.WriteString(fmt.Sprintf("%v", uic.AppID))
 	builder.WriteString(", invitation_code=")
 	builder.WriteString(uic.InvitationCode)
+	builder.WriteString(", confirmed=")
+	builder.WriteString(fmt.Sprintf("%v", uic.Confirmed))
 	builder.WriteString(", create_at=")
 	builder.WriteString(fmt.Sprintf("%v", uic.CreateAt))
 	builder.WriteString(", update_at=")

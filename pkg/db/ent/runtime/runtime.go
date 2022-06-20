@@ -305,18 +305,22 @@ func init() {
 	registrationinvitation.DefaultID = registrationinvitationDescID.Default.(func() uuid.UUID)
 	userinvitationcodeFields := schema.UserInvitationCode{}.Fields()
 	_ = userinvitationcodeFields
+	// userinvitationcodeDescConfirmed is the schema descriptor for confirmed field.
+	userinvitationcodeDescConfirmed := userinvitationcodeFields[4].Descriptor()
+	// userinvitationcode.DefaultConfirmed holds the default value on creation for the confirmed field.
+	userinvitationcode.DefaultConfirmed = userinvitationcodeDescConfirmed.Default.(bool)
 	// userinvitationcodeDescCreateAt is the schema descriptor for create_at field.
-	userinvitationcodeDescCreateAt := userinvitationcodeFields[4].Descriptor()
+	userinvitationcodeDescCreateAt := userinvitationcodeFields[5].Descriptor()
 	// userinvitationcode.DefaultCreateAt holds the default value on creation for the create_at field.
 	userinvitationcode.DefaultCreateAt = userinvitationcodeDescCreateAt.Default.(func() uint32)
 	// userinvitationcodeDescUpdateAt is the schema descriptor for update_at field.
-	userinvitationcodeDescUpdateAt := userinvitationcodeFields[5].Descriptor()
+	userinvitationcodeDescUpdateAt := userinvitationcodeFields[6].Descriptor()
 	// userinvitationcode.DefaultUpdateAt holds the default value on creation for the update_at field.
 	userinvitationcode.DefaultUpdateAt = userinvitationcodeDescUpdateAt.Default.(func() uint32)
 	// userinvitationcode.UpdateDefaultUpdateAt holds the default value on update for the update_at field.
 	userinvitationcode.UpdateDefaultUpdateAt = userinvitationcodeDescUpdateAt.UpdateDefault.(func() uint32)
 	// userinvitationcodeDescDeleteAt is the schema descriptor for delete_at field.
-	userinvitationcodeDescDeleteAt := userinvitationcodeFields[6].Descriptor()
+	userinvitationcodeDescDeleteAt := userinvitationcodeFields[7].Descriptor()
 	// userinvitationcode.DefaultDeleteAt holds the default value on creation for the delete_at field.
 	userinvitationcode.DefaultDeleteAt = userinvitationcodeDescDeleteAt.Default.(func() uint32)
 	// userinvitationcodeDescID is the schema descriptor for id field.

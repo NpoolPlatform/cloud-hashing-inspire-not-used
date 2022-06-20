@@ -299,6 +299,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			userinvitationcode.FieldUserID:         {Type: field.TypeUUID, Column: userinvitationcode.FieldUserID},
 			userinvitationcode.FieldAppID:          {Type: field.TypeUUID, Column: userinvitationcode.FieldAppID},
 			userinvitationcode.FieldInvitationCode: {Type: field.TypeString, Column: userinvitationcode.FieldInvitationCode},
+			userinvitationcode.FieldConfirmed:      {Type: field.TypeBool, Column: userinvitationcode.FieldConfirmed},
 			userinvitationcode.FieldCreateAt:       {Type: field.TypeUint32, Column: userinvitationcode.FieldCreateAt},
 			userinvitationcode.FieldUpdateAt:       {Type: field.TypeUint32, Column: userinvitationcode.FieldUpdateAt},
 			userinvitationcode.FieldDeleteAt:       {Type: field.TypeUint32, Column: userinvitationcode.FieldDeleteAt},
@@ -1382,6 +1383,11 @@ func (f *UserInvitationCodeFilter) WhereAppID(p entql.ValueP) {
 // WhereInvitationCode applies the entql string predicate on the invitation_code field.
 func (f *UserInvitationCodeFilter) WhereInvitationCode(p entql.StringP) {
 	f.Where(p.Field(userinvitationcode.FieldInvitationCode))
+}
+
+// WhereConfirmed applies the entql bool predicate on the confirmed field.
+func (f *UserInvitationCodeFilter) WhereConfirmed(p entql.BoolP) {
+	f.Where(p.Field(userinvitationcode.FieldConfirmed))
 }
 
 // WhereCreateAt applies the entql uint32 predicate on the create_at field.
