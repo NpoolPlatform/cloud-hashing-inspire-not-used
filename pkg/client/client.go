@@ -57,3 +57,37 @@ func CreateAmountSetting(ctx context.Context, in *npool.AppPurchaseAmountSetting
 	}
 	return info.(*npool.AppPurchaseAmountSetting), nil
 }
+
+func GetAmountSettings(ctx context.Context, appID, userID string) ([]*npool.AppPurchaseAmountSetting, error) {
+	infos, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingInspireClient) (cruder.Any, error) {
+		resp, err := cli.GetAppPurchaseAmountSettingsByAppUser(ctx, &npool.GetAppPurchaseAmountSettingsByAppUserRequest{
+			AppID:  appID,
+			UserID: userID,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail get amount settings: %v", err)
+		}
+		return resp.Infos, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get amount settings: %v", err)
+	}
+	return infos.([]*npool.AppPurchaseAmountSetting), nil
+}
+
+func GetInvitation(ctx context.Context, appID, inviteeID string) (*npool.RegistrationInvitation, error) {
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingInspireClient) (cruder.Any, error) {
+		resp, err := cli.GetRegistrationInvitationByAppInvitee(ctx, &npool.GetRegistrationInvitationByAppInviteeRequest{
+			AppID:     appID,
+			InviteeID: inviteeID,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail get registration invitation: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get registration invitation: %v", err)
+	}
+	return info.(*npool.RegistrationInvitation), nil
+}

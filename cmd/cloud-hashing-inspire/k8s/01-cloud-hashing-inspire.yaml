@@ -4,7 +4,7 @@ metadata:
   name: cloud-hashing-inspire
   namespace: kube-system
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: cloud-hashing-inspire
@@ -37,6 +37,13 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
+          limits:
+            memory: "200Mi"
+            cpu: "200m"
 
 ---
 apiVersion: v1
