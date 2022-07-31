@@ -40,6 +40,12 @@ func (apasu *AppPurchaseAmountSettingUpdate) SetUserID(u uuid.UUID) *AppPurchase
 	return apasu
 }
 
+// SetCoinTypeID sets the "coin_type_id" field.
+func (apasu *AppPurchaseAmountSettingUpdate) SetCoinTypeID(u uuid.UUID) *AppPurchaseAmountSettingUpdate {
+	apasu.mutation.SetCoinTypeID(u)
+	return apasu
+}
+
 // SetGoodID sets the "good_id" field.
 func (apasu *AppPurchaseAmountSettingUpdate) SetGoodID(u uuid.UUID) *AppPurchaseAmountSettingUpdate {
 	apasu.mutation.SetGoodID(u)
@@ -271,6 +277,13 @@ func (apasu *AppPurchaseAmountSettingUpdate) sqlSave(ctx context.Context) (n int
 			Column: apppurchaseamountsetting.FieldUserID,
 		})
 	}
+	if value, ok := apasu.mutation.CoinTypeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldCoinTypeID,
+		})
+	}
 	if value, ok := apasu.mutation.GoodID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeUUID,
@@ -425,6 +438,12 @@ func (apasuo *AppPurchaseAmountSettingUpdateOne) SetAppID(u uuid.UUID) *AppPurch
 // SetUserID sets the "user_id" field.
 func (apasuo *AppPurchaseAmountSettingUpdateOne) SetUserID(u uuid.UUID) *AppPurchaseAmountSettingUpdateOne {
 	apasuo.mutation.SetUserID(u)
+	return apasuo
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (apasuo *AppPurchaseAmountSettingUpdateOne) SetCoinTypeID(u uuid.UUID) *AppPurchaseAmountSettingUpdateOne {
+	apasuo.mutation.SetCoinTypeID(u)
 	return apasuo
 }
 
@@ -687,6 +706,13 @@ func (apasuo *AppPurchaseAmountSettingUpdateOne) sqlSave(ctx context.Context) (_
 			Type:   field.TypeUUID,
 			Value:  value,
 			Column: apppurchaseamountsetting.FieldUserID,
+		})
+	}
+	if value, ok := apasuo.mutation.CoinTypeID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeUUID,
+			Value:  value,
+			Column: apppurchaseamountsetting.FieldCoinTypeID,
 		})
 	}
 	if value, ok := apasuo.mutation.GoodID(); ok {

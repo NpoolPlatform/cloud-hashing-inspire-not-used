@@ -3536,6 +3536,7 @@ type AppPurchaseAmountSettingMutation struct {
 	id            *uuid.UUID
 	app_id        *uuid.UUID
 	user_id       *uuid.UUID
+	coin_type_id  *uuid.UUID
 	good_id       *uuid.UUID
 	title         *string
 	amount        *uint64
@@ -3734,6 +3735,42 @@ func (m *AppPurchaseAmountSettingMutation) OldUserID(ctx context.Context) (v uui
 // ResetUserID resets all changes to the "user_id" field.
 func (m *AppPurchaseAmountSettingMutation) ResetUserID() {
 	m.user_id = nil
+}
+
+// SetCoinTypeID sets the "coin_type_id" field.
+func (m *AppPurchaseAmountSettingMutation) SetCoinTypeID(u uuid.UUID) {
+	m.coin_type_id = &u
+}
+
+// CoinTypeID returns the value of the "coin_type_id" field in the mutation.
+func (m *AppPurchaseAmountSettingMutation) CoinTypeID() (r uuid.UUID, exists bool) {
+	v := m.coin_type_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCoinTypeID returns the old "coin_type_id" field's value of the AppPurchaseAmountSetting entity.
+// If the AppPurchaseAmountSetting object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AppPurchaseAmountSettingMutation) OldCoinTypeID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCoinTypeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCoinTypeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCoinTypeID: %w", err)
+	}
+	return oldValue.CoinTypeID, nil
+}
+
+// ResetCoinTypeID resets all changes to the "coin_type_id" field.
+func (m *AppPurchaseAmountSettingMutation) ResetCoinTypeID() {
+	m.coin_type_id = nil
 }
 
 // SetGoodID sets the "good_id" field.
@@ -4291,12 +4328,15 @@ func (m *AppPurchaseAmountSettingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AppPurchaseAmountSettingMutation) Fields() []string {
-	fields := make([]string, 0, 13)
+	fields := make([]string, 0, 14)
 	if m.app_id != nil {
 		fields = append(fields, apppurchaseamountsetting.FieldAppID)
 	}
 	if m.user_id != nil {
 		fields = append(fields, apppurchaseamountsetting.FieldUserID)
+	}
+	if m.coin_type_id != nil {
+		fields = append(fields, apppurchaseamountsetting.FieldCoinTypeID)
 	}
 	if m.good_id != nil {
 		fields = append(fields, apppurchaseamountsetting.FieldGoodID)
@@ -4343,6 +4383,8 @@ func (m *AppPurchaseAmountSettingMutation) Field(name string) (ent.Value, bool) 
 		return m.AppID()
 	case apppurchaseamountsetting.FieldUserID:
 		return m.UserID()
+	case apppurchaseamountsetting.FieldCoinTypeID:
+		return m.CoinTypeID()
 	case apppurchaseamountsetting.FieldGoodID:
 		return m.GoodID()
 	case apppurchaseamountsetting.FieldTitle:
@@ -4378,6 +4420,8 @@ func (m *AppPurchaseAmountSettingMutation) OldField(ctx context.Context, name st
 		return m.OldAppID(ctx)
 	case apppurchaseamountsetting.FieldUserID:
 		return m.OldUserID(ctx)
+	case apppurchaseamountsetting.FieldCoinTypeID:
+		return m.OldCoinTypeID(ctx)
 	case apppurchaseamountsetting.FieldGoodID:
 		return m.OldGoodID(ctx)
 	case apppurchaseamountsetting.FieldTitle:
@@ -4422,6 +4466,13 @@ func (m *AppPurchaseAmountSettingMutation) SetField(name string, value ent.Value
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetUserID(v)
+		return nil
+	case apppurchaseamountsetting.FieldCoinTypeID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCoinTypeID(v)
 		return nil
 	case apppurchaseamountsetting.FieldGoodID:
 		v, ok := value.(uuid.UUID)
@@ -4641,6 +4692,9 @@ func (m *AppPurchaseAmountSettingMutation) ResetField(name string) error {
 		return nil
 	case apppurchaseamountsetting.FieldUserID:
 		m.ResetUserID()
+		return nil
+	case apppurchaseamountsetting.FieldCoinTypeID:
+		m.ResetCoinTypeID()
 		return nil
 	case apppurchaseamountsetting.FieldGoodID:
 		m.ResetGoodID()

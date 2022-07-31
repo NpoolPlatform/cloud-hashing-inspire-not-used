@@ -15,6 +15,8 @@ const (
 	FieldAppID = "app_id"
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
+	// FieldCoinTypeID holds the string denoting the coin_type_id field in the database.
+	FieldCoinTypeID = "coin_type_id"
 	// FieldGoodID holds the string denoting the good_id field in the database.
 	FieldGoodID = "good_id"
 	// FieldTitle holds the string denoting the title field in the database.
@@ -46,6 +48,7 @@ var Columns = []string{
 	FieldID,
 	FieldAppID,
 	FieldUserID,
+	FieldCoinTypeID,
 	FieldGoodID,
 	FieldTitle,
 	FieldAmount,

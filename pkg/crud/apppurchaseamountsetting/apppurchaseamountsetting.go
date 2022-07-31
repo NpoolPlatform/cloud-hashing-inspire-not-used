@@ -27,6 +27,7 @@ func dbRowToAppPurchaseAmountSetting(row *ent.AppPurchaseAmountSetting) *npool.A
 	return &npool.AppPurchaseAmountSetting{
 		ID:         row.ID.String(),
 		AppID:      row.AppID.String(),
+		CoinTypeID: row.CoinTypeID.String(),
 		GoodID:     row.GoodID.String(),
 		UserID:     row.UserID.String(),
 		Amount:     price.DBPriceToVisualPrice(row.Amount),
@@ -59,12 +60,18 @@ func Create(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingRequest
 		goodID = uuid.UUID{}
 	}
 
+	coinTypeID, err := uuid.Parse(in.GetInfo().GetCoinTypeID())
+	if err != nil {
+		coinTypeID = uuid.UUID{}
+	}
+
 	info, err := cli.
 		AppPurchaseAmountSetting.
 		Create().
 		SetAppID(uuid.MustParse(in.GetInfo().GetAppID())).
 		SetUserID(userID).
 		SetGoodID(goodID).
+		SetCoinTypeID(coinTypeID).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetPercent(in.GetInfo().GetPercent()).
 		SetTitle(in.GetInfo().GetTitle()).
@@ -97,9 +104,15 @@ func Update(ctx context.Context, in *npool.UpdateAppPurchaseAmountSettingRequest
 		return nil, xerrors.Errorf("fail get db client: %v", err)
 	}
 
+	coinTypeID, err := uuid.Parse(in.GetInfo().GetCoinTypeID())
+	if err != nil {
+		coinTypeID = uuid.UUID{}
+	}
+
 	info, err := cli.
 		AppPurchaseAmountSetting.
 		UpdateOneID(id).
+		SetCoinTypeID(coinTypeID).
 		SetAmount(price.VisualPriceToDBPrice(in.GetInfo().GetAmount())).
 		SetPercent(in.GetInfo().GetPercent()).
 		SetTitle(in.GetInfo().GetTitle()).
