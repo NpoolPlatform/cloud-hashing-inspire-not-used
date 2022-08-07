@@ -11,7 +11,7 @@ import (
 	rabbitmqconst "github.com/NpoolPlatform/go-service-framework/pkg/rabbitmq/const"
 	redisconst "github.com/NpoolPlatform/go-service-framework/pkg/redis/const"
 
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/service-name" //nolint
+	servicename "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/service-name" //nolint
 
 	cli "github.com/urfave/cli/v2"
 )

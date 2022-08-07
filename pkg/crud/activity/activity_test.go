@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/test-init" //nolint
+	testinit "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/test-init" //nolint
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/google/uuid"

@@ -2,6 +2,7 @@ package apppurchaseamountsetting
 
 import (
 	"context"
+	"fmt"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
@@ -12,13 +13,11 @@ import (
 	"github.com/NpoolPlatform/go-service-framework/pkg/price"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateAppPurchaseAmountSetting(info *npool.AppPurchaseAmountSetting) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invalid app id: %v", err)
+		return fmt.Errorf("invalid app id: %v", err)
 	}
 	return nil
 }
@@ -42,12 +41,12 @@ func dbRowToAppPurchaseAmountSetting(row *ent.AppPurchaseAmountSetting) *npool.A
 
 func Create(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingRequest) (*npool.CreateAppPurchaseAmountSettingResponse, error) {
 	if err := validateAppPurchaseAmountSetting(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	userID, err := uuid.Parse(in.GetInfo().GetUserID())
@@ -81,7 +80,7 @@ func Create(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingRequest
 		SetEnd(0).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create app purchase amount setting: %v", err)
+		return nil, fmt.Errorf("fail create app purchase amount setting: %v", err)
 	}
 
 	return &npool.CreateAppPurchaseAmountSettingResponse{
@@ -91,17 +90,17 @@ func Create(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingRequest
 
 func Update(ctx context.Context, in *npool.UpdateAppPurchaseAmountSettingRequest) (*npool.UpdateAppPurchaseAmountSettingResponse, error) {
 	if err := validateAppPurchaseAmountSetting(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	coinTypeID, err := uuid.Parse(in.GetInfo().GetCoinTypeID())
@@ -121,7 +120,7 @@ func Update(ctx context.Context, in *npool.UpdateAppPurchaseAmountSettingRequest
 		SetEnd(in.GetInfo().GetEnd()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update app purchase amount setting: %v", err)
+		return nil, fmt.Errorf("fail update app purchase amount setting: %v", err)
 	}
 
 	return &npool.UpdateAppPurchaseAmountSettingResponse{
@@ -132,12 +131,12 @@ func Update(ctx context.Context, in *npool.UpdateAppPurchaseAmountSettingRequest
 func Get(ctx context.Context, in *npool.GetAppPurchaseAmountSettingRequest) (*npool.GetAppPurchaseAmountSettingResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -148,7 +147,7 @@ func Get(ctx context.Context, in *npool.GetAppPurchaseAmountSettingRequest) (*np
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query app purchase amount setting: %v", err)
+		return nil, fmt.Errorf("fail query app purchase amount setting: %v", err)
 	}
 
 	var setting *npool.AppPurchaseAmountSetting
@@ -165,12 +164,12 @@ func Get(ctx context.Context, in *npool.GetAppPurchaseAmountSettingRequest) (*np
 func GetByApp(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByAppRequest) (*npool.GetAppPurchaseAmountSettingsByAppResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -181,7 +180,7 @@ func GetByApp(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByAppRe
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query app purchase amount setting: %v", err)
+		return nil, fmt.Errorf("fail query app purchase amount setting: %v", err)
 	}
 
 	settings := []*npool.AppPurchaseAmountSetting{}
@@ -197,17 +196,17 @@ func GetByApp(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByAppRe
 func GetByAppUser(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByAppUserRequest) (*npool.GetAppPurchaseAmountSettingsByAppUserResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	userID, err := uuid.Parse(in.GetUserID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid user id: %v", err)
+		return nil, fmt.Errorf("invalid user id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -221,7 +220,7 @@ func GetByAppUser(ctx context.Context, in *npool.GetAppPurchaseAmountSettingsByA
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query app purchase amount setting: %v", err)
+		return nil, fmt.Errorf("fail query app purchase amount setting: %v", err)
 	}
 
 	settings := []*npool.AppPurchaseAmountSetting{}

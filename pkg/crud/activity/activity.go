@@ -2,6 +2,7 @@ package activity
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
@@ -11,25 +12,23 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/activity"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateActivity(info *npool.Activity) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invlaid app id: %v", err)
+		return fmt.Errorf("invlaid app id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetCreatedBy()); err != nil {
-		return xerrors.Errorf("invlaid created by: %v", err)
+		return fmt.Errorf("invlaid created by: %v", err)
 	}
 	if info.GetName() == "" {
-		return xerrors.Errorf("invalid name")
+		return fmt.Errorf("invalid name")
 	}
 	if info.GetEnd() <= info.GetStart() {
-		return xerrors.Errorf("invalid expiration")
+		return fmt.Errorf("invalid expiration")
 	}
 	if info.GetStart() <= uint32(time.Now().Unix()) {
-		return xerrors.Errorf("invalid start %v < %v", info.GetStart(), time.Now().Unix())
+		return fmt.Errorf("invalid start %v < %v", info.GetStart(), time.Now().Unix())
 	}
 	return nil
 }
@@ -48,12 +47,12 @@ func dbRowToActivity(row *ent.Activity) *npool.Activity {
 
 func Create(ctx context.Context, in *npool.CreateActivityRequest) (*npool.CreateActivityResponse, error) {
 	if err := validateActivity(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -67,7 +66,7 @@ func Create(ctx context.Context, in *npool.CreateActivityRequest) (*npool.Create
 		SetSystemActivity(in.GetInfo().GetSystemActivity()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create activity: %v", err)
+		return nil, fmt.Errorf("fail create activity: %v", err)
 	}
 
 	return &npool.CreateActivityResponse{
@@ -77,17 +76,17 @@ func Create(ctx context.Context, in *npool.CreateActivityRequest) (*npool.Create
 
 func Update(ctx context.Context, in *npool.UpdateActivityRequest) (*npool.UpdateActivityResponse, error) {
 	if err := validateActivity(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -99,7 +98,7 @@ func Update(ctx context.Context, in *npool.UpdateActivityRequest) (*npool.Update
 		SetSystemActivity(in.GetInfo().GetSystemActivity()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update activity: %v", err)
+		return nil, fmt.Errorf("fail update activity: %v", err)
 	}
 
 	return &npool.UpdateActivityResponse{
@@ -110,12 +109,12 @@ func Update(ctx context.Context, in *npool.UpdateActivityRequest) (*npool.Update
 func Get(ctx context.Context, in *npool.GetActivityRequest) (*npool.GetActivityResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -126,7 +125,7 @@ func Get(ctx context.Context, in *npool.GetActivityRequest) (*npool.GetActivityR
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query activity: %v", err)
+		return nil, fmt.Errorf("fail query activity: %v", err)
 	}
 
 	var act *npool.Activity
@@ -143,12 +142,12 @@ func Get(ctx context.Context, in *npool.GetActivityRequest) (*npool.GetActivityR
 func GetByApp(ctx context.Context, in *npool.GetActivitiesByAppRequest) (*npool.GetActivitiesByAppResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -159,7 +158,7 @@ func GetByApp(ctx context.Context, in *npool.GetActivitiesByAppRequest) (*npool.
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query activity: %v", err)
+		return nil, fmt.Errorf("fail query activity: %v", err)
 	}
 
 	acts := []*npool.Activity{}
@@ -175,12 +174,12 @@ func GetByApp(ctx context.Context, in *npool.GetActivitiesByAppRequest) (*npool.
 func GetByAppName(ctx context.Context, in *npool.GetActivityByAppNameRequest) (*npool.GetActivityByAppNameResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -194,7 +193,7 @@ func GetByAppName(ctx context.Context, in *npool.GetActivityByAppNameRequest) (*
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query activity: %v", err)
+		return nil, fmt.Errorf("fail query activity: %v", err)
 	}
 
 	var act *npool.Activity

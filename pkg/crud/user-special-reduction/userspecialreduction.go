@@ -1,9 +1,11 @@
+//go:build !codeanalysis
 // +build !codeanalysis
 
 package userspecialreduction
 
 import (
 	"context"
+	"fmt"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
@@ -14,19 +16,17 @@ import (
 	"github.com/NpoolPlatform/go-service-framework/pkg/price"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateUserSpecialReduction(info *npool.UserSpecialReduction) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invalid app id: %v", err)
+		return fmt.Errorf("invalid app id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetUserID()); err != nil {
-		return xerrors.Errorf("invalid user id: %v", err)
+		return fmt.Errorf("invalid user id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetReleaseByUserID()); err != nil {
-		return xerrors.Errorf("invalid release by user id: %v", err)
+		return fmt.Errorf("invalid release by user id: %v", err)
 	}
 	return nil
 }
@@ -46,12 +46,12 @@ func dbRowToUserSpecialReduction(row *ent.UserSpecialReduction) *npool.UserSpeci
 
 func Create(ctx context.Context, in *npool.CreateUserSpecialReductionRequest) (*npool.CreateUserSpecialReductionResponse, error) {
 	if err := validateUserSpecialReduction(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -66,7 +66,7 @@ func Create(ctx context.Context, in *npool.CreateUserSpecialReductionRequest) (*
 		SetMessage(in.GetInfo().GetMessage()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create user special reduction: %v", err)
+		return nil, fmt.Errorf("fail create user special reduction: %v", err)
 	}
 
 	return &npool.CreateUserSpecialReductionResponse{
@@ -76,17 +76,17 @@ func Create(ctx context.Context, in *npool.CreateUserSpecialReductionRequest) (*
 
 func Update(ctx context.Context, in *npool.UpdateUserSpecialReductionRequest) (*npool.UpdateUserSpecialReductionResponse, error) {
 	if err := validateUserSpecialReduction(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -95,7 +95,7 @@ func Update(ctx context.Context, in *npool.UpdateUserSpecialReductionRequest) (*
 		SetMessage(in.GetInfo().GetMessage()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update user special reduction: %v", err)
+		return nil, fmt.Errorf("fail update user special reduction: %v", err)
 	}
 
 	return &npool.UpdateUserSpecialReductionResponse{
@@ -106,12 +106,12 @@ func Update(ctx context.Context, in *npool.UpdateUserSpecialReductionRequest) (*
 func Get(ctx context.Context, in *npool.GetUserSpecialReductionRequest) (*npool.GetUserSpecialReductionResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -124,10 +124,10 @@ func Get(ctx context.Context, in *npool.GetUserSpecialReductionRequest) (*npool.
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query user special reduction: %v", err)
+		return nil, fmt.Errorf("fail query user special reduction: %v", err)
 	}
 	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty user special reduction")
+		return nil, fmt.Errorf("empty user special reduction")
 	}
 
 	return &npool.GetUserSpecialReductionResponse{
@@ -138,12 +138,12 @@ func Get(ctx context.Context, in *npool.GetUserSpecialReductionRequest) (*npool.
 func GetByApp(ctx context.Context, in *npool.GetUserSpecialReductionsByAppRequest) (*npool.GetUserSpecialReductionsByAppResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -156,7 +156,7 @@ func GetByApp(ctx context.Context, in *npool.GetUserSpecialReductionsByAppReques
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query user special reduction: %v", err)
+		return nil, fmt.Errorf("fail query user special reduction: %v", err)
 	}
 
 	coupons := []*npool.UserSpecialReduction{}
@@ -172,12 +172,12 @@ func GetByApp(ctx context.Context, in *npool.GetUserSpecialReductionsByAppReques
 func validateAppUser(appID, userID string) error {
 	_, err := uuid.Parse(appID)
 	if err != nil {
-		return xerrors.Errorf("invalid app id: %v", err)
+		return fmt.Errorf("invalid app id: %v", err)
 	}
 
 	_, err = uuid.Parse(userID)
 	if err != nil {
-		return xerrors.Errorf("invlaid user id: %v", err)
+		return fmt.Errorf("invlaid user id: %v", err)
 	}
 
 	return nil
@@ -185,12 +185,12 @@ func validateAppUser(appID, userID string) error {
 
 func GetByAppReleaser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppReleaserRequest) (*npool.GetUserSpecialReductionsByAppReleaserResponse, error) {
 	if err := validateAppUser(in.GetAppID(), in.GetUserID()); err != nil {
-		return nil, xerrors.Errorf("invalid appid or userid: %v", err)
+		return nil, fmt.Errorf("invalid appid or userid: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -204,7 +204,7 @@ func GetByAppReleaser(ctx context.Context, in *npool.GetUserSpecialReductionsByA
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query user special reduction: %v", err)
+		return nil, fmt.Errorf("fail query user special reduction: %v", err)
 	}
 
 	coupons := []*npool.UserSpecialReduction{}
@@ -219,12 +219,12 @@ func GetByAppReleaser(ctx context.Context, in *npool.GetUserSpecialReductionsByA
 
 func GetByAppUser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppUserRequest) (*npool.GetUserSpecialReductionsByAppUserResponse, error) {
 	if err := validateAppUser(in.GetAppID(), in.GetUserID()); err != nil {
-		return nil, xerrors.Errorf("invalid appid or userid: %v", err)
+		return nil, fmt.Errorf("invalid appid or userid: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -238,7 +238,7 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserSpecialReductionsByAppUs
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query user special reduction: %v", err)
+		return nil, fmt.Errorf("fail query user special reduction: %v", err)
 	}
 
 	coupons := []*npool.UserSpecialReduction{}

@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-allocated" //nolint
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-pool"      //nolint
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/test-init"             //nolint
+	couponallocated "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-allocated" //nolint
+	couponpool "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-pool"           //nolint
+	testinit "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/test-init"                    //nolint
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/google/uuid"

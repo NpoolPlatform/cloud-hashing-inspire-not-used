@@ -6,7 +6,6 @@ require (
 	entgo.io/ent v0.11.1
 	github.com/AmirSoleimani/VoucherCodeGenerator v0.0.0-20201014193813-0206853dccb9
 	github.com/NpoolPlatform/api-manager v0.0.0-20220421114434-bf0e069b0c83
-	github.com/NpoolPlatform/appuser-manager v0.0.0-20220806033633-497884d0696a
 	github.com/NpoolPlatform/go-service-framework v0.0.0-20220722111225-08c2156ac8bf
 	github.com/NpoolPlatform/libent-cruder v0.0.0-20220801075201-cab5db8b6290
 	github.com/NpoolPlatform/message v0.0.0-20220807063637-79bcbfdeb2fa
@@ -17,7 +16,6 @@ require (
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.7.1
 	github.com/urfave/cli/v2 v2.4.0
-	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f
 	google.golang.org/grpc v1.48.0
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0
 	google.golang.org/protobuf v1.28.0
@@ -25,6 +23,7 @@ require (
 
 require (
 	ariga.io/atlas v0.5.0 // indirect
+	github.com/BurntSushi/toml v1.1.0 // indirect
 	github.com/Shonminh/apollo-client v0.4.0 // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
@@ -63,6 +62,7 @@ require (
 	github.com/hashicorp/hcl/v2 v2.10.0 // indirect
 	github.com/hashicorp/serf v0.9.7 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
+	github.com/kr/pretty v0.3.0 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
@@ -79,6 +79,7 @@ require (
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
+	github.com/rogpeppe/go-internal v1.8.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/spf13/afero v1.8.2 // indirect
@@ -103,6 +104,7 @@ require (
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20220615213510-4f61da869c0c // indirect
 	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
 	google.golang.org/genproto v0.0.0-20220407144326-9054f6ed7bac // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect

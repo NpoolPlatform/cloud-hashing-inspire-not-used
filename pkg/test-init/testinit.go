@@ -12,15 +12,13 @@ import (
 	redisconst "github.com/NpoolPlatform/go-service-framework/pkg/redis/const"
 
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db"
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/service-name" //nolint
-
-	"golang.org/x/xerrors"
+	servicename "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/service-name" //nolint
 )
 
 func Init() error {
 	_, myPath, _, ok := runtime.Caller(0)
 	if !ok {
-		return xerrors.Errorf("cannot get source file path")
+		return fmt.Errorf("cannot get source file path")
 	}
 
 	appName := path.Base(path.Dir(path.Dir(path.Dir(myPath))))
@@ -38,11 +36,11 @@ func Init() error {
 		rabbitmqconst.RabbitMQServiceName,
 		redisconst.RedisServiceName)
 	if err != nil {
-		return xerrors.Errorf("cannot init app stub: %v", err)
+		return fmt.Errorf("cannot init app stub: %v", err)
 	}
 	err = db.Init()
 	if err != nil {
-		return xerrors.Errorf("cannot init database: %v", err)
+		return fmt.Errorf("cannot init database: %v", err)
 	}
 
 	return nil

@@ -2,6 +2,7 @@ package appcommissionsetting
 
 import (
 	"context"
+	"fmt"
 
 	constant "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
@@ -11,16 +12,14 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appcommissionsetting"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateAppCommissionSetting(info *npool.AppCommissionSetting) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invalid app id: %v", err)
+		return fmt.Errorf("invalid app id: %v", err)
 	}
 	if info.GetType() != constant.CommissionByAmount {
-		return xerrors.Errorf("invalid commission type")
+		return fmt.Errorf("invalid commission type")
 	}
 	return nil
 }
@@ -39,12 +38,12 @@ func dbRowToAppCommissionSetting(row *ent.AppCommissionSetting) *npool.AppCommis
 
 func Create(ctx context.Context, in *npool.CreateAppCommissionSettingRequest) (*npool.CreateAppCommissionSettingResponse, error) {
 	if err := validateAppCommissionSetting(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -58,7 +57,7 @@ func Create(ctx context.Context, in *npool.CreateAppCommissionSettingRequest) (*
 		SetInvitationDiscount(in.GetInfo().GetInvitationDiscount()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create app commission setting: %v", err)
+		return nil, fmt.Errorf("fail create app commission setting: %v", err)
 	}
 
 	return &npool.CreateAppCommissionSettingResponse{
@@ -69,12 +68,12 @@ func Create(ctx context.Context, in *npool.CreateAppCommissionSettingRequest) (*
 func Get(ctx context.Context, in *npool.GetAppCommissionSettingRequest) (*npool.GetAppCommissionSettingResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invlaid id: %v", err)
+		return nil, fmt.Errorf("invlaid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -85,7 +84,7 @@ func Get(ctx context.Context, in *npool.GetAppCommissionSettingRequest) (*npool.
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query app commission setting: %v", err)
+		return nil, fmt.Errorf("fail query app commission setting: %v", err)
 	}
 
 	var setting *npool.AppCommissionSetting
@@ -102,12 +101,12 @@ func Get(ctx context.Context, in *npool.GetAppCommissionSettingRequest) (*npool.
 func GetByApp(ctx context.Context, in *npool.GetAppCommissionSettingByAppRequest) (*npool.GetAppCommissionSettingByAppResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -118,7 +117,7 @@ func GetByApp(ctx context.Context, in *npool.GetAppCommissionSettingByAppRequest
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query app commission setting: %v", err)
+		return nil, fmt.Errorf("fail query app commission setting: %v", err)
 	}
 
 	var setting *npool.AppCommissionSetting
@@ -135,16 +134,16 @@ func GetByApp(ctx context.Context, in *npool.GetAppCommissionSettingByAppRequest
 func Update(ctx context.Context, in *npool.UpdateAppCommissionSettingRequest) (*npool.UpdateAppCommissionSettingResponse, error) {
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invlaid id: %v", err)
+		return nil, fmt.Errorf("invlaid id: %v", err)
 	}
 
 	if err := validateAppCommissionSetting(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -157,7 +156,7 @@ func Update(ctx context.Context, in *npool.UpdateAppCommissionSettingRequest) (*
 		SetInvitationDiscount(in.GetInfo().GetInvitationDiscount()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update app commission setting: %v", err)
+		return nil, fmt.Errorf("fail update app commission setting: %v", err)
 	}
 
 	return &npool.UpdateAppCommissionSettingResponse{

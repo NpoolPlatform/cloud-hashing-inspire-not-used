@@ -2,6 +2,7 @@ package userinvitationcode
 
 import (
 	"context"
+	"fmt"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
@@ -12,16 +13,14 @@ import (
 	"github.com/AmirSoleimani/VoucherCodeGenerator/vcgen"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateUserInvitationCode(info *npool.UserInvitationCode) error {
 	if _, err := uuid.Parse(info.GetUserID()); err != nil {
-		return xerrors.Errorf("invalid user id: %v", err)
+		return fmt.Errorf("invalid user id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invlaid app id: %v", err)
+		return fmt.Errorf("invlaid app id: %v", err)
 	}
 	return nil
 }
@@ -34,7 +33,7 @@ func generateInvitationCode() (string, error) {
 	})
 	codes, err := vc.Run()
 	if err != nil {
-		return "", xerrors.Errorf("fail run invitation code generator: %v", err)
+		return "", fmt.Errorf("fail run invitation code generator: %v", err)
 	}
 	return (*codes)[0], nil
 }
@@ -42,7 +41,7 @@ func generateInvitationCode() (string, error) {
 func codeExist(ctx context.Context, code string) (bool, error) {
 	cli, err := db.Client()
 	if err != nil {
-		return false, xerrors.Errorf("fail get db client: %v", err)
+		return false, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -53,7 +52,7 @@ func codeExist(ctx context.Context, code string) (bool, error) {
 		).
 		All(ctx)
 	if err != nil {
-		return false, xerrors.Errorf("fail query invitation code: %v", err)
+		return false, fmt.Errorf("fail query invitation code: %v", err)
 	}
 	if len(infos) == 0 {
 		return false, nil
@@ -74,7 +73,7 @@ func dbRowToUserInvitationCode(row *ent.UserInvitationCode) *npool.UserInvitatio
 
 func Create(ctx context.Context, in *npool.CreateUserInvitationCodeRequest) (*npool.CreateUserInvitationCodeResponse, error) {
 	if err := validateUserInvitationCode(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	var code string
@@ -83,7 +82,7 @@ func Create(ctx context.Context, in *npool.CreateUserInvitationCodeRequest) (*np
 	for {
 		code, err = generateInvitationCode()
 		if err != nil {
-			return nil, xerrors.Errorf("fail generate invitation code: %v", err)
+			return nil, fmt.Errorf("fail generate invitation code: %v", err)
 		}
 
 		exist, err := codeExist(ctx, code)
@@ -98,7 +97,7 @@ func Create(ctx context.Context, in *npool.CreateUserInvitationCodeRequest) (*np
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -110,7 +109,7 @@ func Create(ctx context.Context, in *npool.CreateUserInvitationCodeRequest) (*np
 		SetConfirmed(in.GetInfo().GetConfirmed()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create invitation code: %v", err)
+		return nil, fmt.Errorf("fail create invitation code: %v", err)
 	}
 
 	return &npool.CreateUserInvitationCodeResponse{
@@ -121,12 +120,12 @@ func Create(ctx context.Context, in *npool.CreateUserInvitationCodeRequest) (*np
 func Update(ctx context.Context, in *npool.UpdateUserInvitationCodeRequest) (*npool.UpdateUserInvitationCodeResponse, error) {
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -135,7 +134,7 @@ func Update(ctx context.Context, in *npool.UpdateUserInvitationCodeRequest) (*np
 		SetConfirmed(in.GetInfo().GetConfirmed()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update user invitation code: %v", err)
+		return nil, fmt.Errorf("fail update user invitation code: %v", err)
 	}
 
 	return &npool.UpdateUserInvitationCodeResponse{
@@ -146,12 +145,12 @@ func Update(ctx context.Context, in *npool.UpdateUserInvitationCodeRequest) (*np
 func Get(ctx context.Context, in *npool.GetUserInvitationCodeRequest) (*npool.GetUserInvitationCodeResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -162,7 +161,7 @@ func Get(ctx context.Context, in *npool.GetUserInvitationCodeRequest) (*npool.Ge
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query user invitation code: %v", err)
+		return nil, fmt.Errorf("fail query user invitation code: %v", err)
 	}
 	var info *npool.UserInvitationCode
 	if len(infos) > 0 {
@@ -176,15 +175,15 @@ func Get(ctx context.Context, in *npool.GetUserInvitationCodeRequest) (*npool.Ge
 
 func GetByAppUser(ctx context.Context, in *npool.GetUserInvitationCodeByAppUserRequest) (*npool.GetUserInvitationCodeByAppUserResponse, error) {
 	if _, err := uuid.Parse(in.GetUserID()); err != nil {
-		return nil, xerrors.Errorf("invalid user id: %v", err)
+		return nil, fmt.Errorf("invalid user id: %v", err)
 	}
 	if _, err := uuid.Parse(in.GetAppID()); err != nil {
-		return nil, xerrors.Errorf("invlaid app id: %v", err)
+		return nil, fmt.Errorf("invlaid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -198,7 +197,7 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserInvitationCodeByAppUserR
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query user invitation code: %v", err)
+		return nil, fmt.Errorf("fail query user invitation code: %v", err)
 	}
 
 	var info *npool.UserInvitationCode
@@ -214,7 +213,7 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserInvitationCodeByAppUserR
 func GetByCode(ctx context.Context, in *npool.GetUserInvitationCodeByCodeRequest) (*npool.GetUserInvitationCodeByCodeResponse, error) {
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -225,7 +224,7 @@ func GetByCode(ctx context.Context, in *npool.GetUserInvitationCodeByCodeRequest
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query user invitation code: %v", err)
+		return nil, fmt.Errorf("fail query user invitation code: %v", err)
 	}
 
 	var info *npool.UserInvitationCode
@@ -241,7 +240,7 @@ func GetByCode(ctx context.Context, in *npool.GetUserInvitationCodeByCodeRequest
 func GetAll(ctx context.Context, in *npool.GetUserInvitationCodesRequest) (*npool.GetUserInvitationCodesResponse, error) {
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -249,7 +248,7 @@ func GetAll(ctx context.Context, in *npool.GetUserInvitationCodesRequest) (*npoo
 		Query().
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query user invitation code: %v", err)
+		return nil, fmt.Errorf("fail query user invitation code: %v", err)
 	}
 
 	codes := []*npool.UserInvitationCode{}
@@ -265,12 +264,12 @@ func GetAll(ctx context.Context, in *npool.GetUserInvitationCodesRequest) (*npoo
 func GetByApp(ctx context.Context, in *npool.GetUserInvitationCodesByAppRequest) (*npool.GetUserInvitationCodesByAppResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -281,7 +280,7 @@ func GetByApp(ctx context.Context, in *npool.GetUserInvitationCodesByAppRequest)
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query user invitation code: %v", err)
+		return nil, fmt.Errorf("fail query user invitation code: %v", err)
 	}
 
 	codes := []*npool.UserInvitationCode{}

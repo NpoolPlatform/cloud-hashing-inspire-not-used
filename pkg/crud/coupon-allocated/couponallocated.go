@@ -2,6 +2,7 @@ package couponallocated
 
 import (
 	"context"
+	"fmt"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
@@ -12,22 +13,20 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/couponallocated"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateCouponAllocated(info *npool.CouponAllocated) error {
 	if _, err := uuid.Parse(info.GetUserID()); err != nil {
-		return xerrors.Errorf("invlaid user id: %v", err)
+		return fmt.Errorf("invlaid user id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invlaid app id: %v", err)
+		return fmt.Errorf("invlaid app id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetCouponID()); err != nil {
-		return xerrors.Errorf("invlaid coupon id: %v", err)
+		return fmt.Errorf("invlaid coupon id: %v", err)
 	}
 	if info.GetType() != constant.CouponTypeCoupon && info.GetType() != constant.CouponTypeDiscount {
-		return xerrors.Errorf("invalid coupon type")
+		return fmt.Errorf("invalid coupon type")
 	}
 	return nil
 }
@@ -44,12 +43,12 @@ func dbRowToCouponAllocated(row *ent.CouponAllocated) *npool.CouponAllocated {
 
 func Create(ctx context.Context, in *npool.CreateCouponAllocatedRequest) (*npool.CreateCouponAllocatedResponse, error) {
 	if err := validateCouponAllocated(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -61,7 +60,7 @@ func Create(ctx context.Context, in *npool.CreateCouponAllocatedRequest) (*npool
 		SetCouponID(uuid.MustParse(in.GetInfo().GetCouponID())).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create coupon allocated: %v", err)
+		return nil, fmt.Errorf("fail create coupon allocated: %v", err)
 	}
 
 	return &npool.CreateCouponAllocatedResponse{
@@ -71,17 +70,17 @@ func Create(ctx context.Context, in *npool.CreateCouponAllocatedRequest) (*npool
 
 func Update(ctx context.Context, in *npool.UpdateCouponAllocatedRequest) (*npool.UpdateCouponAllocatedResponse, error) {
 	if err := validateCouponAllocated(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -89,7 +88,7 @@ func Update(ctx context.Context, in *npool.UpdateCouponAllocatedRequest) (*npool
 		UpdateOneID(id).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update coupon allocated: %v", err)
+		return nil, fmt.Errorf("fail update coupon allocated: %v", err)
 	}
 
 	return &npool.UpdateCouponAllocatedResponse{
@@ -100,12 +99,12 @@ func Update(ctx context.Context, in *npool.UpdateCouponAllocatedRequest) (*npool
 func Get(ctx context.Context, in *npool.GetCouponAllocatedRequest) (*npool.GetCouponAllocatedResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -118,10 +117,10 @@ func Get(ctx context.Context, in *npool.GetCouponAllocatedRequest) (*npool.GetCo
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query coupon allocated: %v", err)
+		return nil, fmt.Errorf("fail query coupon allocated: %v", err)
 	}
 	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty coupon allocated")
+		return nil, fmt.Errorf("empty coupon allocated")
 	}
 
 	return &npool.GetCouponAllocatedResponse{
@@ -132,12 +131,12 @@ func Get(ctx context.Context, in *npool.GetCouponAllocatedRequest) (*npool.GetCo
 func GetByApp(ctx context.Context, in *npool.GetCouponsAllocatedByAppRequest) (*npool.GetCouponsAllocatedByAppResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -150,7 +149,7 @@ func GetByApp(ctx context.Context, in *npool.GetCouponsAllocatedByAppRequest) (*
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query coupon allocated: %v", err)
+		return nil, fmt.Errorf("fail query coupon allocated: %v", err)
 	}
 
 	coupons := []*npool.CouponAllocated{}
@@ -166,17 +165,17 @@ func GetByApp(ctx context.Context, in *npool.GetCouponsAllocatedByAppRequest) (*
 func GetByAppUser(ctx context.Context, in *npool.GetCouponsAllocatedByAppUserRequest) (*npool.GetCouponsAllocatedByAppUserResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	userID, err := uuid.Parse(in.GetUserID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid user id: %v", err)
+		return nil, fmt.Errorf("invalid user id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -190,7 +189,7 @@ func GetByAppUser(ctx context.Context, in *npool.GetCouponsAllocatedByAppUserReq
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query coupon allocated: %v", err)
+		return nil, fmt.Errorf("fail query coupon allocated: %v", err)
 	}
 
 	coupons := []*npool.CouponAllocated{}

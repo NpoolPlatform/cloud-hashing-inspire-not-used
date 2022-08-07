@@ -2,6 +2,7 @@ package couponpool
 
 import (
 	"context"
+	"fmt"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
@@ -12,16 +13,14 @@ import (
 	"github.com/NpoolPlatform/go-service-framework/pkg/price"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateCouponPool(info *npool.CouponPool) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invalid app id: %v", err)
+		return fmt.Errorf("invalid app id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetReleaseByUserID()); err != nil {
-		return xerrors.Errorf("invalid release by user id: %v", err)
+		return fmt.Errorf("invalid release by user id: %v", err)
 	}
 	return nil
 }
@@ -42,12 +41,12 @@ func dbRowToCouponPool(row *ent.CouponPool) *npool.CouponPool {
 
 func Create(ctx context.Context, in *npool.CreateCouponPoolRequest) (*npool.CreateCouponPoolResponse, error) {
 	if err := validateCouponPool(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -63,7 +62,7 @@ func Create(ctx context.Context, in *npool.CreateCouponPoolRequest) (*npool.Crea
 		SetName(in.GetInfo().GetName()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create coupon pool: %v", err)
+		return nil, fmt.Errorf("fail create coupon pool: %v", err)
 	}
 
 	return &npool.CreateCouponPoolResponse{
@@ -73,17 +72,17 @@ func Create(ctx context.Context, in *npool.CreateCouponPoolRequest) (*npool.Crea
 
 func Update(ctx context.Context, in *npool.UpdateCouponPoolRequest) (*npool.UpdateCouponPoolResponse, error) {
 	if err := validateCouponPool(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -93,7 +92,7 @@ func Update(ctx context.Context, in *npool.UpdateCouponPoolRequest) (*npool.Upda
 		SetName(in.GetInfo().GetName()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update coupon pool: %v", err)
+		return nil, fmt.Errorf("fail update coupon pool: %v", err)
 	}
 
 	return &npool.UpdateCouponPoolResponse{
@@ -104,12 +103,12 @@ func Update(ctx context.Context, in *npool.UpdateCouponPoolRequest) (*npool.Upda
 func Get(ctx context.Context, in *npool.GetCouponPoolRequest) (*npool.GetCouponPoolResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -120,10 +119,10 @@ func Get(ctx context.Context, in *npool.GetCouponPoolRequest) (*npool.GetCouponP
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query coupon pool: %v", err)
+		return nil, fmt.Errorf("fail query coupon pool: %v", err)
 	}
 	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty coupon pool")
+		return nil, fmt.Errorf("empty coupon pool")
 	}
 
 	var coupon *npool.CouponPool
@@ -140,12 +139,12 @@ func Get(ctx context.Context, in *npool.GetCouponPoolRequest) (*npool.GetCouponP
 func GetByApp(ctx context.Context, in *npool.GetCouponPoolsByAppRequest) (*npool.GetCouponPoolsByAppResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -158,7 +157,7 @@ func GetByApp(ctx context.Context, in *npool.GetCouponPoolsByAppRequest) (*npool
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query coupon pool: %v", err)
+		return nil, fmt.Errorf("fail query coupon pool: %v", err)
 	}
 
 	coupons := []*npool.CouponPool{}
@@ -174,17 +173,17 @@ func GetByApp(ctx context.Context, in *npool.GetCouponPoolsByAppRequest) (*npool
 func GetByAppReleaser(ctx context.Context, in *npool.GetCouponPoolsByAppReleaserRequest) (*npool.GetCouponPoolsByAppReleaserResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	userID, err := uuid.Parse(in.GetUserID())
 	if err != nil {
-		return nil, xerrors.Errorf("invlaid releaser id: %v", err)
+		return nil, fmt.Errorf("invlaid releaser id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -198,7 +197,7 @@ func GetByAppReleaser(ctx context.Context, in *npool.GetCouponPoolsByAppReleaser
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query coupon pool: %v", err)
+		return nil, fmt.Errorf("fail query coupon pool: %v", err)
 	}
 
 	coupons := []*npool.CouponPool{}
