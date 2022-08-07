@@ -92,12 +92,32 @@ func GetInvitation(ctx context.Context, appID, inviteeID string) (*npool.Registr
 	return info.(*npool.RegistrationInvitation), nil
 }
 
-func CreateInvitation(ctx context.Context, appID, InviterID, inviteeID string) (*npool.RegistrationInvitation, error) {
+func CreateInvitation(ctx context.Context, appID, inviterID, inviteeID string) (*npool.RegistrationInvitation, error) {
 	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingInspireClient) (cruder.Any, error) {
 		resp, err := cli.CreateRegistrationInvitation(ctx, &npool.CreateRegistrationInvitationRequest{
 			Info: &npool.RegistrationInvitation{
 				AppID:     appID,
-				InviterID: InviterID,
+				InviterID: inviterID,
+				InviteeID: inviteeID,
+			},
+		})
+		if err != nil {
+			return nil, fmt.Errorf("fail get registration invitation: %v", err)
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("fail get registration invitation: %v", err)
+	}
+	return info.(*npool.RegistrationInvitation), nil
+}
+
+func CreateInvitationRevert(ctx context.Context, appID, inviterID, inviteeID string) (*npool.RegistrationInvitation, error) {
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingInspireClient) (cruder.Any, error) {
+		resp, err := cli.CreateRegistrationInvitationRevert(ctx, &npool.CreateRegistrationInvitationRequest{
+			Info: &npool.RegistrationInvitation{
+				AppID:     appID,
+				InviterID: inviterID,
 				InviteeID: inviteeID,
 			},
 		})
