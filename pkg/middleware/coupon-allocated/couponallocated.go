@@ -2,15 +2,14 @@ package couponallocated
 
 import (
 	"context"
+	"fmt"
 
 	constant "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-allocated" //nolint
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-pool"      //nolint
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/discount-pool"    //nolint
-
-	"golang.org/x/xerrors"
+	couponallocated "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-allocated" //nolint
+	couponpool "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/coupon-pool"           //nolint
+	discountpool "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/discount-pool"       //nolint
 )
 
 func constructDetail(allocated *npool.CouponAllocated, pool *npool.CouponPool, discount *npool.DiscountPool) *npool.CouponAllocatedDetail {
@@ -31,7 +30,7 @@ func expandInfo(ctx context.Context, info *npool.CouponAllocated) (*npool.Coupon
 			ID: info.CouponID,
 		})
 		if err != nil {
-			return nil, xerrors.Errorf("fail get coupon allocated coupon pool: %v", err)
+			return nil, fmt.Errorf("fail get coupon allocated coupon pool: %v", err)
 		}
 		coupon = couponPool.Info
 	case constant.CouponTypeDiscount:
@@ -39,13 +38,13 @@ func expandInfo(ctx context.Context, info *npool.CouponAllocated) (*npool.Coupon
 			ID: info.CouponID,
 		})
 		if err != nil {
-			return nil, xerrors.Errorf("fail get discount allocated coupon pool: %v", err)
+			return nil, fmt.Errorf("fail get discount allocated coupon pool: %v", err)
 		}
 		discount = discountPool.Info
 	}
 
 	if discount == nil && coupon == nil {
-		return nil, xerrors.Errorf("invalid coupon id")
+		return nil, fmt.Errorf("invalid coupon id")
 	}
 
 	return constructDetail(info, coupon, discount), nil
@@ -56,12 +55,12 @@ func Get(ctx context.Context, in *npool.GetCouponAllocatedDetailRequest) (*npool
 		ID: in.GetID(),
 	})
 	if err != nil {
-		return nil, xerrors.Errorf("fail get coupon allocated: %v", err)
+		return nil, fmt.Errorf("fail get coupon allocated: %v", err)
 	}
 
 	detail, err := expandInfo(ctx, info.Info)
 	if err != nil {
-		return nil, xerrors.Errorf("fail expand info: %v", err)
+		return nil, fmt.Errorf("fail expand info: %v", err)
 	}
 
 	return &npool.GetCouponAllocatedDetailResponse{
@@ -74,14 +73,14 @@ func GetByApp(ctx context.Context, in *npool.GetCouponsAllocatedDetailByAppReque
 		AppID: in.GetAppID(),
 	})
 	if err != nil {
-		return nil, xerrors.Errorf("fail get coupon allocated: %v", err)
+		return nil, fmt.Errorf("fail get coupon allocated: %v", err)
 	}
 
 	details := []*npool.CouponAllocatedDetail{}
 	for _, info := range resp.Infos {
 		detail, err := expandInfo(ctx, info)
 		if err != nil {
-			return nil, xerrors.Errorf("fail expand info: %v", err)
+			return nil, fmt.Errorf("fail expand info: %v", err)
 		}
 
 		details = append(details, detail)
@@ -98,14 +97,14 @@ func GetByAppUser(ctx context.Context, in *npool.GetCouponsAllocatedDetailByAppU
 		UserID: in.GetUserID(),
 	})
 	if err != nil {
-		return nil, xerrors.Errorf("fail get coupon allocated: %v", err)
+		return nil, fmt.Errorf("fail get coupon allocated: %v", err)
 	}
 
 	details := []*npool.CouponAllocatedDetail{}
 	for _, info := range resp.Infos {
 		detail, err := expandInfo(ctx, info)
 		if err != nil {
-			return nil, xerrors.Errorf("fail expand info: %v", err)
+			return nil, fmt.Errorf("fail expand info: %v", err)
 		}
 
 		details = append(details, detail)

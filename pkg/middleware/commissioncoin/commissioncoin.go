@@ -2,17 +2,16 @@ package commissioncoin
 
 import (
 	"context"
+	"fmt"
 
 	crud "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/commissioncoinsetting"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
-
-	"golang.org/x/xerrors"
 )
 
 func CreateCommissionCoinSetting(ctx context.Context, in *npool.CreateCommissionCoinSettingRequest) (*npool.CreateCommissionCoinSettingResponse, error) {
 	resp, err := crud.GetAll(ctx, &npool.GetCommissionCoinSettingsRequest{})
 	if err != nil {
-		return nil, xerrors.Errorf("fail get settings: %v", err)
+		return nil, fmt.Errorf("fail get settings: %v", err)
 	}
 
 	var myInfo *npool.CommissionCoinSetting
@@ -27,7 +26,7 @@ func CreateCommissionCoinSetting(ctx context.Context, in *npool.CreateCommission
 			Info: info,
 		})
 		if err != nil {
-			return nil, xerrors.Errorf("fail update setting: %v", err)
+			return nil, fmt.Errorf("fail update setting: %v", err)
 		}
 	}
 

@@ -5,6 +5,7 @@ package api
 
 import (
 	"context"
+
 	"github.com/dtm-labs/dtmcli"
 
 	crud "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/registration-invitation" //nolint

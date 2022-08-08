@@ -2,6 +2,7 @@ package registrationinvitation
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
@@ -11,19 +12,17 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/registrationinvitation"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateRegistrationInvitation(info *npool.RegistrationInvitation) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invalid app id: %v", err)
+		return fmt.Errorf("invalid app id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetInviterID()); err != nil {
-		return xerrors.Errorf("invalid inviter id: %v", err)
+		return fmt.Errorf("invalid inviter id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetInviteeID()); err != nil {
-		return xerrors.Errorf("invalid invitee id: %v", err)
+		return fmt.Errorf("invalid invitee id: %v", err)
 	}
 	return nil
 }
@@ -40,12 +39,12 @@ func dbRowToRegistrationInvitation(row *ent.RegistrationInvitation) *npool.Regis
 
 func Create(ctx context.Context, in *npool.CreateRegistrationInvitationRequest) (*npool.CreateRegistrationInvitationResponse, error) {
 	if err := validateRegistrationInvitation(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -56,7 +55,7 @@ func Create(ctx context.Context, in *npool.CreateRegistrationInvitationRequest) 
 		SetInviteeID(uuid.MustParse(in.GetInfo().GetInviteeID())).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create registration invitation: %v", err)
+		return nil, fmt.Errorf("fail create registration invitation: %v", err)
 	}
 
 	return &npool.CreateRegistrationInvitationResponse{
@@ -66,12 +65,12 @@ func Create(ctx context.Context, in *npool.CreateRegistrationInvitationRequest) 
 
 func CreateRevert(ctx context.Context, in *npool.CreateRegistrationInvitationRequest) (*npool.CreateRegistrationInvitationResponse, error) {
 	if err := validateRegistrationInvitation(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	err = cli.
@@ -84,7 +83,7 @@ func CreateRevert(ctx context.Context, in *npool.CreateRegistrationInvitationReq
 			registrationinvitation.InviteeID(uuid.MustParse(in.GetInfo().GetInviteeID())),
 		).Exec(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create registration invitation: %v", err)
+		return nil, fmt.Errorf("fail create registration invitation: %v", err)
 	}
 
 	return &npool.CreateRegistrationInvitationResponse{}, nil
@@ -92,17 +91,17 @@ func CreateRevert(ctx context.Context, in *npool.CreateRegistrationInvitationReq
 
 func Update(ctx context.Context, in *npool.UpdateRegistrationInvitationRequest) (*npool.UpdateRegistrationInvitationResponse, error) {
 	if err := validateRegistrationInvitation(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -111,7 +110,7 @@ func Update(ctx context.Context, in *npool.UpdateRegistrationInvitationRequest) 
 		SetInviterID(uuid.MustParse(in.GetInfo().GetInviterID())).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update registration invitation: %v", err)
+		return nil, fmt.Errorf("fail update registration invitation: %v", err)
 	}
 
 	return &npool.UpdateRegistrationInvitationResponse{
@@ -122,12 +121,12 @@ func Update(ctx context.Context, in *npool.UpdateRegistrationInvitationRequest) 
 func Get(ctx context.Context, in *npool.GetRegistrationInvitationRequest) (*npool.GetRegistrationInvitationResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -140,10 +139,10 @@ func Get(ctx context.Context, in *npool.GetRegistrationInvitationRequest) (*npoo
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query registration invitation: %v", err)
+		return nil, fmt.Errorf("fail query registration invitation: %v", err)
 	}
 	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty registration invitation")
+		return nil, fmt.Errorf("empty registration invitation")
 	}
 
 	return &npool.GetRegistrationInvitationResponse{
@@ -154,12 +153,12 @@ func Get(ctx context.Context, in *npool.GetRegistrationInvitationRequest) (*npoo
 func GetByApp(ctx context.Context, in *npool.GetRegistrationInvitationsByAppRequest) (*npool.GetRegistrationInvitationsByAppResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -172,7 +171,7 @@ func GetByApp(ctx context.Context, in *npool.GetRegistrationInvitationsByAppRequ
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query registration invitation: %v", err)
+		return nil, fmt.Errorf("fail query registration invitation: %v", err)
 	}
 
 	invitations := []*npool.RegistrationInvitation{}
@@ -188,17 +187,17 @@ func GetByApp(ctx context.Context, in *npool.GetRegistrationInvitationsByAppRequ
 func GetByAppInviter(ctx context.Context, in *npool.GetRegistrationInvitationsByAppInviterRequest) (*npool.GetRegistrationInvitationsByAppInviterResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	inviterID, err := uuid.Parse(in.GetInviterID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid inviter id: %v", err)
+		return nil, fmt.Errorf("invalid inviter id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -212,7 +211,7 @@ func GetByAppInviter(ctx context.Context, in *npool.GetRegistrationInvitationsBy
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query registration invitation: %v", err)
+		return nil, fmt.Errorf("fail query registration invitation: %v", err)
 	}
 
 	invitations := []*npool.RegistrationInvitation{}
@@ -228,17 +227,17 @@ func GetByAppInviter(ctx context.Context, in *npool.GetRegistrationInvitationsBy
 func GetByAppInvitee(ctx context.Context, in *npool.GetRegistrationInvitationByAppInviteeRequest) (*npool.GetRegistrationInvitationByAppInviteeResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	inviteeID, err := uuid.Parse(in.GetInviteeID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid invitee id: %v", err)
+		return nil, fmt.Errorf("invalid invitee id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -252,7 +251,7 @@ func GetByAppInvitee(ctx context.Context, in *npool.GetRegistrationInvitationByA
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query registration invitation: %v", err)
+		return nil, fmt.Errorf("fail query registration invitation: %v", err)
 	}
 
 	var invitation *npool.RegistrationInvitation

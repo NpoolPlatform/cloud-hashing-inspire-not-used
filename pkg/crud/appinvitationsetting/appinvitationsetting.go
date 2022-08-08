@@ -2,6 +2,7 @@ package appinvitationsetting
 
 import (
 	"context"
+	"fmt"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
@@ -10,13 +11,11 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/appinvitationsetting"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateAppInvitationSetting(info *npool.AppInvitationSetting) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invalid app id: %v", err)
+		return fmt.Errorf("invalid app id: %v", err)
 	}
 	return nil
 }
@@ -35,12 +34,12 @@ func dbRowToAppInvitationSetting(row *ent.AppInvitationSetting) *npool.AppInvita
 
 func Create(ctx context.Context, in *npool.CreateAppInvitationSettingRequest) (*npool.CreateAppInvitationSettingResponse, error) {
 	if err := validateAppInvitationSetting(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -54,7 +53,7 @@ func Create(ctx context.Context, in *npool.CreateAppInvitationSettingRequest) (*
 		SetBadgeSmall(in.GetInfo().GetBadgeSmall()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create app invitation setting: %v", err)
+		return nil, fmt.Errorf("fail create app invitation setting: %v", err)
 	}
 
 	return &npool.CreateAppInvitationSettingResponse{
@@ -65,12 +64,12 @@ func Create(ctx context.Context, in *npool.CreateAppInvitationSettingRequest) (*
 func Get(ctx context.Context, in *npool.GetAppInvitationSettingRequest) (*npool.GetAppInvitationSettingResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invlaid id: %v", err)
+		return nil, fmt.Errorf("invlaid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -81,7 +80,7 @@ func Get(ctx context.Context, in *npool.GetAppInvitationSettingRequest) (*npool.
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query app invitation setting: %v", err)
+		return nil, fmt.Errorf("fail query app invitation setting: %v", err)
 	}
 
 	var setting *npool.AppInvitationSetting
@@ -98,12 +97,12 @@ func Get(ctx context.Context, in *npool.GetAppInvitationSettingRequest) (*npool.
 func GetByApp(ctx context.Context, in *npool.GetAppInvitationSettingsByAppRequest) (*npool.GetAppInvitationSettingsByAppResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -114,7 +113,7 @@ func GetByApp(ctx context.Context, in *npool.GetAppInvitationSettingsByAppReques
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query app invitation setting: %v", err)
+		return nil, fmt.Errorf("fail query app invitation setting: %v", err)
 	}
 
 	settings := []*npool.AppInvitationSetting{}
@@ -130,16 +129,16 @@ func GetByApp(ctx context.Context, in *npool.GetAppInvitationSettingsByAppReques
 func Update(ctx context.Context, in *npool.UpdateAppInvitationSettingRequest) (*npool.UpdateAppInvitationSettingResponse, error) {
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invlaid id: %v", err)
+		return nil, fmt.Errorf("invlaid id: %v", err)
 	}
 
 	if err := validateAppInvitationSetting(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -152,7 +151,7 @@ func Update(ctx context.Context, in *npool.UpdateAppInvitationSettingRequest) (*
 		SetBadgeSmall(in.GetInfo().GetBadgeSmall()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update app invitation setting: %v", err)
+		return nil, fmt.Errorf("fail update app invitation setting: %v", err)
 	}
 
 	return &npool.UpdateAppInvitationSettingResponse{

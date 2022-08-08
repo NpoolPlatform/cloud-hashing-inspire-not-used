@@ -1,3 +1,4 @@
+//go:build !codeanalysis
 // +build !codeanalysis
 
 package api
@@ -5,7 +6,7 @@ package api
 import (
 	"context"
 
-	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/app-coupon-setting" //nolint
+	appcouponsetting "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/app-coupon-setting" //nolint
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"

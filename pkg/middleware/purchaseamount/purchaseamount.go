@@ -2,12 +2,11 @@ package purchaseamount
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	appsetting "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/apppurchaseamountsetting"
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
-
-	"golang.org/x/xerrors"
 )
 
 func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurchaseAmountSettingRequest) (*npool.CreateAppPurchaseAmountSettingResponse, error) {
@@ -15,7 +14,7 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 		AppID: in.GetInfo().GetAppID(),
 	})
 	if err != nil {
-		return nil, xerrors.Errorf("fail get settings: %v", err)
+		return nil, fmt.Errorf("fail get settings: %v", err)
 	}
 
 	start := uint32(time.Now().Unix())
@@ -43,7 +42,7 @@ func CreateAppPurchaseAmountSetting(ctx context.Context, in *npool.CreateAppPurc
 			Info: info,
 		})
 		if err != nil {
-			return nil, xerrors.Errorf("fail update setting: %v", err)
+			return nil, fmt.Errorf("fail update setting: %v", err)
 		}
 		break
 	}

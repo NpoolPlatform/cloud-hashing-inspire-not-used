@@ -2,6 +2,7 @@ package defaultkpisetting
 
 import (
 	"context"
+	"fmt"
 
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
@@ -12,16 +13,14 @@ import (
 	"github.com/NpoolPlatform/go-service-framework/pkg/price"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateDefaultKpiSetting(info *npool.DefaultKpiSetting) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invalid app id: %v", err)
+		return fmt.Errorf("invalid app id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetGoodID()); err != nil {
-		return xerrors.Errorf("invalid good id: %v", err)
+		return fmt.Errorf("invalid good id: %v", err)
 	}
 	return nil
 }
@@ -38,12 +37,12 @@ func dbRowToDefaultKpiSetting(row *ent.DefaultKpiSetting) *npool.DefaultKpiSetti
 
 func Create(ctx context.Context, in *npool.CreateDefaultKpiSettingRequest) (*npool.CreateDefaultKpiSettingResponse, error) {
 	if err := validateDefaultKpiSetting(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -55,7 +54,7 @@ func Create(ctx context.Context, in *npool.CreateDefaultKpiSettingRequest) (*npo
 		SetPercent(in.GetInfo().GetPercent()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create default kpi setting: %v", err)
+		return nil, fmt.Errorf("fail create default kpi setting: %v", err)
 	}
 
 	return &npool.CreateDefaultKpiSettingResponse{
@@ -66,12 +65,12 @@ func Create(ctx context.Context, in *npool.CreateDefaultKpiSettingRequest) (*npo
 func Get(ctx context.Context, in *npool.GetDefaultKpiSettingRequest) (*npool.GetDefaultKpiSettingResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -84,10 +83,10 @@ func Get(ctx context.Context, in *npool.GetDefaultKpiSettingRequest) (*npool.Get
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query default kpi setting: %v", err)
+		return nil, fmt.Errorf("fail query default kpi setting: %v", err)
 	}
 	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty default kpi setting")
+		return nil, fmt.Errorf("empty default kpi setting")
 	}
 
 	return &npool.GetDefaultKpiSettingResponse{
@@ -98,17 +97,17 @@ func Get(ctx context.Context, in *npool.GetDefaultKpiSettingRequest) (*npool.Get
 func GetByAppGood(ctx context.Context, in *npool.GetDefaultKpiSettingByAppGoodRequest) (*npool.GetDefaultKpiSettingByAppGoodResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	goodID, err := uuid.Parse(in.GetGoodID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid good id: %v", err)
+		return nil, fmt.Errorf("invalid good id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -122,10 +121,10 @@ func GetByAppGood(ctx context.Context, in *npool.GetDefaultKpiSettingByAppGoodRe
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query default kpi setting: %v", err)
+		return nil, fmt.Errorf("fail query default kpi setting: %v", err)
 	}
 	if len(infos) == 0 {
-		return nil, xerrors.Errorf("empty default kpi setting")
+		return nil, fmt.Errorf("empty default kpi setting")
 	}
 
 	return &npool.GetDefaultKpiSettingByAppGoodResponse{
@@ -136,16 +135,16 @@ func GetByAppGood(ctx context.Context, in *npool.GetDefaultKpiSettingByAppGoodRe
 func Update(ctx context.Context, in *npool.UpdateDefaultKpiSettingRequest) (*npool.UpdateDefaultKpiSettingResponse, error) {
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	if err := validateDefaultKpiSetting(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -155,7 +154,7 @@ func Update(ctx context.Context, in *npool.UpdateDefaultKpiSettingRequest) (*npo
 		SetPercent(in.GetInfo().GetPercent()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update default kpi setting: %v", err)
+		return nil, fmt.Errorf("fail update default kpi setting: %v", err)
 	}
 
 	return &npool.UpdateDefaultKpiSettingResponse{

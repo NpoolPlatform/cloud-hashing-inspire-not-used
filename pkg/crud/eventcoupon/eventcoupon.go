@@ -2,6 +2,7 @@ package eventcoupon
 
 import (
 	"context"
+	"fmt"
 
 	constant "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/const"
 
@@ -12,28 +13,26 @@ import (
 	"github.com/NpoolPlatform/cloud-hashing-inspire/pkg/db/ent/eventcoupon"
 
 	"github.com/google/uuid"
-
-	"golang.org/x/xerrors"
 )
 
 func validateEventCoupon(info *npool.EventCoupon) error {
 	if _, err := uuid.Parse(info.GetAppID()); err != nil {
-		return xerrors.Errorf("invlaid app id: %v", err)
+		return fmt.Errorf("invlaid app id: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetActivityID()); err != nil {
-		return xerrors.Errorf("invlaid activity by: %v", err)
+		return fmt.Errorf("invlaid activity by: %v", err)
 	}
 	if _, err := uuid.Parse(info.GetCouponID()); err != nil {
-		return xerrors.Errorf("invlaid coupon by: %v", err)
+		return fmt.Errorf("invlaid coupon by: %v", err)
 	}
 	if info.GetEvent() == "" {
-		return xerrors.Errorf("invalid event")
+		return fmt.Errorf("invalid event")
 	}
 	if info.GetCount() == 0 {
-		return xerrors.Errorf("invalid count")
+		return fmt.Errorf("invalid count")
 	}
 	if info.GetType() != constant.CouponTypeCoupon && info.GetType() != constant.CouponTypeDiscount {
-		return xerrors.Errorf("invalid coupon type")
+		return fmt.Errorf("invalid coupon type")
 	}
 	return nil
 }
@@ -52,12 +51,12 @@ func dbRowToEventCoupon(row *ent.EventCoupon) *npool.EventCoupon {
 
 func Create(ctx context.Context, in *npool.CreateEventCouponRequest) (*npool.CreateEventCouponResponse, error) {
 	if err := validateEventCoupon(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -71,7 +70,7 @@ func Create(ctx context.Context, in *npool.CreateEventCouponRequest) (*npool.Cre
 		SetCount(in.GetInfo().GetCount()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail create event coupon: %v", err)
+		return nil, fmt.Errorf("fail create event coupon: %v", err)
 	}
 
 	return &npool.CreateEventCouponResponse{
@@ -81,17 +80,17 @@ func Create(ctx context.Context, in *npool.CreateEventCouponRequest) (*npool.Cre
 
 func Update(ctx context.Context, in *npool.UpdateEventCouponRequest) (*npool.UpdateEventCouponResponse, error) {
 	if err := validateEventCoupon(in.GetInfo()); err != nil {
-		return nil, xerrors.Errorf("invalid parameter: %v", err)
+		return nil, fmt.Errorf("invalid parameter: %v", err)
 	}
 
 	id, err := uuid.Parse(in.GetInfo().GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	info, err := cli.
@@ -100,7 +99,7 @@ func Update(ctx context.Context, in *npool.UpdateEventCouponRequest) (*npool.Upd
 		SetCount(in.GetInfo().GetCount()).
 		Save(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail update event coupon: %v", err)
+		return nil, fmt.Errorf("fail update event coupon: %v", err)
 	}
 
 	return &npool.UpdateEventCouponResponse{
@@ -111,12 +110,12 @@ func Update(ctx context.Context, in *npool.UpdateEventCouponRequest) (*npool.Upd
 func Get(ctx context.Context, in *npool.GetEventCouponRequest) (*npool.GetEventCouponResponse, error) {
 	id, err := uuid.Parse(in.GetID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid id: %v", err)
+		return nil, fmt.Errorf("invalid id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -127,7 +126,7 @@ func Get(ctx context.Context, in *npool.GetEventCouponRequest) (*npool.GetEventC
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query event coupon: %v", err)
+		return nil, fmt.Errorf("fail query event coupon: %v", err)
 	}
 
 	var coupon *npool.EventCoupon
@@ -144,12 +143,12 @@ func Get(ctx context.Context, in *npool.GetEventCouponRequest) (*npool.GetEventC
 func GetByApp(ctx context.Context, in *npool.GetEventCouponsByAppRequest) (*npool.GetEventCouponsByAppResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -160,7 +159,7 @@ func GetByApp(ctx context.Context, in *npool.GetEventCouponsByAppRequest) (*npoo
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query event coupon: %v", err)
+		return nil, fmt.Errorf("fail query event coupon: %v", err)
 	}
 
 	coupons := []*npool.EventCoupon{}
@@ -176,17 +175,17 @@ func GetByApp(ctx context.Context, in *npool.GetEventCouponsByAppRequest) (*npoo
 func GetByAppActivityEvent(ctx context.Context, in *npool.GetEventCouponsByAppActivityEventRequest) (*npool.GetEventCouponsByAppActivityEventResponse, error) {
 	appID, err := uuid.Parse(in.GetAppID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid app id: %v", err)
+		return nil, fmt.Errorf("invalid app id: %v", err)
 	}
 
 	actID, err := uuid.Parse(in.GetActivityID())
 	if err != nil {
-		return nil, xerrors.Errorf("invalid activity id: %v", err)
+		return nil, fmt.Errorf("invalid activity id: %v", err)
 	}
 
 	cli, err := db.Client()
 	if err != nil {
-		return nil, xerrors.Errorf("fail get db client: %v", err)
+		return nil, fmt.Errorf("fail get db client: %v", err)
 	}
 
 	infos, err := cli.
@@ -201,7 +200,7 @@ func GetByAppActivityEvent(ctx context.Context, in *npool.GetEventCouponsByAppAc
 		).
 		All(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("fail query event coupon: %v", err)
+		return nil, fmt.Errorf("fail query event coupon: %v", err)
 	}
 
 	coupons := []*npool.EventCoupon{}
