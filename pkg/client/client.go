@@ -164,3 +164,22 @@ func GetUserInvitationCodeByAppUser(ctx context.Context, appID, userID string) (
 	}
 	return info.(*npool.UserInvitationCode), nil
 }
+
+func UpdateUserInvitationCode(ctx context.Context, id string, confirmed bool) (*npool.UserInvitationCode, error) {
+	info, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingInspireClient) (cruder.Any, error) {
+		resp, err := cli.UpdateUserInvitationCode(ctx, &npool.UpdateUserInvitationCodeRequest{
+			Info: &npool.UserInvitationCode{
+				ID:        id,
+				Confirmed: confirmed,
+			},
+		})
+		if err != nil {
+			return nil, err
+		}
+		return resp.Info, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return info.(*npool.UserInvitationCode), nil
+}
