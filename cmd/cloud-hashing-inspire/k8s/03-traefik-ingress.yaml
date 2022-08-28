@@ -40,6 +40,10 @@ spec:
       http: *http_rules
     - host: api.singapore-testing.npool.top
       http: *http_rules
+    - host: api.procyon.xpool.top
+      http: *http_rules
+    - host: api.development.npool.top
+      http: *http_rules
 ---
 
 apiVersion: networking.k8s.io/v1beta1
@@ -191,5 +195,9 @@ spec:
     - host: api.jh-development.npool.top
       http: *http_rules
     - host: api.singapore-testing.npool.top
+      http: *http_rules
+    - host: api.procyon.xpool.top
+      http: *http_rules
+    - host: api.development.npool.top
       http: *http_rules
 
