@@ -183,3 +183,19 @@ func UpdateUserInvitationCode(ctx context.Context, id string, confirmed bool) (*
 	}
 	return info.(*npool.UserInvitationCode), nil
 }
+
+func GetManyUserInvitationCodes(ctx context.Context, userIDs []string) ([]*npool.UserInvitationCode, error) {
+	infos, err := do(ctx, func(_ctx context.Context, cli npool.CloudHashingInspireClient) (cruder.Any, error) {
+		resp, err := cli.GetManyUserInvitationCodes(ctx, &npool.GetManyUserInvitationCodesRequest{
+			UserIDs: userIDs,
+		})
+		if err != nil {
+			return nil, err
+		}
+		return resp.Infos, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return infos.([]*npool.UserInvitationCode), nil
+}

@@ -210,6 +210,31 @@ func GetByAppUser(ctx context.Context, in *npool.GetUserInvitationCodeByAppUserR
 	}, nil
 }
 
+func GetByManyUser(ctx context.Context, userIDs []uuid.UUID) ([]*npool.UserInvitationCode, error) {
+	cli, err := db.Client()
+	if err != nil {
+		return nil, fmt.Errorf("fail get db client: %v", err)
+	}
+
+	infos, err := cli.
+		UserInvitationCode.
+		Query().
+		Where(
+			userinvitationcode.UserIDIn(userIDs...),
+		).
+		All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("fail query user invitation code: %v", err)
+	}
+
+	codes := []*npool.UserInvitationCode{}
+	for _, info := range infos {
+		codes = append(codes, dbRowToUserInvitationCode(info))
+	}
+
+	return codes, nil
+}
+
 func GetByCode(ctx context.Context, in *npool.GetUserInvitationCodeByCodeRequest) (*npool.GetUserInvitationCodeByCodeResponse, error) {
 	cli, err := db.Client()
 	if err != nil {

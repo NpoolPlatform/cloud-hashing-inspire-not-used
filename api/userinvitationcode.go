@@ -6,6 +6,8 @@ package api
 import (
 	"context"
 
+	"github.com/google/uuid"
+
 	crud "github.com/NpoolPlatform/cloud-hashing-inspire/pkg/crud/user-invitation-code" //nolint
 	npool "github.com/NpoolPlatform/message/npool/cloud-hashing-inspire"
 
@@ -73,6 +75,33 @@ func (s *Server) GetUserInvitationCode(ctx context.Context, in *npool.GetUserInv
 		return &npool.GetUserInvitationCodeResponse{}, status.Error(codes.Internal, err.Error())
 	}
 	return resp, nil
+}
+
+func (s *Server) GetManyUserInvitationCodes(ctx context.Context, in *npool.GetManyUserInvitationCodesRequest) (*npool.GetManyUserInvitationCodesResponse, error) {
+	if len(in.GetUserIDs()) == 0 {
+		logger.Sugar().Errorw("UserIDs is empty")
+		return &npool.GetManyUserInvitationCodesResponse{}, status.Error(codes.InvalidArgument, "UserIDs is empty")
+	}
+
+	userIDs := []uuid.UUID{}
+	for _, val := range in.GetUserIDs() {
+		userID, err := uuid.Parse(val)
+		if err != nil {
+			logger.Sugar().Errorw("get many user invitation code error: %v", err)
+			return &npool.GetManyUserInvitationCodesResponse{}, status.Error(codes.InvalidArgument, "UserIDs is invalid")
+		}
+		userIDs = append(userIDs, userID)
+	}
+
+	infos, err := crud.GetByManyUser(ctx, userIDs)
+	if err != nil {
+		logger.Sugar().Errorw("create user invitation code error: %v", err)
+		return &npool.GetManyUserInvitationCodesResponse{}, status.Error(codes.Internal, err.Error())
+	}
+
+	return &npool.GetManyUserInvitationCodesResponse{
+		Infos: infos,
+	}, nil
 }
 
 func (s *Server) GetUserInvitationCodes(ctx context.Context, in *npool.GetUserInvitationCodesRequest) (*npool.GetUserInvitationCodesResponse, error) {
