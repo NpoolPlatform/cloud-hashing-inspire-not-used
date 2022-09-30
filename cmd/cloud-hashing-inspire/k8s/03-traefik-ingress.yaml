@@ -44,6 +44,8 @@ spec:
       http: *http_rules
     - host: api.development.npool.top
       http: *http_rules
+    - host: api.lpsecretbase.com
+      http: *http_rules
 ---
 
 apiVersion: networking.k8s.io/v1beta1
@@ -199,5 +201,7 @@ spec:
     - host: api.procyon.xpool.top
       http: *http_rules
     - host: api.development.npool.top
+      http: *http_rules
+    - host: api.lpsecretbase.com
       http: *http_rules
 
