@@ -82,6 +82,10 @@ spec:
             backend:
               serviceName: cloud-hashing-inspire
               servicePort: 50130
+          - path: /api/cloud-hashing-inspire/v1/update/registration/invitation
+            backend:
+              serviceName: cloud-hashing-inspire
+              servicePort: 50130
           - path: /api/cloud-hashing-inspire/v1/create/user/invitation/code
             backend:
               serviceName: cloud-hashing-inspire
